@@ -1,0 +1,21 @@
+{
+	"name": "sakura-internet/saclient",
+	"keywords": ["sakura", "api", "client", "cloud"],
+	"type": "library",
+	"license": "MIT",
+	"homepage": "https://github.com/sakura-internet/saclient.php",
+	"authors": [
+		{
+			"name": "SAKURA Internet Inc.",
+			"homepage": "http://sakura.ad.jp/"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Saclient\\": "Saclient/"
+		}
+	}
+}
