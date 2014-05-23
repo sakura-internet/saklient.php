@@ -10,7 +10,7 @@ This library gives you an easy interface to control your resources on
 - [Composer](https://getcomposer.org/)
 
 
-# How to run the sample code
+# How to run the example code
 
 ```bash
 # Install Composer (if not yet)
@@ -25,10 +25,10 @@ cd saclient.php
 composer install
 
 # Set API key
-cp config.sample.sh config.sh
+cp config.example.sh config.sh
 vi config.sh
 
-# Run sample code
+# Run the example code
 ./test.sh
 ```
 

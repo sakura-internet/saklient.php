@@ -15,4 +15,10 @@ if ! [ -e vendor/autoload.php ]; then
 	fi
 fi
 
-php Test.php "$SACLOUD_TOKEN" "$SACLOUD_SECRET"
+# Select and run an example file
+PS3="Select mode > "
+select mode in $( ls -1 examples | sed 's/\.php$//' ) "quit"; do
+	( [ -z "$mode" ] || [ "$mode" = "quit" ] ) && exit 1
+	php "examples/$mode.php" "$SACLOUD_TOKEN" "$SACLOUD_SECRET"
+	exit 0
+done
