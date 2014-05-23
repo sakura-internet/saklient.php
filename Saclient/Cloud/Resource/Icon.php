@@ -1,0 +1,243 @@
+<?php
+
+namespace Saclient\Cloud\Resource;
+
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
+use \Saclient\Cloud\Util;
+
+/**
+ * @property-read string $id
+ * @property-read string $name
+ * @property-read string $url
+ */
+class Icon extends Resource {
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_id;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_name;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_url;
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @return string
+	 */
+	protected function _apiPath() {
+		return "/icon";
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @return string
+	 */
+	protected function _rootKey() {
+		return "Icon";
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @return string
+	 */
+	protected function _rootKeyM() {
+		return "Icons";
+	}
+	
+	/**
+	 * @private
+	 * @access public
+	 * @return string
+	 */
+	public function _id() {
+		return $this->get_id();
+	}
+	
+	/**
+	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
+	 * 
+	 * @access public
+	 * @return \Saclient\Cloud\Resource\Icon this
+	 */
+	public function create() {
+		return $this->_create();
+	}
+	
+	/**
+	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
+	 * 
+	 * @access public
+	 * @return \Saclient\Cloud\Resource\Icon this
+	 */
+	public function save() {
+		return $this->_save();
+	}
+	
+	/**
+	 * 最新のリソース情報を再取得します。
+	 * 
+	 * @access public
+	 * @return \Saclient\Cloud\Resource\Icon this
+	 */
+	public function reload() {
+		return $this->_reload();
+	}
+	
+	/**
+	 * @private
+	 * @access public
+	 * @param Client $client
+	 * @param mixed $r
+	 */
+	public function __construct($client, $r) {
+		parent::__construct($client);
+		$this->apiDeserialize($r);
+	}
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_id = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_id() {
+		return $this->m_id;
+	}
+	
+	/**
+	 * @access public
+	 * @readOnly
+	 */
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_name = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_name() {
+		return $this->m_name;
+	}
+	
+	/**
+	 * @access public
+	 * @readOnly
+	 */
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_url = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_url() {
+		return $this->m_url;
+	}
+	
+	/**
+	 * @access public
+	 * @readOnly
+	 */
+	
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access public
+	 * @param mixed $r
+	 */
+	public function apiDeserialize($r) {
+		$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
+		$this->n_id = false;
+		$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
+		$this->n_name = false;
+		$this->m_url = $r->{"URL"} == null ? null : "" . $r->{"URL"};
+		$this->n_url = false;
+	}
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access public
+	 * @param boolean $withClean = false
+	 * @return mixed
+	 */
+	public function apiSerialize($withClean=false) {
+		$ret = (object)[];
+		if ($withClean || $this->n_id) {
+			{
+				$ret->{"ID"} = $this->m_id;
+			};
+		};
+		if ($withClean || $this->n_name) {
+			{
+				$ret->{"Name"} = $this->m_name;
+			};
+		};
+		if ($withClean || $this->n_url) {
+			{
+				$ret->{"URL"} = $this->m_url;
+			};
+		};
+		return $ret;
+	}
+	
+	/**
+	 * @ignore
+	 */
+	public function __get($key) {
+		switch ($key) {
+			case "id": return $this->get_id();
+			case "name": return $this->get_name();
+			case "url": return $this->get_url();
+			default: return null;
+		}
+	}
+
+}
+

@@ -1,0 +1,183 @@
+<?php
+
+namespace Saclient\Cloud\Resource;
+
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
+use \Saclient\Cloud\Util;
+
+/**
+ * @property-read string $id
+ * @property-read string $name
+ * @property-read string $storageClass
+ */
+class DiskPlan extends Resource {
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_id;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_name;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_storageClass;
+	
+	/**
+	 * @private
+	 * @access public
+	 * @return string
+	 */
+	public function _id() {
+		return $this->get_id();
+	}
+	
+	/**
+	 * @private
+	 * @access public
+	 * @param Client $client
+	 * @param mixed $r
+	 */
+	public function __construct($client, $r) {
+		parent::__construct($client);
+		$this->apiDeserialize($r);
+	}
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_id = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_id() {
+		return $this->m_id;
+	}
+	
+	/**
+	 * @access public
+	 * @readOnly
+	 */
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_name = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_name() {
+		return $this->m_name;
+	}
+	
+	/**
+	 * @access public
+	 * @readOnly
+	 */
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_storageClass = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_storageClass() {
+		return $this->m_storageClass;
+	}
+	
+	/**
+	 * @access public
+	 * @readOnly
+	 */
+	
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access public
+	 * @param mixed $r
+	 */
+	public function apiDeserialize($r) {
+		$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
+		$this->n_id = false;
+		$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
+		$this->n_name = false;
+		$this->m_storageClass = $r->{"StorageClass"} == null ? null : "" . $r->{"StorageClass"};
+		$this->n_storageClass = false;
+	}
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access public
+	 * @param boolean $withClean = false
+	 * @return mixed
+	 */
+	public function apiSerialize($withClean=false) {
+		$ret = (object)[];
+		if ($withClean || $this->n_id) {
+			{
+				$ret->{"ID"} = $this->m_id;
+			};
+		};
+		if ($withClean || $this->n_name) {
+			{
+				$ret->{"Name"} = $this->m_name;
+			};
+		};
+		if ($withClean || $this->n_storageClass) {
+			{
+				$ret->{"StorageClass"} = $this->m_storageClass;
+			};
+		};
+		return $ret;
+	}
+	
+	/**
+	 * @ignore
+	 */
+	public function __get($key) {
+		switch ($key) {
+			case "id": return $this->get_id();
+			case "name": return $this->get_name();
+			case "storageClass": return $this->get_storageClass();
+			default: return null;
+		}
+	}
+
+}
+
