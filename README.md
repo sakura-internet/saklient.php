@@ -78,6 +78,44 @@ $api_is1b = $api->inZone("is1b");
 ```
 
 
+# Notice about ArrayObject
+
+Some methods such as $api->server->find() return an array.
+This array is made of [ArrayObject](http://www.php.net/manual/en/class.arrayobject.php)
+instead of PHP standard [array](http://www.php.net/manual/en/book.array.php).
+Therefore, you have to cast each array (returned by any methods in this library)
+from ArrayObject to standard array before you use it as an argument for the methods
+of PHP standard array API such as [array_shift()](http://www.php.net/manual/en/function.array-shift.php).
+
+```php
+<?php
+
+$servers = $api->server->find();
+
+// This doesn't work well
+while ($server = array_shift($servers)) {
+    //...
+    
+    // The same goes for accessors
+    while ($tag = array_shift($server->tags)) {
+        //...
+    }
+}
+
+// This works well because ArrayObject implements IteratorAggregate
+foreach ($servers as $server) {
+    //...
+}
+
+// This works well too because ArrayObject implements ArrayAccess and Countable
+for ($i=0; $i < count($servers); $i++) {
+    $server = $servers[$i];
+    //...
+}
+
+```
+
+
 # Copyright and license
 
 Copyright (C) 2014 SAKURA Internet, Inc.
