@@ -85,9 +85,13 @@ $api_is1b = $api->inZone("is1b");
 $api->server->find() のようないくつかのメソッドは配列を返します。
 この配列はPHP標準の [array](http://www.php.net/manual/ja/book.array.php) の代わりに
 [ArrayObject](http://www.php.net/manual/ja/class.arrayobject.php) から成っています。
+
 従って、[array_shift()](http://www.php.net/manual/ja/function.array-shift.php)
 のようなPHP標準の配列APIの引数に、（このライブラリのあらゆるメソッドから返される）この配列を渡す場合、
 事前にArrayObjectから標準のarrayにキャストしなければなりません。
+
+なお、ArrayObjectは配列ではなくオブジェクトですので、
+**代入時や引数として渡す際にコピーされない**ことにご注意ください。
 
 ```php
 <?php
@@ -118,12 +122,21 @@ while ($server = array_shift($servers_array)) {
 // これも正しく動作します（ArrayObjectにはIteratorAggregateが実装されています）
 foreach ($servers as $server) {
     //...
+    
+    foreach ($server->tags as $tag) {
+        //...
+    }
 }
 
 // これも正しく動作します（ArrayObjectにはArrayAccessとCountableが実装されています）
 for ($i=0; $i < count($servers); $i++) {
     $server = $servers[$i];
     //...
+    
+    for ($j=0; $j < count($server->tags); $j++) {
+        $tag = $server->tags[$j];
+        //...
+    }
 }
 
 ```

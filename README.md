@@ -85,9 +85,13 @@ $api_is1b = $api->inZone("is1b");
 Some methods such as $api->server->find() return an array.
 This array is made of [ArrayObject](http://www.php.net/manual/en/class.arrayobject.php)
 instead of PHP standard [array](http://www.php.net/manual/en/book.array.php).
+
 Therefore, you have to cast each array (returned by any methods in this library)
-from ArrayObject to standard array before you use it as an argument for the methods
+from ArrayObject to standard array before you use it as an argument for the functions
 of PHP standard array API such as [array_shift()](http://www.php.net/manual/en/function.array-shift.php).
+
+Also, be aware that **an ArrayObject will not be copied in an assignment or as an argument to a function**
+since it is an object but not an array. 
 
 ```php
 <?php
@@ -118,12 +122,21 @@ while ($server = array_shift($servers_array)) {
 // This works well because ArrayObject implements IteratorAggregate
 foreach ($servers as $server) {
     //...
+    
+    foreach ($server->tags as $tag) {
+        //...
+    }
 }
 
 // This works well too because ArrayObject implements ArrayAccess and Countable
 for ($i=0; $i < count($servers); $i++) {
     $server = $servers[$i];
     //...
+    
+    for ($j=0; $j < count($server->tags); $j++) {
+        $tag = $server->tags[$j];
+        //...
+    }
 }
 
 ```
