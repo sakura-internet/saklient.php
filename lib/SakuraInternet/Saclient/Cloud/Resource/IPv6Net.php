@@ -1,17 +1,17 @@
 <?php
 
-namespace Saclient\Cloud\Resource;
+namespace SakuraInternet\Saclient\Cloud\Resource;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \Saclient\Cloud\Util;
+use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
  * @property-read string $id
- * @property-read string $name
- * @property-read int $bandWidthMbps
- * @property-read string $serviceClass
+ * @property-read string $ipv6Prefix
+ * @property-read int $ipv6PrefixLen
+ * @property-read string $ipv6PrefixTail
  */
-class InternetPlan extends Resource {
+class IPv6Net extends Resource {
 	
 	/**
 	 * @access protected
@@ -25,28 +25,29 @@ class InternetPlan extends Resource {
 	 * @ignore
 	 * @var string
 	 */
-	protected $m_name;
+	protected $m_ipv6Prefix;
 	
 	/**
 	 * @access protected
 	 * @ignore
 	 * @var int
 	 */
-	protected $m_bandWidthMbps;
+	protected $m_ipv6PrefixLen;
 	
 	/**
 	 * @access protected
 	 * @ignore
 	 * @var string
 	 */
-	protected $m_serviceClass;
+	protected $m_ipv6PrefixTail;
 	
 	/**
 	 * @private
 	 * @access public
 	 * @return string
 	 */
-	public function _id() {
+	public function _id()
+	{
 		return $this->get_id();
 	}
 	
@@ -56,7 +57,8 @@ class InternetPlan extends Resource {
 	 * @param Client $client
 	 * @param mixed $r
 	 */
-	public function __construct($client, $r) {
+	public function __construct($client, $r)
+	{
 		parent::__construct($client);
 		$this->apiDeserialize($r);
 	}
@@ -75,7 +77,8 @@ class InternetPlan extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_id() {
+	private function get_id()
+	{
 		return $this->m_id;
 	}
 	
@@ -90,7 +93,7 @@ class InternetPlan extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
-	private $n_name = false;
+	private $n_ipv6Prefix = false;
 	
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
@@ -99,8 +102,9 @@ class InternetPlan extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_name() {
-		return $this->m_name;
+	private function get_ipv6Prefix()
+	{
+		return $this->m_ipv6Prefix;
 	}
 	
 	/**
@@ -114,7 +118,7 @@ class InternetPlan extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
-	private $n_bandWidthMbps = false;
+	private $n_ipv6PrefixLen = false;
 	
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
@@ -123,8 +127,9 @@ class InternetPlan extends Resource {
 	 * @ignore
 	 * @return int
 	 */
-	private function get_bandWidthMbps() {
-		return $this->m_bandWidthMbps;
+	private function get_ipv6PrefixLen()
+	{
+		return $this->m_ipv6PrefixLen;
 	}
 	
 	/**
@@ -138,7 +143,7 @@ class InternetPlan extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
-	private $n_serviceClass = false;
+	private $n_ipv6PrefixTail = false;
 	
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
@@ -147,8 +152,9 @@ class InternetPlan extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_serviceClass() {
-		return $this->m_serviceClass;
+	private function get_ipv6PrefixTail()
+	{
+		return $this->m_ipv6PrefixTail;
 	}
 	
 	/**
@@ -163,15 +169,16 @@ class InternetPlan extends Resource {
 	 * @access public
 	 * @param mixed $r
 	 */
-	public function apiDeserialize($r) {
+	public function apiDeserialize($r)
+	{
 		$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
 		$this->n_id = false;
-		$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
-		$this->n_name = false;
-		$this->m_bandWidthMbps = $r->{"BandWidthMbps"} == null ? null : intval("" . $r->{"BandWidthMbps"});
-		$this->n_bandWidthMbps = false;
-		$this->m_serviceClass = $r->{"ServiceClass"} == null ? null : "" . $r->{"ServiceClass"};
-		$this->n_serviceClass = false;
+		$this->m_ipv6Prefix = $r->{"IPv6Prefix"} == null ? null : "" . $r->{"IPv6Prefix"};
+		$this->n_ipv6Prefix = false;
+		$this->m_ipv6PrefixLen = $r->{"IPv6PrefixLen"} == null ? null : intval("" . $r->{"IPv6PrefixLen"});
+		$this->n_ipv6PrefixLen = false;
+		$this->m_ipv6PrefixTail = $r->{"IPv6PrefixTail"} == null ? null : "" . $r->{"IPv6PrefixTail"};
+		$this->n_ipv6PrefixTail = false;
 	}
 	
 	/**
@@ -181,26 +188,27 @@ class InternetPlan extends Resource {
 	 * @param boolean $withClean = false
 	 * @return mixed
 	 */
-	public function apiSerialize($withClean=false) {
+	public function apiSerialize($withClean=false)
+	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			{
 				$ret->{"ID"} = $this->m_id;
 			};
 		};
-		if ($withClean || $this->n_name) {
+		if ($withClean || $this->n_ipv6Prefix) {
 			{
-				$ret->{"Name"} = $this->m_name;
+				$ret->{"IPv6Prefix"} = $this->m_ipv6Prefix;
 			};
 		};
-		if ($withClean || $this->n_bandWidthMbps) {
+		if ($withClean || $this->n_ipv6PrefixLen) {
 			{
-				$ret->{"BandWidthMbps"} = $this->m_bandWidthMbps;
+				$ret->{"IPv6PrefixLen"} = $this->m_ipv6PrefixLen;
 			};
 		};
-		if ($withClean || $this->n_serviceClass) {
+		if ($withClean || $this->n_ipv6PrefixTail) {
 			{
-				$ret->{"ServiceClass"} = $this->m_serviceClass;
+				$ret->{"IPv6PrefixTail"} = $this->m_ipv6PrefixTail;
 			};
 		};
 		return $ret;
@@ -212,9 +220,9 @@ class InternetPlan extends Resource {
 	public function __get($key) {
 		switch ($key) {
 			case "id": return $this->get_id();
-			case "name": return $this->get_name();
-			case "bandWidthMbps": return $this->get_bandWidthMbps();
-			case "serviceClass": return $this->get_serviceClass();
+			case "ipv6Prefix": return $this->get_ipv6Prefix();
+			case "ipv6PrefixLen": return $this->get_ipv6PrefixLen();
+			case "ipv6PrefixTail": return $this->get_ipv6PrefixTail();
 			default: return null;
 		}
 	}

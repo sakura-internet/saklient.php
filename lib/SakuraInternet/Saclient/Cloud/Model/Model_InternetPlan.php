@@ -1,15 +1,15 @@
 <?php
 
-namespace Saclient\Cloud\Model;
+namespace SakuraInternet\Saclient\Cloud\Model;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Model/Model.php";
-use \Saclient\Cloud\Model\Model;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Disk.php";
-use \Saclient\Cloud\Resource\Disk;
+use \SakuraInternet\Saclient\Cloud\Model\Model;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/InternetPlan.php";
+use \SakuraInternet\Saclient\Cloud\Resource\InternetPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \Saclient\Cloud\Util;
+use \SakuraInternet\Saclient\Cloud\Util;
 
-class Model_Disk extends Model {
+class Model_InternetPlan extends Model {
 	
 	/**
 	 * @private
@@ -17,8 +17,9 @@ class Model_Disk extends Model {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _apiPath() {
-		return "/disk";
+	protected function _apiPath()
+	{
+		return "/product/internet";
 	}
 	
 	/**
@@ -27,8 +28,9 @@ class Model_Disk extends Model {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKey() {
-		return "Disk";
+	protected function _rootKey()
+	{
+		return "InternetPlan";
 	}
 	
 	/**
@@ -37,8 +39,9 @@ class Model_Disk extends Model {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKeyM() {
-		return "Disks";
+	protected function _rootKeyM()
+	{
+		return "InternetPlans";
 	}
 	
 	/**
@@ -46,9 +49,10 @@ class Model_Disk extends Model {
 	 * 
 	 * @access public
 	 * @param int $offset オフセット
-	 * @return \Saclient\Cloud\Model\Model_Disk this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_InternetPlan this
 	 */
-	public function offset($offset) {
+	public function offset($offset)
+	{
 		return $this->_offset($offset);
 	}
 	
@@ -57,9 +61,10 @@ class Model_Disk extends Model {
 	 * 
 	 * @access public
 	 * @param int $count 上限レコード数
-	 * @return \Saclient\Cloud\Model\Model_Disk this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_InternetPlan this
 	 */
-	public function limit($count) {
+	public function limit($count)
+	{
 		return $this->_limit($count);
 	}
 	
@@ -67,9 +72,10 @@ class Model_Disk extends Model {
 	 * 次のリクエストのために設定されているステートをすべて破棄します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Model\Model_Disk this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_InternetPlan this
 	 */
-	public function reset() {
+	public function reset()
+	{
 		return $this->_reset();
 	}
 	
@@ -78,9 +84,10 @@ class Model_Disk extends Model {
 	 * 
 	 * @access public
 	 * @param string $id
-	 * @return \Saclient\Cloud\Resource\Disk リソースオブジェクト
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\InternetPlan リソースオブジェクト
 	 */
-	public function get($id) {
+	public function get($id)
+	{
 		return $this->_get($id);
 	}
 	
@@ -88,22 +95,11 @@ class Model_Disk extends Model {
 	 * リソースの検索リクエストを実行し、結果をリストで取得します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Disk[] リソースオブジェクトの配列
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\InternetPlan[] リソースオブジェクトの配列
 	 */
-	public function find() {
+	public function find()
+	{
 		return Util::castArray($this->_find(), null);
-	}
-	
-	/**
-	 * 指定したサーバへ接続されているディスクに絞り込みます。
-	 * 
-	 * @access public
-	 * @param string $id
-	 * @return \Saclient\Cloud\Model\Model_Disk
-	 */
-	public function withServerId($id) {
-		$this->_filterBy("Server.ID", $id);
-		return $this;
 	}
 	
 	

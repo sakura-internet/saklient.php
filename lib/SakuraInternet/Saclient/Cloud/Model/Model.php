@@ -1,16 +1,16 @@
 <?php
 
-namespace Saclient\Cloud\Model;
+namespace SakuraInternet\Saclient\Cloud\Model;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Client.php";
-use \Saclient\Cloud\Client;
+use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php";
-use \Saclient\Cloud\Resource\Resource;
+use \SakuraInternet\Saclient\Cloud\Resource\Resource;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \Saclient\Cloud\Util;
+use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
- * @property-read \Saclient\Cloud\Client $client
+ * @property-read \SakuraInternet\Saclient\Cloud\Client $client
  * @property-read TQueryParams $params
  * @property-read int $total
  * @property-read int $count
@@ -28,9 +28,10 @@ class Model {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Client
+	 * @return \SakuraInternet\Saclient\Cloud\Client
 	 */
-	protected function get_client() {
+	protected function get_client()
+	{
 		return $this->_client;
 	}
 	
@@ -53,7 +54,8 @@ class Model {
 	 * @ignore
 	 * @return TQueryParams
 	 */
-	protected function get_params() {
+	protected function get_params()
+	{
 		return $this->_params;
 	}
 	
@@ -76,7 +78,8 @@ class Model {
 	 * @ignore
 	 * @return int
 	 */
-	protected function get_total() {
+	protected function get_total()
+	{
 		return $this->_total;
 	}
 	
@@ -99,7 +102,8 @@ class Model {
 	 * @ignore
 	 * @return int
 	 */
-	protected function get_count() {
+	protected function get_count()
+	{
 		return $this->_count;
 	}
 	
@@ -115,7 +119,8 @@ class Model {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _apiPath() {
+	protected function _apiPath()
+	{
 		return null;
 	}
 	
@@ -125,7 +130,8 @@ class Model {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKey() {
+	protected function _rootKey()
+	{
 		return null;
 	}
 	
@@ -135,15 +141,17 @@ class Model {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKeyM() {
+	protected function _rootKeyM()
+	{
 		return null;
 	}
 	
 	/**
 	 * @access public
-	 * @param \Saclient\Cloud\Client $client
+	 * @param \SakuraInternet\Saclient\Cloud\Client $client
 	 */
-	public function __construct($client) {
+	public function __construct($client)
+	{
 		$this->_client = $client;
 		$this->_params = (object)[];
 		$this->_total = null;
@@ -157,9 +165,10 @@ class Model {
 	 * @access protected
 	 * @ignore
 	 * @param int $offset オフセット
-	 * @return \Saclient\Cloud\Model\Model this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model this
 	 */
-	protected function _offset($offset) {
+	protected function _offset($offset)
+	{
 		$this->_params->Begin = $offset;
 		return $this;
 	}
@@ -171,9 +180,10 @@ class Model {
 	 * @access protected
 	 * @ignore
 	 * @param int $count 上限レコード数
-	 * @return \Saclient\Cloud\Model\Model this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model this
 	 */
-	protected function _limit($count) {
+	protected function _limit($count)
+	{
 		$this->_params->Count = $count;
 		return $this;
 	}
@@ -184,9 +194,10 @@ class Model {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Model\Model this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model this
 	 */
-	protected function _reset() {
+	protected function _reset()
+	{
 		$this->_params = (object)[];
 		$this->_total = 0;
 		$this->_count = 0;
@@ -200,9 +211,10 @@ class Model {
 	 * @access protected
 	 * @ignore
 	 * @param string $id
-	 * @return \Saclient\Cloud\Resource\Resource リソースオブジェクト
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource リソースオブジェクト
 	 */
-	protected function _get($id) {
+	protected function _get($id)
+	{
 		$params = $this->_params;
 		$this->_reset();
 		$result = $this->_client->request("GET", $this->_apiPath() . "/" . Util::urlEncode($id), $params);
@@ -218,9 +230,10 @@ class Model {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Resource\Resource[] リソースオブジェクトの配列
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource[] リソースオブジェクトの配列
 	 */
-	protected function _find() {
+	protected function _find()
+	{
 		$params = $this->_params;
 		$this->_reset();
 		$result = $this->_client->request("GET", $this->_apiPath(), $params);
@@ -241,9 +254,10 @@ class Model {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Resource\Resource リソースオブジェクト
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource リソースオブジェクト
 	 */
-	protected function _findOne() {
+	protected function _findOne()
+	{
 		$params = $this->_params;
 		$this->_reset();
 		$result = $this->_client->request("GET", $this->_apiPath(), $params);
@@ -265,7 +279,8 @@ class Model {
 	 * @param string $key
 	 * @return void
 	 */
-	protected function _filterBy($key, $value, $multiple=false) {
+	protected function _filterBy($key, $value, $multiple=false)
+	{
 		if (!array_key_exists("Filter", $this->_params)) {
 			{
 				$this->_params->{"Filter"} = (object)[];

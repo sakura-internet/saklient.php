@@ -1,9 +1,9 @@
 <?php
 
-namespace Saclient\Cloud\Resource;
+namespace SakuraInternet\Saclient\Cloud\Resource;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \Saclient\Cloud\Util;
+use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
  * @property-read string $id
@@ -47,7 +47,8 @@ class Iface extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _apiPath() {
+	protected function _apiPath()
+	{
 		return "/interface";
 	}
 	
@@ -57,7 +58,8 @@ class Iface extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKey() {
+	protected function _rootKey()
+	{
 		return "Interface";
 	}
 	
@@ -67,7 +69,8 @@ class Iface extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKeyM() {
+	protected function _rootKeyM()
+	{
 		return "Interfaces";
 	}
 	
@@ -76,7 +79,8 @@ class Iface extends Resource {
 	 * @access public
 	 * @return string
 	 */
-	public function _id() {
+	public function _id()
+	{
 		return $this->get_id();
 	}
 	
@@ -84,9 +88,10 @@ class Iface extends Resource {
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Iface this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface this
 	 */
-	public function create() {
+	public function create()
+	{
 		return $this->_create();
 	}
 	
@@ -94,9 +99,10 @@ class Iface extends Resource {
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Iface this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface this
 	 */
-	public function save() {
+	public function save()
+	{
 		return $this->_save();
 	}
 	
@@ -104,9 +110,10 @@ class Iface extends Resource {
 	 * 最新のリソース情報を再取得します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Iface this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface this
 	 */
-	public function reload() {
+	public function reload()
+	{
 		return $this->_reload();
 	}
 	
@@ -116,7 +123,8 @@ class Iface extends Resource {
 	 * @param Client $client
 	 * @param mixed $r
 	 */
-	public function __construct($client, $r) {
+	public function __construct($client, $r)
+	{
 		parent::__construct($client);
 		$this->apiDeserialize($r);
 	}
@@ -135,7 +143,8 @@ class Iface extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_id() {
+	private function get_id()
+	{
 		return $this->m_id;
 	}
 	
@@ -159,7 +168,8 @@ class Iface extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_macAddress() {
+	private function get_macAddress()
+	{
 		return $this->m_macAddress;
 	}
 	
@@ -183,7 +193,8 @@ class Iface extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_ipAddress() {
+	private function get_ipAddress()
+	{
 		return $this->m_ipAddress;
 	}
 	
@@ -207,7 +218,8 @@ class Iface extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_userIpAddress() {
+	private function get_userIpAddress()
+	{
 		return $this->m_userIpAddress;
 	}
 	
@@ -219,7 +231,8 @@ class Iface extends Resource {
 	 * @param string $v
 	 * @return string
 	 */
-	private function set_userIpAddress($v) {
+	private function set_userIpAddress($v)
+	{
 		$this->m_userIpAddress = $v;
 		$this->n_userIpAddress = true;
 		return $this->m_userIpAddress;
@@ -236,7 +249,8 @@ class Iface extends Resource {
 	 * @access public
 	 * @param mixed $r
 	 */
-	public function apiDeserialize($r) {
+	public function apiDeserialize($r)
+	{
 		$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
 		$this->n_id = false;
 		$this->m_macAddress = $r->{"MACAddress"} == null ? null : "" . $r->{"MACAddress"};
@@ -254,7 +268,8 @@ class Iface extends Resource {
 	 * @param boolean $withClean = false
 	 * @return mixed
 	 */
-	public function apiSerialize($withClean=false) {
+	public function apiSerialize($withClean=false)
+	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			{

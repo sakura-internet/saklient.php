@@ -1,16 +1,16 @@
 <?php
 
-namespace Saclient\Cloud\Resource;
+namespace SakuraInternet\Saclient\Cloud\Resource;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \Saclient\Cloud\Util;
+use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
  * @property-read string $id
  * @property-read string $name
- * @property-read string $url
+ * @property-read string $storageClass
  */
-class Icon extends Resource {
+class DiskPlan extends Resource {
 	
 	/**
 	 * @access protected
@@ -31,75 +31,16 @@ class Icon extends Resource {
 	 * @ignore
 	 * @var string
 	 */
-	protected $m_url;
-	
-	/**
-	 * @private
-	 * @access protected
-	 * @ignore
-	 * @return string
-	 */
-	protected function _apiPath() {
-		return "/icon";
-	}
-	
-	/**
-	 * @private
-	 * @access protected
-	 * @ignore
-	 * @return string
-	 */
-	protected function _rootKey() {
-		return "Icon";
-	}
-	
-	/**
-	 * @private
-	 * @access protected
-	 * @ignore
-	 * @return string
-	 */
-	protected function _rootKeyM() {
-		return "Icons";
-	}
+	protected $m_storageClass;
 	
 	/**
 	 * @private
 	 * @access public
 	 * @return string
 	 */
-	public function _id() {
+	public function _id()
+	{
 		return $this->get_id();
-	}
-	
-	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
-	 * 
-	 * @access public
-	 * @return \Saclient\Cloud\Resource\Icon this
-	 */
-	public function create() {
-		return $this->_create();
-	}
-	
-	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
-	 * 
-	 * @access public
-	 * @return \Saclient\Cloud\Resource\Icon this
-	 */
-	public function save() {
-		return $this->_save();
-	}
-	
-	/**
-	 * 最新のリソース情報を再取得します。
-	 * 
-	 * @access public
-	 * @return \Saclient\Cloud\Resource\Icon this
-	 */
-	public function reload() {
-		return $this->_reload();
 	}
 	
 	/**
@@ -108,7 +49,8 @@ class Icon extends Resource {
 	 * @param Client $client
 	 * @param mixed $r
 	 */
-	public function __construct($client, $r) {
+	public function __construct($client, $r)
+	{
 		parent::__construct($client);
 		$this->apiDeserialize($r);
 	}
@@ -127,7 +69,8 @@ class Icon extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_id() {
+	private function get_id()
+	{
 		return $this->m_id;
 	}
 	
@@ -151,7 +94,8 @@ class Icon extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_name() {
+	private function get_name()
+	{
 		return $this->m_name;
 	}
 	
@@ -166,7 +110,7 @@ class Icon extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
-	private $n_url = false;
+	private $n_storageClass = false;
 	
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
@@ -175,8 +119,9 @@ class Icon extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_url() {
-		return $this->m_url;
+	private function get_storageClass()
+	{
+		return $this->m_storageClass;
 	}
 	
 	/**
@@ -191,13 +136,14 @@ class Icon extends Resource {
 	 * @access public
 	 * @param mixed $r
 	 */
-	public function apiDeserialize($r) {
+	public function apiDeserialize($r)
+	{
 		$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
 		$this->n_id = false;
 		$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
 		$this->n_name = false;
-		$this->m_url = $r->{"URL"} == null ? null : "" . $r->{"URL"};
-		$this->n_url = false;
+		$this->m_storageClass = $r->{"StorageClass"} == null ? null : "" . $r->{"StorageClass"};
+		$this->n_storageClass = false;
 	}
 	
 	/**
@@ -207,7 +153,8 @@ class Icon extends Resource {
 	 * @param boolean $withClean = false
 	 * @return mixed
 	 */
-	public function apiSerialize($withClean=false) {
+	public function apiSerialize($withClean=false)
+	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			{
@@ -219,9 +166,9 @@ class Icon extends Resource {
 				$ret->{"Name"} = $this->m_name;
 			};
 		};
-		if ($withClean || $this->n_url) {
+		if ($withClean || $this->n_storageClass) {
 			{
-				$ret->{"URL"} = $this->m_url;
+				$ret->{"StorageClass"} = $this->m_storageClass;
 			};
 		};
 		return $ret;
@@ -234,7 +181,7 @@ class Icon extends Resource {
 		switch ($key) {
 			case "id": return $this->get_id();
 			case "name": return $this->get_name();
-			case "url": return $this->get_url();
+			case "storageClass": return $this->get_storageClass();
 			default: return null;
 		}
 	}

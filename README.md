@@ -1,3 +1,5 @@
+[Japanese version](README.ja.md)
+
 # SAKURA Internet API Client Library for PHP
 
 This library gives you an easy interface to control your resources on
@@ -98,6 +100,17 @@ while ($server = array_shift($servers)) {
     
     // The same goes for accessors
     while ($tag = array_shift($server->tags)) {
+        //...
+    }
+}
+
+// This works well
+$servers_array = (array)$servers;
+while ($server = array_shift($servers_array)) {
+    //...
+    
+    $tags_array = (array)$server->tags;
+    while ($tag = array_shift($tags_array)) {
         //...
     }
 }

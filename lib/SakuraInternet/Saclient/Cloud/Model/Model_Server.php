@@ -1,15 +1,15 @@
 <?php
 
-namespace Saclient\Cloud\Model;
+namespace SakuraInternet\Saclient\Cloud\Model;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Model/Model.php";
-use \Saclient\Cloud\Model\Model;
+use \SakuraInternet\Saclient\Cloud\Model\Model;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Server.php";
-use \Saclient\Cloud\Resource\Server;
+use \SakuraInternet\Saclient\Cloud\Resource\Server;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/ServerPlan.php";
-use \Saclient\Cloud\Resource\ServerPlan;
+use \SakuraInternet\Saclient\Cloud\Resource\ServerPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \Saclient\Cloud\Util;
+use \SakuraInternet\Saclient\Cloud\Util;
 
 class Model_Server extends Model {
 	
@@ -19,7 +19,8 @@ class Model_Server extends Model {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _apiPath() {
+	protected function _apiPath()
+	{
 		return "/server";
 	}
 	
@@ -29,7 +30,8 @@ class Model_Server extends Model {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKey() {
+	protected function _rootKey()
+	{
 		return "Server";
 	}
 	
@@ -39,7 +41,8 @@ class Model_Server extends Model {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKeyM() {
+	protected function _rootKeyM()
+	{
 		return "Servers";
 	}
 	
@@ -48,9 +51,10 @@ class Model_Server extends Model {
 	 * 
 	 * @access public
 	 * @param int $offset オフセット
-	 * @return \Saclient\Cloud\Model\Model_Server this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server this
 	 */
-	public function offset($offset) {
+	public function offset($offset)
+	{
 		return $this->_offset($offset);
 	}
 	
@@ -59,9 +63,10 @@ class Model_Server extends Model {
 	 * 
 	 * @access public
 	 * @param int $count 上限レコード数
-	 * @return \Saclient\Cloud\Model\Model_Server this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server this
 	 */
-	public function limit($count) {
+	public function limit($count)
+	{
 		return $this->_limit($count);
 	}
 	
@@ -69,9 +74,10 @@ class Model_Server extends Model {
 	 * 次のリクエストのために設定されているステートをすべて破棄します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Model\Model_Server this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server this
 	 */
-	public function reset() {
+	public function reset()
+	{
 		return $this->_reset();
 	}
 	
@@ -80,9 +86,10 @@ class Model_Server extends Model {
 	 * 
 	 * @access public
 	 * @param string $id
-	 * @return \Saclient\Cloud\Resource\Server リソースオブジェクト
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server リソースオブジェクト
 	 */
-	public function get($id) {
+	public function get($id)
+	{
 		return $this->_get($id);
 	}
 	
@@ -90,9 +97,10 @@ class Model_Server extends Model {
 	 * リソースの検索リクエストを実行し、結果をリストで取得します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Server[] リソースオブジェクトの配列
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server[] リソースオブジェクトの配列
 	 */
-	public function find() {
+	public function find()
+	{
 		return Util::castArray($this->_find(), null);
 	}
 	
@@ -101,9 +109,10 @@ class Model_Server extends Model {
 	 * 
 	 * @access public
 	 * @param string $name
-	 * @return \Saclient\Cloud\Model\Model_Server
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
 	 */
-	public function withNameLike($name) {
+	public function withNameLike($name)
+	{
 		$this->_filterBy("Name", $name);
 		return $this;
 	}
@@ -113,9 +122,10 @@ class Model_Server extends Model {
 	 * 
 	 * @access public
 	 * @param string $status
-	 * @return \Saclient\Cloud\Model\Model_Server
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
 	 */
-	public function withInstanceStatus($status) {
+	public function withInstanceStatus($status)
+	{
 		$this->_filterBy("Instance.Status", $status, true);
 		return $this;
 	}
@@ -125,9 +135,10 @@ class Model_Server extends Model {
 	 * 
 	 * @access public
 	 * @param string $tag
-	 * @return \Saclient\Cloud\Model\Model_Server
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
 	 */
-	public function withTag($tag) {
+	public function withTag($tag)
+	{
 		$this->_filterBy("Tags.Name", $tag, true);
 		return $this;
 	}
@@ -136,10 +147,11 @@ class Model_Server extends Model {
 	 * 指定したタグを持つサーバに絞り込みます。
 	 * 
 	 * @access public
-	 * @param \Saclient\Cloud\Resource\ServerPlan $plan
-	 * @return \Saclient\Cloud\Model\Model_Server
+	 * @param \SakuraInternet\Saclient\Cloud\Resource\ServerPlan $plan
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
 	 */
-	public function withPlan($plan) {
+	public function withPlan($plan)
+	{
 		$this->_filterBy("ServerPlan.ID", $plan->_id(), true);
 		return $this;
 	}

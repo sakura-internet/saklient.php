@@ -1,32 +1,32 @@
 <?php
 
-namespace Saclient\Cloud;
+namespace SakuraInternet\Saclient\Cloud;
 
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Client.php";
-use \Saclient\Cloud\Client;
+use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Product.php";
-use \Saclient\Cloud\Product;
+use \SakuraInternet\Saclient\Cloud\Product;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Icon.php";
-use \Saclient\Cloud\Model\Model_Icon;
+use \SakuraInternet\Saclient\Cloud\Model\Model_Icon;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Server.php";
-use \Saclient\Cloud\Model\Model_Server;
+use \SakuraInternet\Saclient\Cloud\Model\Model_Server;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Disk.php";
-use \Saclient\Cloud\Model\Model_Disk;
+use \SakuraInternet\Saclient\Cloud\Model\Model_Disk;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_IPv6Net.php";
-use \Saclient\Cloud\Model\Model_IPv6Net;
+use \SakuraInternet\Saclient\Cloud\Model\Model_IPv6Net;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Util.php";
-use \Saclient\Cloud\Util;
+use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
  * さくらのクラウドAPIクライアントを利用する際、最初にアクセスすべきルートとなるクラス。
  * 
  * @see API.authorize
- * @property-read \Saclient\Cloud\Client $client
- * @property-read \Saclient\Cloud\Product $product
- * @property-read \Saclient\Cloud\Model\Model_Icon $icon
- * @property-read \Saclient\Cloud\Model\Model_Server $server
- * @property-read \Saclient\Cloud\Model\Model_Disk $disk
- * @property-read \Saclient\Cloud\Model\Model_IPv6Net $ipv6net
+ * @property-read \SakuraInternet\Saclient\Cloud\Client $client
+ * @property-read \SakuraInternet\Saclient\Cloud\Product $product
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Icon $icon
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Server $server
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Disk $disk
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_IPv6Net $ipv6net
  */
 class API {
 	
@@ -41,9 +41,10 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Client
+	 * @return \SakuraInternet\Saclient\Cloud\Client
 	 */
-	protected function get_client() {
+	protected function get_client()
+	{
 		return $this->_client;
 	}
 	
@@ -64,9 +65,10 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Product
+	 * @return \SakuraInternet\Saclient\Cloud\Product
 	 */
-	protected function get_product() {
+	protected function get_product()
+	{
 		return $this->_product;
 	}
 	
@@ -87,9 +89,10 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Model\Model_Icon
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Icon
 	 */
-	protected function get_icon() {
+	protected function get_icon()
+	{
 		return $this->_icon;
 	}
 	
@@ -110,9 +113,10 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Model\Model_Server
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
 	 */
-	protected function get_server() {
+	protected function get_server()
+	{
 		return $this->_server;
 	}
 	
@@ -133,9 +137,10 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Model\Model_Disk
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Disk
 	 */
-	protected function get_disk() {
+	protected function get_disk()
+	{
 		return $this->_disk;
 	}
 	
@@ -156,9 +161,10 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Model\Model_IPv6Net
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_IPv6Net
 	 */
-	protected function get_ipv6net() {
+	protected function get_ipv6net()
+	{
 		return $this->_ipv6net;
 	}
 	
@@ -171,9 +177,10 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @param \Saclient\Cloud\Client $client
+	 * @param \SakuraInternet\Saclient\Cloud\Client $client
 	 */
-	protected function __construct($client) {
+	protected function __construct($client)
+	{
 		$this->_client = $client;
 		$this->_product = new Product($client);
 		$this->_icon = new Model_Icon($client);
@@ -190,9 +197,10 @@ class API {
 	 * @access public
 	 * @param string $token ACCESS TOKEN
 	 * @param string $secret ACCESS TOKEN SECRET
-	 * @return \Saclient\Cloud\API APIクライアント
+	 * @return \SakuraInternet\Saclient\Cloud\API APIクライアント
 	 */
-	static public function authorize($token, $secret) {
+	static public function authorize($token, $secret)
+	{
 		$c = new Client($token, $secret);
 		return new API($c);
 	}
@@ -202,9 +210,10 @@ class API {
 	 * 
 	 * @access public
 	 * @param string $name ゾーン名
-	 * @return \Saclient\Cloud\API APIクライアント
+	 * @return \SakuraInternet\Saclient\Cloud\API APIクライアント
 	 */
-	public function inZone($name) {
+	public function inZone($name)
+	{
 		$ret = new API($this->_client->cloneInstance());
 		$ret->_client->setApiRootSuffix("zone/" . $name);
 		return $ret;

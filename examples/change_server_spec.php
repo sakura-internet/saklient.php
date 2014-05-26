@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-$api = \Saclient\Cloud\API::authorize($argv[1], $argv[2]);
+$api = \SakuraInternet\Saclient\Cloud\API::authorize($argv[1], $argv[2]);
 
 $planFrom = $api->product->server->getBySpec(2, 4);
 printf("plan from: [%s] %dcore %dGB\n", $planFrom->id, $planFrom->cpu, $planFrom->memoryGib);

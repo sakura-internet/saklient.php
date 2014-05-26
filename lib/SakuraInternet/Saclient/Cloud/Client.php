@@ -1,6 +1,6 @@
 <?php
 
-namespace Saclient\Cloud;
+namespace SakuraInternet\Saclient\Cloud;
 
 class Client {
 	

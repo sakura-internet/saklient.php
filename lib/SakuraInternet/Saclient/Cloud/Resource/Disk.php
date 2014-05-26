@@ -1,15 +1,15 @@
 <?php
 
-namespace Saclient\Cloud\Resource;
+namespace SakuraInternet\Saclient\Cloud\Resource;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php";
-use \Saclient\Cloud\Resource\Resource;
+use \SakuraInternet\Saclient\Cloud\Resource\Resource;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/DiskPlan.php";
-use \Saclient\Cloud\Resource\DiskPlan;
+use \SakuraInternet\Saclient\Cloud\Resource\DiskPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Server.php";
-use \Saclient\Cloud\Resource\Server;
+use \SakuraInternet\Saclient\Cloud\Resource\Server;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \Saclient\Cloud\Util;
+use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
  * @property-read int $sizeGib
@@ -18,8 +18,8 @@ use \Saclient\Cloud\Util;
  * @property string $description
  * @property-read int $sizeMib
  * @property-read string $serviceClass
- * @property-read \Saclient\Cloud\Resource\DiskPlan $plan
- * @property-read \Saclient\Cloud\Resource\Server $server
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\DiskPlan $plan
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\Server $server
  */
 class Disk extends Resource {
 	
@@ -78,7 +78,8 @@ class Disk extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _apiPath() {
+	protected function _apiPath()
+	{
 		return "/disk";
 	}
 	
@@ -88,7 +89,8 @@ class Disk extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKey() {
+	protected function _rootKey()
+	{
 		return "Disk";
 	}
 	
@@ -98,7 +100,8 @@ class Disk extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKeyM() {
+	protected function _rootKeyM()
+	{
 		return "Disks";
 	}
 	
@@ -107,7 +110,8 @@ class Disk extends Resource {
 	 * @access public
 	 * @return string
 	 */
-	public function _id() {
+	public function _id()
+	{
 		return $this->get_id();
 	}
 	
@@ -115,9 +119,10 @@ class Disk extends Resource {
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Disk this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk this
 	 */
-	public function create() {
+	public function create()
+	{
 		return $this->_create();
 	}
 	
@@ -125,9 +130,10 @@ class Disk extends Resource {
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Disk this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk this
 	 */
-	public function save() {
+	public function save()
+	{
 		return $this->_save();
 	}
 	
@@ -135,9 +141,10 @@ class Disk extends Resource {
 	 * 最新のリソース情報を再取得します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Disk this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk this
 	 */
-	public function reload() {
+	public function reload()
+	{
 		return $this->_reload();
 	}
 	
@@ -147,7 +154,8 @@ class Disk extends Resource {
 	 * @param Client $client
 	 * @param mixed $r
 	 */
-	public function __construct($client, $r) {
+	public function __construct($client, $r)
+	{
 		parent::__construct($client);
 		$this->apiDeserialize($r);
 	}
@@ -157,7 +165,8 @@ class Disk extends Resource {
 	 * @ignore
 	 * @return int
 	 */
-	protected function get_sizeGib() {
+	protected function get_sizeGib()
+	{
 		return $this->get_sizeMib() >> 10;
 	}
 	
@@ -172,9 +181,10 @@ class Disk extends Resource {
 	 * 
 	 * @access public
 	 * @param string $serverId
-	 * @return \Saclient\Cloud\Resource\Disk
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk
 	 */
-	public function attachTo($serverId) {
+	public function attachTo($serverId)
+	{
 		$this->_client->request("PUT", "/disk/" . $this->_id() . "/to/server/" . $serverId);
 		return $this;
 	}
@@ -183,9 +193,10 @@ class Disk extends Resource {
 	 * ディスクをサーバから取り外します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Disk
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk
 	 */
-	public function detach() {
+	public function detach()
+	{
 		$this->_client->request("DELETE", "/disk/" . $this->_id() . "/to/server");
 		return $this;
 	}
@@ -204,7 +215,8 @@ class Disk extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_id() {
+	private function get_id()
+	{
 		return $this->m_id;
 	}
 	
@@ -228,7 +240,8 @@ class Disk extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_name() {
+	private function get_name()
+	{
 		return $this->m_name;
 	}
 	
@@ -240,7 +253,8 @@ class Disk extends Resource {
 	 * @param string $v
 	 * @return string
 	 */
-	private function set_name($v) {
+	private function set_name($v)
+	{
 		$this->m_name = $v;
 		$this->n_name = true;
 		return $this->m_name;
@@ -265,7 +279,8 @@ class Disk extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_description() {
+	private function get_description()
+	{
 		return $this->m_description;
 	}
 	
@@ -277,7 +292,8 @@ class Disk extends Resource {
 	 * @param string $v
 	 * @return string
 	 */
-	private function set_description($v) {
+	private function set_description($v)
+	{
 		$this->m_description = $v;
 		$this->n_description = true;
 		return $this->m_description;
@@ -302,7 +318,8 @@ class Disk extends Resource {
 	 * @ignore
 	 * @return int
 	 */
-	private function get_sizeMib() {
+	private function get_sizeMib()
+	{
 		return $this->m_sizeMib;
 	}
 	
@@ -326,7 +343,8 @@ class Disk extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_serviceClass() {
+	private function get_serviceClass()
+	{
 		return $this->m_serviceClass;
 	}
 	
@@ -348,9 +366,10 @@ class Disk extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @return \Saclient\Cloud\Resource\DiskPlan
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\DiskPlan
 	 */
-	private function get_plan() {
+	private function get_plan()
+	{
 		return $this->m_plan;
 	}
 	
@@ -372,9 +391,10 @@ class Disk extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @return \Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
 	 */
-	private function get_server() {
+	private function get_server()
+	{
 		return $this->m_server;
 	}
 	
@@ -390,7 +410,8 @@ class Disk extends Resource {
 	 * @access public
 	 * @param mixed $r
 	 */
-	public function apiDeserialize($r) {
+	public function apiDeserialize($r)
+	{
 		$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
 		$this->n_id = false;
 		$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
@@ -414,7 +435,8 @@ class Disk extends Resource {
 	 * @param boolean $withClean = false
 	 * @return mixed
 	 */
-	public function apiSerialize($withClean=false) {
+	public function apiSerialize($withClean=false)
+	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			{

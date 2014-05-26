@@ -1,15 +1,15 @@
 <?php
 
-namespace Saclient\Cloud\Model;
+namespace SakuraInternet\Saclient\Cloud\Model;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Model/Model.php";
-use \Saclient\Cloud\Model\Model;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/IPv6Net.php";
-use \Saclient\Cloud\Resource\IPv6Net;
+use \SakuraInternet\Saclient\Cloud\Model\Model;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/DiskPlan.php";
+use \SakuraInternet\Saclient\Cloud\Resource\DiskPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \Saclient\Cloud\Util;
+use \SakuraInternet\Saclient\Cloud\Util;
 
-class Model_IPv6Net extends Model {
+class Model_DiskPlan extends Model {
 	
 	/**
 	 * @private
@@ -17,8 +17,9 @@ class Model_IPv6Net extends Model {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _apiPath() {
-		return "/ipv6net";
+	protected function _apiPath()
+	{
+		return "/product/disk";
 	}
 	
 	/**
@@ -27,8 +28,9 @@ class Model_IPv6Net extends Model {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKey() {
-		return "IPv6Net";
+	protected function _rootKey()
+	{
+		return "DiskPlan";
 	}
 	
 	/**
@@ -37,8 +39,9 @@ class Model_IPv6Net extends Model {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKeyM() {
-		return "IPv6Nets";
+	protected function _rootKeyM()
+	{
+		return "DiskPlans";
 	}
 	
 	/**
@@ -46,9 +49,10 @@ class Model_IPv6Net extends Model {
 	 * 
 	 * @access public
 	 * @param int $offset オフセット
-	 * @return \Saclient\Cloud\Model\Model_IPv6Net this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_DiskPlan this
 	 */
-	public function offset($offset) {
+	public function offset($offset)
+	{
 		return $this->_offset($offset);
 	}
 	
@@ -57,9 +61,10 @@ class Model_IPv6Net extends Model {
 	 * 
 	 * @access public
 	 * @param int $count 上限レコード数
-	 * @return \Saclient\Cloud\Model\Model_IPv6Net this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_DiskPlan this
 	 */
-	public function limit($count) {
+	public function limit($count)
+	{
 		return $this->_limit($count);
 	}
 	
@@ -67,9 +72,10 @@ class Model_IPv6Net extends Model {
 	 * 次のリクエストのために設定されているステートをすべて破棄します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Model\Model_IPv6Net this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_DiskPlan this
 	 */
-	public function reset() {
+	public function reset()
+	{
 		return $this->_reset();
 	}
 	
@@ -78,9 +84,10 @@ class Model_IPv6Net extends Model {
 	 * 
 	 * @access public
 	 * @param string $id
-	 * @return \Saclient\Cloud\Resource\IPv6Net リソースオブジェクト
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\DiskPlan リソースオブジェクト
 	 */
-	public function get($id) {
+	public function get($id)
+	{
 		return $this->_get($id);
 	}
 	
@@ -88,9 +95,10 @@ class Model_IPv6Net extends Model {
 	 * リソースの検索リクエストを実行し、結果をリストで取得します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\IPv6Net[] リソースオブジェクトの配列
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\DiskPlan[] リソースオブジェクトの配列
 	 */
-	public function find() {
+	public function find()
+	{
 		return Util::castArray($this->_find(), null);
 	}
 	

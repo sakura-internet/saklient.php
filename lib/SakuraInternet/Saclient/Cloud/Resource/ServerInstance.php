@@ -1,9 +1,9 @@
 <?php
 
-namespace Saclient\Cloud\Resource;
+namespace SakuraInternet\Saclient\Cloud\Resource;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \Saclient\Cloud\Util;
+use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
  * @property-read string $status
@@ -39,7 +39,8 @@ class ServerInstance extends Resource {
 	 * @param Client $client
 	 * @param mixed $r
 	 */
-	public function __construct($client, $r) {
+	public function __construct($client, $r)
+	{
 		parent::__construct($client);
 		$this->apiDeserialize($r);
 	}
@@ -58,7 +59,8 @@ class ServerInstance extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_status() {
+	private function get_status()
+	{
 		return $this->m_status;
 	}
 	
@@ -82,7 +84,8 @@ class ServerInstance extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_beforeStatus() {
+	private function get_beforeStatus()
+	{
 		return $this->m_beforeStatus;
 	}
 	
@@ -106,7 +109,8 @@ class ServerInstance extends Resource {
 	 * @ignore
 	 * @return NativeDate
 	 */
-	private function get_statusChangedAt() {
+	private function get_statusChangedAt()
+	{
 		return $this->m_statusChangedAt;
 	}
 	
@@ -122,7 +126,8 @@ class ServerInstance extends Resource {
 	 * @access public
 	 * @param mixed $r
 	 */
-	public function apiDeserialize($r) {
+	public function apiDeserialize($r)
+	{
 		$this->m_status = $r->{"Status"} == null ? null : "" . $r->{"Status"};
 		$this->n_status = false;
 		$this->m_beforeStatus = $r->{"BeforeStatus"} == null ? null : "" . $r->{"BeforeStatus"};
@@ -138,7 +143,8 @@ class ServerInstance extends Resource {
 	 * @param boolean $withClean = false
 	 * @return mixed
 	 */
-	public function apiSerialize($withClean=false) {
+	public function apiSerialize($withClean=false)
+	{
 		$ret = (object)[];
 		if ($withClean || $this->n_status) {
 			{

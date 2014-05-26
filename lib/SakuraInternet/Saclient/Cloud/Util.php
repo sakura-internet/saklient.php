@@ -1,6 +1,6 @@
 <?php
 
-namespace Saclient\Cloud;
+namespace SakuraInternet\Saclient\Cloud;
 
 
 class Util {
@@ -11,10 +11,11 @@ class Util {
 	 * @param string $classPath
 	 * @return mixed
 	 */
-	static public function createClassInstance($classPath, $arguments) {
+	static public function createClassInstance($classPath, $arguments)
+	{
 		$ret = null;
-		$classPath = str_replace('.', '\\', $classPath);
-		$ref = new \ReflectionClass($classPath);
+		$classPath = implode('\\', array_map(function($x){return strtoupper(substr($x,0,1)).substr($x,1);}, explode('.', $classPath)));
+		$ref = new \ReflectionClass('SakuraInternet\\'.$classPath);
 		$ret = $ref->newInstanceArgs(Client::arrayObject2array($arguments));
 		if ($ret == null) {
 			throw new \Exception("Could not create class instance of " . $classPath);
@@ -27,7 +28,8 @@ class Util {
 	 * @param string $s
 	 * @return NativeDate
 	 */
-	static public function str2date($s) {
+	static public function str2date($s)
+	{
 		if ($s == null) {
 			return null;
 		};
@@ -39,7 +41,8 @@ class Util {
 	 * @param NativeDate $d
 	 * @return string
 	 */
-	static public function date2str($d) {
+	static public function date2str($d)
+	{
 		if ($d == null) {
 			return null;
 		};
@@ -51,7 +54,8 @@ class Util {
 	 * @param string $s
 	 * @return string
 	 */
-	static public function urlEncode($s) {
+	static public function urlEncode($s)
+	{
 		return rawurlencode($s);
 	}
 	
@@ -61,7 +65,8 @@ class Util {
 	 * @param T[] $a
 	 * @return U[]
 	 */
-	static public function castArray($a, $clazz) {
+	static public function castArray($a, $clazz)
+	{
 		return $a;
 	}
 	

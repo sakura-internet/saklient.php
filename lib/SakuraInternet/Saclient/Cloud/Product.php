@@ -1,22 +1,22 @@
 <?php
 
-namespace Saclient\Cloud;
+namespace SakuraInternet\Saclient\Cloud;
 
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_ServerPlan.php";
-use \Saclient\Cloud\Model\Model_ServerPlan;
+use \SakuraInternet\Saclient\Cloud\Model\Model_ServerPlan;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_DiskPlan.php";
-use \Saclient\Cloud\Model\Model_DiskPlan;
+use \SakuraInternet\Saclient\Cloud\Model\Model_DiskPlan;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_InternetPlan.php";
-use \Saclient\Cloud\Model\Model_InternetPlan;
+use \SakuraInternet\Saclient\Cloud\Model\Model_InternetPlan;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Client.php";
-use \Saclient\Cloud\Client;
+use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Util.php";
-use \Saclient\Cloud\Util;
+use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
- * @property-read \Saclient\Cloud\Model\Model_ServerPlan $server
- * @property-read \Saclient\Cloud\Model\Model_DiskPlan $disk
- * @property-read \Saclient\Cloud\Model\Model_InternetPlan $internet
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_ServerPlan $server
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_DiskPlan $disk
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_InternetPlan $internet
  */
 class Product {
 	
@@ -31,9 +31,10 @@ class Product {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Model\Model_ServerPlan
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_ServerPlan
 	 */
-	protected function get_server() {
+	protected function get_server()
+	{
 		return $this->_server;
 	}
 	
@@ -54,9 +55,10 @@ class Product {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Model\Model_DiskPlan
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_DiskPlan
 	 */
-	protected function get_disk() {
+	protected function get_disk()
+	{
 		return $this->_disk;
 	}
 	
@@ -77,9 +79,10 @@ class Product {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Model\Model_InternetPlan
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_InternetPlan
 	 */
-	protected function get_internet() {
+	protected function get_internet()
+	{
 		return $this->_internet;
 	}
 	
@@ -91,9 +94,10 @@ class Product {
 	
 	/**
 	 * @access public
-	 * @param \Saclient\Cloud\Client $client
+	 * @param \SakuraInternet\Saclient\Cloud\Client $client
 	 */
-	public function __construct($client) {
+	public function __construct($client)
+	{
 		$this->_server = new Model_ServerPlan($client);
 		$this->_disk = new Model_DiskPlan($client);
 		$this->_internet = new Model_InternetPlan($client);

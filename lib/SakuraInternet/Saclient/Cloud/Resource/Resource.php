@@ -1,14 +1,14 @@
 <?php
 
-namespace Saclient\Cloud\Resource;
+namespace SakuraInternet\Saclient\Cloud\Resource;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Client.php";
-use \Saclient\Cloud\Client;
+use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \Saclient\Cloud\Util;
+use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
- * @property-read \Saclient\Cloud\Client $client
+ * @property-read \SakuraInternet\Saclient\Cloud\Client $client
  */
 class Resource {
 	
@@ -23,9 +23,10 @@ class Resource {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Client
+	 * @return \SakuraInternet\Saclient\Cloud\Client
 	 */
-	protected function get_client() {
+	protected function get_client()
+	{
 		return $this->_client;
 	}
 	
@@ -41,7 +42,8 @@ class Resource {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _apiPath() {
+	protected function _apiPath()
+	{
 		return null;
 	}
 	
@@ -51,7 +53,8 @@ class Resource {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKey() {
+	protected function _rootKey()
+	{
 		return null;
 	}
 	
@@ -61,7 +64,8 @@ class Resource {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKeyM() {
+	protected function _rootKeyM()
+	{
 		return null;
 	}
 	
@@ -70,16 +74,18 @@ class Resource {
 	 * @access public
 	 * @return string
 	 */
-	public function _id() {
+	public function _id()
+	{
 		return null;
 	}
 	
 	/**
 	 * @private
 	 * @access public
-	 * @param \Saclient\Cloud\Client $client
+	 * @param \SakuraInternet\Saclient\Cloud\Client $client
 	 */
-	public function __construct($client) {
+	public function __construct($client)
+	{
 		$this->_client = $client;
 	}
 	
@@ -88,14 +94,16 @@ class Resource {
 	 * @param mixed $r
 	 * @return void
 	 */
-	public function apiDeserialize($r) {}
+	public function apiDeserialize($r)
+	{}
 	
 	/**
 	 * @access public
 	 * @param boolean $withClean = false
 	 * @return mixed
 	 */
-	public function apiSerialize($withClean=false) {
+	public function apiSerialize($withClean=false)
+	{
 		return null;
 	}
 	
@@ -104,7 +112,8 @@ class Resource {
 	 * @ignore
 	 * @return mixed
 	 */
-	protected function apiSerializeID() {
+	protected function apiSerializeID()
+	{
 		$id = $this->_id();
 		if ($id == null) {
 			return null;
@@ -120,9 +129,10 @@ class Resource {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Resource\Resource this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource this
 	 */
-	protected function _create() {
+	protected function _create()
+	{
 		return $this;
 	}
 	
@@ -132,9 +142,10 @@ class Resource {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Resource\Resource this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource this
 	 */
-	protected function _save() {
+	protected function _save()
+	{
 		$r = (object)[];
 		$r->{$this->_rootKey()} = $this->apiSerialize();
 		$result = $this->_client->request("PUT", $this->_apiPath() . "/" . Util::urlEncode($this->_id()), $r);
@@ -148,9 +159,10 @@ class Resource {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @return \Saclient\Cloud\Resource\Resource this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource this
 	 */
-	protected function _reload() {
+	protected function _reload()
+	{
 		$result = $this->_client->request("GET", $this->_apiPath() . "/" . Util::urlEncode($this->_id()));
 		$this->apiDeserialize($result->{$this->_rootKey()});
 		return $this;
@@ -160,7 +172,8 @@ class Resource {
 	 * @access public
 	 * @return mixed
 	 */
-	public function dump() {
+	public function dump()
+	{
 		return $this->apiSerialize();
 	}
 	

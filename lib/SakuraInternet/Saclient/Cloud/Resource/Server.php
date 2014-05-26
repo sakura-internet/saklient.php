@@ -1,27 +1,27 @@
 <?php
 
-namespace Saclient\Cloud\Resource;
+namespace SakuraInternet\Saclient\Cloud\Resource;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Icon.php";
-use \Saclient\Cloud\Resource\Icon;
+use \SakuraInternet\Saclient\Cloud\Resource\Icon;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Iface.php";
-use \Saclient\Cloud\Resource\Iface;
+use \SakuraInternet\Saclient\Cloud\Resource\Iface;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/ServerPlan.php";
-use \Saclient\Cloud\Resource\ServerPlan;
+use \SakuraInternet\Saclient\Cloud\Resource\ServerPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/ServerInstance.php";
-use \Saclient\Cloud\Resource\ServerInstance;
+use \SakuraInternet\Saclient\Cloud\Resource\ServerInstance;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \Saclient\Cloud\Util;
+use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
  * @property-read string $id
  * @property string $name
  * @property string $description
  * @property string[] $tags
- * @property \Saclient\Cloud\Resource\Icon $icon
- * @property-read \Saclient\Cloud\Resource\ServerPlan $plan
- * @property-read \Saclient\Cloud\Resource\Iface[] $ifaces
- * @property-read \Saclient\Cloud\Resource\ServerInstance $instance
+ * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\ServerPlan $plan
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\Iface[] $ifaces
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\ServerInstance $instance
  */
 class Server extends Resource {
 	
@@ -103,7 +103,8 @@ class Server extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _apiPath() {
+	protected function _apiPath()
+	{
 		return "/server";
 	}
 	
@@ -113,7 +114,8 @@ class Server extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKey() {
+	protected function _rootKey()
+	{
 		return "Server";
 	}
 	
@@ -123,7 +125,8 @@ class Server extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKeyM() {
+	protected function _rootKeyM()
+	{
 		return "Servers";
 	}
 	
@@ -132,7 +135,8 @@ class Server extends Resource {
 	 * @access public
 	 * @return string
 	 */
-	public function _id() {
+	public function _id()
+	{
 		return $this->get_id();
 	}
 	
@@ -140,9 +144,10 @@ class Server extends Resource {
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Server this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server this
 	 */
-	public function create() {
+	public function create()
+	{
 		return $this->_create();
 	}
 	
@@ -150,9 +155,10 @@ class Server extends Resource {
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Server this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server this
 	 */
-	public function save() {
+	public function save()
+	{
 		return $this->_save();
 	}
 	
@@ -160,9 +166,10 @@ class Server extends Resource {
 	 * 最新のリソース情報を再取得します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Server this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server this
 	 */
-	public function reload() {
+	public function reload()
+	{
 		return $this->_reload();
 	}
 	
@@ -172,7 +179,8 @@ class Server extends Resource {
 	 * @param Client $client
 	 * @param mixed $r
 	 */
-	public function __construct($client, $r) {
+	public function __construct($client, $r)
+	{
 		parent::__construct($client);
 		$this->apiDeserialize($r);
 	}
@@ -181,9 +189,10 @@ class Server extends Resource {
 	 * サーバを起動します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
 	 */
-	public function boot() {
+	public function boot()
+	{
 		$this->_client->request("PUT", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/power");
 		return $this;
 	}
@@ -192,9 +201,10 @@ class Server extends Resource {
 	 * サーバをシャットダウンします。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
 	 */
-	public function shutdown() {
+	public function shutdown()
+	{
 		$this->_client->request("DELETE", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/power");
 		return $this;
 	}
@@ -203,9 +213,10 @@ class Server extends Resource {
 	 * サーバを強制停止します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
 	 */
-	public function stop() {
+	public function stop()
+	{
 		$this->_client->request("DELETE", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/power", (object)['Force' => true]);
 		return $this;
 	}
@@ -214,9 +225,10 @@ class Server extends Resource {
 	 * サーバを強制再起動します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
 	 */
-	public function reboot() {
+	public function reboot()
+	{
 		$this->_client->request("PUT", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/reset");
 		return $this;
 	}
@@ -225,10 +237,11 @@ class Server extends Resource {
 	 * サーバのプランを変更します。
 	 * 
 	 * @access public
-	 * @param \Saclient\Cloud\Resource\ServerPlan $planTo
-	 * @return \Saclient\Cloud\Resource\Server
+	 * @param \SakuraInternet\Saclient\Cloud\Resource\ServerPlan $planTo
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
 	 */
-	public function changePlan($planTo) {
+	public function changePlan($planTo)
+	{
 		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/to/plan/" . Util::urlEncode($planTo->_id());
 		$result = $this->_client->request("PUT", $path);
 		$this->apiDeserialize($result->{$this->_rootKey()});
@@ -241,7 +254,8 @@ class Server extends Resource {
 	 * @access public
 	 * @return Disk[]
 	 */
-	public function findDisks() {
+	public function findDisks()
+	{
 		$model = Util::createClassInstance("saclient.cloud.model.Model_Disk", new \ArrayObject([$this->_client]));
 		return $model->withServerId($this->_id())->find();
 	}
@@ -260,7 +274,8 @@ class Server extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_id() {
+	private function get_id()
+	{
 		return $this->m_id;
 	}
 	
@@ -286,7 +301,8 @@ class Server extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_name() {
+	private function get_name()
+	{
 		return $this->m_name;
 	}
 	
@@ -298,7 +314,8 @@ class Server extends Resource {
 	 * @param string $v
 	 * @return string
 	 */
-	private function set_name($v) {
+	private function set_name($v)
+	{
 		$this->m_name = $v;
 		$this->n_name = true;
 		return $this->m_name;
@@ -325,7 +342,8 @@ class Server extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_description() {
+	private function get_description()
+	{
 		return $this->m_description;
 	}
 	
@@ -337,7 +355,8 @@ class Server extends Resource {
 	 * @param string $v
 	 * @return string
 	 */
-	private function set_description($v) {
+	private function set_description($v)
+	{
 		$this->m_description = $v;
 		$this->n_description = true;
 		return $this->m_description;
@@ -364,7 +383,8 @@ class Server extends Resource {
 	 * @ignore
 	 * @return string[]
 	 */
-	private function get_tags() {
+	private function get_tags()
+	{
 		return $this->m_tags;
 	}
 	
@@ -376,7 +396,8 @@ class Server extends Resource {
 	 * @param string[] $v
 	 * @return string[]
 	 */
-	private function set_tags($v) {
+	private function set_tags($v)
+	{
 		$this->m_tags = $v;
 		$this->n_tags = true;
 		return $this->m_tags;
@@ -401,9 +422,10 @@ class Server extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @return \Saclient\Cloud\Resource\Icon
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Icon
 	 */
-	private function get_icon() {
+	private function get_icon()
+	{
 		return $this->m_icon;
 	}
 	
@@ -412,10 +434,11 @@ class Server extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @param \Saclient\Cloud\Resource\Icon $v
-	 * @return \Saclient\Cloud\Resource\Icon
+	 * @param \SakuraInternet\Saclient\Cloud\Resource\Icon $v
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Icon
 	 */
-	private function set_icon($v) {
+	private function set_icon($v)
+	{
 		$this->m_icon = $v;
 		$this->n_icon = true;
 		return $this->m_icon;
@@ -440,9 +463,10 @@ class Server extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @return \Saclient\Cloud\Resource\ServerPlan
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\ServerPlan
 	 */
-	private function get_plan() {
+	private function get_plan()
+	{
 		return $this->m_plan;
 	}
 	
@@ -466,9 +490,10 @@ class Server extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @return \Saclient\Cloud\Resource\Iface[]
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface[]
 	 */
-	private function get_ifaces() {
+	private function get_ifaces()
+	{
 		return $this->m_ifaces;
 	}
 	
@@ -492,9 +517,10 @@ class Server extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @return \Saclient\Cloud\Resource\ServerInstance
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\ServerInstance
 	 */
-	private function get_instance() {
+	private function get_instance()
+	{
 		return $this->m_instance;
 	}
 	
@@ -512,7 +538,8 @@ class Server extends Resource {
 	 * @access public
 	 * @param mixed $r
 	 */
-	public function apiDeserialize($r) {
+	public function apiDeserialize($r)
+	{
 		$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
 		$this->n_id = false;
 		$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
@@ -566,7 +593,8 @@ class Server extends Resource {
 	 * @param boolean $withClean = false
 	 * @return mixed
 	 */
-	public function apiSerialize($withClean=false) {
+	public function apiSerialize($withClean=false)
+	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			{

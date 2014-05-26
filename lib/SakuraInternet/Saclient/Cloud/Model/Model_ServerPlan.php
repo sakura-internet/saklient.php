@@ -1,13 +1,13 @@
 <?php
 
-namespace Saclient\Cloud\Model;
+namespace SakuraInternet\Saclient\Cloud\Model;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Model/Model.php";
-use \Saclient\Cloud\Model\Model;
+use \SakuraInternet\Saclient\Cloud\Model\Model;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/ServerPlan.php";
-use \Saclient\Cloud\Resource\ServerPlan;
+use \SakuraInternet\Saclient\Cloud\Resource\ServerPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \Saclient\Cloud\Util;
+use \SakuraInternet\Saclient\Cloud\Util;
 
 class Model_ServerPlan extends Model {
 	
@@ -17,7 +17,8 @@ class Model_ServerPlan extends Model {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _apiPath() {
+	protected function _apiPath()
+	{
 		return "/product/server";
 	}
 	
@@ -27,7 +28,8 @@ class Model_ServerPlan extends Model {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKey() {
+	protected function _rootKey()
+	{
 		return "ServerPlan";
 	}
 	
@@ -37,7 +39,8 @@ class Model_ServerPlan extends Model {
 	 * @ignore
 	 * @return string
 	 */
-	protected function _rootKeyM() {
+	protected function _rootKeyM()
+	{
 		return "ServerPlans";
 	}
 	
@@ -46,9 +49,10 @@ class Model_ServerPlan extends Model {
 	 * 
 	 * @access public
 	 * @param int $offset オフセット
-	 * @return \Saclient\Cloud\Model\Model_ServerPlan this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_ServerPlan this
 	 */
-	public function offset($offset) {
+	public function offset($offset)
+	{
 		return $this->_offset($offset);
 	}
 	
@@ -57,9 +61,10 @@ class Model_ServerPlan extends Model {
 	 * 
 	 * @access public
 	 * @param int $count 上限レコード数
-	 * @return \Saclient\Cloud\Model\Model_ServerPlan this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_ServerPlan this
 	 */
-	public function limit($count) {
+	public function limit($count)
+	{
 		return $this->_limit($count);
 	}
 	
@@ -67,9 +72,10 @@ class Model_ServerPlan extends Model {
 	 * 次のリクエストのために設定されているステートをすべて破棄します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Model\Model_ServerPlan this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_ServerPlan this
 	 */
-	public function reset() {
+	public function reset()
+	{
 		return $this->_reset();
 	}
 	
@@ -78,9 +84,10 @@ class Model_ServerPlan extends Model {
 	 * 
 	 * @access public
 	 * @param string $id
-	 * @return \Saclient\Cloud\Resource\ServerPlan リソースオブジェクト
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\ServerPlan リソースオブジェクト
 	 */
-	public function get($id) {
+	public function get($id)
+	{
 		return $this->_get($id);
 	}
 	
@@ -88,9 +95,10 @@ class Model_ServerPlan extends Model {
 	 * リソースの検索リクエストを実行し、結果をリストで取得します。
 	 * 
 	 * @access public
-	 * @return \Saclient\Cloud\Resource\ServerPlan[] リソースオブジェクトの配列
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\ServerPlan[] リソースオブジェクトの配列
 	 */
-	public function find() {
+	public function find()
+	{
 		return Util::castArray($this->_find(), null);
 	}
 	
@@ -100,9 +108,10 @@ class Model_ServerPlan extends Model {
 	 * @access public
 	 * @param int $cores
 	 * @param int $memoryGib
-	 * @return \Saclient\Cloud\Resource\ServerPlan
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\ServerPlan
 	 */
-	public function getBySpec($cores, $memoryGib) {
+	public function getBySpec($cores, $memoryGib)
+	{
 		$this->_filterBy("CPU", $cores, true);
 		$this->_filterBy("MemoryMB", $memoryGib * 1024, true);
 		return $this->_findOne();
