@@ -5,4 +5,4 @@ config.sh
 composer.lock
 composer.phar
 vendor
-
+testok

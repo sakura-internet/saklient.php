@@ -24,7 +24,7 @@ r=$(tput setaf 1)
 b=$(tput sgr0)
 echo "${r}********** WARNING!!! **********${b}"
 echo "${r}Some resources may be created owned by your SAKURA Cloud account.${b}"
-echo "${r}This means that running an example with your API key makes your expense.${b}"
+echo "${r}This means that running an example with your API key makes your expenses.${b}"
 read -p "Type 'ok': " ok
 [ "$ok" = "ok" ] || exit 1
 echo
