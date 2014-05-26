@@ -71,7 +71,7 @@ vi YOUR-CODE.php
 <?php
 
 require_once 'vendor/autoload.php';
-$api = \Saclient\Cloud\API::authorize(YOUR_API_TOKEN, YOUR_API_SECRET);
+$api = \SakuraInternet\Saclient\Cloud\API::authorize(YOUR_API_TOKEN, YOUR_API_SECRET);
 
 // To access resources in the specified zone
 $api_is1b = $api->inZone("is1b");

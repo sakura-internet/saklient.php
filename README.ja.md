@@ -71,7 +71,7 @@ vi YOUR-CODE.php
 <?php
 
 require_once 'vendor/autoload.php';
-$api = \Saclient\Cloud\API::authorize(YOUR_API_TOKEN, YOUR_API_SECRET);
+$api = \SakuraInternet\Saclient\Cloud\API::authorize(YOUR_API_TOKEN, YOUR_API_SECRET);
 
 // 指定したゾーンのAPIにアクセスするには
 $api_is1b = $api->inZone("is1b");
@@ -83,10 +83,10 @@ $api_is1b = $api->inZone("is1b");
 # ArrayObjectに関する注意
 
 $api->server->find() のようないくつかのメソッドは配列を返します。
-この配列はPHP標準の [array](http://www.php.net/manual/en/book.array.php) の代わりに
-[ArrayObject](http://www.php.net/manual/en/class.arrayobject.php) から成っています。
-従って、[array_shift()](http://www.php.net/manual/en/function.array-shift.php)
-のようなPHP標準の配列APIの引数に、この（このライブラリのあらゆるメソッドから返される）配列を渡す場合、
+この配列はPHP標準の [array](http://www.php.net/manual/ja/book.array.php) の代わりに
+[ArrayObject](http://www.php.net/manual/ja/class.arrayobject.php) から成っています。
+従って、[array_shift()](http://www.php.net/manual/ja/function.array-shift.php)
+のようなPHP標準の配列APIの引数に、（このライブラリのあらゆるメソッドから返される）この配列を渡す場合、
 事前にArrayObjectから標準のarrayにキャストしなければなりません。
 
 ```php
