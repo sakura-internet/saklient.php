@@ -6,6 +6,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
+ * アイコンのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * 
  * @property-read string $id
  * @property-read string $name
  * @property-read string $url
@@ -140,10 +142,6 @@ class Icon extends Resource {
 		return $this->m_id;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -165,10 +163,6 @@ class Icon extends Resource {
 		return $this->m_name;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -190,10 +184,6 @@ class Icon extends Resource {
 		return $this->m_url;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**

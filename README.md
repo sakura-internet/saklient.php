@@ -80,7 +80,7 @@ $api_is1b = $api->inZone("is1b");
 ```
 
 
-# Notice about ArrayObject
+# A notice about ArrayObject
 
 Some methods such as $api->server->find() return an array.
 This array is made of [ArrayObject](http://www.php.net/manual/en/class.arrayobject.php)

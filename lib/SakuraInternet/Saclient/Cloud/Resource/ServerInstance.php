@@ -6,6 +6,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
+ * サーバインスタンスのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * 
  * @property-read string $status
  * @property-read string $beforeStatus
  * @property-read NativeDate $statusChangedAt
@@ -64,10 +66,6 @@ class ServerInstance extends Resource {
 		return $this->m_status;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -89,10 +87,6 @@ class ServerInstance extends Resource {
 		return $this->m_beforeStatus;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -114,10 +108,6 @@ class ServerInstance extends Resource {
 		return $this->m_statusChangedAt;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**

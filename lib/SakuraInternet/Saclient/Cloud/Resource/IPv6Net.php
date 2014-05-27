@@ -6,6 +6,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
+ * IPv6ネットワークのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * 
  * @property-read string $id
  * @property-read string $ipv6Prefix
  * @property-read int $ipv6PrefixLen
@@ -82,10 +84,6 @@ class IPv6Net extends Resource {
 		return $this->m_id;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -107,10 +105,6 @@ class IPv6Net extends Resource {
 		return $this->m_ipv6Prefix;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -132,10 +126,6 @@ class IPv6Net extends Resource {
 		return $this->m_ipv6PrefixLen;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -157,10 +147,6 @@ class IPv6Net extends Resource {
 		return $this->m_ipv6PrefixTail;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**

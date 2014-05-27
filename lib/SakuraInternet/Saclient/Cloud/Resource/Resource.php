@@ -8,6 +8,7 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
+ * @ignore
  * @property-read \SakuraInternet\Saclient\Cloud\Client $client
  */
 class Resource {
@@ -30,10 +31,6 @@ class Resource {
 		return $this->_client;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**

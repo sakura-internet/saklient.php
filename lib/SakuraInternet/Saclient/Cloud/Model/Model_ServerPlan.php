@@ -9,6 +9,9 @@ use \SakuraInternet\Saclient\Cloud\Resource\ServerPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
+/**
+ * サーバのプランを検索するための機能を備えたクラス。
+ */
 class Model_ServerPlan extends Model {
 	
 	/**

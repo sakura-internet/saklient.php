@@ -6,6 +6,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
+ * ルータのプラン情報へのアクセス機能を備えたクラス。
+ * 
  * @property-read string $id
  * @property-read string $name
  * @property-read int $bandWidthMbps
@@ -82,10 +84,6 @@ class InternetPlan extends Resource {
 		return $this->m_id;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -107,10 +105,6 @@ class InternetPlan extends Resource {
 		return $this->m_name;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -132,10 +126,6 @@ class InternetPlan extends Resource {
 		return $this->m_bandWidthMbps;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -157,10 +147,6 @@ class InternetPlan extends Resource {
 		return $this->m_serviceClass;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**

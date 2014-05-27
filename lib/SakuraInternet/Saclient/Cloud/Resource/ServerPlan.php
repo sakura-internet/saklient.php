@@ -6,6 +6,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
+ * サーバのプラン情報へのアクセス機能を備えたクラス。
+ * 
  * @property-read int $memoryGib
  * @property-read string $id
  * @property-read string $name
@@ -82,10 +84,6 @@ class ServerPlan extends Resource {
 		return $this->get_memoryMib() >> 10;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -107,10 +105,6 @@ class ServerPlan extends Resource {
 		return $this->m_id;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -132,10 +126,6 @@ class ServerPlan extends Resource {
 		return $this->m_name;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -157,10 +147,6 @@ class ServerPlan extends Resource {
 		return $this->m_cpu;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -182,10 +168,6 @@ class ServerPlan extends Resource {
 		return $this->m_memoryMib;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -207,10 +189,6 @@ class ServerPlan extends Resource {
 		return $this->m_serviceClass;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**

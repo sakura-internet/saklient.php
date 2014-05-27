@@ -10,6 +10,7 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
+ * @ignore
  * @property-read \SakuraInternet\Saclient\Cloud\Client $client
  * @property-read TQueryParams $params
  * @property-read int $total
@@ -35,10 +36,6 @@ class Model {
 		return $this->_client;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -59,10 +56,6 @@ class Model {
 		return $this->_params;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -83,10 +76,6 @@ class Model {
 		return $this->_total;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -107,10 +96,6 @@ class Model {
 		return $this->_count;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**

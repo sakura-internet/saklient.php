@@ -6,6 +6,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
+ * インタフェースのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * 
  * @property-read string $id
  * @property-read string $macAddress
  * @property-read string $ipAddress
@@ -148,10 +150,6 @@ class Iface extends Resource {
 		return $this->m_id;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -173,10 +171,6 @@ class Iface extends Resource {
 		return $this->m_macAddress;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -198,10 +192,6 @@ class Iface extends Resource {
 		return $this->m_ipAddress;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -238,9 +228,6 @@ class Iface extends Resource {
 		return $this->m_userIpAddress;
 	}
 	
-	/**
-	 * @access public
-	 */
 	
 	
 	/**

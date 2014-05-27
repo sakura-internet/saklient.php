@@ -9,6 +9,9 @@ use \SakuraInternet\Saclient\Cloud\Resource\Icon;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
+/**
+ * アイコンを検索するための機能を備えたクラス。
+ */
 class Model_Icon extends Model {
 	
 	/**
@@ -112,6 +115,19 @@ class Model_Icon extends Model {
 	public function withNameLike($name)
 	{
 		$this->_filterBy("Name", $name);
+		return $this;
+	}
+	
+	/**
+	 * 指定したタグを持つアイコンに絞り込みます。
+	 * 
+	 * @access public
+	 * @param string $tag
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Icon
+	 */
+	public function withTag($tag)
+	{
+		$this->_filterBy("Tags.Name", $tag, true);
 		return $this;
 	}
 	

@@ -12,6 +12,10 @@ require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Server.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model_Server;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Disk.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model_Disk;
+require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Appliance.php";
+use \SakuraInternet\Saclient\Cloud\Model\Model_Appliance;
+require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Archive.php";
+use \SakuraInternet\Saclient\Cloud\Model\Model_Archive;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_IPv6Net.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model_IPv6Net;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Util.php";
@@ -26,6 +30,8 @@ use \SakuraInternet\Saclient\Cloud\Util;
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Icon $icon
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Server $server
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Disk $disk
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Appliance $appliance
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Archive $archive
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_IPv6Net $ipv6net
  */
 class API {
@@ -48,10 +54,6 @@ class API {
 		return $this->_client;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -72,10 +74,6 @@ class API {
 		return $this->_product;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -96,10 +94,6 @@ class API {
 		return $this->_icon;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -120,10 +114,6 @@ class API {
 		return $this->_server;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -144,10 +134,46 @@ class API {
 		return $this->_disk;
 	}
 	
+	
+	
 	/**
-	 * @access public
-	 * @readOnly
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var Model_Appliance
 	 */
+	protected $_appliance;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Appliance
+	 */
+	protected function get_appliance()
+	{
+		return $this->_appliance;
+	}
+	
+	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var Model_Archive
+	 */
+	protected $_archive;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Archive
+	 */
+	protected function get_archive()
+	{
+		return $this->_archive;
+	}
+	
 	
 	
 	/**
@@ -168,10 +194,6 @@ class API {
 		return $this->_ipv6net;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -186,6 +208,8 @@ class API {
 		$this->_icon = new Model_Icon($client);
 		$this->_server = new Model_Server($client);
 		$this->_disk = new Model_Disk($client);
+		$this->_appliance = new Model_Appliance($client);
+		$this->_archive = new Model_Archive($client);
 		$this->_ipv6net = new Model_IPv6Net($client);
 	}
 	
@@ -229,6 +253,8 @@ class API {
 			case "icon": return $this->get_icon();
 			case "server": return $this->get_server();
 			case "disk": return $this->get_disk();
+			case "appliance": return $this->get_appliance();
+			case "archive": return $this->get_archive();
 			case "ipv6net": return $this->get_ipv6net();
 			default: return null;
 		}

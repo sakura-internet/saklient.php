@@ -38,10 +38,6 @@ class Product {
 		return $this->_server;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -62,10 +58,6 @@ class Product {
 		return $this->_disk;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -86,10 +78,6 @@ class Product {
 		return $this->_internet;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**

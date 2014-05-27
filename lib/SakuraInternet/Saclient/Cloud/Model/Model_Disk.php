@@ -9,6 +9,9 @@ use \SakuraInternet\Saclient\Cloud\Resource\Disk;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
+/**
+ * ディスクを検索するための機能を備えたクラス。
+ */
 class Model_Disk extends Model {
 	
 	/**
@@ -100,6 +103,32 @@ class Model_Disk extends Model {
 	public function find()
 	{
 		return Util::castArray($this->_find(), null);
+	}
+	
+	/**
+	 * 指定した文字列を名前に含むディスクに絞り込みます。
+	 * 
+	 * @access public
+	 * @param string $name
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Disk
+	 */
+	public function withNameLike($name)
+	{
+		$this->_filterBy("Name", $name);
+		return $this;
+	}
+	
+	/**
+	 * 指定したタグを持つディスクに絞り込みます。
+	 * 
+	 * @access public
+	 * @param string $tag
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Disk
+	 */
+	public function withTag($tag)
+	{
+		$this->_filterBy("Tags.Name", $tag, true);
+		return $this;
 	}
 	
 	/**

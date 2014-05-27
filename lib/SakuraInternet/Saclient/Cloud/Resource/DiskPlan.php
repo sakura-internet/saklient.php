@@ -6,6 +6,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
+ * ディスクのプラン情報へのアクセス機能を備えたクラス。
+ * 
  * @property-read string $id
  * @property-read string $name
  * @property-read string $storageClass
@@ -74,10 +76,6 @@ class DiskPlan extends Resource {
 		return $this->m_id;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -99,10 +97,6 @@ class DiskPlan extends Resource {
 		return $this->m_name;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -124,10 +118,6 @@ class DiskPlan extends Resource {
 		return $this->m_storageClass;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**

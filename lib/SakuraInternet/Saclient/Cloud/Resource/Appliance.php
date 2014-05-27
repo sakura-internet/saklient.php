@@ -6,26 +6,22 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Icon.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Icon;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Iface.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Iface;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/ServerPlan.php";
-use \SakuraInternet\Saclient\Cloud\Resource\ServerPlan;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/ServerInstance.php";
-use \SakuraInternet\Saclient\Cloud\Resource\ServerInstance;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
- * サーバのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * アプライアンスのリソース情報へのアクセス機能や操作機能を備えたクラス。
  * 
  * @property-read string $id
+ * @property string $clazz
  * @property string $name
  * @property string $description
  * @property string[] $tags
  * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\ServerPlan $plan
  * @property-read \SakuraInternet\Saclient\Cloud\Resource\Iface[] $ifaces
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\ServerInstance $instance
+ * @property-read string $serviceClass
  */
-class Server extends Resource {
+class Appliance extends Resource {
 	
 	/**
 	 * ID
@@ -35,6 +31,15 @@ class Server extends Resource {
 	 * @var string
 	 */
 	protected $m_id;
+	
+	/**
+	 * クラス
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_clazz;
 	
 	/**
 	 * 名前
@@ -77,27 +82,18 @@ class Server extends Resource {
 	 * 
 	 * @access protected
 	 * @ignore
-	 * @var ServerPlan
-	 */
-	protected $m_plan;
-	
-	/**
-	 * インタフェース
-	 * 
-	 * @access protected
-	 * @ignore
 	 * @var Iface[]
 	 */
 	protected $m_ifaces;
 	
 	/**
-	 * インスタンス情報
+	 * サービスクラス
 	 * 
 	 * @access protected
 	 * @ignore
-	 * @var ServerInstance
+	 * @var string
 	 */
-	protected $m_instance;
+	protected $m_serviceClass;
 	
 	/**
 	 * @private
@@ -107,7 +103,7 @@ class Server extends Resource {
 	 */
 	protected function _apiPath()
 	{
-		return "/server";
+		return "/appliance";
 	}
 	
 	/**
@@ -118,7 +114,7 @@ class Server extends Resource {
 	 */
 	protected function _rootKey()
 	{
-		return "Server";
+		return "Appliance";
 	}
 	
 	/**
@@ -129,7 +125,7 @@ class Server extends Resource {
 	 */
 	protected function _rootKeyM()
 	{
-		return "Servers";
+		return "Appliances";
 	}
 	
 	/**
@@ -146,7 +142,7 @@ class Server extends Resource {
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance this
 	 */
 	public function create()
 	{
@@ -157,7 +153,7 @@ class Server extends Resource {
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance this
 	 */
 	public function save()
 	{
@@ -168,7 +164,7 @@ class Server extends Resource {
 	 * 最新のリソース情報を再取得します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance this
 	 */
 	public function reload()
 	{
@@ -188,10 +184,10 @@ class Server extends Resource {
 	}
 	
 	/**
-	 * サーバを起動します。
+	 * アプライアンスを起動します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance
 	 */
 	public function boot()
 	{
@@ -200,10 +196,10 @@ class Server extends Resource {
 	}
 	
 	/**
-	 * サーバをシャットダウンします。
+	 * アプライアンスをシャットダウンします。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance
 	 */
 	public function shutdown()
 	{
@@ -212,10 +208,10 @@ class Server extends Resource {
 	}
 	
 	/**
-	 * サーバを強制停止します。
+	 * アプライアンスを強制停止します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance
 	 */
 	public function stop()
 	{
@@ -224,42 +220,15 @@ class Server extends Resource {
 	}
 	
 	/**
-	 * サーバを強制再起動します。
+	 * アプライアンスを強制再起動します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance
 	 */
 	public function reboot()
 	{
 		$this->_client->request("PUT", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/reset");
 		return $this;
-	}
-	
-	/**
-	 * サーバのプランを変更します。
-	 * 
-	 * @access public
-	 * @param \SakuraInternet\Saclient\Cloud\Resource\ServerPlan $planTo
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
-	 */
-	public function changePlan($planTo)
-	{
-		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/to/plan/" . Util::urlEncode($planTo->_id());
-		$result = $this->_client->request("PUT", $path);
-		$this->apiDeserialize($result->{$this->_rootKey()});
-		return $this;
-	}
-	
-	/**
-	 * サーバに接続されているディスクのリストを取得します。
-	 * 
-	 * @access public
-	 * @return Disk[]
-	 */
-	public function findDisks()
-	{
-		$model = Util::createClassInstance("saclient.cloud.model.Model_Disk", new \ArrayObject([$this->_client]));
-		return $model->withServerId($this->_id())->find();
 	}
 	
 	/**
@@ -283,6 +252,45 @@ class Server extends Resource {
 	
 	/**
 	 * ID
+	 */
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_clazz = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_clazz()
+	{
+		return $this->m_clazz;
+	}
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param string $v
+	 * @return string
+	 */
+	private function set_clazz($v)
+	{
+		$this->m_clazz = $v;
+		$this->n_clazz = true;
+		return $this->m_clazz;
+	}
+	
+	/**
+	 * クラス
 	 */
 	
 	
@@ -447,30 +455,6 @@ class Server extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
-	private $n_plan = false;
-	
-	/**
-	 * (This method is generated in Translator_default#buildImpl)
-	 * 
-	 * @access private
-	 * @ignore
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\ServerPlan
-	 */
-	private function get_plan()
-	{
-		return $this->m_plan;
-	}
-	
-	/**
-	 * プラン
-	 */
-	
-	
-	/**
-	 * @access private
-	 * @ignore
-	 * @var boolean
-	 */
 	private $n_ifaces = false;
 	
 	/**
@@ -486,7 +470,7 @@ class Server extends Resource {
 	}
 	
 	/**
-	 * インタフェース
+	 * プラン
 	 */
 	
 	
@@ -495,22 +479,22 @@ class Server extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
-	private $n_instance = false;
+	private $n_serviceClass = false;
 	
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
 	 * 
 	 * @access private
 	 * @ignore
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\ServerInstance
+	 * @return string
 	 */
-	private function get_instance()
+	private function get_serviceClass()
 	{
-		return $this->m_instance;
+		return $this->m_serviceClass;
 	}
 	
 	/**
-	 * インスタンス情報
+	 * サービスクラス
 	 */
 	
 	
@@ -524,6 +508,8 @@ class Server extends Resource {
 	{
 		$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
 		$this->n_id = false;
+		$this->m_clazz = $r->{"Class"} == null ? null : "" . $r->{"Class"};
+		$this->n_clazz = false;
 		$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
 		$this->n_name = false;
 		$this->m_description = $r->{"Description"} == null ? null : "" . $r->{"Description"};
@@ -546,8 +532,6 @@ class Server extends Resource {
 		$this->n_tags = false;
 		$this->m_icon = $r->{"Icon"} == null ? null : new Icon($this->_client, $r->{"Icon"});
 		$this->n_icon = false;
-		$this->m_plan = $r->{"ServerPlan"} == null ? null : new ServerPlan($this->_client, $r->{"ServerPlan"});
-		$this->n_plan = false;
 		if ($r->{"Interfaces"} == null) {
 			{
 				$this->m_ifaces = new \ArrayObject([]);
@@ -564,8 +548,8 @@ class Server extends Resource {
 			};
 		};
 		$this->n_ifaces = false;
-		$this->m_instance = $r->{"Instance"} == null ? null : new ServerInstance($this->_client, $r->{"Instance"});
-		$this->n_instance = false;
+		$this->m_serviceClass = $r->{"ServiceClass"} == null ? null : "" . $r->{"ServiceClass"};
+		$this->n_serviceClass = false;
 	}
 	
 	/**
@@ -581,6 +565,11 @@ class Server extends Resource {
 		if ($withClean || $this->n_id) {
 			{
 				$ret->{"ID"} = $this->m_id;
+			};
+		};
+		if ($withClean || $this->n_clazz) {
+			{
+				$ret->{"Class"} = $this->m_clazz;
 			};
 		};
 		if ($withClean || $this->n_name) {
@@ -608,11 +597,6 @@ class Server extends Resource {
 				$ret->{"Icon"} = $this->m_icon == null ? null : $withClean ? $this->m_icon->apiSerialize($withClean) : $this->m_icon->apiSerializeID();
 			};
 		};
-		if ($withClean || $this->n_plan) {
-			{
-				$ret->{"ServerPlan"} = $this->m_plan == null ? null : $withClean ? $this->m_plan->apiSerialize($withClean) : $this->m_plan->apiSerializeID();
-			};
-		};
 		if ($withClean || $this->n_ifaces) {
 			{
 				$ret->{"Interfaces"} = new \ArrayObject([]);
@@ -623,9 +607,9 @@ class Server extends Resource {
 				};
 			};
 		};
-		if ($withClean || $this->n_instance) {
+		if ($withClean || $this->n_serviceClass) {
 			{
-				$ret->{"Instance"} = $this->m_instance == null ? null : $withClean ? $this->m_instance->apiSerialize($withClean) : $this->m_instance->apiSerializeID();
+				$ret->{"ServiceClass"} = $this->m_serviceClass;
 			};
 		};
 		return $ret;
@@ -637,13 +621,13 @@ class Server extends Resource {
 	public function __get($key) {
 		switch ($key) {
 			case "id": return $this->get_id();
+			case "clazz": return $this->get_clazz();
 			case "name": return $this->get_name();
 			case "description": return $this->get_description();
 			case "tags": return $this->get_tags();
 			case "icon": return $this->get_icon();
-			case "plan": return $this->get_plan();
 			case "ifaces": return $this->get_ifaces();
-			case "instance": return $this->get_instance();
+			case "serviceClass": return $this->get_serviceClass();
 			default: return null;
 		}
 	}
@@ -653,6 +637,7 @@ class Server extends Resource {
 	 */
 	public function __set($key, $v) {
 		switch ($key) {
+			case "clazz": return $this->set_clazz($v);
 			case "name": return $this->set_name($v);
 			case "description": return $this->set_description($v);
 			case "tags": return $this->set_tags($v);

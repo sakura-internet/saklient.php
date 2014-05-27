@@ -4,15 +4,15 @@ namespace SakuraInternet\Saclient\Cloud\Model;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Model/Model.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/DiskPlan.php";
-use \SakuraInternet\Saclient\Cloud\Resource\DiskPlan;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Archive.php";
+use \SakuraInternet\Saclient\Cloud\Resource\Archive;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
- * ディスクのプランを検索するための機能を備えたクラス。
+ * アーカイブを検索するための機能を備えたクラス。
  */
-class Model_DiskPlan extends Model {
+class Model_Archive extends Model {
 	
 	/**
 	 * @private
@@ -22,7 +22,7 @@ class Model_DiskPlan extends Model {
 	 */
 	protected function _apiPath()
 	{
-		return "/product/disk";
+		return "/archive";
 	}
 	
 	/**
@@ -33,7 +33,7 @@ class Model_DiskPlan extends Model {
 	 */
 	protected function _rootKey()
 	{
-		return "DiskPlan";
+		return "Archive";
 	}
 	
 	/**
@@ -44,7 +44,7 @@ class Model_DiskPlan extends Model {
 	 */
 	protected function _rootKeyM()
 	{
-		return "DiskPlans";
+		return "Archives";
 	}
 	
 	/**
@@ -52,7 +52,7 @@ class Model_DiskPlan extends Model {
 	 * 
 	 * @access public
 	 * @param int $offset オフセット
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_DiskPlan this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Archive this
 	 */
 	public function offset($offset)
 	{
@@ -64,7 +64,7 @@ class Model_DiskPlan extends Model {
 	 * 
 	 * @access public
 	 * @param int $count 上限レコード数
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_DiskPlan this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Archive this
 	 */
 	public function limit($count)
 	{
@@ -75,7 +75,7 @@ class Model_DiskPlan extends Model {
 	 * 次のリクエストのために設定されているステートをすべて破棄します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_DiskPlan this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Archive this
 	 */
 	public function reset()
 	{
@@ -87,7 +87,7 @@ class Model_DiskPlan extends Model {
 	 * 
 	 * @access public
 	 * @param string $id
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\DiskPlan リソースオブジェクト
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Archive リソースオブジェクト
 	 */
 	public function get($id)
 	{
@@ -98,11 +98,37 @@ class Model_DiskPlan extends Model {
 	 * リソースの検索リクエストを実行し、結果をリストで取得します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\DiskPlan[] リソースオブジェクトの配列
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Archive[] リソースオブジェクトの配列
 	 */
 	public function find()
 	{
 		return Util::castArray($this->_find(), null);
+	}
+	
+	/**
+	 * 指定した文字列を名前に含むアーカイブに絞り込みます。
+	 * 
+	 * @access public
+	 * @param string $name
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Archive
+	 */
+	public function withNameLike($name)
+	{
+		$this->_filterBy("Name", $name);
+		return $this;
+	}
+	
+	/**
+	 * 指定したタグを持つアーカイブに絞り込みます。
+	 * 
+	 * @access public
+	 * @param string $tag
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Archive
+	 */
+	public function withTag($tag)
+	{
+		$this->_filterBy("Tags.Name", $tag, true);
+		return $this;
 	}
 	
 	

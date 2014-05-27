@@ -9,6 +9,9 @@ use \SakuraInternet\Saclient\Cloud\Resource\IPv6Net;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
+/**
+ * IPv6ネットワークを検索するための機能を備えたクラス。
+ */
 class Model_IPv6Net extends Model {
 	
 	/**

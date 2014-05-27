@@ -12,10 +12,14 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
+ * ディスクのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * 
  * @property-read int $sizeGib
  * @property-read string $id
  * @property string $name
  * @property string $description
+ * @property string[] $tags
+ * @property Icon $icon
  * @property-read int $sizeMib
  * @property-read string $serviceClass
  * @property-read \SakuraInternet\Saclient\Cloud\Resource\DiskPlan $plan
@@ -24,6 +28,8 @@ use \SakuraInternet\Saclient\Cloud\Util;
 class Disk extends Resource {
 	
 	/**
+	 * ID
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -31,6 +37,8 @@ class Disk extends Resource {
 	protected $m_id;
 	
 	/**
+	 * 名前
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -38,6 +46,8 @@ class Disk extends Resource {
 	protected $m_name;
 	
 	/**
+	 * 説明
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -45,6 +55,26 @@ class Disk extends Resource {
 	protected $m_description;
 	
 	/**
+	 * タグ
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var string[]
+	 */
+	protected $m_tags;
+	
+	/**
+	 * アイコン
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var Icon
+	 */
+	protected $m_icon;
+	
+	/**
+	 * サイズ[MiB]
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var int
@@ -52,6 +82,8 @@ class Disk extends Resource {
 	protected $m_sizeMib;
 	
 	/**
+	 * サービスクラス
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -59,6 +91,8 @@ class Disk extends Resource {
 	protected $m_serviceClass;
 	
 	/**
+	 * プラン
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var DiskPlan
@@ -66,6 +100,8 @@ class Disk extends Resource {
 	protected $m_plan;
 	
 	/**
+	 * 接続先のサーバ
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var Server
@@ -170,10 +206,6 @@ class Disk extends Resource {
 		return $this->get_sizeMib() >> 10;
 	}
 	
-	/**
-	 * @access public
-	 * @readOnly
-	 */
 	
 	
 	/**
@@ -221,8 +253,7 @@ class Disk extends Resource {
 	}
 	
 	/**
-	 * @access public
-	 * @readOnly
+	 * ID
 	 */
 	
 	
@@ -261,7 +292,7 @@ class Disk extends Resource {
 	}
 	
 	/**
-	 * @access public
+	 * 名前
 	 */
 	
 	
@@ -300,7 +331,85 @@ class Disk extends Resource {
 	}
 	
 	/**
-	 * @access public
+	 * 説明
+	 */
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_tags = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string[]
+	 */
+	private function get_tags()
+	{
+		return $this->m_tags;
+	}
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param string[] $v
+	 * @return string[]
+	 */
+	private function set_tags($v)
+	{
+		$this->m_tags = $v;
+		$this->n_tags = true;
+		return $this->m_tags;
+	}
+	
+	/**
+	 * タグ
+	 */
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_icon = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return Icon
+	 */
+	private function get_icon()
+	{
+		return $this->m_icon;
+	}
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param Icon $v
+	 * @return Icon
+	 */
+	private function set_icon($v)
+	{
+		$this->m_icon = $v;
+		$this->n_icon = true;
+		return $this->m_icon;
+	}
+	
+	/**
+	 * アイコン
 	 */
 	
 	
@@ -324,8 +433,7 @@ class Disk extends Resource {
 	}
 	
 	/**
-	 * @access public
-	 * @readOnly
+	 * サイズ[MiB]
 	 */
 	
 	
@@ -349,8 +457,7 @@ class Disk extends Resource {
 	}
 	
 	/**
-	 * @access public
-	 * @readOnly
+	 * サービスクラス
 	 */
 	
 	
@@ -374,8 +481,7 @@ class Disk extends Resource {
 	}
 	
 	/**
-	 * @access public
-	 * @readOnly
+	 * プラン
 	 */
 	
 	
@@ -399,8 +505,7 @@ class Disk extends Resource {
 	}
 	
 	/**
-	 * @access public
-	 * @readOnly
+	 * 接続先のサーバ
 	 */
 	
 	
@@ -418,6 +523,24 @@ class Disk extends Resource {
 		$this->n_name = false;
 		$this->m_description = $r->{"Description"} == null ? null : "" . $r->{"Description"};
 		$this->n_description = false;
+		if ($r->{"Tags"} == null) {
+			{
+				$this->m_tags = new \ArrayObject([]);
+			};
+		}
+		else {
+			{
+				$this->m_tags = new \ArrayObject([]);
+				foreach ($r->{"Tags"} as $t) {
+					$v = null;
+					$v = $t == null ? null : "" . $t;
+					$this->m_tags->append($v);
+				};
+			};
+		};
+		$this->n_tags = false;
+		$this->m_icon = $r->{"Icon"} == null ? null : new Icon($this->_client, $r->{"Icon"});
+		$this->n_icon = false;
 		$this->m_sizeMib = $r->{"SizeMB"} == null ? null : intval("" . $r->{"SizeMB"});
 		$this->n_sizeMib = false;
 		$this->m_serviceClass = $r->{"ServiceClass"} == null ? null : "" . $r->{"ServiceClass"};
@@ -453,6 +576,21 @@ class Disk extends Resource {
 				$ret->{"Description"} = $this->m_description;
 			};
 		};
+		if ($withClean || $this->n_tags) {
+			{
+				$ret->{"Tags"} = new \ArrayObject([]);
+				foreach ($this->m_tags as $r) {
+					$v = null;
+					$v = $r;
+					$ret->{"Tags"}->append($v);
+				};
+			};
+		};
+		if ($withClean || $this->n_icon) {
+			{
+				$ret->{"Icon"} = $this->m_icon == null ? null : $withClean ? $this->m_icon->apiSerialize($withClean) : $this->m_icon->apiSerializeID();
+			};
+		};
 		if ($withClean || $this->n_sizeMib) {
 			{
 				$ret->{"SizeMB"} = $this->m_sizeMib;
@@ -485,6 +623,8 @@ class Disk extends Resource {
 			case "id": return $this->get_id();
 			case "name": return $this->get_name();
 			case "description": return $this->get_description();
+			case "tags": return $this->get_tags();
+			case "icon": return $this->get_icon();
 			case "sizeMib": return $this->get_sizeMib();
 			case "serviceClass": return $this->get_serviceClass();
 			case "plan": return $this->get_plan();
@@ -500,6 +640,8 @@ class Disk extends Resource {
 		switch ($key) {
 			case "name": return $this->set_name($v);
 			case "description": return $this->set_description($v);
+			case "tags": return $this->set_tags($v);
+			case "icon": return $this->set_icon($v);
 			default: return $v;
 		}
 	}

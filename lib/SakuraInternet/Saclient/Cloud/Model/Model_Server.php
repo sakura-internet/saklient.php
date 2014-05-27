@@ -11,6 +11,9 @@ use \SakuraInternet\Saclient\Cloud\Resource\ServerPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
+/**
+ * サーバを検索するための機能を備えたクラス。
+ */
 class Model_Server extends Model {
 	
 	/**
@@ -118,19 +121,6 @@ class Model_Server extends Model {
 	}
 	
 	/**
-	 * インスタンスが指定した状態にあるサーバに絞り込みます。
-	 * 
-	 * @access public
-	 * @param string $status
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
-	 */
-	public function withInstanceStatus($status)
-	{
-		$this->_filterBy("Instance.Status", $status, true);
-		return $this;
-	}
-	
-	/**
 	 * 指定したタグを持つサーバに絞り込みます。
 	 * 
 	 * @access public
@@ -153,6 +143,19 @@ class Model_Server extends Model {
 	public function withPlan($plan)
 	{
 		$this->_filterBy("ServerPlan.ID", $plan->_id(), true);
+		return $this;
+	}
+	
+	/**
+	 * インスタンスが指定した状態にあるサーバに絞り込みます。
+	 * 
+	 * @access public
+	 * @param string $status
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
+	 */
+	public function withInstanceStatus($status)
+	{
+		$this->_filterBy("Instance.Status", $status, true);
 		return $this;
 	}
 	
