@@ -229,7 +229,7 @@ class Model {
 		foreach ($records as $record) {
 			$i = Util::createClassInstance("saclient.cloud.resource." . $this->_rootKey(), new \ArrayObject([$this->_client, $record]));
 			$data->append($i);
-		};
+		}
 		return $data;
 	}
 	
@@ -250,7 +250,7 @@ class Model {
 		$this->_count = $result->{"Count"};
 		if ($this->_total == 0) {
 			return null;
-		};
+		}
 		$records = $result->{$this->_rootKeyM()};
 		return Util::createClassInstance("saclient.cloud.resource." . $this->_rootKey(), new \ArrayObject([$this->_client, $records[0]]));
 	}
@@ -267,27 +267,19 @@ class Model {
 	protected function _filterBy($key, $value, $multiple=false)
 	{
 		if (!array_key_exists("Filter", $this->_params)) {
-			{
-				$this->_params->{"Filter"} = (object)[];
-			};
-		};
+			$this->_params->{"Filter"} = (object)[];
+		}
 		$filter = $this->_params->{"Filter"};
 		if ($multiple) {
-			{
-				if (!array_key_exists($key, $filter)) {
-					{
-						$filter->{$key} = new \ArrayObject([]);
-					};
-				};
-				$values = $filter->{$key};
-				$values->append($value);
-			};
+			if (!array_key_exists($key, $filter)) {
+				$filter->{$key} = new \ArrayObject([]);
+			}
+			$values = $filter->{$key};
+			$values->append($value);
 		}
 		else {
-			{
-				$filter->{$key} = $value;
-			};
-		};
+			$filter->{$key} = $value;
+		}
 	}
 	
 	/**

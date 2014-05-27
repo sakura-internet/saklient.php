@@ -194,12 +194,28 @@ class Icon extends Resource {
 	 */
 	public function apiDeserialize($r)
 	{
-		$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
-		$this->n_id = false;
-		$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
-		$this->n_name = false;
-		$this->m_url = $r->{"URL"} == null ? null : "" . $r->{"URL"};
-		$this->n_url = false;
+		$this->isIncomplete = true;
+		if (array_key_exists("ID", $r)) {
+			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
+			$this->n_id = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("Name", $r)) {
+			$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
+			$this->n_name = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("URL", $r)) {
+			$this->m_url = $r->{"URL"} == null ? null : "" . $r->{"URL"};
+			$this->n_url = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
 	}
 	
 	/**
@@ -213,20 +229,14 @@ class Icon extends Resource {
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
-			{
-				$ret->{"ID"} = $this->m_id;
-			};
-		};
+			$ret->{"ID"} = $this->m_id;
+		}
 		if ($withClean || $this->n_name) {
-			{
-				$ret->{"Name"} = $this->m_name;
-			};
-		};
+			$ret->{"Name"} = $this->m_name;
+		}
 		if ($withClean || $this->n_url) {
-			{
-				$ret->{"URL"} = $this->m_url;
-			};
-		};
+			$ret->{"URL"} = $this->m_url;
+		}
 		return $ret;
 	}
 	

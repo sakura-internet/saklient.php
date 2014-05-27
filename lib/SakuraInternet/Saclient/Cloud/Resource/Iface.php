@@ -238,14 +238,35 @@ class Iface extends Resource {
 	 */
 	public function apiDeserialize($r)
 	{
-		$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
-		$this->n_id = false;
-		$this->m_macAddress = $r->{"MACAddress"} == null ? null : "" . $r->{"MACAddress"};
-		$this->n_macAddress = false;
-		$this->m_ipAddress = $r->{"IPAddress"} == null ? null : "" . $r->{"IPAddress"};
-		$this->n_ipAddress = false;
-		$this->m_userIpAddress = $r->{"UserIPAddress"} == null ? null : "" . $r->{"UserIPAddress"};
-		$this->n_userIpAddress = false;
+		$this->isIncomplete = true;
+		if (array_key_exists("ID", $r)) {
+			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
+			$this->n_id = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("MACAddress", $r)) {
+			$this->m_macAddress = $r->{"MACAddress"} == null ? null : "" . $r->{"MACAddress"};
+			$this->n_macAddress = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("IPAddress", $r)) {
+			$this->m_ipAddress = $r->{"IPAddress"} == null ? null : "" . $r->{"IPAddress"};
+			$this->n_ipAddress = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("UserIPAddress", $r)) {
+			$this->m_userIpAddress = $r->{"UserIPAddress"} == null ? null : "" . $r->{"UserIPAddress"};
+			$this->n_userIpAddress = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
 	}
 	
 	/**
@@ -259,25 +280,17 @@ class Iface extends Resource {
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
-			{
-				$ret->{"ID"} = $this->m_id;
-			};
-		};
+			$ret->{"ID"} = $this->m_id;
+		}
 		if ($withClean || $this->n_macAddress) {
-			{
-				$ret->{"MACAddress"} = $this->m_macAddress;
-			};
-		};
+			$ret->{"MACAddress"} = $this->m_macAddress;
+		}
 		if ($withClean || $this->n_ipAddress) {
-			{
-				$ret->{"IPAddress"} = $this->m_ipAddress;
-			};
-		};
+			$ret->{"IPAddress"} = $this->m_ipAddress;
+		}
 		if ($withClean || $this->n_userIpAddress) {
-			{
-				$ret->{"UserIPAddress"} = $this->m_userIpAddress;
-			};
-		};
+			$ret->{"UserIPAddress"} = $this->m_userIpAddress;
+		}
 		return $ret;
 	}
 	

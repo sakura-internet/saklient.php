@@ -128,12 +128,28 @@ class DiskPlan extends Resource {
 	 */
 	public function apiDeserialize($r)
 	{
-		$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
-		$this->n_id = false;
-		$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
-		$this->n_name = false;
-		$this->m_storageClass = $r->{"StorageClass"} == null ? null : "" . $r->{"StorageClass"};
-		$this->n_storageClass = false;
+		$this->isIncomplete = true;
+		if (array_key_exists("ID", $r)) {
+			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
+			$this->n_id = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("Name", $r)) {
+			$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
+			$this->n_name = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("StorageClass", $r)) {
+			$this->m_storageClass = $r->{"StorageClass"} == null ? null : "" . $r->{"StorageClass"};
+			$this->n_storageClass = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
 	}
 	
 	/**
@@ -147,20 +163,14 @@ class DiskPlan extends Resource {
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
-			{
-				$ret->{"ID"} = $this->m_id;
-			};
-		};
+			$ret->{"ID"} = $this->m_id;
+		}
 		if ($withClean || $this->n_name) {
-			{
-				$ret->{"Name"} = $this->m_name;
-			};
-		};
+			$ret->{"Name"} = $this->m_name;
+		}
 		if ($withClean || $this->n_storageClass) {
-			{
-				$ret->{"StorageClass"} = $this->m_storageClass;
-			};
-		};
+			$ret->{"StorageClass"} = $this->m_storageClass;
+		}
 		return $ret;
 	}
 	

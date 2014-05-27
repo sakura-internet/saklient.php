@@ -157,14 +157,35 @@ class IPv6Net extends Resource {
 	 */
 	public function apiDeserialize($r)
 	{
-		$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
-		$this->n_id = false;
-		$this->m_ipv6Prefix = $r->{"IPv6Prefix"} == null ? null : "" . $r->{"IPv6Prefix"};
-		$this->n_ipv6Prefix = false;
-		$this->m_ipv6PrefixLen = $r->{"IPv6PrefixLen"} == null ? null : intval("" . $r->{"IPv6PrefixLen"});
-		$this->n_ipv6PrefixLen = false;
-		$this->m_ipv6PrefixTail = $r->{"IPv6PrefixTail"} == null ? null : "" . $r->{"IPv6PrefixTail"};
-		$this->n_ipv6PrefixTail = false;
+		$this->isIncomplete = true;
+		if (array_key_exists("ID", $r)) {
+			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
+			$this->n_id = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("IPv6Prefix", $r)) {
+			$this->m_ipv6Prefix = $r->{"IPv6Prefix"} == null ? null : "" . $r->{"IPv6Prefix"};
+			$this->n_ipv6Prefix = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("IPv6PrefixLen", $r)) {
+			$this->m_ipv6PrefixLen = $r->{"IPv6PrefixLen"} == null ? null : intval("" . $r->{"IPv6PrefixLen"});
+			$this->n_ipv6PrefixLen = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("IPv6PrefixTail", $r)) {
+			$this->m_ipv6PrefixTail = $r->{"IPv6PrefixTail"} == null ? null : "" . $r->{"IPv6PrefixTail"};
+			$this->n_ipv6PrefixTail = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
 	}
 	
 	/**
@@ -178,25 +199,17 @@ class IPv6Net extends Resource {
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
-			{
-				$ret->{"ID"} = $this->m_id;
-			};
-		};
+			$ret->{"ID"} = $this->m_id;
+		}
 		if ($withClean || $this->n_ipv6Prefix) {
-			{
-				$ret->{"IPv6Prefix"} = $this->m_ipv6Prefix;
-			};
-		};
+			$ret->{"IPv6Prefix"} = $this->m_ipv6Prefix;
+		}
 		if ($withClean || $this->n_ipv6PrefixLen) {
-			{
-				$ret->{"IPv6PrefixLen"} = $this->m_ipv6PrefixLen;
-			};
-		};
+			$ret->{"IPv6PrefixLen"} = $this->m_ipv6PrefixLen;
+		}
 		if ($withClean || $this->n_ipv6PrefixTail) {
-			{
-				$ret->{"IPv6PrefixTail"} = $this->m_ipv6PrefixTail;
-			};
-		};
+			$ret->{"IPv6PrefixTail"} = $this->m_ipv6PrefixTail;
+		}
 		return $ret;
 	}
 	

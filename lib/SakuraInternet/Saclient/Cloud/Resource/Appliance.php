@@ -506,50 +506,83 @@ class Appliance extends Resource {
 	 */
 	public function apiDeserialize($r)
 	{
-		$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
-		$this->n_id = false;
-		$this->m_clazz = $r->{"Class"} == null ? null : "" . $r->{"Class"};
-		$this->n_clazz = false;
-		$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
-		$this->n_name = false;
-		$this->m_description = $r->{"Description"} == null ? null : "" . $r->{"Description"};
-		$this->n_description = false;
-		if ($r->{"Tags"} == null) {
-			{
-				$this->m_tags = new \ArrayObject([]);
-			};
+		$this->isIncomplete = true;
+		if (array_key_exists("ID", $r)) {
+			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
+			$this->n_id = false;
 		}
 		else {
-			{
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("Class", $r)) {
+			$this->m_clazz = $r->{"Class"} == null ? null : "" . $r->{"Class"};
+			$this->n_clazz = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("Name", $r)) {
+			$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
+			$this->n_name = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("Description", $r)) {
+			$this->m_description = $r->{"Description"} == null ? null : "" . $r->{"Description"};
+			$this->n_description = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("Tags", $r)) {
+			if ($r->{"Tags"} == null) {
+				$this->m_tags = new \ArrayObject([]);
+			}
+			else {
 				$this->m_tags = new \ArrayObject([]);
 				foreach ($r->{"Tags"} as $t) {
 					$v = null;
 					$v = $t == null ? null : "" . $t;
 					$this->m_tags->append($v);
-				};
-			};
-		};
-		$this->n_tags = false;
-		$this->m_icon = $r->{"Icon"} == null ? null : new Icon($this->_client, $r->{"Icon"});
-		$this->n_icon = false;
-		if ($r->{"Interfaces"} == null) {
-			{
-				$this->m_ifaces = new \ArrayObject([]);
-			};
+				}
+			}
+			$this->n_tags = false;
 		}
 		else {
-			{
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("Icon", $r)) {
+			$this->m_icon = $r->{"Icon"} == null ? null : new Icon($this->_client, $r->{"Icon"});
+			$this->n_icon = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("Interfaces", $r)) {
+			if ($r->{"Interfaces"} == null) {
+				$this->m_ifaces = new \ArrayObject([]);
+			}
+			else {
 				$this->m_ifaces = new \ArrayObject([]);
 				foreach ($r->{"Interfaces"} as $t) {
 					$v = null;
 					$v = $t == null ? null : new Iface($this->_client, $t);
 					$this->m_ifaces->append($v);
-				};
-			};
-		};
-		$this->n_ifaces = false;
-		$this->m_serviceClass = $r->{"ServiceClass"} == null ? null : "" . $r->{"ServiceClass"};
-		$this->n_serviceClass = false;
+				}
+			}
+			$this->n_ifaces = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("ServiceClass", $r)) {
+			$this->m_serviceClass = $r->{"ServiceClass"} == null ? null : "" . $r->{"ServiceClass"};
+			$this->n_serviceClass = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
 	}
 	
 	/**
@@ -563,55 +596,39 @@ class Appliance extends Resource {
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
-			{
-				$ret->{"ID"} = $this->m_id;
-			};
-		};
+			$ret->{"ID"} = $this->m_id;
+		}
 		if ($withClean || $this->n_clazz) {
-			{
-				$ret->{"Class"} = $this->m_clazz;
-			};
-		};
+			$ret->{"Class"} = $this->m_clazz;
+		}
 		if ($withClean || $this->n_name) {
-			{
-				$ret->{"Name"} = $this->m_name;
-			};
-		};
+			$ret->{"Name"} = $this->m_name;
+		}
 		if ($withClean || $this->n_description) {
-			{
-				$ret->{"Description"} = $this->m_description;
-			};
-		};
+			$ret->{"Description"} = $this->m_description;
+		}
 		if ($withClean || $this->n_tags) {
-			{
-				$ret->{"Tags"} = new \ArrayObject([]);
-				foreach ($this->m_tags as $r) {
-					$v = null;
-					$v = $r;
-					$ret->{"Tags"}->append($v);
-				};
-			};
-		};
+			$ret->{"Tags"} = new \ArrayObject([]);
+			foreach ($this->m_tags as $r) {
+				$v = null;
+				$v = $r;
+				$ret->{"Tags"}->append($v);
+			}
+		}
 		if ($withClean || $this->n_icon) {
-			{
-				$ret->{"Icon"} = $this->m_icon == null ? null : $withClean ? $this->m_icon->apiSerialize($withClean) : $this->m_icon->apiSerializeID();
-			};
-		};
+			$ret->{"Icon"} = $this->m_icon == null ? null : $withClean ? $this->m_icon->apiSerialize($withClean) : $this->m_icon->apiSerializeID();
+		}
 		if ($withClean || $this->n_ifaces) {
-			{
-				$ret->{"Interfaces"} = new \ArrayObject([]);
-				foreach ($this->m_ifaces as $r) {
-					$v = null;
-					$v = $r == null ? null : $withClean ? $r->apiSerialize($withClean) : $r->apiSerializeID();
-					$ret->{"Interfaces"}->append($v);
-				};
-			};
-		};
+			$ret->{"Interfaces"} = new \ArrayObject([]);
+			foreach ($this->m_ifaces as $r) {
+				$v = null;
+				$v = $r == null ? null : $withClean ? $r->apiSerialize($withClean) : $r->apiSerializeID();
+				$ret->{"Interfaces"}->append($v);
+			}
+		}
 		if ($withClean || $this->n_serviceClass) {
-			{
-				$ret->{"ServiceClass"} = $this->m_serviceClass;
-			};
-		};
+			$ret->{"ServiceClass"} = $this->m_serviceClass;
+		}
 		return $ret;
 	}
 	

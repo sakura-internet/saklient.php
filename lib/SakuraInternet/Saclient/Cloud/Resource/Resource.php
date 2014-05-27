@@ -87,6 +87,13 @@ class Resource {
 	}
 	
 	/**
+	 * @access protected
+	 * @ignore
+	 * @var boolean
+	 */
+	protected $isIncomplete;
+	
+	/**
 	 * @access public
 	 * @param mixed $r
 	 * @return void
@@ -114,7 +121,7 @@ class Resource {
 		$id = $this->_id();
 		if ($id == null) {
 			return null;
-		};
+		}
 		$r = (object)[];
 		$r->{"ID"} = $id;
 		return $r;

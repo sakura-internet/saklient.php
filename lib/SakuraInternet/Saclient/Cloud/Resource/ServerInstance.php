@@ -118,12 +118,28 @@ class ServerInstance extends Resource {
 	 */
 	public function apiDeserialize($r)
 	{
-		$this->m_status = $r->{"Status"} == null ? null : "" . $r->{"Status"};
-		$this->n_status = false;
-		$this->m_beforeStatus = $r->{"BeforeStatus"} == null ? null : "" . $r->{"BeforeStatus"};
-		$this->n_beforeStatus = false;
-		$this->m_statusChangedAt = $r->{"StatusChangedAt"} == null ? null : Util::str2date("" . $r->{"StatusChangedAt"});
-		$this->n_statusChangedAt = false;
+		$this->isIncomplete = true;
+		if (array_key_exists("Status", $r)) {
+			$this->m_status = $r->{"Status"} == null ? null : "" . $r->{"Status"};
+			$this->n_status = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("BeforeStatus", $r)) {
+			$this->m_beforeStatus = $r->{"BeforeStatus"} == null ? null : "" . $r->{"BeforeStatus"};
+			$this->n_beforeStatus = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("StatusChangedAt", $r)) {
+			$this->m_statusChangedAt = $r->{"StatusChangedAt"} == null ? null : Util::str2date("" . $r->{"StatusChangedAt"});
+			$this->n_statusChangedAt = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
 	}
 	
 	/**
@@ -137,20 +153,14 @@ class ServerInstance extends Resource {
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_status) {
-			{
-				$ret->{"Status"} = $this->m_status;
-			};
-		};
+			$ret->{"Status"} = $this->m_status;
+		}
 		if ($withClean || $this->n_beforeStatus) {
-			{
-				$ret->{"BeforeStatus"} = $this->m_beforeStatus;
-			};
-		};
+			$ret->{"BeforeStatus"} = $this->m_beforeStatus;
+		}
 		if ($withClean || $this->n_statusChangedAt) {
-			{
-				$ret->{"StatusChangedAt"} = $this->m_statusChangedAt == null ? null : Util::date2str($this->m_statusChangedAt);
-			};
-		};
+			$ret->{"StatusChangedAt"} = $this->m_statusChangedAt == null ? null : Util::date2str($this->m_statusChangedAt);
+		}
 		return $ret;
 	}
 	

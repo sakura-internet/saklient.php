@@ -19,7 +19,7 @@ class Util {
 		$ret = $ref->newInstanceArgs(Client::arrayObject2array($arguments));
 		if ($ret == null) {
 			throw new \Exception("Could not create class instance of " . $classPath);
-		};
+		}
 		return $ret;
 	}
 	
@@ -32,7 +32,7 @@ class Util {
 	{
 		if ($s == null) {
 			return null;
-		};
+		}
 		return new \DateTime($s);
 	}
 	
@@ -45,7 +45,7 @@ class Util {
 	{
 		if ($d == null) {
 			return null;
-		};
+		}
 		return $d->format("c");
 	}
 	

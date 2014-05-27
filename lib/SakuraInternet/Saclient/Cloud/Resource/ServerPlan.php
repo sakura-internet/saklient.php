@@ -199,16 +199,42 @@ class ServerPlan extends Resource {
 	 */
 	public function apiDeserialize($r)
 	{
-		$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
-		$this->n_id = false;
-		$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
-		$this->n_name = false;
-		$this->m_cpu = $r->{"CPU"} == null ? null : intval("" . $r->{"CPU"});
-		$this->n_cpu = false;
-		$this->m_memoryMib = $r->{"MemoryMB"} == null ? null : intval("" . $r->{"MemoryMB"});
-		$this->n_memoryMib = false;
-		$this->m_serviceClass = $r->{"ServiceClass"} == null ? null : "" . $r->{"ServiceClass"};
-		$this->n_serviceClass = false;
+		$this->isIncomplete = true;
+		if (array_key_exists("ID", $r)) {
+			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
+			$this->n_id = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("Name", $r)) {
+			$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
+			$this->n_name = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("CPU", $r)) {
+			$this->m_cpu = $r->{"CPU"} == null ? null : intval("" . $r->{"CPU"});
+			$this->n_cpu = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("MemoryMB", $r)) {
+			$this->m_memoryMib = $r->{"MemoryMB"} == null ? null : intval("" . $r->{"MemoryMB"});
+			$this->n_memoryMib = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("ServiceClass", $r)) {
+			$this->m_serviceClass = $r->{"ServiceClass"} == null ? null : "" . $r->{"ServiceClass"};
+			$this->n_serviceClass = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
 	}
 	
 	/**
@@ -222,30 +248,20 @@ class ServerPlan extends Resource {
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
-			{
-				$ret->{"ID"} = $this->m_id;
-			};
-		};
+			$ret->{"ID"} = $this->m_id;
+		}
 		if ($withClean || $this->n_name) {
-			{
-				$ret->{"Name"} = $this->m_name;
-			};
-		};
+			$ret->{"Name"} = $this->m_name;
+		}
 		if ($withClean || $this->n_cpu) {
-			{
-				$ret->{"CPU"} = $this->m_cpu;
-			};
-		};
+			$ret->{"CPU"} = $this->m_cpu;
+		}
 		if ($withClean || $this->n_memoryMib) {
-			{
-				$ret->{"MemoryMB"} = $this->m_memoryMib;
-			};
-		};
+			$ret->{"MemoryMB"} = $this->m_memoryMib;
+		}
 		if ($withClean || $this->n_serviceClass) {
-			{
-				$ret->{"ServiceClass"} = $this->m_serviceClass;
-			};
-		};
+			$ret->{"ServiceClass"} = $this->m_serviceClass;
+		}
 		return $ret;
 	}
 	

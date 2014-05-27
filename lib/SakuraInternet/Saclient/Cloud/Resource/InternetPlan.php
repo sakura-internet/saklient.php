@@ -157,14 +157,35 @@ class InternetPlan extends Resource {
 	 */
 	public function apiDeserialize($r)
 	{
-		$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
-		$this->n_id = false;
-		$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
-		$this->n_name = false;
-		$this->m_bandWidthMbps = $r->{"BandWidthMbps"} == null ? null : intval("" . $r->{"BandWidthMbps"});
-		$this->n_bandWidthMbps = false;
-		$this->m_serviceClass = $r->{"ServiceClass"} == null ? null : "" . $r->{"ServiceClass"};
-		$this->n_serviceClass = false;
+		$this->isIncomplete = true;
+		if (array_key_exists("ID", $r)) {
+			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
+			$this->n_id = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("Name", $r)) {
+			$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
+			$this->n_name = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("BandWidthMbps", $r)) {
+			$this->m_bandWidthMbps = $r->{"BandWidthMbps"} == null ? null : intval("" . $r->{"BandWidthMbps"});
+			$this->n_bandWidthMbps = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
+		if (array_key_exists("ServiceClass", $r)) {
+			$this->m_serviceClass = $r->{"ServiceClass"} == null ? null : "" . $r->{"ServiceClass"};
+			$this->n_serviceClass = false;
+		}
+		else {
+			$this->isIncomplete = false;
+		}
 	}
 	
 	/**
@@ -178,25 +199,17 @@ class InternetPlan extends Resource {
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
-			{
-				$ret->{"ID"} = $this->m_id;
-			};
-		};
+			$ret->{"ID"} = $this->m_id;
+		}
 		if ($withClean || $this->n_name) {
-			{
-				$ret->{"Name"} = $this->m_name;
-			};
-		};
+			$ret->{"Name"} = $this->m_name;
+		}
 		if ($withClean || $this->n_bandWidthMbps) {
-			{
-				$ret->{"BandWidthMbps"} = $this->m_bandWidthMbps;
-			};
-		};
+			$ret->{"BandWidthMbps"} = $this->m_bandWidthMbps;
+		}
 		if ($withClean || $this->n_serviceClass) {
-			{
-				$ret->{"ServiceClass"} = $this->m_serviceClass;
-			};
-		};
+			$ret->{"ServiceClass"} = $this->m_serviceClass;
+		}
 		return $ret;
 	}
 	
