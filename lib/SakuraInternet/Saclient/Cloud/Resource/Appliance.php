@@ -179,7 +179,7 @@ class Appliance extends Resource {
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
 	 * @param mixed $r
 	 */
-	public function __construct($client, $r)
+	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $r)
 	{
 		parent::__construct($client);
 		$this->apiDeserialize($r);
@@ -401,7 +401,7 @@ class Appliance extends Resource {
 	 * @param string[] $v
 	 * @return string[]
 	 */
-	private function set_tags($v)
+	private function set_tags(\ArrayObject $v)
 	{
 		$this->m_tags = $v;
 		$this->n_tags = true;
@@ -437,10 +437,10 @@ class Appliance extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @param \SakuraInternet\Saclient\Cloud\Resource\Icon $v
+	 * @param \SakuraInternet\Saclient\Cloud\Resource\Icon|null $v
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Icon
 	 */
-	private function set_icon($v)
+	private function set_icon(\SakuraInternet\Saclient\Cloud\Resource\Icon $v=null)
 	{
 		$this->m_icon = $v;
 		$this->n_icon = true;
@@ -618,13 +618,13 @@ class Appliance extends Resource {
 			}
 		}
 		if ($withClean || $this->n_icon) {
-			$ret->{"Icon"} = $this->m_icon == null ? null : $withClean ? $this->m_icon->apiSerialize($withClean) : $this->m_icon->apiSerializeID();
+			$ret->{"Icon"} = $withClean ? ($this->m_icon == null ? null : $this->m_icon->apiSerialize($withClean)) : ($this->m_icon == null ? (object)['ID' => "0"] : $this->m_icon->apiSerializeID());
 		}
 		if ($withClean || $this->n_ifaces) {
 			$ret->{"Interfaces"} = new \ArrayObject([]);
 			foreach ($this->m_ifaces as $r) {
 				$v = null;
-				$v = $r == null ? null : $withClean ? $r->apiSerialize($withClean) : $r->apiSerializeID();
+				$v = $withClean ? ($r == null ? null : $r->apiSerialize($withClean)) : ($r == null ? (object)['ID' => "0"] : $r->apiSerializeID());
 				$ret->{"Interfaces"}->append($v);
 			}
 		}

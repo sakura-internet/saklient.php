@@ -192,7 +192,7 @@ class Disk extends Resource {
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
 	 * @param mixed $r
 	 */
-	public function __construct($client, $r)
+	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $r)
 	{
 		parent::__construct($client);
 		$this->apiDeserialize($r);
@@ -367,7 +367,7 @@ class Disk extends Resource {
 	 * @param string[] $v
 	 * @return string[]
 	 */
-	private function set_tags($v)
+	private function set_tags(\ArrayObject $v)
 	{
 		$this->m_tags = $v;
 		$this->n_tags = true;
@@ -403,10 +403,10 @@ class Disk extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @param Icon $v
+	 * @param Icon|null $v
 	 * @return Icon
 	 */
-	private function set_icon($v)
+	private function set_icon(Icon $v=null)
 	{
 		$this->m_icon = $v;
 		$this->n_icon = true;
@@ -626,7 +626,7 @@ class Disk extends Resource {
 			}
 		}
 		if ($withClean || $this->n_icon) {
-			$ret->{"Icon"} = $this->m_icon == null ? null : $withClean ? $this->m_icon->apiSerialize($withClean) : $this->m_icon->apiSerializeID();
+			$ret->{"Icon"} = $withClean ? ($this->m_icon == null ? null : $this->m_icon->apiSerialize($withClean)) : ($this->m_icon == null ? (object)['ID' => "0"] : $this->m_icon->apiSerializeID());
 		}
 		if ($withClean || $this->n_sizeMib) {
 			$ret->{"SizeMB"} = $this->m_sizeMib;
@@ -635,10 +635,10 @@ class Disk extends Resource {
 			$ret->{"ServiceClass"} = $this->m_serviceClass;
 		}
 		if ($withClean || $this->n_plan) {
-			$ret->{"Plan"} = $this->m_plan == null ? null : $withClean ? $this->m_plan->apiSerialize($withClean) : $this->m_plan->apiSerializeID();
+			$ret->{"Plan"} = $withClean ? ($this->m_plan == null ? null : $this->m_plan->apiSerialize($withClean)) : ($this->m_plan == null ? (object)['ID' => "0"] : $this->m_plan->apiSerializeID());
 		}
 		if ($withClean || $this->n_server) {
-			$ret->{"Server"} = $this->m_server == null ? null : $withClean ? $this->m_server->apiSerialize($withClean) : $this->m_server->apiSerializeID();
+			$ret->{"Server"} = $withClean ? ($this->m_server == null ? null : $this->m_server->apiSerialize($withClean)) : ($this->m_server == null ? (object)['ID' => "0"] : $this->m_server->apiSerializeID());
 		}
 		return $ret;
 	}

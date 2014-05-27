@@ -84,7 +84,7 @@ class Product {
 	 * @access public
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
 	 */
-	public function __construct($client)
+	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client)
 	{
 		$this->_server = new Model_ServerPlan($client);
 		$this->_disk = new Model_DiskPlan($client);

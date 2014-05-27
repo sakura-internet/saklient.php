@@ -119,7 +119,7 @@ class Icon extends Resource {
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
 	 * @param mixed $r
 	 */
-	public function __construct($client, $r)
+	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $r)
 	{
 		parent::__construct($client);
 		$this->apiDeserialize($r);

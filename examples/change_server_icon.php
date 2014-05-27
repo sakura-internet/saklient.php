@@ -12,8 +12,11 @@ printf("icon [%s] %s\n\n", $icon->id, $icon->name);
 $servers = $api->server->withNameLike("cent")->find();
 foreach ($servers as $server) {
     printf("server [%s] %s\n", $server->id, $server->name);
-    $server->icon = $icon;
-    $server->save();
-    printf("  changed icon to: [%s] %s\n\n", $server->icon->id, $server->icon->name);
+	$server->icon = null;
+	$server->save();
+	printf("  changed icon to nothing: %s\n", $server->icon ? "NG" : "OK");
+	$server->icon = $icon;
+	$server->save();
+	printf("  changed icon to: [%s] %s\n\n", $server->icon->id, $server->icon->name);
 }
 

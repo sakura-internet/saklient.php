@@ -201,7 +201,7 @@ class API {
 	 * @ignore
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
 	 */
-	protected function __construct($client)
+	protected function __construct(\SakuraInternet\Saclient\Cloud\Client $client)
 	{
 		$this->_client = $client;
 		$this->_product = new Product($client);

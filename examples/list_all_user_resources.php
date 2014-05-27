@@ -11,7 +11,8 @@ function dumpInALine($type, $obj)
 	if (@$obj->sizeGib) echo " ", $obj->sizeGib, "GiB";
 	if (@$obj->scope) echo " (", $obj->scope, ")";
 	echo " ", $obj->name;
-	if (@$obj->tags && 0 < count($obj->tags)) echo " <", join("> <", (array)$obj->tags), ">";
+	if (@$obj->tags && 0 < count($obj->tags)) echo " :", join(" :", (array)$obj->tags);
+	if (@$obj->icon) echo " <", $obj->icon->name, ">";
 	echo "\n";
 	//
 	if (@$obj->ifaces) {

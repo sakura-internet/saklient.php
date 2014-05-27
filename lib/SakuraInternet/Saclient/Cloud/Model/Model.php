@@ -135,7 +135,7 @@ class Model {
 	 * @access public
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
 	 */
-	public function __construct($client)
+	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client)
 	{
 		$this->_client = $client;
 		$this->_params = (object)[];

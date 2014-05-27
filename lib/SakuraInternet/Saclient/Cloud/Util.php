@@ -11,7 +11,7 @@ class Util {
 	 * @param string $classPath
 	 * @return mixed
 	 */
-	static public function createClassInstance($classPath, $arguments)
+	static public function createClassInstance($classPath, \ArrayObject $arguments)
 	{
 		$ret = null;
 		$classPath = implode('\\', array_map(function($x){return strtoupper(substr($x,0,1)).substr($x,1);}, explode('.', $classPath)));
@@ -41,7 +41,7 @@ class Util {
 	 * @param NativeDate $d
 	 * @return string
 	 */
-	static public function date2str($d)
+	static public function date2str(NativeDate $d)
 	{
 		if ($d == null) {
 			return null;
@@ -61,11 +61,10 @@ class Util {
 	
 	/**
 	 * @access public
-	 * @param U $clazz
 	 * @param T[] $a
 	 * @return U[]
 	 */
-	static public function castArray($a, $clazz)
+	static public function castArray(\ArrayObject $a, $clazz)
 	{
 		return $a;
 	}

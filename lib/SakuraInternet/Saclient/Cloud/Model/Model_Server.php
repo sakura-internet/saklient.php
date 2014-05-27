@@ -140,7 +140,7 @@ class Model_Server extends Model {
 	 * @param \SakuraInternet\Saclient\Cloud\Resource\ServerPlan $plan
 	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
 	 */
-	public function withPlan($plan)
+	public function withPlan(\SakuraInternet\Saclient\Cloud\Resource\ServerPlan $plan)
 	{
 		$this->_filterBy("ServerPlan.ID", $plan->_id(), true);
 		return $this;
