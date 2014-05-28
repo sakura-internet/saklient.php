@@ -6,13 +6,22 @@
 上のリソースを操作するための簡単なインタフェースを提供します。
 
 
-# 必須環境
+## 目次
+
+* [必須環境](#requirements)
+* [サンプルコードの実行方法](#how-to-run-the-example-code)
+* [あなたのプロジェクトでのこのライブラリの使用方法](#how-to-use-this-library-in-your-project)
+* [ArrayObjectに関する注意](#a-notice-about-arrayobject-arrayobject)
+* [コピーライトおよびライセンス](#copyright-and-license)
+
+
+## <a name="requirements"></a> 必須環境
 
 - PHP 5.4+
 - [Composer](https://getcomposer.org/)
 
 
-# サンプルコードの実行方法
+## <a name="how-to-run-the-example-code"></a> サンプルコードの実行方法
 
 ```bash
 # Composerをインストール（まだの場合）
@@ -39,7 +48,7 @@ config.shで定義されるAPIキーの値には、コントロールパネル�
 ページで生成されたものを使用してください。
 
 
-# あなたのプロジェクトでのこのライブラリの使用方法
+## <a name="how-to-use-this-library-in-your-project"></a> あなたのプロジェクトでのこのライブラリの使用方法
 
 ```bash
 cd YOUR/PROJECT/ROOT
@@ -80,7 +89,7 @@ $api_is1b = $api->inZone("is1b");
 ```
 
 
-# ArrayObjectに関する注意
+## <a name="a-notice-about-arrayobject"></a> ArrayObjectに関する注意
 
 $api->server->find() のようないくつかのメソッドは配列を返します。
 この配列はPHP標準の [array](http://www.php.net/manual/ja/book.array.php) の代わりに
@@ -142,7 +151,7 @@ for ($i=0; $i < count($servers); $i++) {
 ```
 
 
-# コピーライトおよびライセンス
+## <a name="copyright-and-license"></a> コピーライトおよびライセンス
 
 Copyright (C) 2014 SAKURA Internet, Inc.
 

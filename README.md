@@ -6,6 +6,15 @@ This library gives you an easy interface to control your resources on
 [SAKURA Cloud](https://secure.sakura.ad.jp/cloud/).
 
 
+## Table of Contents
+
+* [Requirements](#requirements)
+* [How to run the example code](#how-to-run-the-example-code)
+* [How to use this library in your project](#how-to-use-this-library-in-your-project)
+* [A notice about ArrayObject](#a-notice-about-arrayobject)
+* [Copyright and license](#copyright-and-license)
+
+
 ## Requirements
 
 - PHP 5.4+
