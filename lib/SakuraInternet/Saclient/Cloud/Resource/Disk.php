@@ -6,6 +6,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Client.php";
 use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Resource;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Icon.php";
+use \SakuraInternet\Saclient\Cloud\Resource\Icon;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/DiskPlan.php";
 use \SakuraInternet\Saclient\Cloud\Resource\DiskPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Server.php";
@@ -21,7 +23,7 @@ use \SakuraInternet\Saclient\Cloud\Util;
  * @property string $name
  * @property string $description
  * @property string[] $tags
- * @property Icon $icon
+ * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon
  * @property-read int $sizeMib
  * @property-read string $serviceClass
  * @property-read \SakuraInternet\Saclient\Cloud\Resource\DiskPlan $plan
@@ -391,7 +393,7 @@ class Disk extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @return Icon
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Icon
 	 */
 	private function get_icon()
 	{
@@ -403,10 +405,10 @@ class Disk extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @param Icon|null $v
-	 * @return Icon
+	 * @param \SakuraInternet\Saclient\Cloud\Resource\Icon|null $v
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Icon
 	 */
-	private function set_icon(Icon $v=null)
+	private function set_icon(\SakuraInternet\Saclient\Cloud\Resource\Icon $v=null)
 	{
 		$this->m_icon = $v;
 		$this->n_icon = true;

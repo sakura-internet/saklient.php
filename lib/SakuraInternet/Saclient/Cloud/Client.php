@@ -10,28 +10,26 @@ class Client {
 	
 	public static function arrayObject2array($obj) {
 		if ($obj instanceof \ArrayObject) {
-			$obj = $obj->getArrayCopy();
+			return $obj->getArrayCopy();
 		}
-		elseif (is_object($obj)) {
-			$obj = clone $obj;
-		}
-		if (is_object($obj) || is_array($obj)) {
-			foreach ($obj as &$v) $v = self::arrayObject2Array($v);
+		if (is_object($obj)) {
+			$ret = (object)[];
+			foreach ($obj as $i=>$v) $ret->{$i} = self::arrayObject2Array($v);
+			return $ret;
 		}
 		return $obj;
 	}
 	
 	public static function array2ArrayObject($obj) {
-	    if (is_array($obj)) {
-	        $obj = new \ArrayObject($obj);
-	    }
-	    elseif (is_object($obj)) {
-	        $obj = clone $obj;
-	    }
-	    if (is_object($obj)) {
-	        foreach ($obj as &$v) $v = self::array2ArrayObject($v);
-	    }
-	    return $obj;
+		if (is_array($obj)) {
+			return new \ArrayObject($obj);
+		}
+		if (is_object($obj)) {
+			$ret = (object)[];
+			foreach ($obj as $i=>$v) $ret->{$i} = self::array2ArrayObject($v);
+			return $ret;
+		}
+		return $obj;
 	}
 	
 	private $config;

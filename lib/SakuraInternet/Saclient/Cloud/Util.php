@@ -7,16 +7,16 @@ class Util {
 	
 	/**
 	 * @access public
-	 * @param \ArrayObject $arguments
 	 * @param string $classPath
+	 * @param \ArrayObject $args
 	 * @return mixed
 	 */
-	static public function createClassInstance($classPath, \ArrayObject $arguments)
+	static public function createClassInstance($classPath, \ArrayObject $args)
 	{
 		$ret = null;
 		$classPath = implode('\\', array_map(function($x){return strtoupper(substr($x,0,1)).substr($x,1);}, explode('.', $classPath)));
 		$ref = new \ReflectionClass('SakuraInternet\\'.$classPath);
-		$ret = $ref->newInstanceArgs(Client::arrayObject2array($arguments));
+		$ret = $ref->newInstanceArgs(Client::arrayObject2array($args));
 		if ($ret == null) {
 			throw new \Exception("Could not create class instance of " . $classPath);
 		}

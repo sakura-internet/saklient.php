@@ -4,8 +4,12 @@ namespace SakuraInternet\Saclient\Cloud\Resource;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Client.php";
 use \SakuraInternet\Saclient\Cloud\Client;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php";
+use \SakuraInternet\Saclient\Cloud\Resource\Resource;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Icon.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Icon;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Disk.php";
+use \SakuraInternet\Saclient\Cloud\Resource\Disk;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Iface.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Iface;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/ServerPlan.php";
@@ -256,7 +260,7 @@ class Server extends Resource {
 	 * サーバに接続されているディスクのリストを取得します。
 	 * 
 	 * @access public
-	 * @return Disk[]
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk[]
 	 */
 	public function findDisks()
 	{
