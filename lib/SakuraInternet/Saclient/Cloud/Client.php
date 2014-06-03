@@ -36,27 +36,27 @@ class Client {
 	
 	public function __construct($token, $secret) {
 		$this->config = (object)[];
-		$this->config->api_root = "https://secure.sakura.ad.jp/cloud/";
-		$this->config->api_root_suffix = null;
-		$this->set_access_key($token, $secret);
+		$this->config->apiRoot = "https://secure.sakura.ad.jp/cloud/";
+		$this->config->apiRootSuffix = null;
+		$this->setAccessKey($token, $secret);
 	}
 	
-	public function clone_instance() {
+	public function cloneInstance() {
 		$c = new Client($this->config->token, $this->config->secret);
-		$c->config->api_root = $this->config->api_root;
-		$c->config->api_root_suffix = $this->config->api_root_suffix;
+		$c->config->apiRoot = $this->config->apiRoot;
+		$c->config->apiRootSuffix = $this->config->apiRootSuffix;
 		return $c;
 	}
 	
-	public function set_api_root($url) {
-		$this->config->api_root = $url;
+	public function setApiRoot($url) {
+		$this->config->apiRoot = $url;
 	}
 	
-	public function set_api_root_suffix($suffix) {
-		$this->config->api_root_suffix = $suffix;
+	public function setApiRootSuffix($suffix) {
+		$this->config->apiRootSuffix = $suffix;
 	}
 	
-	public function set_access_key($token, $secret) {
+	public function setAccessKey($token, $secret) {
 		$this->config->token = $token;
 		$this->config->secret = $secret;
 		$this->config->authorization = "Basic " . base64_encode($token.":".$secret);
@@ -71,12 +71,12 @@ class Client {
 			$json = null;
 		}
 		if (!preg_match('/^http/', $path)) {
-			$urlRoot = $this->config->api_root;
-			if ($this->config->api_root_suffix != null) {
-				if (preg_match('/is1[v-z]/', $this->config->api_root_suffix)) {
+			$urlRoot = $this->config->apiRoot;
+			if ($this->config->apiRootSuffix != null) {
+				if (preg_match('/is1[v-z]/', $this->config->apiRootSuffix)) {
 					$urlRoot = preg_replace('|/cloud/$|', '/cloud-test/', $urlRoot);
 				}
-				$urlRoot .= $this->config->api_root_suffix;
+				$urlRoot .= $this->config->apiRootSuffix;
 				$urlRoot = preg_replace('/\\/?$/', '/', $urlRoot);
 			}
 			$path = $urlRoot . 'api/cloud/1.1' . $path;
