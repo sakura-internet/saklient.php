@@ -16,6 +16,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/ServerPlan.p
 use \SakuraInternet\Saclient\Cloud\Resource\ServerPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/ServerInstance.php";
 use \SakuraInternet\Saclient\Cloud\Resource\ServerInstance;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EServerInstanceStatus.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
@@ -191,6 +193,17 @@ class Server extends Resource {
 	{
 		parent::__construct($client);
 		$this->apiDeserialize($r);
+	}
+	
+	/**
+	 * サーバが起動しているときtrueを返します。
+	 * 
+	 * @access public
+	 * @return boolean
+	 */
+	public function isUp()
+	{
+		return $this->instance->status != null && EServerInstanceStatus::compare($this->instance->status, EServerInstanceStatus::up) == 0;
 	}
 	
 	/**
