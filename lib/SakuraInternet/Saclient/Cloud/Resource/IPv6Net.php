@@ -161,35 +161,43 @@ class IPv6Net extends Resource {
 	 */
 	public function apiDeserialize($r)
 	{
-		$this->isIncomplete = true;
+		$this->isNew = $r == null;
+		if ($this->isNew) {
+			$r = (object)[];
+		}
+		$this->isIncomplete = false;
 		if (array_key_exists("ID", $r)) {
 			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
-			$this->n_id = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_id = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_id = false;
 		if (array_key_exists("IPv6Prefix", $r)) {
 			$this->m_ipv6Prefix = $r->{"IPv6Prefix"} == null ? null : "" . $r->{"IPv6Prefix"};
-			$this->n_ipv6Prefix = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_ipv6Prefix = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_ipv6Prefix = false;
 		if (array_key_exists("IPv6PrefixLen", $r)) {
 			$this->m_ipv6PrefixLen = $r->{"IPv6PrefixLen"} == null ? null : intval("" . $r->{"IPv6PrefixLen"});
-			$this->n_ipv6PrefixLen = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_ipv6PrefixLen = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_ipv6PrefixLen = false;
 		if (array_key_exists("IPv6PrefixTail", $r)) {
 			$this->m_ipv6PrefixTail = $r->{"IPv6PrefixTail"} == null ? null : "" . $r->{"IPv6PrefixTail"};
-			$this->n_ipv6PrefixTail = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_ipv6PrefixTail = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_ipv6PrefixTail = false;
 	}
 	
 	/**

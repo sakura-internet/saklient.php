@@ -132,28 +132,35 @@ class DiskPlan extends Resource {
 	 */
 	public function apiDeserialize($r)
 	{
-		$this->isIncomplete = true;
+		$this->isNew = $r == null;
+		if ($this->isNew) {
+			$r = (object)[];
+		}
+		$this->isIncomplete = false;
 		if (array_key_exists("ID", $r)) {
 			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
-			$this->n_id = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_id = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_id = false;
 		if (array_key_exists("Name", $r)) {
 			$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
-			$this->n_name = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_name = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_name = false;
 		if (array_key_exists("StorageClass", $r)) {
 			$this->m_storageClass = $r->{"StorageClass"} == null ? null : "" . $r->{"StorageClass"};
-			$this->n_storageClass = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_storageClass = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_storageClass = false;
 	}
 	
 	/**

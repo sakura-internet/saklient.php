@@ -203,42 +203,51 @@ class ServerPlan extends Resource {
 	 */
 	public function apiDeserialize($r)
 	{
-		$this->isIncomplete = true;
+		$this->isNew = $r == null;
+		if ($this->isNew) {
+			$r = (object)[];
+		}
+		$this->isIncomplete = false;
 		if (array_key_exists("ID", $r)) {
 			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
-			$this->n_id = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_id = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_id = false;
 		if (array_key_exists("Name", $r)) {
 			$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
-			$this->n_name = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_name = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_name = false;
 		if (array_key_exists("CPU", $r)) {
 			$this->m_cpu = $r->{"CPU"} == null ? null : intval("" . $r->{"CPU"});
-			$this->n_cpu = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_cpu = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_cpu = false;
 		if (array_key_exists("MemoryMB", $r)) {
 			$this->m_memoryMib = $r->{"MemoryMB"} == null ? null : intval("" . $r->{"MemoryMB"});
-			$this->n_memoryMib = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_memoryMib = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_memoryMib = false;
 		if (array_key_exists("ServiceClass", $r)) {
 			$this->m_serviceClass = $r->{"ServiceClass"} == null ? null : "" . $r->{"ServiceClass"};
-			$this->n_serviceClass = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_serviceClass = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_serviceClass = false;
 	}
 	
 	/**

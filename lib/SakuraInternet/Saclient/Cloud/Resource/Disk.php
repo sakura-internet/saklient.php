@@ -156,17 +156,6 @@ class Disk extends Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
-	 * 
-	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk this
-	 */
-	public function create()
-	{
-		return $this->_create();
-	}
-	
-	/**
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 	 * 
 	 * @access public
@@ -369,8 +358,9 @@ class Disk extends Resource {
 	 * @param string[] $v
 	 * @return string[]
 	 */
-	private function set_tags(\ArrayObject $v)
+	private function set_tags($v)
 	{
+		if (is_array($v)) $v = Client::array2ArrayObject($v);
 		$this->m_tags = $v;
 		$this->n_tags = true;
 		return $this->m_tags;
@@ -524,28 +514,35 @@ class Disk extends Resource {
 	 */
 	public function apiDeserialize($r)
 	{
-		$this->isIncomplete = true;
+		$this->isNew = $r == null;
+		if ($this->isNew) {
+			$r = (object)[];
+		}
+		$this->isIncomplete = false;
 		if (array_key_exists("ID", $r)) {
 			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
-			$this->n_id = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_id = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_id = false;
 		if (array_key_exists("Name", $r)) {
 			$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
-			$this->n_name = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_name = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_name = false;
 		if (array_key_exists("Description", $r)) {
 			$this->m_description = $r->{"Description"} == null ? null : "" . $r->{"Description"};
-			$this->n_description = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_description = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_description = false;
 		if (array_key_exists("Tags", $r)) {
 			if ($r->{"Tags"} == null) {
 				$this->m_tags = new \ArrayObject([]);
@@ -558,46 +555,52 @@ class Disk extends Resource {
 					$this->m_tags->append($v);
 				}
 			}
-			$this->n_tags = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_tags = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_tags = false;
 		if (array_key_exists("Icon", $r)) {
 			$this->m_icon = $r->{"Icon"} == null ? null : new Icon($this->_client, $r->{"Icon"});
-			$this->n_icon = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_icon = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_icon = false;
 		if (array_key_exists("SizeMB", $r)) {
 			$this->m_sizeMib = $r->{"SizeMB"} == null ? null : intval("" . $r->{"SizeMB"});
-			$this->n_sizeMib = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_sizeMib = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_sizeMib = false;
 		if (array_key_exists("ServiceClass", $r)) {
 			$this->m_serviceClass = $r->{"ServiceClass"} == null ? null : "" . $r->{"ServiceClass"};
-			$this->n_serviceClass = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_serviceClass = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_serviceClass = false;
 		if (array_key_exists("Plan", $r)) {
 			$this->m_plan = $r->{"Plan"} == null ? null : new DiskPlan($this->_client, $r->{"Plan"});
-			$this->n_plan = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_plan = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_plan = false;
 		if (array_key_exists("Server", $r)) {
 			$this->m_server = $r->{"Server"} == null ? null : new Server($this->_client, $r->{"Server"});
-			$this->n_server = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_server = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_server = false;
 	}
 	
 	/**

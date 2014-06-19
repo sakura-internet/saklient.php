@@ -91,6 +91,13 @@ class Resource {
 	 * @ignore
 	 * @var boolean
 	 */
+	protected $isNew;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @var boolean
+	 */
 	protected $isIncomplete;
 	
 	/**
@@ -128,19 +135,6 @@ class Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
-	 * 
-	 * @private
-	 * @access protected
-	 * @ignore
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource this
-	 */
-	protected function _create()
-	{
-		return $this;
-	}
-	
-	/**
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 	 * 
 	 * @private
@@ -152,9 +146,29 @@ class Resource {
 	{
 		$r = (object)[];
 		$r->{$this->_rootKey()} = $this->apiSerialize();
-		$result = $this->_client->request("PUT", $this->_apiPath() . "/" . Util::urlEncode($this->_id()), $r);
+		$method = $this->isNew ? "POST" : "PUT";
+		$path = $this->_apiPath();
+		if (!$this->isNew) {
+			$path .= "/" . Util::urlEncode($this->_id());
+		}
+		$result = $this->_client->request($method, $path, $r);
 		$this->apiDeserialize($result->{$this->_rootKey()});
 		return $this;
+	}
+	
+	/**
+	 * このローカルオブジェクトのIDと対応するリソースの削除リクエストをAPIに送信します。
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function destroy()
+	{
+		if ($this->isNew) {
+			return;
+		}
+		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id());
+		$this->_client->request("DELETE", $path);
 	}
 	
 	/**

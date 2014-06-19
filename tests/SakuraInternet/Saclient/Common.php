@@ -1,6 +1,10 @@
 <?php
 
-namespace SakuraInternet\Cloud\Tests;
+namespace SakuraInternet\Saclient\Tests;
+
+function aobj() {
+	return new \ArrayObject(func_get_args());
+}
 
 trait Common
 {

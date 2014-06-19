@@ -11,7 +11,7 @@ class Util {
 	 * @param \ArrayObject $args
 	 * @return mixed
 	 */
-	static public function createClassInstance($classPath, \ArrayObject $args)
+	static public function createClassInstance($classPath, $args)
 	{
 		$ret = null;
 		$classPath = implode('\\', array_map(function($x){return strtoupper(substr($x,0,1)).substr($x,1);}, explode('.', $classPath)));

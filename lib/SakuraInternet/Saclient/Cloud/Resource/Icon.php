@@ -83,17 +83,6 @@ class Icon extends Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
-	 * 
-	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Icon this
-	 */
-	public function create()
-	{
-		return $this->_create();
-	}
-	
-	/**
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 	 * 
 	 * @access public
@@ -198,28 +187,35 @@ class Icon extends Resource {
 	 */
 	public function apiDeserialize($r)
 	{
-		$this->isIncomplete = true;
+		$this->isNew = $r == null;
+		if ($this->isNew) {
+			$r = (object)[];
+		}
+		$this->isIncomplete = false;
 		if (array_key_exists("ID", $r)) {
 			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
-			$this->n_id = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_id = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_id = false;
 		if (array_key_exists("Name", $r)) {
 			$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
-			$this->n_name = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_name = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_name = false;
 		if (array_key_exists("URL", $r)) {
 			$this->m_url = $r->{"URL"} == null ? null : "" . $r->{"URL"};
-			$this->n_url = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_url = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_url = false;
 	}
 	
 	/**

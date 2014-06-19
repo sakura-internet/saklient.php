@@ -143,17 +143,6 @@ class Appliance extends Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
-	 * 
-	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance this
-	 */
-	public function create()
-	{
-		return $this->_create();
-	}
-	
-	/**
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 	 * 
 	 * @access public
@@ -403,8 +392,9 @@ class Appliance extends Resource {
 	 * @param string[] $v
 	 * @return string[]
 	 */
-	private function set_tags(\ArrayObject $v)
+	private function set_tags($v)
 	{
+		if (is_array($v)) $v = Client::array2ArrayObject($v);
 		$this->m_tags = $v;
 		$this->n_tags = true;
 		return $this->m_tags;
@@ -510,35 +500,43 @@ class Appliance extends Resource {
 	 */
 	public function apiDeserialize($r)
 	{
-		$this->isIncomplete = true;
+		$this->isNew = $r == null;
+		if ($this->isNew) {
+			$r = (object)[];
+		}
+		$this->isIncomplete = false;
 		if (array_key_exists("ID", $r)) {
 			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
-			$this->n_id = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_id = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_id = false;
 		if (array_key_exists("Class", $r)) {
 			$this->m_clazz = $r->{"Class"} == null ? null : "" . $r->{"Class"};
-			$this->n_clazz = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_clazz = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_clazz = false;
 		if (array_key_exists("Name", $r)) {
 			$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
-			$this->n_name = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_name = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_name = false;
 		if (array_key_exists("Description", $r)) {
 			$this->m_description = $r->{"Description"} == null ? null : "" . $r->{"Description"};
-			$this->n_description = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_description = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_description = false;
 		if (array_key_exists("Tags", $r)) {
 			if ($r->{"Tags"} == null) {
 				$this->m_tags = new \ArrayObject([]);
@@ -551,18 +549,20 @@ class Appliance extends Resource {
 					$this->m_tags->append($v);
 				}
 			}
-			$this->n_tags = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_tags = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_tags = false;
 		if (array_key_exists("Icon", $r)) {
 			$this->m_icon = $r->{"Icon"} == null ? null : new Icon($this->_client, $r->{"Icon"});
-			$this->n_icon = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_icon = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_icon = false;
 		if (array_key_exists("Interfaces", $r)) {
 			if ($r->{"Interfaces"} == null) {
 				$this->m_ifaces = new \ArrayObject([]);
@@ -575,18 +575,20 @@ class Appliance extends Resource {
 					$this->m_ifaces->append($v);
 				}
 			}
-			$this->n_ifaces = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_ifaces = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_ifaces = false;
 		if (array_key_exists("ServiceClass", $r)) {
 			$this->m_serviceClass = $r->{"ServiceClass"} == null ? null : "" . $r->{"ServiceClass"};
-			$this->n_serviceClass = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_serviceClass = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_serviceClass = false;
 	}
 	
 	/**

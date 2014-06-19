@@ -91,17 +91,6 @@ class Iface extends Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新しいインスタンスを作成します。
-	 * 
-	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface this
-	 */
-	public function create()
-	{
-		return $this->_create();
-	}
-	
-	/**
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 	 * 
 	 * @access public
@@ -242,35 +231,43 @@ class Iface extends Resource {
 	 */
 	public function apiDeserialize($r)
 	{
-		$this->isIncomplete = true;
+		$this->isNew = $r == null;
+		if ($this->isNew) {
+			$r = (object)[];
+		}
+		$this->isIncomplete = false;
 		if (array_key_exists("ID", $r)) {
 			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
-			$this->n_id = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_id = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_id = false;
 		if (array_key_exists("MACAddress", $r)) {
 			$this->m_macAddress = $r->{"MACAddress"} == null ? null : "" . $r->{"MACAddress"};
-			$this->n_macAddress = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_macAddress = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_macAddress = false;
 		if (array_key_exists("IPAddress", $r)) {
 			$this->m_ipAddress = $r->{"IPAddress"} == null ? null : "" . $r->{"IPAddress"};
-			$this->n_ipAddress = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_ipAddress = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_ipAddress = false;
 		if (array_key_exists("UserIPAddress", $r)) {
 			$this->m_userIpAddress = $r->{"UserIPAddress"} == null ? null : "" . $r->{"UserIPAddress"};
-			$this->n_userIpAddress = false;
 		}
 		else {
-			$this->isIncomplete = false;
+			$this->m_userIpAddress = null;
+			$this->isIncomplete = true;
 		}
+		$this->n_userIpAddress = false;
 	}
 	
 	/**

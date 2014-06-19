@@ -190,6 +190,19 @@ class Model {
 	}
 	
 	/**
+	 *  *
+	 * 
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource
+	 */
+	protected function _create()
+	{
+		return Util::createClassInstance("saclient.cloud.resource." . $this->_rootKey(), new \ArrayObject([$this->_client, null]));
+	}
+	
+	/**
 	 * 指定したIDを持つ唯一のリソースを取得します。
 	 * 
 	 * @private
