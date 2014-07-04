@@ -239,6 +239,7 @@ class API {
 	public function inZone($name)
 	{
 		$ret = new API($this->_client->cloneInstance());
+		$ret->_client->setApiRoot("https://secure.sakura.ad.jp/cloud/");
 		$ret->_client->setApiRootSuffix("zone/" . $name);
 		return $ret;
 	}

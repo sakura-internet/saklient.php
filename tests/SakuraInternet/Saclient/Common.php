@@ -28,13 +28,16 @@ trait Common
 		}
 		if (empty($config->SACLOUD_TOKEN))  $this->fail("SACLOUD_TOKEN must be defined in config.sh");
 		if (empty($config->SACLOUD_SECRET)) $this->fail("SACLOUD_SECRET must be defined in config.sh");
+		// if (empty($config->SACLOUD_ZONE)) $this->fail("SACLOUD_ZONE must be defined in config.sh");
 		return $config;
 	}
 	
 	public function authorize()
 	{
 		$config = $this->loadConfig();
-		return \SakuraInternet\Saclient\Cloud\API::authorize($config->SACLOUD_TOKEN, $config->SACLOUD_SECRET);
+		$ret = \SakuraInternet\Saclient\Cloud\API::authorize($config->SACLOUD_TOKEN, $config->SACLOUD_SECRET);
+		if (isset($config->SACLOUD_ZONE)) $ret = $ret->inZone($config->SACLOUD_ZONE);
+		return $ret;
 	}
 	
 	public function assertCountAtLeast($num, $actual, $type)
