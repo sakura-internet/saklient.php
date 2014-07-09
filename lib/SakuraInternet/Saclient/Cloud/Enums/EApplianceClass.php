@@ -1,0 +1,35 @@
+<?php
+
+namespace SakuraInternet\Saclient\Cloud\Enums;
+
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EnumBase.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EnumBase;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
+use \SakuraInternet\Saclient\Cloud\Util;
+
+class EApplianceClass extends EnumBase {
+	
+	/**
+	 * @access public
+	 */
+	const loadbalancer = "loadbalancer";
+	
+	/**
+	 * @access public
+	 */
+	const vpcrouter = "vpcrouter";
+	
+	
+	
+	
+	static function _map() {
+		return [
+			"loadbalancer" => 10,
+			"vpcrouter" => 20
+		];
+	}
+	
+	
+
+}
+

@@ -10,6 +10,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Icon.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Icon;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Iface.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Iface;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EApplianceClass.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EApplianceClass;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 

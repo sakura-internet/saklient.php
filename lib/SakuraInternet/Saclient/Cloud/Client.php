@@ -2,6 +2,8 @@
 
 namespace SakuraInternet\Saclient\Cloud;
 
+use \SakuraInternet\Saclient\Cloud\Errors\HttpException;
+
 class Client {
 	
 	private static function println($msg) {
@@ -32,6 +34,8 @@ class Client {
 		return $obj;
 	}
 	
+	public $additionalParams;
+	
 	private $config;
 	
 	public function __construct($token, $secret) {
@@ -39,12 +43,15 @@ class Client {
 		$this->config->apiRoot = "https://secure.sakura.ad.jp/cloud/";
 		$this->config->apiRootSuffix = null;
 		$this->setAccessKey($token, $secret);
+		$this->additionalParams = (object)[];
 	}
 	
 	public function cloneInstance() {
 		$c = new Client($this->config->token, $this->config->secret);
 		$c->config->apiRoot = $this->config->apiRoot;
 		$c->config->apiRootSuffix = $this->config->apiRootSuffix;
+		$p = json_encode(self::arrayObject2array($this->additionalParams));
+		$c->additionalParams = self::array2ArrayObject(json_decode($p));
 		return $c;
 	}
 	
@@ -65,7 +72,14 @@ class Client {
 	public function request($method, $path, $params=null) {
 		$method = strtoupper($method);
 		$path = preg_replace('/^\\/?/', '/', $path);
-		$json = $params!=null ? json_encode(self::arrayObject2array($params)) : null;
+		$json = null;
+		$aParams = self::arrayObject2array($this->additionalParams);
+		if ($params != null) {
+			foreach (self::arrayObject2array($params) as $k=>$v) {
+				if (!isset($aParams->{$k})) $aParams->{$k} = $v;
+			}
+		}
+		if ($aParams) $json = json_encode($aParams);
 		if ($method=="GET") {
 			if ($json != null) $path .= "?" . rawurlencode($json);
 			$json = null;
@@ -120,13 +134,12 @@ class Client {
 //		self::println('// > '.$resh['Status']);
 //		print_r($resh);
 		
-//		trace(http.responseData);
-		
-		if (!(200 <= $status && $status < 300)) throw new \Exception($resh['Status']);
-		//trace("DATA="+data);
 		$ret = null;
 		if ($data != null) $ret = self::array2ArrayObject(json_decode($data, false));
-//		println("//  -> " + status);
+		//trace("DATA="+data);
+		
+		if (!(200 <= $status && $status < 300)) throw HttpException::create($status, $ret ? $ret->error_code : null, $ret ? $ret->error_msg : null);
+		
 		return $ret;//Util.localizeKeys(ret);
 	}
 	

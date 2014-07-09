@@ -192,7 +192,7 @@ class Resource {
 	 */
 	public function dump()
 	{
-		return $this->apiSerialize();
+		return $this->apiSerialize(true);
 	}
 	
 	/**

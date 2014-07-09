@@ -32,16 +32,6 @@ class EServerInstanceStatus extends EnumBase {
 	/**
 	 * @access public
 	 */
-	const suspended = "suspended";
-	
-	/**
-	 * @access public
-	 */
-	const running = "running";
-	
-	/**
-	 * @access public
-	 */
 	const active = "active";
 	
 	/**
@@ -63,8 +53,6 @@ class EServerInstanceStatus extends EnumBase {
 			"cleaning" => 5,
 			"starting" => 10,
 			"alive" => 49,
-			"suspended" => 70,
-			"running" => 80,
 			"active" => 89,
 			"migrating" => 90,
 			"up" => 100

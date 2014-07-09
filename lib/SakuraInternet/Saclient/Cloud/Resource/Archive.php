@@ -12,6 +12,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/DiskPlan.php
 use \SakuraInternet\Saclient\Cloud\Resource\DiskPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Server.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Server;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EScope.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EScope;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
