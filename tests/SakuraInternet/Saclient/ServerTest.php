@@ -14,9 +14,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 	
 	public function testAuthorize()
 	{
-		$api = $this->authorize();
-		$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\API", $api);
-		return $api;
+		return $this->authorize();
 	}
 
 	/**

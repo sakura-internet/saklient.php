@@ -37,6 +37,7 @@ trait Common
 		$config = $this->loadConfig();
 		$ret = \SakuraInternet\Saclient\Cloud\API::authorize($config->SACLOUD_TOKEN, $config->SACLOUD_SECRET);
 		if (isset($config->SACLOUD_ZONE)) $ret = $ret->inZone($config->SACLOUD_ZONE);
+		$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\API", $ret);
 		return $ret;
 	}
 	
