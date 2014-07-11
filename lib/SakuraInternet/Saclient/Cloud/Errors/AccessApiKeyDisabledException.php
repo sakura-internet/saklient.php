@@ -2,6 +2,8 @@
 
 namespace SakuraInternet\Saclient\Cloud\Errors;
 
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Errors/HttpForbiddenException.php";
+use \SakuraInternet\Saclient\Cloud\Errors\HttpForbiddenException;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 

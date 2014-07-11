@@ -2,7 +2,7 @@
 
 namespace SakuraInternet\Saclient\Cloud;
 
-use \SakuraInternet\Saclient\Cloud\Errors\HttpException;
+use \SakuraInternet\Saclient\Cloud\Errors\ExceptionFactory;
 
 class Client {
 	
@@ -138,7 +138,7 @@ class Client {
 		if ($data != null) $ret = self::array2ArrayObject(json_decode($data, false));
 		//trace("DATA="+data);
 		
-		if (!(200 <= $status && $status < 300)) throw HttpException::create($status, $ret ? $ret->error_code : null, $ret ? $ret->error_msg : null);
+		if (!(200 <= $status && $status < 300)) throw ExceptionFactory::create($status, $ret ? $ret->error_code : null, $ret ? $ret->error_msg : null);
 		
 		return $ret;//Util.localizeKeys(ret);
 	}
