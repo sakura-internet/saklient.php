@@ -89,9 +89,9 @@ class Model_Disk extends Model {
 	 * @param string $id
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk リソースオブジェクト
 	 */
-	public function get($id)
+	public function getById($id)
 	{
-		return $this->_get($id);
+		return $this->_getById($id);
 	}
 	
 	/**

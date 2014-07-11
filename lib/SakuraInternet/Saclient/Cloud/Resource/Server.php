@@ -192,7 +192,18 @@ class Server extends Resource {
 	 */
 	public function isUp()
 	{
-		return $this->instance->status != null && EServerInstanceStatus::compare($this->instance->status, EServerInstanceStatus::up) == 0;
+		return $this->get_instance()->isUp();
+	}
+	
+	/**
+	 * サーバが停止しているときtrueを返します。
+	 * 
+	 * @access public
+	 * @return boolean
+	 */
+	public function isDown()
+	{
+		return $this->get_instance()->isDown();
 	}
 	
 	/**
@@ -204,7 +215,7 @@ class Server extends Resource {
 	public function boot()
 	{
 		$this->_client->request("PUT", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/power");
-		return $this;
+		return $this->reload();
 	}
 	
 	/**
@@ -216,7 +227,7 @@ class Server extends Resource {
 	public function shutdown()
 	{
 		$this->_client->request("DELETE", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/power");
-		return $this;
+		return $this->reload();
 	}
 	
 	/**
@@ -228,7 +239,7 @@ class Server extends Resource {
 	public function stop()
 	{
 		$this->_client->request("DELETE", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/power", (object)['Force' => true]);
-		return $this;
+		return $this->reload();
 	}
 	
 	/**
@@ -240,7 +251,7 @@ class Server extends Resource {
 	public function reboot()
 	{
 		$this->_client->request("PUT", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/reset");
-		return $this;
+		return $this->reload();
 	}
 	
 	/**

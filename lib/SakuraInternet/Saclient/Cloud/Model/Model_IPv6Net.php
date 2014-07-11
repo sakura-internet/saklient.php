@@ -89,9 +89,9 @@ class Model_IPv6Net extends Model {
 	 * @param string $id
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\IPv6Net リソースオブジェクト
 	 */
-	public function get($id)
+	public function getById($id)
 	{
-		return $this->_get($id);
+		return $this->_getById($id);
 	}
 	
 	/**

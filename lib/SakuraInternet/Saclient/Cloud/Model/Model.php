@@ -211,7 +211,7 @@ class Model {
 	 * @param string $id
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource リソースオブジェクト
 	 */
-	protected function _get($id)
+	protected function _getById($id)
 	{
 		$params = $this->_params;
 		$this->_reset();

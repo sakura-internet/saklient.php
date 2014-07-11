@@ -8,6 +8,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Resource;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EServerInstanceStatus.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
 
 /**
  * サーバインスタンスのリソース情報へのアクセス機能や操作機能を備えたクラス。
@@ -49,6 +51,28 @@ class ServerInstance extends Resource {
 	{
 		parent::__construct($client);
 		$this->apiDeserialize($r);
+	}
+	
+	/**
+	 * サーバが起動しているときtrueを返します。
+	 * 
+	 * @access public
+	 * @return boolean
+	 */
+	public function isUp()
+	{
+		return $this->get_status() != null && EServerInstanceStatus::compare($this->get_status(), EServerInstanceStatus::up) == 0;
+	}
+	
+	/**
+	 * サーバが停止しているときtrueを返します。
+	 * 
+	 * @access public
+	 * @return boolean
+	 */
+	public function isDown()
+	{
+		return $this->get_status() == null || EServerInstanceStatus::compare($this->get_status(), EServerInstanceStatus::down) == 0;
 	}
 	
 	/**

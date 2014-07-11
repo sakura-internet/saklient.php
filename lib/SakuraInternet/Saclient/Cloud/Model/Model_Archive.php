@@ -89,9 +89,9 @@ class Model_Archive extends Model {
 	 * @param string $id
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Archive リソースオブジェクト
 	 */
-	public function get($id)
+	public function getById($id)
 	{
-		return $this->_get($id);
+		return $this->_getById($id);
 	}
 	
 	/**
