@@ -255,6 +255,60 @@ class Server extends Resource {
 	}
 	
 	/**
+	 * サーバが指定のステータスに遷移するまで待機します。
+	 * 
+	 * @ignore
+	 * @access private
+	 * @param string $status
+	 * @param int $timeout = 60
+	 * @return boolean
+	 */
+	private function sleepUntil($status, $timeout=60)
+	{
+		$step = 3;
+		while (0 < $timeout) {
+			$this->reload();
+			$s = $this->get_instance()->status;
+			if ($s == null) {
+				$s = EServerInstanceStatus::down;
+			}
+			printf("sleeping %s = %s\n", $s, $status);;
+			if ($s == $status) {
+				return true;
+			}
+			$timeout -= $step;
+			if (0 < $timeout) {
+				Util::sleep($step);
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * サーバが起動するまで待機します。
+	 * 
+	 * @access public
+	 * @param int $timeout = 60
+	 * @return boolean
+	 */
+	public function sleepUntilUp($timeout=60)
+	{
+		return $this->sleepUntil(EServerInstanceStatus::up, $timeout);
+	}
+	
+	/**
+	 * サーバが停止するまで待機します。
+	 * 
+	 * @access public
+	 * @param int $timeout = 60
+	 * @return boolean
+	 */
+	public function sleepUntilDown($timeout=60)
+	{
+		return $this->sleepUntil(EServerInstanceStatus::down, $timeout);
+	}
+	
+	/**
 	 * サーバのプランを変更します。
 	 * 
 	 * @access public

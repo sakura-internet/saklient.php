@@ -69,6 +69,16 @@ class Util {
 		return $a;
 	}
 	
+	/**
+	 * @access public
+	 * @param int $sec
+	 * @return void
+	 */
+	static public function sleep($sec)
+	{
+		\sleep($sec);
+	}
+	
 	
 
 }
