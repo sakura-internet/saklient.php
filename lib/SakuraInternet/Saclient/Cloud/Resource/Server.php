@@ -255,33 +255,45 @@ class Server extends Resource {
 	}
 	
 	/**
+	 * サーバが起動するまで待機します。
+	 * 
+	 * @access public
+	 * @param int $timeout = 60
+	 * @param (Server, boolean) => void $callback
+	 * @return void
+	 */
+	public function afterUp($callback, $timeout=60)
+	{
+		$this->afterStatus(EServerInstanceStatus::up, $callback, $timeout);
+	}
+	
+	/**
+	 * サーバが停止するまで待機します。
+	 * 
+	 * @access public
+	 * @param int $timeout = 60
+	 * @param (Server, boolean) => void $callback
+	 * @return void
+	 */
+	public function afterDown($callback, $timeout=60)
+	{
+		$this->afterStatus(EServerInstanceStatus::down, $callback, $timeout);
+	}
+	
+	/**
 	 * サーバが指定のステータスに遷移するまで待機します。
 	 * 
 	 * @ignore
 	 * @access private
 	 * @param string $status
 	 * @param int $timeout = 60
-	 * @return boolean
+	 * @param (Server, boolean) => void $callback
+	 * @return void
 	 */
-	private function sleepUntil($status, $timeout=60)
+	private function afterStatus($status, $callback, $timeout=60)
 	{
-		$step = 3;
-		while (0 < $timeout) {
-			$this->reload();
-			$s = $this->get_instance()->status;
-			if ($s == null) {
-				$s = EServerInstanceStatus::down;
-			}
-			printf("sleeping %s = %s\n", $s, $status);;
-			if ($s == $status) {
-				return true;
-			}
-			$timeout -= $step;
-			if (0 < $timeout) {
-				Util::sleep($step);
-			}
-		}
-		return false;
+		$ret = $this->sleepUntil($status, $timeout);
+		$callback($this, $ret);
 	}
 	
 	/**
@@ -306,6 +318,35 @@ class Server extends Resource {
 	public function sleepUntilDown($timeout=60)
 	{
 		return $this->sleepUntil(EServerInstanceStatus::down, $timeout);
+	}
+	
+	/**
+	 * サーバが指定のステータスに遷移するまで待機します。
+	 * 
+	 * @ignore
+	 * @access private
+	 * @param string $status
+	 * @param int $timeout = 60
+	 * @return boolean
+	 */
+	private function sleepUntil($status, $timeout=60)
+	{
+		$step = 3;
+		while (0 < $timeout) {
+			$this->reload();
+			$s = $this->get_instance()->status;
+			if ($s == null) {
+				$s = EServerInstanceStatus::down;
+			}
+			if ($s == $status) {
+				return true;
+			}
+			$timeout -= $step;
+			if (0 < $timeout) {
+				Util::sleep($step);
+			}
+		}
+		return false;
 	}
 	
 	/**
