@@ -6,6 +6,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Model/Model.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Archive.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Archive;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EScope.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EScope;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
@@ -128,6 +130,43 @@ class Model_Archive extends Model {
 	public function withTag($tag)
 	{
 		$this->_filterBy("Tags.Name", $tag, true);
+		return $this;
+	}
+	
+	/**
+	 * 指定したサイズのアーカイブに絞り込みます。
+	 * 
+	 * @access public
+	 * @param int $sizeGib
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Archive
+	 */
+	public function withSizeGib($sizeGib)
+	{
+		$this->_filterBy("SizeMB", $sizeGib * 1024);
+		return $this;
+	}
+	
+	/**
+	 * パブリックアーカイブに絞り込みます。
+	 * 
+	 * @access public
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Archive
+	 */
+	public function withSharedScope()
+	{
+		$this->_filterBy("Scope", EScope::shared);
+		return $this;
+	}
+	
+	/**
+	 * プライベートアーカイブに絞り込みます。
+	 * 
+	 * @access public
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Archive
+	 */
+	public function withUserScope()
+	{
+		$this->_filterBy("Scope", EScope::user);
 		return $this;
 	}
 	

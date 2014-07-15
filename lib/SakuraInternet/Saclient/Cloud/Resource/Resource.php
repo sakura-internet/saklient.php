@@ -37,6 +37,25 @@ class Resource {
 	 * @private
 	 * @access protected
 	 * @ignore
+	 * @var mixed
+	 */
+	protected $_params;
+	
+	/**
+	 * @access public
+	 * @param mixed $value
+	 * @param string $key
+	 * @return void
+	 */
+	public function setParam($key, $value)
+	{
+		$this->_params->{$key} = $value;
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
 	 * @return string
 	 */
 	protected function _apiPath()
@@ -84,6 +103,7 @@ class Resource {
 	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client)
 	{
 		$this->_client = $client;
+		$this->_params = (object)[];
 	}
 	
 	/**
@@ -144,14 +164,23 @@ class Resource {
 	 */
 	protected function _save()
 	{
-		$r = (object)[];
-		$r->{$this->_rootKey()} = $this->apiSerialize();
+		$r = $this->apiSerialize();
+		$params = $this->_params;
+		$this->_params = (object)[];
+		$keys = array_keys((array)$params);
+		for ($i=0; $i<count($keys); $i++) {
+			$k = $keys[$i];
+			$v = $params->{$k};
+			$r->{$k} = $v;
+		}
 		$method = $this->isNew ? "POST" : "PUT";
 		$path = $this->_apiPath();
 		if (!$this->isNew) {
 			$path .= "/" . Util::urlEncode($this->_id());
 		}
-		$result = $this->_client->request($method, $path, $r);
+		$q = (object)[];
+		$q->{$this->_rootKey()} = $r;
+		$result = $this->_client->request($method, $path, $q);
 		$this->apiDeserialize($result->{$this->_rootKey()});
 		return $this;
 	}

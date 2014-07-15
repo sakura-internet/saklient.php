@@ -83,6 +83,17 @@ class Model_Disk extends Model {
 	}
 	
 	/**
+	 * *
+	 * 
+	 * @access public
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk
+	 */
+	public function create()
+	{
+		return $this->_create();
+	}
+	
+	/**
 	 * 指定したIDを持つ唯一のリソースを取得します。
 	 * 
 	 * @access public
@@ -128,6 +139,19 @@ class Model_Disk extends Model {
 	public function withTag($tag)
 	{
 		$this->_filterBy("Tags.Name", $tag, true);
+		return $this;
+	}
+	
+	/**
+	 * 指定したサイズのディスクに絞り込みます。
+	 * 
+	 * @access public
+	 * @param int $sizeGib
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Disk
+	 */
+	public function withSizeGib($sizeGib)
+	{
+		$this->_filterBy("SizeMB", $sizeGib * 1024);
 		return $this;
 	}
 	

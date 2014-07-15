@@ -12,6 +12,10 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/DiskPlan.php
 use \SakuraInternet\Saclient\Cloud\Resource\DiskPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Server.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Server;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Archive.php";
+use \SakuraInternet\Saclient\Cloud\Resource\Archive;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EAvailability.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EAvailability;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EDiskConnection.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EDiskConnection;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
@@ -20,6 +24,7 @@ use \SakuraInternet\Saclient\Cloud\Util;
 /**
  * ディスクのリソース情報へのアクセス機能や操作機能を備えたクラス。
  * 
+ * @property-read boolean $isAvailable
  * @property-read int $sizeGib
  * @property-read string $id
  * @property string $name
@@ -30,6 +35,7 @@ use \SakuraInternet\Saclient\Cloud\Util;
  * @property-read string $serviceClass
  * @property-read \SakuraInternet\Saclient\Cloud\Resource\DiskPlan $plan
  * @property-read \SakuraInternet\Saclient\Cloud\Resource\Server $server
+ * @property-read string $availability
  */
 class Disk extends Resource {
 	
@@ -115,6 +121,15 @@ class Disk extends Resource {
 	protected $m_server;
 	
 	/**
+	 * 有効状態
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_availability;
+	
+	/**
 	 * @private
 	 * @access protected
 	 * @ignore
@@ -194,6 +209,21 @@ class Disk extends Resource {
 	/**
 	 * @access protected
 	 * @ignore
+	 * @return boolean
+	 */
+	protected function get_isAvailable()
+	{
+		return $this->get_availability() == EAvailability::available;
+	}
+	
+	/**
+	 * ディスクが利用可能なときtrueを返します。
+	 */
+	
+	
+	/**
+	 * @access protected
+	 * @ignore
 	 * @return int
 	 */
 	protected function get_sizeGib()
@@ -229,6 +259,46 @@ class Disk extends Resource {
 	{
 		$this->_client->request("DELETE", "/disk/" . $this->_id() . "/to/server");
 		return $this;
+	}
+	
+	/**
+	 * この後に save() するディスクのコピー元となるアーカイブを設定します。
+	 * 
+	 * @access public
+	 * @param \SakuraInternet\Saclient\Cloud\Resource\Archive $archive
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk
+	 */
+	public function copyFrom(\SakuraInternet\Saclient\Cloud\Resource\Archive $archive)
+	{
+		$this->setParam("SourceArchive", (object)['ID' => $archive->_id()]);
+		return $this;
+	}
+	
+	/**
+	 * コピー中のディスクが利用可能になるまで待機します。
+	 * 
+	 * @access public
+	 * @param int $timeout = 3600
+	 * @return boolean
+	 */
+	public function sleepWhileCopying($timeout=3600)
+	{
+		$step = 3;
+		while (0 < $timeout) {
+			$this->reload();
+			$a = $this->get_availability();
+			if ($a == EAvailability::available) {
+				return true;
+			}
+			if ($a != EAvailability::migrating) {
+				$timeout = 0;
+			}
+			$timeout -= $step;
+			if (0 < $timeout) {
+				Util::sleep($step);
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -509,6 +579,30 @@ class Disk extends Resource {
 	
 	
 	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_availability = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_availability()
+	{
+		return $this->m_availability;
+	}
+	
+	/**
+	 * 有効状態
+	 */
+	
+	
+	/**
 	 * (This method is generated in Translator_default#buildImpl)
 	 * 
 	 * @access public
@@ -603,6 +697,14 @@ class Disk extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_server = false;
+		if (array_key_exists("Availability", $r)) {
+			$this->m_availability = $r->{"Availability"} == null ? null : "" . $r->{"Availability"};
+		}
+		else {
+			$this->m_availability = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_availability = false;
 	}
 	
 	/**
@@ -647,6 +749,9 @@ class Disk extends Resource {
 		if ($withClean || $this->n_server) {
 			$ret->{"Server"} = $withClean ? ($this->m_server == null ? null : $this->m_server->apiSerialize($withClean)) : ($this->m_server == null ? (object)['ID' => "0"] : $this->m_server->apiSerializeID());
 		}
+		if ($withClean || $this->n_availability) {
+			$ret->{"Availability"} = $this->m_availability;
+		}
 		return $ret;
 	}
 	
@@ -655,6 +760,7 @@ class Disk extends Resource {
 	 */
 	public function __get($key) {
 		switch ($key) {
+			case "isAvailable": return $this->get_isAvailable();
 			case "sizeGib": return $this->get_sizeGib();
 			case "id": return $this->get_id();
 			case "name": return $this->get_name();
@@ -665,6 +771,7 @@ class Disk extends Resource {
 			case "serviceClass": return $this->get_serviceClass();
 			case "plan": return $this->get_plan();
 			case "server": return $this->get_server();
+			case "availability": return $this->get_availability();
 			default: return null;
 		}
 	}
