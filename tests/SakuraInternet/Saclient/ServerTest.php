@@ -25,14 +25,6 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$servers = $api->server->find();
 		$this->assertInstanceOf("ArrayObject", $servers);
 		$this->assertCountAtLeast(1, $servers, "server");
-		return $servers;
-	}
-
-	/**
-	 * @depends testFind
-	 */
-	public function testFields(\ArrayObject $servers)
-	{
 		foreach ($servers as $server) {
 			$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\Resource\\Server", $server);
 			$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\Resource\\ServerPlan", $server->plan);
@@ -45,6 +37,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 				$this->assertTrue(is_string($tag));
 			}
 		}
+		
+		$servers = $api->server->limit(1)->find();
+		$this->assertEquals(1, count($servers));
 	}
 
 	/**
