@@ -278,13 +278,13 @@ class Disk extends Resource {
 	 * コピー中のディスクが利用可能になるまで待機します。
 	 * 
 	 * @access public
-	 * @param int $timeout
+	 * @param int $timeoutSec
 	 * @param (Disk, boolean) => void $callback
 	 * @return void
 	 */
-	public function afterCopy($timeout, $callback)
+	public function afterCopy($timeoutSec, $callback)
 	{
-		$ret = $this->sleepWhileCopying($timeout);
+		$ret = $this->sleepWhileCopying($timeoutSec);
 		$callback($this, $ret);
 	}
 	
@@ -292,23 +292,23 @@ class Disk extends Resource {
 	 * コピー中のディスクが利用可能になるまで待機します。
 	 * 
 	 * @access public
-	 * @param int $timeout = 3600
+	 * @param int $timeoutSec = 3600
 	 * @return boolean
 	 */
-	public function sleepWhileCopying($timeout=3600)
+	public function sleepWhileCopying($timeoutSec=3600)
 	{
 		$step = 3;
-		while (0 < $timeout) {
+		while (0 < $timeoutSec) {
 			$this->reload();
 			$a = $this->get_availability();
 			if ($a == EAvailability::available) {
 				return true;
 			}
 			if ($a != EAvailability::migrating) {
-				$timeout = 0;
+				$timeoutSec = 0;
 			}
-			$timeout -= $step;
-			if (0 < $timeout) {
+			$timeoutSec -= $step;
+			if (0 < $timeoutSec) {
 				Util::sleep($step);
 			}
 		}

@@ -154,7 +154,7 @@ class Model {
 	 */
 	protected function _offset($offset)
 	{
-		$this->_params->Begin = $offset;
+		$this->_params->{"Begin"} = $offset;
 		return $this;
 	}
 	
@@ -169,7 +169,7 @@ class Model {
 	 */
 	protected function _limit($count)
 	{
-		$this->_params->Count = $count;
+		$this->_params->{"Count"} = $count;
 		return $this;
 	}
 	
