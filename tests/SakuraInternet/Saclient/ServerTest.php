@@ -86,6 +86,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		if (!$ok) $this->fail('サーバ起動中の起動試行時は HttpConflictException がスローされなければなりません');
 		
 		// stop
+		sleep(3);
 		if (!$server->stop()->sleepUntilDown()) $this->fail('サーバが正常に停止しません');
 		
 		// delete
