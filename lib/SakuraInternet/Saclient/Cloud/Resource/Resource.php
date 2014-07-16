@@ -168,8 +168,7 @@ class Resource {
 		$params = $this->_params;
 		$this->_params = (object)[];
 		$keys = array_keys((array)$params);
-		for ($i=0; $i<count($keys); $i++) {
-			$k = $keys[$i];
+		foreach ($keys as $k) {
 			$v = $params->{$k};
 			$r->{$k} = $v;
 		}

@@ -278,6 +278,20 @@ class Disk extends Resource {
 	 * コピー中のディスクが利用可能になるまで待機します。
 	 * 
 	 * @access public
+	 * @param int $timeout
+	 * @param (Disk, boolean) => void $callback
+	 * @return void
+	 */
+	public function afterCopy($timeout, $callback)
+	{
+		$ret = $this->sleepWhileCopying($timeout);
+		$callback($this, $ret);
+	}
+	
+	/**
+	 * コピー中のディスクが利用可能になるまで待機します。
+	 * 
+	 * @access public
 	 * @param int $timeout = 3600
 	 * @return boolean
 	 */

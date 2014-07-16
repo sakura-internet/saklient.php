@@ -32,6 +32,7 @@ use \SakuraInternet\Saclient\Cloud\Util;
  * @property \SakuraInternet\Saclient\Cloud\Resource\ServerPlan $plan
  * @property-read \SakuraInternet\Saclient\Cloud\Resource\Iface[] $ifaces
  * @property-read \SakuraInternet\Saclient\Cloud\Resource\ServerInstance $instance
+ * @property-read string $availability
  */
 class Server extends Resource {
 	
@@ -106,6 +107,15 @@ class Server extends Resource {
 	 * @var ServerInstance
 	 */
 	protected $m_instance;
+	
+	/**
+	 * 有効状態
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_availability;
 	
 	/**
 	 * @private
@@ -255,29 +265,16 @@ class Server extends Resource {
 	}
 	
 	/**
-	 * サーバが起動するまで待機します。
-	 * 
-	 * @access public
-	 * @param int $timeout = 60
-	 * @param (Server, boolean) => void $callback
-	 * @return void
-	 */
-	public function afterUp($callback, $timeout=60)
-	{
-		$this->afterStatus(EServerInstanceStatus::up, $callback, $timeout);
-	}
-	
-	/**
 	 * サーバが停止するまで待機します。
 	 * 
 	 * @access public
-	 * @param int $timeout = 60
+	 * @param int $timeoutSec
 	 * @param (Server, boolean) => void $callback
 	 * @return void
 	 */
-	public function afterDown($callback, $timeout=60)
+	public function afterDown($timeoutSec, $callback)
 	{
-		$this->afterStatus(EServerInstanceStatus::down, $callback, $timeout);
+		$this->afterStatus(EServerInstanceStatus::down, $timeoutSec, $callback);
 	}
 	
 	/**
@@ -285,39 +282,27 @@ class Server extends Resource {
 	 * 
 	 * @ignore
 	 * @access private
+	 * @param int $timeoutSec
 	 * @param string $status
-	 * @param int $timeout = 60
 	 * @param (Server, boolean) => void $callback
 	 * @return void
 	 */
-	private function afterStatus($status, $callback, $timeout=60)
+	private function afterStatus($status, $timeoutSec, $callback)
 	{
-		$ret = $this->sleepUntil($status, $timeout);
+		$ret = $this->sleepUntil($status, $timeoutSec);
 		$callback($this, $ret);
 	}
 	
 	/**
-	 * サーバが起動するまで待機します。
-	 * 
-	 * @access public
-	 * @param int $timeout = 60
-	 * @return boolean
-	 */
-	public function sleepUntilUp($timeout=60)
-	{
-		return $this->sleepUntil(EServerInstanceStatus::up, $timeout);
-	}
-	
-	/**
 	 * サーバが停止するまで待機します。
 	 * 
 	 * @access public
-	 * @param int $timeout = 60
+	 * @param int $timeoutSec = 180
 	 * @return boolean
 	 */
-	public function sleepUntilDown($timeout=60)
+	public function sleepUntilDown($timeoutSec=180)
 	{
-		return $this->sleepUntil(EServerInstanceStatus::down, $timeout);
+		return $this->sleepUntil(EServerInstanceStatus::down, $timeoutSec);
 	}
 	
 	/**
@@ -325,14 +310,14 @@ class Server extends Resource {
 	 * 
 	 * @ignore
 	 * @access private
+	 * @param int $timeoutSec = 180
 	 * @param string $status
-	 * @param int $timeout = 60
 	 * @return boolean
 	 */
-	private function sleepUntil($status, $timeout=60)
+	private function sleepUntil($status, $timeoutSec=180)
 	{
 		$step = 3;
-		while (0 < $timeout) {
+		while (0 < $timeoutSec) {
 			$this->reload();
 			$s = $this->get_instance()->status;
 			if ($s == null) {
@@ -341,8 +326,8 @@ class Server extends Resource {
 			if ($s == $status) {
 				return true;
 			}
-			$timeout -= $step;
-			if (0 < $timeout) {
+			$timeoutSec -= $step;
+			if (0 < $timeoutSec) {
 				Util::sleep($step);
 			}
 		}
@@ -645,6 +630,30 @@ class Server extends Resource {
 	
 	
 	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_availability = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_availability()
+	{
+		return $this->m_availability;
+	}
+	
+	/**
+	 * 有効状態
+	 */
+	
+	
+	/**
 	 * (This method is generated in Translator_default#buildImpl)
 	 * 
 	 * @access public
@@ -741,6 +750,14 @@ class Server extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_instance = false;
+		if (array_key_exists("Availability", $r)) {
+			$this->m_availability = $r->{"Availability"} == null ? null : "" . $r->{"Availability"};
+		}
+		else {
+			$this->m_availability = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_availability = false;
 	}
 	
 	/**
@@ -787,6 +804,9 @@ class Server extends Resource {
 		if ($withClean || $this->n_instance) {
 			$ret->{"Instance"} = $withClean ? ($this->m_instance == null ? null : $this->m_instance->apiSerialize($withClean)) : ($this->m_instance == null ? (object)['ID' => "0"] : $this->m_instance->apiSerializeID());
 		}
+		if ($withClean || $this->n_availability) {
+			$ret->{"Availability"} = $this->m_availability;
+		}
 		return $ret;
 	}
 	
@@ -803,6 +823,7 @@ class Server extends Resource {
 			case "plan": return $this->get_plan();
 			case "ifaces": return $this->get_ifaces();
 			case "instance": return $this->get_instance();
+			case "availability": return $this->get_availability();
 			default: return null;
 		}
 	}
