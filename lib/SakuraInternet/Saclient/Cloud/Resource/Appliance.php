@@ -497,10 +497,11 @@ class Appliance extends Resource {
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
 	 * 
-	 * @access public
+	 * @access protected
+	 * @ignore
 	 * @param mixed $r
 	 */
-	public function apiDeserialize($r)
+	protected function apiDeserializeImpl($r)
 	{
 		$this->isNew = $r == null;
 		if ($this->isNew) {
@@ -596,11 +597,12 @@ class Appliance extends Resource {
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
 	 * 
-	 * @access public
+	 * @access protected
+	 * @ignore
 	 * @param boolean $withClean = false
 	 * @return mixed
 	 */
-	public function apiSerialize($withClean=false)
+	protected function apiSerializeImpl($withClean=false)
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {

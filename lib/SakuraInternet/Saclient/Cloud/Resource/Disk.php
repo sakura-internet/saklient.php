@@ -25,13 +25,14 @@ use \SakuraInternet\Saclient\Cloud\Util;
  * ディスクのリソース情報へのアクセス機能や操作機能を備えたクラス。
  * 
  * @property-read boolean $isAvailable
- * @property-read int $sizeGib
+ * @property int $sizeGib
+ * @property mixed $source
  * @property-read string $id
  * @property string $name
  * @property string $description
  * @property string[] $tags
  * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon
- * @property-read int $sizeMib
+ * @property int $sizeMib
  * @property-read string $serviceClass
  * @property-read \SakuraInternet\Saclient\Cloud\Resource\DiskPlan $plan
  * @property-read \SakuraInternet\Saclient\Cloud\Resource\Server $server
@@ -232,20 +233,129 @@ class Disk extends Resource {
 	}
 	
 	/**
+	 * @access protected
+	 * @ignore
+	 * @param int $sizeGib
+	 * @return int
+	 */
+	protected function set_sizeGib($sizeGib)
+	{
+		$this->sizeMib = $sizeGib * 1024;
+		return $sizeGib;
+	}
+	
+	/**
 	 * サイズ[GiB]
 	 */
 	
 	
 	/**
+	 * @private
+	 * @access private
+	 * @ignore
+	 * @var mixed
+	 */
+	private $_source;
+	
+	/**
+	 * @access public
+	 * @return mixed
+	 */
+	public function get_source()
+	{
+		return $this->_source;
+	}
+	
+	/**
+	 * @access public
+	 * @param mixed $source
+	 * @return mixed
+	 */
+	public function set_source($source)
+	{
+		$this->_source = $source;
+		return $source;
+	}
+	
+	/**
+	 * ディスクのコピー元
+	 */
+	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $r
+	 * @return void
+	 */
+	protected function _onAfterApiDeserialize($r)
+	{
+		if ($r == null) {
+			return;
+		}
+		if (array_key_exists("SourceArchive", $r)) {
+			$s = $r->{"SourceArchive"};
+			if ($s != null) {
+				$id = $s->{"ID"};
+				if ($id != null) {
+					$this->_source = new Archive($this->_client, $s);
+				}
+			}
+		}
+		if (array_key_exists("SourceDisk", $r)) {
+			$s = $r->{"SourceDisk"};
+			if ($s != null) {
+				$id = $s->{"ID"};
+				if ($id != null) {
+					$this->_source = new Disk($this->_client, $s);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param boolean $withClean
+	 * @param mixed $r
+	 * @return void
+	 */
+	protected function _onAfterApiSerialize($r, $withClean)
+	{
+		if ($r == null) {
+			return;
+		}
+		if ($this->_source != null) {
+			if ($this->_source instanceof Archive) {
+				$src = $this->_source;
+				$s = $withClean ? $src->apiSerialize(true) : (object)['ID' => $src->_id()];
+				$r->{"SourceArchive"} = $s;
+			}
+			else {
+				if ($this->_source instanceof Disk) {
+					$src = $this->_source;
+					$s = $withClean ? $src->apiSerialize(true) : (object)['ID' => $src->_id()];
+					$r->{"SourceDisk"} = $s;
+				}
+				else {
+					$r->{"SourceArchive"} = (object)['ID' => 1];
+				}
+			}
+		}
+	}
+	
+	/**
 	 * ディスクをサーバに取り付けます。
 	 * 
 	 * @access public
-	 * @param string $serverId
+	 * @param \SakuraInternet\Saclient\Cloud\Resource\Server $server
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk
 	 */
-	public function attachTo($serverId)
+	public function connectTo(\SakuraInternet\Saclient\Cloud\Resource\Server $server)
 	{
-		$this->_client->request("PUT", "/disk/" . $this->_id() . "/to/server/" . $serverId);
+		$this->_client->request("PUT", "/disk/" . $this->_id() . "/to/server/" . $server->_id());
 		return $this;
 	}
 	
@@ -255,22 +365,9 @@ class Disk extends Resource {
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk
 	 */
-	public function detach()
+	public function disconnect()
 	{
 		$this->_client->request("DELETE", "/disk/" . $this->_id() . "/to/server");
-		return $this;
-	}
-	
-	/**
-	 * この後に save() するディスクのコピー元となるアーカイブを設定します。
-	 * 
-	 * @access public
-	 * @param \SakuraInternet\Saclient\Cloud\Resource\Archive $archive
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk
-	 */
-	public function copyFrom(\SakuraInternet\Saclient\Cloud\Resource\Archive $archive)
-	{
-		$this->setParam("SourceArchive", (object)['ID' => $archive->_id()]);
 		return $this;
 	}
 	
@@ -516,6 +613,21 @@ class Disk extends Resource {
 	}
 	
 	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param int $v
+	 * @return int
+	 */
+	private function set_sizeMib($v)
+	{
+		$this->m_sizeMib = $v;
+		$this->n_sizeMib = true;
+		return $this->m_sizeMib;
+	}
+	
+	/**
 	 * サイズ[MiB]
 	 */
 	
@@ -619,10 +731,11 @@ class Disk extends Resource {
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
 	 * 
-	 * @access public
+	 * @access protected
+	 * @ignore
 	 * @param mixed $r
 	 */
-	public function apiDeserialize($r)
+	protected function apiDeserializeImpl($r)
 	{
 		$this->isNew = $r == null;
 		if ($this->isNew) {
@@ -724,11 +837,12 @@ class Disk extends Resource {
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
 	 * 
-	 * @access public
+	 * @access protected
+	 * @ignore
 	 * @param boolean $withClean = false
 	 * @return mixed
 	 */
-	public function apiSerialize($withClean=false)
+	protected function apiSerializeImpl($withClean=false)
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
@@ -776,6 +890,7 @@ class Disk extends Resource {
 		switch ($key) {
 			case "isAvailable": return $this->get_isAvailable();
 			case "sizeGib": return $this->get_sizeGib();
+			case "source": return $this->get_source();
 			case "id": return $this->get_id();
 			case "name": return $this->get_name();
 			case "description": return $this->get_description();
@@ -795,10 +910,13 @@ class Disk extends Resource {
 	 */
 	public function __set($key, $v) {
 		switch ($key) {
+			case "sizeGib": return $this->set_sizeGib($v);
+			case "source": return $this->set_source($v);
 			case "name": return $this->set_name($v);
 			case "description": return $this->set_description($v);
 			case "tags": return $this->set_tags($v);
 			case "icon": return $this->set_icon($v);
+			case "sizeMib": return $this->set_sizeMib($v);
 			default: return $v;
 		}
 	}

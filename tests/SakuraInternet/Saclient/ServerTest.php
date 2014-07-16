@@ -45,16 +45,37 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @depends testAuthorize
 	 */
-	public function testCreate(API $api)
+	public function testCrud(API $api)
 	{
 		
-		// create
 		$name = "!phpunit-" . date("Ymd_His") . "-" . uniqid();
 		$description = "This instance was created by Saclient PHPUnit Test";
 		$tag = "saclient-test";
 		$cpu = 1;
 		$mem = 2;
-		//
+		
+		// search archives
+		echo "searching archives...\n";
+		$archives = $api->archive
+			->withNameLike('CentOS 6.5 64bit')
+			->withSizeGib(20)
+			->withSharedScope()
+			->limit(1)
+			->find();
+		$this->assertGreaterThan(0, count($archives));
+		$archive = $archives[0];
+		
+		// create a disk
+		echo "creating a disk...\n";
+		$disk = $api->disk->create();
+		$disk->name = $name;
+		$disk->description = $description;
+		$disk->tags = [$tag];
+		$disk->source = $archive;
+		$disk->save();
+		
+		// create a server
+		echo "creating a server...\n";
 		$server = $api->server->create();
 		$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\Resource\\Server", $server);
 		$server->name = $name;
@@ -62,7 +83,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$server->tags = [$tag];
 		$server->plan = $api->product->server->getBySpec($cpu, $mem);
 		$server->save();
-		//
+		
+		// check the server properties
 		$this->assertGreaterThanOrEqual(1, $server->id);
 		$this->assertEquals($server->name, $name);
 		$this->assertEquals($server->description, $description);
@@ -72,10 +94,25 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($server->plan->cpu, $cpu);
 		$this->assertEquals($server->plan->memoryGib, $mem);
 		
+		// wait disk copy
+		echo "waiting disk copy...\n";
+		if (!$disk->sleepWhileCopying()) $this->fail("アーカイブからディスクへのコピーがタイムアウトしました");
+		$disk->source = null;
+		$disk->reload();
+		$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\Resource\\Archive", $disk->source);
+		$this->assertEquals($archive->id, $disk->source->id);
+		$this->assertEquals($archive->sizeGib, $disk->sizeGib);
+		
+		// connect the disk to the server
+		echo "connecting the disk to the server...\n";
+		$disk->connectTo($server);
+		
 		// boot
+		echo "booting the server...\n";
 		$server->boot();
 		
 		// boot conflict
+		echo "checking the server power conflicts...\n";
 		$ok = false;
 		try {
 			$server->boot();
@@ -87,12 +124,41 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		
 		// stop
 		sleep(3);
+		echo "stopping the server...\n";
 		if (!$server->stop()->sleepUntilDown()) $this->fail('サーバが正常に停止しません');
 		
-		// delete
+		// disconnect the disk from the server
+		echo "disconnecting the disk from the server...\n";
+		$disk->disconnect();
+		
+		// delete the server
+		echo "deleting the server...\n";
 		$server->destroy();
 		
-		return $server;
+		// duplicate the disk
+		echo "duplicating the disk (expanding to 40GiB)...\n";
+		$disk2 = $api->disk->create();
+		$disk2->name = $name . "-copy";
+		$disk2->description = $description;
+		$disk2->tags = [$tag];
+		$disk2->source = $disk;
+		$disk2->sizeGib = 40;
+		$disk2->save();
+		
+		// wait disk duplication
+		echo "waiting disk duplication...\n";
+		if (!$disk2->sleepWhileCopying()) $this->fail("ディスクの複製がタイムアウトしました");
+		$disk2->source = null;
+		$disk2->reload();
+		$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\Resource\\Disk", $disk2->source);
+		$this->assertEquals($disk->id, $disk2->source->id);
+		$this->assertEquals(40, $disk2->sizeGib);
+		
+		// delete the disks
+		echo "deleting the disks...\n";
+		$disk2->destroy();
+		$disk->destroy();
+		
 	}
 	
 }

@@ -121,12 +121,66 @@ class Resource {
 	protected $isIncomplete;
 	
 	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $r
+	 * @return void
+	 */
+	protected function _onBeforeSave($r)
+	{}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $r
+	 * @return void
+	 */
+	protected function _onAfterApiDeserialize($r)
+	{}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param boolean $withClean
+	 * @param mixed $r
+	 * @return void
+	 */
+	protected function _onAfterApiSerialize($r, $withClean)
+	{}
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @param mixed $r
+	 * @return void
+	 */
+	protected function apiDeserializeImpl($r)
+	{}
+	
+	/**
 	 * @access public
 	 * @param mixed $r
 	 * @return void
 	 */
 	public function apiDeserialize($r)
-	{}
+	{
+		$this->apiDeserializeImpl($r);
+		$this->_onAfterApiDeserialize($r);
+	}
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @param boolean $withClean = false
+	 * @return mixed
+	 */
+	protected function apiSerializeImpl($withClean=false)
+	{
+		return null;
+	}
 	
 	/**
 	 * @access public
@@ -135,7 +189,9 @@ class Resource {
 	 */
 	public function apiSerialize($withClean=false)
 	{
-		return null;
+		$ret = $this->apiSerializeImpl($withClean);
+		$this->_onAfterApiSerialize($ret, $withClean);
+		return $ret;
 	}
 	
 	/**
@@ -172,6 +228,7 @@ class Resource {
 			$v = $params->{$k};
 			$r->{$k} = $v;
 		}
+		$this->_onBeforeSave($r);
 		$method = $this->isNew ? "POST" : "PUT";
 		$path = $this->_apiPath();
 		if (!$this->isNew) {
