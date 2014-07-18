@@ -773,9 +773,9 @@ class Disk extends Resource {
 			else {
 				$this->m_tags = new \ArrayObject([]);
 				foreach (Util::getByPath($r, "Tags") as $t) {
-					$v = null;
-					$v = $t == null ? null : "" . $t;
-					$this->m_tags->append($v);
+					$v1 = null;
+					$v1 = $t == null ? null : "" . $t;
+					$this->m_tags->append($v1);
 				}
 			}
 		}
@@ -846,39 +846,39 @@ class Disk extends Resource {
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
-			$ret->{"ID"} = $this->m_id;
+			Util::setByPath($ret, "ID", $this->m_id);
 		}
 		if ($withClean || $this->n_name) {
-			$ret->{"Name"} = $this->m_name;
+			Util::setByPath($ret, "Name", $this->m_name);
 		}
 		if ($withClean || $this->n_description) {
-			$ret->{"Description"} = $this->m_description;
+			Util::setByPath($ret, "Description", $this->m_description);
 		}
 		if ($withClean || $this->n_tags) {
-			$ret->{"Tags"} = new \ArrayObject([]);
-			foreach ($this->m_tags as $r) {
+			Util::setByPath($ret, "Tags", new \ArrayObject([]));
+			foreach ($this->m_tags as $r1) {
 				$v = null;
-				$v = $r;
+				$v = $r1;
 				$ret->{"Tags"}->append($v);
 			}
 		}
 		if ($withClean || $this->n_icon) {
-			$ret->{"Icon"} = $withClean ? ($this->m_icon == null ? null : $this->m_icon->apiSerialize($withClean)) : ($this->m_icon == null ? (object)['ID' => "0"] : $this->m_icon->apiSerializeID());
+			Util::setByPath($ret, "Icon", $withClean ? ($this->m_icon == null ? null : $this->m_icon->apiSerialize($withClean)) : ($this->m_icon == null ? (object)['ID' => "0"] : $this->m_icon->apiSerializeID()));
 		}
 		if ($withClean || $this->n_sizeMib) {
-			$ret->{"SizeMB"} = $this->m_sizeMib;
+			Util::setByPath($ret, "SizeMB", $this->m_sizeMib);
 		}
 		if ($withClean || $this->n_serviceClass) {
-			$ret->{"ServiceClass"} = $this->m_serviceClass;
+			Util::setByPath($ret, "ServiceClass", $this->m_serviceClass);
 		}
 		if ($withClean || $this->n_plan) {
-			$ret->{"Plan"} = $withClean ? ($this->m_plan == null ? null : $this->m_plan->apiSerialize($withClean)) : ($this->m_plan == null ? (object)['ID' => "0"] : $this->m_plan->apiSerializeID());
+			Util::setByPath($ret, "Plan", $withClean ? ($this->m_plan == null ? null : $this->m_plan->apiSerialize($withClean)) : ($this->m_plan == null ? (object)['ID' => "0"] : $this->m_plan->apiSerializeID()));
 		}
 		if ($withClean || $this->n_server) {
-			$ret->{"Server"} = $withClean ? ($this->m_server == null ? null : $this->m_server->apiSerialize($withClean)) : ($this->m_server == null ? (object)['ID' => "0"] : $this->m_server->apiSerializeID());
+			Util::setByPath($ret, "Server", $withClean ? ($this->m_server == null ? null : $this->m_server->apiSerialize($withClean)) : ($this->m_server == null ? (object)['ID' => "0"] : $this->m_server->apiSerializeID()));
 		}
 		if ($withClean || $this->n_availability) {
-			$ret->{"Availability"} = $this->m_availability;
+			Util::setByPath($ret, "Availability", $this->m_availability);
 		}
 		return $ret;
 	}

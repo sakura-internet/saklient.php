@@ -362,6 +362,20 @@ class Server extends Resource {
 	}
 	
 	/**
+	 * インタフェースを1つ増設し、それを取得します。
+	 * 
+	 * @access public
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface
+	 */
+	public function addIface()
+	{
+		$model = Util::createClassInstance("saclient.cloud.model.Model_Iface", new \ArrayObject([$this->_client]));
+		$res = $model->create();
+		$res->serverId = $this->_id();
+		return $res->save();
+	}
+	
+	/**
 	 * @access private
 	 * @ignore
 	 * @var boolean
@@ -698,9 +712,9 @@ class Server extends Resource {
 			else {
 				$this->m_tags = new \ArrayObject([]);
 				foreach (Util::getByPath($r, "Tags") as $t) {
-					$v = null;
-					$v = $t == null ? null : "" . $t;
-					$this->m_tags->append($v);
+					$v1 = null;
+					$v1 = $t == null ? null : "" . $t;
+					$this->m_tags->append($v1);
 				}
 			}
 		}
@@ -732,9 +746,9 @@ class Server extends Resource {
 			else {
 				$this->m_ifaces = new \ArrayObject([]);
 				foreach (Util::getByPath($r, "Interfaces") as $t) {
-					$v = null;
-					$v = $t == null ? null : new Iface($this->_client, $t);
-					$this->m_ifaces->append($v);
+					$v2 = null;
+					$v2 = $t == null ? null : new Iface($this->_client, $t);
+					$this->m_ifaces->append($v2);
 				}
 			}
 		}
@@ -773,41 +787,41 @@ class Server extends Resource {
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
-			$ret->{"ID"} = $this->m_id;
+			Util::setByPath($ret, "ID", $this->m_id);
 		}
 		if ($withClean || $this->n_name) {
-			$ret->{"Name"} = $this->m_name;
+			Util::setByPath($ret, "Name", $this->m_name);
 		}
 		if ($withClean || $this->n_description) {
-			$ret->{"Description"} = $this->m_description;
+			Util::setByPath($ret, "Description", $this->m_description);
 		}
 		if ($withClean || $this->n_tags) {
-			$ret->{"Tags"} = new \ArrayObject([]);
-			foreach ($this->m_tags as $r) {
+			Util::setByPath($ret, "Tags", new \ArrayObject([]));
+			foreach ($this->m_tags as $r1) {
 				$v = null;
-				$v = $r;
+				$v = $r1;
 				$ret->{"Tags"}->append($v);
 			}
 		}
 		if ($withClean || $this->n_icon) {
-			$ret->{"Icon"} = $withClean ? ($this->m_icon == null ? null : $this->m_icon->apiSerialize($withClean)) : ($this->m_icon == null ? (object)['ID' => "0"] : $this->m_icon->apiSerializeID());
+			Util::setByPath($ret, "Icon", $withClean ? ($this->m_icon == null ? null : $this->m_icon->apiSerialize($withClean)) : ($this->m_icon == null ? (object)['ID' => "0"] : $this->m_icon->apiSerializeID()));
 		}
 		if ($withClean || $this->n_plan) {
-			$ret->{"ServerPlan"} = $withClean ? ($this->m_plan == null ? null : $this->m_plan->apiSerialize($withClean)) : ($this->m_plan == null ? (object)['ID' => "0"] : $this->m_plan->apiSerializeID());
+			Util::setByPath($ret, "ServerPlan", $withClean ? ($this->m_plan == null ? null : $this->m_plan->apiSerialize($withClean)) : ($this->m_plan == null ? (object)['ID' => "0"] : $this->m_plan->apiSerializeID()));
 		}
 		if ($withClean || $this->n_ifaces) {
-			$ret->{"Interfaces"} = new \ArrayObject([]);
-			foreach ($this->m_ifaces as $r) {
+			Util::setByPath($ret, "Interfaces", new \ArrayObject([]));
+			foreach ($this->m_ifaces as $r2) {
 				$v = null;
-				$v = $withClean ? ($r == null ? null : $r->apiSerialize($withClean)) : ($r == null ? (object)['ID' => "0"] : $r->apiSerializeID());
+				$v = $withClean ? ($r2 == null ? null : $r2->apiSerialize($withClean)) : ($r2 == null ? (object)['ID' => "0"] : $r2->apiSerializeID());
 				$ret->{"Interfaces"}->append($v);
 			}
 		}
 		if ($withClean || $this->n_instance) {
-			$ret->{"Instance"} = $withClean ? ($this->m_instance == null ? null : $this->m_instance->apiSerialize($withClean)) : ($this->m_instance == null ? (object)['ID' => "0"] : $this->m_instance->apiSerializeID());
+			Util::setByPath($ret, "Instance", $withClean ? ($this->m_instance == null ? null : $this->m_instance->apiSerialize($withClean)) : ($this->m_instance == null ? (object)['ID' => "0"] : $this->m_instance->apiSerializeID()));
 		}
 		if ($withClean || $this->n_availability) {
-			$ret->{"Availability"} = $this->m_availability;
+			Util::setByPath($ret, "Availability", $this->m_availability);
 		}
 		return $ret;
 	}

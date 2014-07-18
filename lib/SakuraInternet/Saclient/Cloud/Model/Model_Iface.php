@@ -94,6 +94,17 @@ class Model_Iface extends Model {
 	}
 	
 	/**
+	 * *
+	 * 
+	 * @access public
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface
+	 */
+	public function create()
+	{
+		return $this->_create();
+	}
+	
+	/**
 	 * 指定したIDを持つ唯一のリソースを取得します。
 	 * 
 	 * @access public

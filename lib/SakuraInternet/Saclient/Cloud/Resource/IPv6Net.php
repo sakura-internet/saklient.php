@@ -213,16 +213,16 @@ class IPv6Net extends Resource {
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
-			$ret->{"ID"} = $this->m_id;
+			Util::setByPath($ret, "ID", $this->m_id);
 		}
 		if ($withClean || $this->n_ipv6Prefix) {
-			$ret->{"IPv6Prefix"} = $this->m_ipv6Prefix;
+			Util::setByPath($ret, "IPv6Prefix", $this->m_ipv6Prefix);
 		}
 		if ($withClean || $this->n_ipv6PrefixLen) {
-			$ret->{"IPv6PrefixLen"} = $this->m_ipv6PrefixLen;
+			Util::setByPath($ret, "IPv6PrefixLen", $this->m_ipv6PrefixLen);
 		}
 		if ($withClean || $this->n_ipv6PrefixTail) {
-			$ret->{"IPv6PrefixTail"} = $this->m_ipv6PrefixTail;
+			Util::setByPath($ret, "IPv6PrefixTail", $this->m_ipv6PrefixTail);
 		}
 		return $ret;
 	}

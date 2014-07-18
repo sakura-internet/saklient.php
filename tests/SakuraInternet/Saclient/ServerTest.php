@@ -85,7 +85,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$server->save();
 		
 		// check the server properties
-		$this->assertGreaterThanOrEqual(1, $server->id);
+		$this->assertGreaterThan(0, $server->id);
 		$this->assertEquals($server->name, $name);
 		$this->assertEquals($server->description, $description);
 		$this->assertInstanceOf("\\ArrayObject", $server->tags);
@@ -93,6 +93,12 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($server->tags[0], $tag);
 		$this->assertEquals($server->plan->cpu, $cpu);
 		$this->assertEquals($server->plan->memoryGib, $mem);
+		
+		// connect to shared segment
+		$iface = $server->addIface();
+		$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\Resource\\Iface", $iface);
+		$this->assertGreaterThan(0, $iface->id);
+		$iface->connectToSharedSegment();
 		
 		// wait disk copy
 		echo "waiting disk copy...\n";

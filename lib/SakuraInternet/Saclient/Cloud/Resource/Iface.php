@@ -135,6 +135,18 @@ class Iface extends Resource {
 	}
 	
 	/**
+	 * 共有セグメントに接続します。
+	 * 
+	 * @access public
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface
+	 */
+	public function connectToSharedSegment()
+	{
+		$this->_client->request("PUT", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/to/switch/shared");
+		return $this->reload();
+	}
+	
+	/**
 	 * @access private
 	 * @ignore
 	 * @var boolean
@@ -340,19 +352,19 @@ class Iface extends Resource {
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
-			$ret->{"ID"} = $this->m_id;
+			Util::setByPath($ret, "ID", $this->m_id);
 		}
 		if ($withClean || $this->n_macAddress) {
-			$ret->{"MACAddress"} = $this->m_macAddress;
+			Util::setByPath($ret, "MACAddress", $this->m_macAddress);
 		}
 		if ($withClean || $this->n_ipAddress) {
-			$ret->{"IPAddress"} = $this->m_ipAddress;
+			Util::setByPath($ret, "IPAddress", $this->m_ipAddress);
 		}
 		if ($withClean || $this->n_userIpAddress) {
-			$ret->{"UserIPAddress"} = $this->m_userIpAddress;
+			Util::setByPath($ret, "UserIPAddress", $this->m_userIpAddress);
 		}
 		if ($withClean || $this->n_serverId) {
-			$ret->{"Server.ID"} = $this->m_serverId;
+			Util::setByPath($ret, "Server.ID", $this->m_serverId);
 		}
 		return $ret;
 	}

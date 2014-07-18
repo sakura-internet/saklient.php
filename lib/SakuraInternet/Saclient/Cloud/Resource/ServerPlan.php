@@ -263,19 +263,19 @@ class ServerPlan extends Resource {
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
-			$ret->{"ID"} = $this->m_id;
+			Util::setByPath($ret, "ID", $this->m_id);
 		}
 		if ($withClean || $this->n_name) {
-			$ret->{"Name"} = $this->m_name;
+			Util::setByPath($ret, "Name", $this->m_name);
 		}
 		if ($withClean || $this->n_cpu) {
-			$ret->{"CPU"} = $this->m_cpu;
+			Util::setByPath($ret, "CPU", $this->m_cpu);
 		}
 		if ($withClean || $this->n_memoryMib) {
-			$ret->{"MemoryMB"} = $this->m_memoryMib;
+			Util::setByPath($ret, "MemoryMB", $this->m_memoryMib);
 		}
 		if ($withClean || $this->n_serviceClass) {
-			$ret->{"ServiceClass"} = $this->m_serviceClass;
+			Util::setByPath($ret, "ServiceClass", $this->m_serviceClass);
 		}
 		return $ret;
 	}

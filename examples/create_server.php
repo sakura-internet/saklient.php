@@ -14,4 +14,4 @@ $server->save();
 $iface = $server->addIface();
 $iface->connectToSharedSegment();
 
-print_r($server->apiSerialize(true));
+print_r($server->reload()->dump());

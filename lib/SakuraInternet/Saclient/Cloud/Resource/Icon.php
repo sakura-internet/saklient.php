@@ -231,13 +231,13 @@ class Icon extends Resource {
 	{
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
-			$ret->{"ID"} = $this->m_id;
+			Util::setByPath($ret, "ID", $this->m_id);
 		}
 		if ($withClean || $this->n_name) {
-			$ret->{"Name"} = $this->m_name;
+			Util::setByPath($ret, "Name", $this->m_name);
 		}
 		if ($withClean || $this->n_url) {
-			$ret->{"URL"} = $this->m_url;
+			Util::setByPath($ret, "URL", $this->m_url);
 		}
 		return $ret;
 	}
