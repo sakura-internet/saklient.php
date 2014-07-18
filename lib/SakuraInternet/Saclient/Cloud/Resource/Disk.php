@@ -240,7 +240,7 @@ class Disk extends Resource {
 	 */
 	protected function set_sizeGib($sizeGib)
 	{
-		$this->sizeMib = $sizeGib * 1024;
+		$this->set_sizeMib($sizeGib * 1024);
 		return $sizeGib;
 	}
 	
@@ -329,14 +329,14 @@ class Disk extends Resource {
 		}
 		if ($this->_source != null) {
 			if ($this->_source instanceof Archive) {
-				$src = $this->_source;
-				$s = $withClean ? $src->apiSerialize(true) : (object)['ID' => $src->_id()];
+				$archive = $this->_source;
+				$s = $withClean ? $archive->apiSerialize(true) : (object)['ID' => $archive->_id()];
 				$r->{"SourceArchive"} = $s;
 			}
 			else {
 				if ($this->_source instanceof Disk) {
-					$src = $this->_source;
-					$s = $withClean ? $src->apiSerialize(true) : (object)['ID' => $src->_id()];
+					$disk = $this->_source;
+					$s = $withClean ? $disk->apiSerialize(true) : (object)['ID' => $disk->_id()];
 					$r->{"SourceDisk"} = $s;
 				}
 				else {
@@ -742,37 +742,37 @@ class Disk extends Resource {
 			$r = (object)[];
 		}
 		$this->isIncomplete = false;
-		if (array_key_exists("ID", $r)) {
-			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
+		if (Util::existsPath($r, "ID")) {
+			$this->m_id = Util::getByPath($r, "ID") == null ? null : "" . Util::getByPath($r, "ID");
 		}
 		else {
 			$this->m_id = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_id = false;
-		if (array_key_exists("Name", $r)) {
-			$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
+		if (Util::existsPath($r, "Name")) {
+			$this->m_name = Util::getByPath($r, "Name") == null ? null : "" . Util::getByPath($r, "Name");
 		}
 		else {
 			$this->m_name = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_name = false;
-		if (array_key_exists("Description", $r)) {
-			$this->m_description = $r->{"Description"} == null ? null : "" . $r->{"Description"};
+		if (Util::existsPath($r, "Description")) {
+			$this->m_description = Util::getByPath($r, "Description") == null ? null : "" . Util::getByPath($r, "Description");
 		}
 		else {
 			$this->m_description = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_description = false;
-		if (array_key_exists("Tags", $r)) {
-			if ($r->{"Tags"} == null) {
+		if (Util::existsPath($r, "Tags")) {
+			if (Util::getByPath($r, "Tags") == null) {
 				$this->m_tags = new \ArrayObject([]);
 			}
 			else {
 				$this->m_tags = new \ArrayObject([]);
-				foreach ($r->{"Tags"} as $t) {
+				foreach (Util::getByPath($r, "Tags") as $t) {
 					$v = null;
 					$v = $t == null ? null : "" . $t;
 					$this->m_tags->append($v);
@@ -784,48 +784,48 @@ class Disk extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_tags = false;
-		if (array_key_exists("Icon", $r)) {
-			$this->m_icon = $r->{"Icon"} == null ? null : new Icon($this->_client, $r->{"Icon"});
+		if (Util::existsPath($r, "Icon")) {
+			$this->m_icon = Util::getByPath($r, "Icon") == null ? null : new Icon($this->_client, Util::getByPath($r, "Icon"));
 		}
 		else {
 			$this->m_icon = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_icon = false;
-		if (array_key_exists("SizeMB", $r)) {
-			$this->m_sizeMib = $r->{"SizeMB"} == null ? null : intval("" . $r->{"SizeMB"});
+		if (Util::existsPath($r, "SizeMB")) {
+			$this->m_sizeMib = Util::getByPath($r, "SizeMB") == null ? null : intval("" . Util::getByPath($r, "SizeMB"));
 		}
 		else {
 			$this->m_sizeMib = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_sizeMib = false;
-		if (array_key_exists("ServiceClass", $r)) {
-			$this->m_serviceClass = $r->{"ServiceClass"} == null ? null : "" . $r->{"ServiceClass"};
+		if (Util::existsPath($r, "ServiceClass")) {
+			$this->m_serviceClass = Util::getByPath($r, "ServiceClass") == null ? null : "" . Util::getByPath($r, "ServiceClass");
 		}
 		else {
 			$this->m_serviceClass = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_serviceClass = false;
-		if (array_key_exists("Plan", $r)) {
-			$this->m_plan = $r->{"Plan"} == null ? null : new DiskPlan($this->_client, $r->{"Plan"});
+		if (Util::existsPath($r, "Plan")) {
+			$this->m_plan = Util::getByPath($r, "Plan") == null ? null : new DiskPlan($this->_client, Util::getByPath($r, "Plan"));
 		}
 		else {
 			$this->m_plan = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_plan = false;
-		if (array_key_exists("Server", $r)) {
-			$this->m_server = $r->{"Server"} == null ? null : new Server($this->_client, $r->{"Server"});
+		if (Util::existsPath($r, "Server")) {
+			$this->m_server = Util::getByPath($r, "Server") == null ? null : new Server($this->_client, Util::getByPath($r, "Server"));
 		}
 		else {
 			$this->m_server = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_server = false;
-		if (array_key_exists("Availability", $r)) {
-			$this->m_availability = $r->{"Availability"} == null ? null : "" . $r->{"Availability"};
+		if (Util::existsPath($r, "Availability")) {
+			$this->m_availability = Util::getByPath($r, "Availability") == null ? null : "" . Util::getByPath($r, "Availability");
 		}
 		else {
 			$this->m_availability = null;

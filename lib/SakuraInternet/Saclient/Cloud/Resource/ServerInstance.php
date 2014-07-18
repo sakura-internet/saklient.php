@@ -152,24 +152,24 @@ class ServerInstance extends Resource {
 			$r = (object)[];
 		}
 		$this->isIncomplete = false;
-		if (array_key_exists("Status", $r)) {
-			$this->m_status = $r->{"Status"} == null ? null : "" . $r->{"Status"};
+		if (Util::existsPath($r, "Status")) {
+			$this->m_status = Util::getByPath($r, "Status") == null ? null : "" . Util::getByPath($r, "Status");
 		}
 		else {
 			$this->m_status = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_status = false;
-		if (array_key_exists("BeforeStatus", $r)) {
-			$this->m_beforeStatus = $r->{"BeforeStatus"} == null ? null : "" . $r->{"BeforeStatus"};
+		if (Util::existsPath($r, "BeforeStatus")) {
+			$this->m_beforeStatus = Util::getByPath($r, "BeforeStatus") == null ? null : "" . Util::getByPath($r, "BeforeStatus");
 		}
 		else {
 			$this->m_beforeStatus = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_beforeStatus = false;
-		if (array_key_exists("StatusChangedAt", $r)) {
-			$this->m_statusChangedAt = $r->{"StatusChangedAt"} == null ? null : Util::str2date("" . $r->{"StatusChangedAt"});
+		if (Util::existsPath($r, "StatusChangedAt")) {
+			$this->m_statusChangedAt = Util::getByPath($r, "StatusChangedAt") == null ? null : Util::str2date("" . Util::getByPath($r, "StatusChangedAt"));
 		}
 		else {
 			$this->m_statusChangedAt = null;

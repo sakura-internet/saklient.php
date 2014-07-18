@@ -132,6 +132,17 @@ class Model {
 	}
 	
 	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @return string
+	 */
+	protected function _className()
+	{
+		return null;
+	}
+	
+	/**
 	 * @access public
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
 	 */
@@ -199,7 +210,7 @@ class Model {
 	 */
 	protected function _create()
 	{
-		return Util::createClassInstance("saclient.cloud.resource." . $this->_rootKey(), new \ArrayObject([$this->_client, null]));
+		return Util::createClassInstance("saclient.cloud.resource." . $this->_className(), new \ArrayObject([$this->_client, null]));
 	}
 	
 	/**
@@ -219,7 +230,7 @@ class Model {
 		$this->_total = 1;
 		$this->_count = 1;
 		$record = $result->{$this->_rootKey()};
-		return Util::createClassInstance("saclient.cloud.resource." . $this->_rootKey(), new \ArrayObject([$this->_client, $record]));
+		return Util::createClassInstance("saclient.cloud.resource." . $this->_className(), new \ArrayObject([$this->_client, $record]));
 	}
 	
 	/**
@@ -240,7 +251,7 @@ class Model {
 		$records = $result->{$this->_rootKeyM()};
 		$data = new \ArrayObject([]);
 		foreach ($records as $record) {
-			$i = Util::createClassInstance("saclient.cloud.resource." . $this->_rootKey(), new \ArrayObject([$this->_client, $record]));
+			$i = Util::createClassInstance("saclient.cloud.resource." . $this->_className(), new \ArrayObject([$this->_client, $record]));
 			$data->append($i);
 		}
 		return $data;
@@ -265,7 +276,7 @@ class Model {
 			return null;
 		}
 		$records = $result->{$this->_rootKeyM()};
-		return Util::createClassInstance("saclient.cloud.resource." . $this->_rootKey(), new \ArrayObject([$this->_client, $records[0]]));
+		return Util::createClassInstance("saclient.cloud.resource." . $this->_className(), new \ArrayObject([$this->_client, $records[0]]));
 	}
 	
 	/**

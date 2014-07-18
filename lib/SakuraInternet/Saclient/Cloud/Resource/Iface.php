@@ -16,6 +16,7 @@ use \SakuraInternet\Saclient\Cloud\Util;
  * @property-read string $macAddress
  * @property-read string $ipAddress
  * @property string $userIpAddress
+ * @property string $serverId
  */
 class Iface extends Resource {
 	
@@ -46,6 +47,15 @@ class Iface extends Resource {
 	 * @var string
 	 */
 	protected $m_userIpAddress;
+	
+	/**
+	 * サーバ
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_serverId;
 	
 	/**
 	 * @private
@@ -224,6 +234,45 @@ class Iface extends Resource {
 	
 	
 	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_serverId = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_serverId()
+	{
+		return $this->m_serverId;
+	}
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param string $v
+	 * @return string
+	 */
+	private function set_serverId($v)
+	{
+		$this->m_serverId = $v;
+		$this->n_serverId = true;
+		return $this->m_serverId;
+	}
+	
+	/**
+	 * サーバ
+	 */
+	
+	
+	/**
 	 * (This method is generated in Translator_default#buildImpl)
 	 * 
 	 * @access protected
@@ -237,38 +286,46 @@ class Iface extends Resource {
 			$r = (object)[];
 		}
 		$this->isIncomplete = false;
-		if (array_key_exists("ID", $r)) {
-			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
+		if (Util::existsPath($r, "ID")) {
+			$this->m_id = Util::getByPath($r, "ID") == null ? null : "" . Util::getByPath($r, "ID");
 		}
 		else {
 			$this->m_id = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_id = false;
-		if (array_key_exists("MACAddress", $r)) {
-			$this->m_macAddress = $r->{"MACAddress"} == null ? null : "" . $r->{"MACAddress"};
+		if (Util::existsPath($r, "MACAddress")) {
+			$this->m_macAddress = Util::getByPath($r, "MACAddress") == null ? null : "" . Util::getByPath($r, "MACAddress");
 		}
 		else {
 			$this->m_macAddress = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_macAddress = false;
-		if (array_key_exists("IPAddress", $r)) {
-			$this->m_ipAddress = $r->{"IPAddress"} == null ? null : "" . $r->{"IPAddress"};
+		if (Util::existsPath($r, "IPAddress")) {
+			$this->m_ipAddress = Util::getByPath($r, "IPAddress") == null ? null : "" . Util::getByPath($r, "IPAddress");
 		}
 		else {
 			$this->m_ipAddress = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_ipAddress = false;
-		if (array_key_exists("UserIPAddress", $r)) {
-			$this->m_userIpAddress = $r->{"UserIPAddress"} == null ? null : "" . $r->{"UserIPAddress"};
+		if (Util::existsPath($r, "UserIPAddress")) {
+			$this->m_userIpAddress = Util::getByPath($r, "UserIPAddress") == null ? null : "" . Util::getByPath($r, "UserIPAddress");
 		}
 		else {
 			$this->m_userIpAddress = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_userIpAddress = false;
+		if (Util::existsPath($r, "Server.ID")) {
+			$this->m_serverId = Util::getByPath($r, "Server.ID") == null ? null : "" . Util::getByPath($r, "Server.ID");
+		}
+		else {
+			$this->m_serverId = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_serverId = false;
 	}
 	
 	/**
@@ -294,6 +351,9 @@ class Iface extends Resource {
 		if ($withClean || $this->n_userIpAddress) {
 			$ret->{"UserIPAddress"} = $this->m_userIpAddress;
 		}
+		if ($withClean || $this->n_serverId) {
+			$ret->{"Server.ID"} = $this->m_serverId;
+		}
 		return $ret;
 	}
 	
@@ -306,6 +366,7 @@ class Iface extends Resource {
 			case "macAddress": return $this->get_macAddress();
 			case "ipAddress": return $this->get_ipAddress();
 			case "userIpAddress": return $this->get_userIpAddress();
+			case "serverId": return $this->get_serverId();
 			default: return null;
 		}
 	}
@@ -316,6 +377,7 @@ class Iface extends Resource {
 	public function __set($key, $v) {
 		switch ($key) {
 			case "userIpAddress": return $this->set_userIpAddress($v);
+			case "serverId": return $this->set_serverId($v);
 			default: return $v;
 		}
 	}

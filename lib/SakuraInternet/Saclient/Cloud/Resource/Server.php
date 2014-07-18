@@ -667,37 +667,37 @@ class Server extends Resource {
 			$r = (object)[];
 		}
 		$this->isIncomplete = false;
-		if (array_key_exists("ID", $r)) {
-			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
+		if (Util::existsPath($r, "ID")) {
+			$this->m_id = Util::getByPath($r, "ID") == null ? null : "" . Util::getByPath($r, "ID");
 		}
 		else {
 			$this->m_id = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_id = false;
-		if (array_key_exists("Name", $r)) {
-			$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
+		if (Util::existsPath($r, "Name")) {
+			$this->m_name = Util::getByPath($r, "Name") == null ? null : "" . Util::getByPath($r, "Name");
 		}
 		else {
 			$this->m_name = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_name = false;
-		if (array_key_exists("Description", $r)) {
-			$this->m_description = $r->{"Description"} == null ? null : "" . $r->{"Description"};
+		if (Util::existsPath($r, "Description")) {
+			$this->m_description = Util::getByPath($r, "Description") == null ? null : "" . Util::getByPath($r, "Description");
 		}
 		else {
 			$this->m_description = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_description = false;
-		if (array_key_exists("Tags", $r)) {
-			if ($r->{"Tags"} == null) {
+		if (Util::existsPath($r, "Tags")) {
+			if (Util::getByPath($r, "Tags") == null) {
 				$this->m_tags = new \ArrayObject([]);
 			}
 			else {
 				$this->m_tags = new \ArrayObject([]);
-				foreach ($r->{"Tags"} as $t) {
+				foreach (Util::getByPath($r, "Tags") as $t) {
 					$v = null;
 					$v = $t == null ? null : "" . $t;
 					$this->m_tags->append($v);
@@ -709,29 +709,29 @@ class Server extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_tags = false;
-		if (array_key_exists("Icon", $r)) {
-			$this->m_icon = $r->{"Icon"} == null ? null : new Icon($this->_client, $r->{"Icon"});
+		if (Util::existsPath($r, "Icon")) {
+			$this->m_icon = Util::getByPath($r, "Icon") == null ? null : new Icon($this->_client, Util::getByPath($r, "Icon"));
 		}
 		else {
 			$this->m_icon = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_icon = false;
-		if (array_key_exists("ServerPlan", $r)) {
-			$this->m_plan = $r->{"ServerPlan"} == null ? null : new ServerPlan($this->_client, $r->{"ServerPlan"});
+		if (Util::existsPath($r, "ServerPlan")) {
+			$this->m_plan = Util::getByPath($r, "ServerPlan") == null ? null : new ServerPlan($this->_client, Util::getByPath($r, "ServerPlan"));
 		}
 		else {
 			$this->m_plan = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_plan = false;
-		if (array_key_exists("Interfaces", $r)) {
-			if ($r->{"Interfaces"} == null) {
+		if (Util::existsPath($r, "Interfaces")) {
+			if (Util::getByPath($r, "Interfaces") == null) {
 				$this->m_ifaces = new \ArrayObject([]);
 			}
 			else {
 				$this->m_ifaces = new \ArrayObject([]);
-				foreach ($r->{"Interfaces"} as $t) {
+				foreach (Util::getByPath($r, "Interfaces") as $t) {
 					$v = null;
 					$v = $t == null ? null : new Iface($this->_client, $t);
 					$this->m_ifaces->append($v);
@@ -743,16 +743,16 @@ class Server extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_ifaces = false;
-		if (array_key_exists("Instance", $r)) {
-			$this->m_instance = $r->{"Instance"} == null ? null : new ServerInstance($this->_client, $r->{"Instance"});
+		if (Util::existsPath($r, "Instance")) {
+			$this->m_instance = Util::getByPath($r, "Instance") == null ? null : new ServerInstance($this->_client, Util::getByPath($r, "Instance"));
 		}
 		else {
 			$this->m_instance = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_instance = false;
-		if (array_key_exists("Availability", $r)) {
-			$this->m_availability = $r->{"Availability"} == null ? null : "" . $r->{"Availability"};
+		if (Util::existsPath($r, "Availability")) {
+			$this->m_availability = Util::getByPath($r, "Availability") == null ? null : "" . Util::getByPath($r, "Availability");
 		}
 		else {
 			$this->m_availability = null;

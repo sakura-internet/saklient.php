@@ -50,6 +50,17 @@ class Model_Server extends Model {
 	}
 	
 	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @return string
+	 */
+	protected function _className()
+	{
+		return "Server";
+	}
+	
+	/**
 	 * 次に取得するリストの開始オフセットを指定します。
 	 * 
 	 * @access public

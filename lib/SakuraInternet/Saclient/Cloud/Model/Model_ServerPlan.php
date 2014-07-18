@@ -48,6 +48,17 @@ class Model_ServerPlan extends Model {
 	}
 	
 	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @return string
+	 */
+	protected function _className()
+	{
+		return "ServerPlan";
+	}
+	
+	/**
 	 * 次に取得するリストの開始オフセットを指定します。
 	 * 
 	 * @access public

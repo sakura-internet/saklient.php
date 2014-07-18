@@ -3,6 +3,12 @@
 cd `dirname $0`
 source config.sh
 
+mode=$1
+if [ "$mode" != "" ]; then
+	php "examples/$mode.php" "$SACLOUD_TOKEN" "$SACLOUD_SECRET"
+	exit $?
+fi
+
 
 # Install required packages by composer automatically
 
@@ -36,6 +42,6 @@ PS3="Select mode > "
 select mode in $( ls -1 examples | sed 's/\.php$//' ) "quit"; do
 	( [ -z "$mode" ] || [ "$mode" = "quit" ] ) && exit 1
 	php "examples/$mode.php" "$SACLOUD_TOKEN" "$SACLOUD_SECRET"
-	exit 0
+	exit $?
 done
 

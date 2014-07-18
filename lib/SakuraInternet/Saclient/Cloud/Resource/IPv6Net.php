@@ -167,32 +167,32 @@ class IPv6Net extends Resource {
 			$r = (object)[];
 		}
 		$this->isIncomplete = false;
-		if (array_key_exists("ID", $r)) {
-			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
+		if (Util::existsPath($r, "ID")) {
+			$this->m_id = Util::getByPath($r, "ID") == null ? null : "" . Util::getByPath($r, "ID");
 		}
 		else {
 			$this->m_id = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_id = false;
-		if (array_key_exists("IPv6Prefix", $r)) {
-			$this->m_ipv6Prefix = $r->{"IPv6Prefix"} == null ? null : "" . $r->{"IPv6Prefix"};
+		if (Util::existsPath($r, "IPv6Prefix")) {
+			$this->m_ipv6Prefix = Util::getByPath($r, "IPv6Prefix") == null ? null : "" . Util::getByPath($r, "IPv6Prefix");
 		}
 		else {
 			$this->m_ipv6Prefix = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_ipv6Prefix = false;
-		if (array_key_exists("IPv6PrefixLen", $r)) {
-			$this->m_ipv6PrefixLen = $r->{"IPv6PrefixLen"} == null ? null : intval("" . $r->{"IPv6PrefixLen"});
+		if (Util::existsPath($r, "IPv6PrefixLen")) {
+			$this->m_ipv6PrefixLen = Util::getByPath($r, "IPv6PrefixLen") == null ? null : intval("" . Util::getByPath($r, "IPv6PrefixLen"));
 		}
 		else {
 			$this->m_ipv6PrefixLen = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_ipv6PrefixLen = false;
-		if (array_key_exists("IPv6PrefixTail", $r)) {
-			$this->m_ipv6PrefixTail = $r->{"IPv6PrefixTail"} == null ? null : "" . $r->{"IPv6PrefixTail"};
+		if (Util::existsPath($r, "IPv6PrefixTail")) {
+			$this->m_ipv6PrefixTail = Util::getByPath($r, "IPv6PrefixTail") == null ? null : "" . Util::getByPath($r, "IPv6PrefixTail");
 		}
 		else {
 			$this->m_ipv6PrefixTail = null;

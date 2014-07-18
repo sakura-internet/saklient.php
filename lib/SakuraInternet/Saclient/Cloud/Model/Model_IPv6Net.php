@@ -48,6 +48,17 @@ class Model_IPv6Net extends Model {
 	}
 	
 	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @return string
+	 */
+	protected function _className()
+	{
+		return "IPv6Net";
+	}
+	
+	/**
 	 * 次に取得するリストの開始オフセットを指定します。
 	 * 
 	 * @access public

@@ -11,4 +11,7 @@ $server->tags = ["saclient-test"];
 $server->plan = $api->product->server->getBySpec(1, 1);
 $server->save();
 
+$iface = $server->addIface();
+$iface->connectToSharedSegment();
+
 print_r($server->apiSerialize(true));

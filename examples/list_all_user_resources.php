@@ -10,9 +10,11 @@ function dumpInALine($type, $obj)
 	echo " [", $obj->id, "]";
 	if (@$obj->sizeGib) echo " ", $obj->sizeGib, "GiB";
 	if (@$obj->scope) echo " (", $obj->scope, ")";
+	if (@$obj->macAddress) echo " ", $obj->macAddress;
 	echo " ", $obj->name;
 	if (@$obj->tags && 0 < count($obj->tags)) echo " :", join(" :", (array)$obj->tags);
 	if (@$obj->icon) echo " <", $obj->icon->name, ">";
+	if (@$obj->serverId) echo " (of server ", @$obj->serverId, ")";
 	echo "\n";
 	//
 	if (@$obj->ifaces) {
@@ -46,4 +48,7 @@ foreach ($archives as $archive) dumpInALine("archive", $archive);
 //        printf("    iface [%s] %s %s\n", $iface->id, $iface->mac_address, $iface->ipAddress ? $iface->ipAddress : $iface->userIpAddress);
 //    }
 //}
+
+//$ifaces = $api->iface->find();
+//foreach ($ifaces as $iface) dumpInALine("iface", $iface);
 

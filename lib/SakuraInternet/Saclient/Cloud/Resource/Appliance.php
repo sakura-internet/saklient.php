@@ -508,45 +508,45 @@ class Appliance extends Resource {
 			$r = (object)[];
 		}
 		$this->isIncomplete = false;
-		if (array_key_exists("ID", $r)) {
-			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
+		if (Util::existsPath($r, "ID")) {
+			$this->m_id = Util::getByPath($r, "ID") == null ? null : "" . Util::getByPath($r, "ID");
 		}
 		else {
 			$this->m_id = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_id = false;
-		if (array_key_exists("Class", $r)) {
-			$this->m_clazz = $r->{"Class"} == null ? null : "" . $r->{"Class"};
+		if (Util::existsPath($r, "Class")) {
+			$this->m_clazz = Util::getByPath($r, "Class") == null ? null : "" . Util::getByPath($r, "Class");
 		}
 		else {
 			$this->m_clazz = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_clazz = false;
-		if (array_key_exists("Name", $r)) {
-			$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
+		if (Util::existsPath($r, "Name")) {
+			$this->m_name = Util::getByPath($r, "Name") == null ? null : "" . Util::getByPath($r, "Name");
 		}
 		else {
 			$this->m_name = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_name = false;
-		if (array_key_exists("Description", $r)) {
-			$this->m_description = $r->{"Description"} == null ? null : "" . $r->{"Description"};
+		if (Util::existsPath($r, "Description")) {
+			$this->m_description = Util::getByPath($r, "Description") == null ? null : "" . Util::getByPath($r, "Description");
 		}
 		else {
 			$this->m_description = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_description = false;
-		if (array_key_exists("Tags", $r)) {
-			if ($r->{"Tags"} == null) {
+		if (Util::existsPath($r, "Tags")) {
+			if (Util::getByPath($r, "Tags") == null) {
 				$this->m_tags = new \ArrayObject([]);
 			}
 			else {
 				$this->m_tags = new \ArrayObject([]);
-				foreach ($r->{"Tags"} as $t) {
+				foreach (Util::getByPath($r, "Tags") as $t) {
 					$v = null;
 					$v = $t == null ? null : "" . $t;
 					$this->m_tags->append($v);
@@ -558,21 +558,21 @@ class Appliance extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_tags = false;
-		if (array_key_exists("Icon", $r)) {
-			$this->m_icon = $r->{"Icon"} == null ? null : new Icon($this->_client, $r->{"Icon"});
+		if (Util::existsPath($r, "Icon")) {
+			$this->m_icon = Util::getByPath($r, "Icon") == null ? null : new Icon($this->_client, Util::getByPath($r, "Icon"));
 		}
 		else {
 			$this->m_icon = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_icon = false;
-		if (array_key_exists("Interfaces", $r)) {
-			if ($r->{"Interfaces"} == null) {
+		if (Util::existsPath($r, "Interfaces")) {
+			if (Util::getByPath($r, "Interfaces") == null) {
 				$this->m_ifaces = new \ArrayObject([]);
 			}
 			else {
 				$this->m_ifaces = new \ArrayObject([]);
-				foreach ($r->{"Interfaces"} as $t) {
+				foreach (Util::getByPath($r, "Interfaces") as $t) {
 					$v = null;
 					$v = $t == null ? null : new Iface($this->_client, $t);
 					$this->m_ifaces->append($v);
@@ -584,8 +584,8 @@ class Appliance extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_ifaces = false;
-		if (array_key_exists("ServiceClass", $r)) {
-			$this->m_serviceClass = $r->{"ServiceClass"} == null ? null : "" . $r->{"ServiceClass"};
+		if (Util::existsPath($r, "ServiceClass")) {
+			$this->m_serviceClass = Util::getByPath($r, "ServiceClass") == null ? null : "" . Util::getByPath($r, "ServiceClass");
 		}
 		else {
 			$this->m_serviceClass = null;

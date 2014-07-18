@@ -7,6 +7,86 @@ class Util {
 	
 	/**
 	 * @access public
+	 * @param mixed $obj
+	 * @param string $path
+	 * @return mixed
+	 */
+	static public function existsPath($obj, $path)
+	{
+		$aPath = explode(".", $path);
+		foreach ($aPath as $seg) {
+			if ($obj == null) {
+				return false;
+			}
+			if (!is_object($obj)) {
+				return false;
+			}
+			if ($seg == "") {
+				continue;
+			}
+			if (!array_key_exists($seg, $obj)) {
+				return false;
+			}
+			$obj = $obj->{$seg};
+		}
+		return true;
+	}
+	
+	/**
+	 * @access public
+	 * @param mixed $obj
+	 * @param string $path
+	 * @return mixed
+	 */
+	static public function getByPath($obj, $path)
+	{
+		$aPath = explode(".", $path);
+		foreach ($aPath as $seg) {
+			if ($obj == null) {
+				return null;
+			}
+			if (!is_object($obj)) {
+				return null;
+			}
+			if ($seg == "") {
+				continue;
+			}
+			if (!array_key_exists($seg, $obj)) {
+				return null;
+			}
+			$obj = $obj->{$seg};
+		}
+		return $obj;
+	}
+	
+	/**
+	 * @todo array support
+	 * @todo overwriting
+	 * @todo writing into children of non-object
+	 * @access public
+	 * @param mixed $obj
+	 * @param mixed $value
+	 * @param string $path
+	 * @return void
+	 */
+	static public function setByPath($obj, $path, $value)
+	{
+		$aPath = explode(".", $path);
+		$key = array_pop($aPath);
+		foreach ($aPath as $seg) {
+			if ($seg == "") {
+				continue;
+			}
+			if (!array_key_exists($seg, $obj)) {
+				$obj->{$seg} = (object)[];
+			}
+			$obj = $obj->{$seg};
+		}
+		$obj->{$key} = $value;
+	}
+	
+	/**
+	 * @access public
 	 * @param string $classPath
 	 * @param \ArrayObject $args
 	 * @return mixed

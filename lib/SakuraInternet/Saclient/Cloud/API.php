@@ -18,6 +18,8 @@ require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Appliance.ph
 use \SakuraInternet\Saclient\Cloud\Model\Model_Appliance;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Archive.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model_Archive;
+require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Iface.php";
+use \SakuraInternet\Saclient\Cloud\Model\Model_Iface;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_IPv6Net.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model_IPv6Net;
 
@@ -32,6 +34,7 @@ use \SakuraInternet\Saclient\Cloud\Model\Model_IPv6Net;
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Disk $disk
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Appliance $appliance
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Archive $archive
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Iface $iface
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_IPv6Net $ipv6net
  */
 class API {
@@ -180,6 +183,26 @@ class API {
 	 * @private
 	 * @access protected
 	 * @ignore
+	 * @var Model_Iface
+	 */
+	protected $_iface;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Iface
+	 */
+	protected function get_iface()
+	{
+		return $this->_iface;
+	}
+	
+	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
 	 * @var Model_IPv6Net
 	 */
 	protected $_ipv6net;
@@ -210,6 +233,7 @@ class API {
 		$this->_disk = new Model_Disk($client);
 		$this->_appliance = new Model_Appliance($client);
 		$this->_archive = new Model_Archive($client);
+		$this->_iface = new Model_Iface($client);
 		$this->_ipv6net = new Model_IPv6Net($client);
 	}
 	
@@ -266,6 +290,7 @@ class API {
 			case "disk": return $this->get_disk();
 			case "appliance": return $this->get_appliance();
 			case "archive": return $this->get_archive();
+			case "iface": return $this->get_iface();
 			case "ipv6net": return $this->get_ipv6net();
 			default: return null;
 		}

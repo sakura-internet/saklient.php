@@ -167,32 +167,32 @@ class InternetPlan extends Resource {
 			$r = (object)[];
 		}
 		$this->isIncomplete = false;
-		if (array_key_exists("ID", $r)) {
-			$this->m_id = $r->{"ID"} == null ? null : "" . $r->{"ID"};
+		if (Util::existsPath($r, "ID")) {
+			$this->m_id = Util::getByPath($r, "ID") == null ? null : "" . Util::getByPath($r, "ID");
 		}
 		else {
 			$this->m_id = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_id = false;
-		if (array_key_exists("Name", $r)) {
-			$this->m_name = $r->{"Name"} == null ? null : "" . $r->{"Name"};
+		if (Util::existsPath($r, "Name")) {
+			$this->m_name = Util::getByPath($r, "Name") == null ? null : "" . Util::getByPath($r, "Name");
 		}
 		else {
 			$this->m_name = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_name = false;
-		if (array_key_exists("BandWidthMbps", $r)) {
-			$this->m_bandWidthMbps = $r->{"BandWidthMbps"} == null ? null : intval("" . $r->{"BandWidthMbps"});
+		if (Util::existsPath($r, "BandWidthMbps")) {
+			$this->m_bandWidthMbps = Util::getByPath($r, "BandWidthMbps") == null ? null : intval("" . Util::getByPath($r, "BandWidthMbps"));
 		}
 		else {
 			$this->m_bandWidthMbps = null;
 			$this->isIncomplete = true;
 		}
 		$this->n_bandWidthMbps = false;
-		if (array_key_exists("ServiceClass", $r)) {
-			$this->m_serviceClass = $r->{"ServiceClass"} == null ? null : "" . $r->{"ServiceClass"};
+		if (Util::existsPath($r, "ServiceClass")) {
+			$this->m_serviceClass = Util::getByPath($r, "ServiceClass") == null ? null : "" . Util::getByPath($r, "ServiceClass");
 		}
 		else {
 			$this->m_serviceClass = null;
