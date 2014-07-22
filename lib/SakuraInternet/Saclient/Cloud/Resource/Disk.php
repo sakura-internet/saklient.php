@@ -14,6 +14,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Server.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Server;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Archive.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Archive;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/DiskConfig.php";
+use \SakuraInternet\Saclient\Cloud\Resource\DiskConfig;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EAvailability.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EAvailability;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EDiskConnection.php";
@@ -369,6 +371,17 @@ class Disk extends Resource {
 	{
 		$this->_client->request("DELETE", "/disk/" . $this->_id() . "/to/server");
 		return $this;
+	}
+	
+	/**
+	 * *
+	 * 
+	 * @access public
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\DiskConfig
+	 */
+	public function createConfig()
+	{
+		return new DiskConfig($this->_client, $this->_id());
 	}
 	
 	/**
