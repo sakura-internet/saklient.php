@@ -101,6 +101,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($server->plan->memoryGib, $mem);
 		
 		// connect to shared segment
+		echo "connecting the server to shared segment...\n";
 		$iface = $server->addIface();
 		$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\Resource\\Iface", $iface);
 		$this->assertGreaterThan(0, $iface->id);

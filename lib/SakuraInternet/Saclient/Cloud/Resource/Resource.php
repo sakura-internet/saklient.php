@@ -222,6 +222,29 @@ class Resource {
 	}
 	
 	/**
+	 * @access protected
+	 * @ignore
+	 * @param string $name
+	 * @return string
+	 */
+	protected function normalizeFieldName($name)
+	{
+		return $name;
+	}
+	
+	/**
+	 * @access public
+	 * @param string $name
+	 * @param mixed $value
+	 * @return void
+	 */
+	public function setProperty($name, $value)
+	{
+		$name = $this->normalizeFieldName($name);
+		$this->__set($name, $value);
+	}
+	
+	/**
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 	 * 
 	 * @private

@@ -371,7 +371,7 @@ class Server extends Resource {
 	{
 		$model = Util::createClassInstance("saclient.cloud.model.Model_Iface", new \ArrayObject([$this->_client]));
 		$res = $model->create();
-		$res->serverId = $this->_id();
+		$res->setProperty("serverId", $this->_id());
 		return $res->save();
 	}
 	
