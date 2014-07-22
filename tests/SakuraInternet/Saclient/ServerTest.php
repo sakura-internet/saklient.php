@@ -122,6 +122,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		
 		if (self::TESTS_CONFIG_DISK) {
 			// config the disk
+			echo "writing configuration to the disk...\n";
 			$diskconf = $disk->createConfig();
 			$diskconf->hostName = "saclient-test";
 			$diskconf->password = uniqid();

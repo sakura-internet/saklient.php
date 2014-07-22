@@ -12,6 +12,12 @@ use \SakuraInternet\Saclient\Cloud\Util;
  * 
  * @property-read \SakuraInternet\Saclient\Cloud\Client $client
  * @property-read string $diskId
+ * @property string $hostName
+ * @property string $password
+ * @property string $sshKey
+ * @property string $ipAddress
+ * @property string $gateway
+ * @property int $networkMaskLen
  */
 class DiskConfig {
 	
@@ -56,40 +62,196 @@ class DiskConfig {
 	
 	
 	/**
-	 * @access public
+	 * @private
+	 * @access protected
+	 * @ignore
 	 * @var string
 	 */
-	public $hostName;
+	protected $_hostName;
 	
 	/**
-	 * @access public
+	 * @access protected
+	 * @ignore
+	 * @return string
+	 */
+	protected function get_hostName()
+	{
+		return $this->_hostName;
+	}
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @param string $v
+	 * @return string
+	 */
+	protected function set_hostName($v)
+	{
+		$this->_hostName = $v;
+		return $v;
+	}
+	
+	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
 	 * @var string
 	 */
-	public $password;
+	protected $_password;
 	
 	/**
-	 * @access public
+	 * @access protected
+	 * @ignore
+	 * @return string
+	 */
+	protected function get_password()
+	{
+		return $this->_password;
+	}
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @param string $v
+	 * @return string
+	 */
+	protected function set_password($v)
+	{
+		$this->_password = $v;
+		return $v;
+	}
+	
+	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
 	 * @var string
 	 */
-	public $sshKey;
+	protected $_sshKey;
 	
 	/**
-	 * @access public
+	 * @access protected
+	 * @ignore
+	 * @return string
+	 */
+	protected function get_sshKey()
+	{
+		return $this->_sshKey;
+	}
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @param string $v
+	 * @return string
+	 */
+	protected function set_sshKey($v)
+	{
+		$this->_sshKey = $v;
+		return $v;
+	}
+	
+	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
 	 * @var string
 	 */
-	public $ipAddress;
+	protected $_ipAddress;
 	
 	/**
-	 * @access public
+	 * @access protected
+	 * @ignore
+	 * @return string
+	 */
+	protected function get_ipAddress()
+	{
+		return $this->_ipAddress;
+	}
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @param string $v
+	 * @return string
+	 */
+	protected function set_ipAddress($v)
+	{
+		$this->_ipAddress = $v;
+		return $v;
+	}
+	
+	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
 	 * @var string
 	 */
-	public $gateway;
+	protected $_gateway;
 	
 	/**
-	 * @access public
+	 * @access protected
+	 * @ignore
+	 * @return string
+	 */
+	protected function get_gateway()
+	{
+		return $this->_gateway;
+	}
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @param string $v
+	 * @return string
+	 */
+	protected function set_gateway($v)
+	{
+		$this->_gateway = $v;
+		return $v;
+	}
+	
+	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
 	 * @var int
 	 */
-	public $networkMaskLen;
+	protected $_networkMaskLen;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return int
+	 */
+	protected function get_networkMaskLen()
+	{
+		return $this->_networkMaskLen;
+	}
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @param int|null $v
+	 * @return int
+	 */
+	protected function set_networkMaskLen($v)
+	{
+		$this->_networkMaskLen = $v;
+		return $v;
+	}
+	
+	
 	
 	/**
 	 * @private
@@ -101,12 +263,12 @@ class DiskConfig {
 	{
 		$this->_client = $client;
 		$this->_diskId = $diskId;
-		$this->hostName = null;
-		$this->password = null;
-		$this->sshKey = null;
-		$this->ipAddress = null;
-		$this->gateway = null;
-		$this->networkMaskLen = null;
+		$this->_hostName = null;
+		$this->_password = null;
+		$this->_sshKey = null;
+		$this->_ipAddress = null;
+		$this->_gateway = null;
+		$this->_networkMaskLen = null;
 	}
 	
 	/**
@@ -118,23 +280,23 @@ class DiskConfig {
 	public function write()
 	{
 		$q = (object)[];
-		if ($this->hostName != null) {
-			Util::setByPath($q, "HostName", $this->hostName);
+		if ($this->_hostName != null) {
+			Util::setByPath($q, "HostName", $this->_hostName);
 		}
-		if ($this->password != null) {
-			Util::setByPath($q, "Password", $this->password);
+		if ($this->_password != null) {
+			Util::setByPath($q, "Password", $this->_password);
 		}
-		if ($this->sshKey != null) {
-			Util::setByPath($q, "SSHKey.PublicKey", $this->sshKey);
+		if ($this->_sshKey != null) {
+			Util::setByPath($q, "SSHKey.PublicKey", $this->_sshKey);
 		}
-		if ($this->ipAddress != null) {
-			Util::setByPath($q, "UserIPAddress", $this->ipAddress);
+		if ($this->_ipAddress != null) {
+			Util::setByPath($q, "UserIPAddress", $this->_ipAddress);
 		}
-		if ($this->gateway != null) {
-			Util::setByPath($q, "UserSubnet.DefaultRoute", $this->gateway);
+		if ($this->_gateway != null) {
+			Util::setByPath($q, "UserSubnet.DefaultRoute", $this->_gateway);
 		}
-		if ($this->networkMaskLen != null) {
-			Util::setByPath($q, "UserSubnet.NetworkMaskLen", $this->networkMaskLen);
+		if ($this->_networkMaskLen != null) {
+			Util::setByPath($q, "UserSubnet.NetworkMaskLen", $this->_networkMaskLen);
 		}
 		$path = "/disk/" . $this->_diskId . "/config";
 		$result = $this->_client->request("PUT", $path, $q);
@@ -148,7 +310,28 @@ class DiskConfig {
 		switch ($key) {
 			case "client": return $this->get_client();
 			case "diskId": return $this->get_diskId();
+			case "hostName": return $this->get_hostName();
+			case "password": return $this->get_password();
+			case "sshKey": return $this->get_sshKey();
+			case "ipAddress": return $this->get_ipAddress();
+			case "gateway": return $this->get_gateway();
+			case "networkMaskLen": return $this->get_networkMaskLen();
 			default: return null;
+		}
+	}
+	
+	/**
+	 * @ignore
+	 */
+	public function __set($key, $v) {
+		switch ($key) {
+			case "hostName": return $this->set_hostName($v);
+			case "password": return $this->set_password($v);
+			case "sshKey": return $this->set_sshKey($v);
+			case "ipAddress": return $this->set_ipAddress($v);
+			case "gateway": return $this->set_gateway($v);
+			case "networkMaskLen": return $this->set_networkMaskLen($v);
+			default: return $v;
 		}
 	}
 
