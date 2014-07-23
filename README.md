@@ -101,6 +101,7 @@ of PHP standard array API such as [array_shift()](http://www.php.net/manual/en/f
 
 Also, be aware that **an ArrayObject will not be copied in an assignment or as an argument to a function**
 since it is an object but not an array. 
+By the same token, a boolean-casted empty ArrayObject will not be evaluated as false.
 
 ```php
 <?php

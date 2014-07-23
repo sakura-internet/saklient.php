@@ -6,8 +6,8 @@ require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_ServerPlan.p
 use \SakuraInternet\Saclient\Cloud\Model\Model_ServerPlan;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_DiskPlan.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model_DiskPlan;
-require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_InternetPlan.php";
-use \SakuraInternet\Saclient\Cloud\Model\Model_InternetPlan;
+require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_RouterPlan.php";
+use \SakuraInternet\Saclient\Cloud\Model\Model_RouterPlan;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Client.php";
 use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Util.php";
@@ -16,7 +16,7 @@ use \SakuraInternet\Saclient\Cloud\Util;
 /**
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_ServerPlan $server
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_DiskPlan $disk
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_InternetPlan $internet
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_RouterPlan $router
  */
 class Product {
 	
@@ -64,18 +64,18 @@ class Product {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @var Model_InternetPlan
+	 * @var Model_RouterPlan
 	 */
-	protected $_internet;
+	protected $_router;
 	
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_InternetPlan
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_RouterPlan
 	 */
-	protected function get_internet()
+	protected function get_router()
 	{
-		return $this->_internet;
+		return $this->_router;
 	}
 	
 	
@@ -88,7 +88,7 @@ class Product {
 	{
 		$this->_server = new Model_ServerPlan($client);
 		$this->_disk = new Model_DiskPlan($client);
-		$this->_internet = new Model_InternetPlan($client);
+		$this->_router = new Model_RouterPlan($client);
 	}
 	
 	/**
@@ -98,7 +98,7 @@ class Product {
 		switch ($key) {
 			case "server": return $this->get_server();
 			case "disk": return $this->get_disk();
-			case "internet": return $this->get_internet();
+			case "router": return $this->get_router();
 			default: return null;
 		}
 	}

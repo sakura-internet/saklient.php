@@ -306,6 +306,21 @@ class Resource {
 	}
 	
 	/**
+	 * このリソースが存在するかを調べます。
+	 * 
+	 * @access public
+	 * @return boolean
+	 */
+	public function exists()
+	{
+		$params = (object)[];
+		Util::setByPath($params, "Filter.ID", new \ArrayObject([$this->_id()]));
+		Util::setByPath($params, "Include", new \ArrayObject(["ID"]));
+		$result = $this->_client->request("GET", $this->_apiPath(), $params);
+		return $result->{"Count"} == 1;
+	}
+	
+	/**
 	 * @access public
 	 * @return mixed
 	 */

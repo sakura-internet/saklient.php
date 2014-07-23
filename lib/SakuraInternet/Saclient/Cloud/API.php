@@ -20,8 +20,12 @@ require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Archive.php"
 use \SakuraInternet\Saclient\Cloud\Model\Model_Archive;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Iface.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model_Iface;
-require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_IPv6Net.php";
-use \SakuraInternet\Saclient\Cloud\Model\Model_IPv6Net;
+require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Swytch.php";
+use \SakuraInternet\Saclient\Cloud\Model\Model_Swytch;
+require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Router.php";
+use \SakuraInternet\Saclient\Cloud\Model\Model_Router;
+require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Ipv6Net.php";
+use \SakuraInternet\Saclient\Cloud\Model\Model_Ipv6Net;
 
 /**
  * さくらのクラウドAPIクライアントを利用する際、最初にアクセスすべきルートとなるクラス。
@@ -35,7 +39,9 @@ use \SakuraInternet\Saclient\Cloud\Model\Model_IPv6Net;
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Appliance $appliance
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Archive $archive
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Iface $iface
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_IPv6Net $ipv6net
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Swytch $swytch
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Router $router
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Ipv6Net $ipv6Net
  */
 class API {
 	
@@ -203,18 +209,58 @@ class API {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @var Model_IPv6Net
+	 * @var Model_Swytch
 	 */
-	protected $_ipv6net;
+	protected $_swytch;
 	
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_IPv6Net
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Swytch
 	 */
-	protected function get_ipv6net()
+	protected function get_swytch()
 	{
-		return $this->_ipv6net;
+		return $this->_swytch;
+	}
+	
+	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var Model_Router
+	 */
+	protected $_router;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Router
+	 */
+	protected function get_router()
+	{
+		return $this->_router;
+	}
+	
+	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var Model_Ipv6Net
+	 */
+	protected $_ipv6Net;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Ipv6Net
+	 */
+	protected function get_ipv6Net()
+	{
+		return $this->_ipv6Net;
 	}
 	
 	
@@ -234,7 +280,9 @@ class API {
 		$this->_appliance = new Model_Appliance($client);
 		$this->_archive = new Model_Archive($client);
 		$this->_iface = new Model_Iface($client);
-		$this->_ipv6net = new Model_IPv6Net($client);
+		$this->_swytch = new Model_Swytch($client);
+		$this->_router = new Model_Router($client);
+		$this->_ipv6Net = new Model_Ipv6Net($client);
 	}
 	
 	/**
@@ -291,7 +339,9 @@ class API {
 			case "appliance": return $this->get_appliance();
 			case "archive": return $this->get_archive();
 			case "iface": return $this->get_iface();
-			case "ipv6net": return $this->get_ipv6net();
+			case "swytch": return $this->get_swytch();
+			case "router": return $this->get_router();
+			case "ipv6Net": return $this->get_ipv6Net();
 			default: return null;
 		}
 	}

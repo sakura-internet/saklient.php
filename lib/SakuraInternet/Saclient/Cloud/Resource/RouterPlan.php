@@ -17,7 +17,7 @@ use \SakuraInternet\Saclient\Cloud\Util;
  * @property-read int $bandWidthMbps
  * @property-read string $serviceClass
  */
-class InternetPlan extends Resource {
+class RouterPlan extends Resource {
 	
 	/**
 	 * @access protected

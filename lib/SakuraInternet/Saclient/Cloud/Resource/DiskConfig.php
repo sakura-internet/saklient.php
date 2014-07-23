@@ -16,7 +16,7 @@ use \SakuraInternet\Saclient\Cloud\Util;
  * @property string $password
  * @property string $sshKey
  * @property string $ipAddress
- * @property string $gateway
+ * @property string $defaultRoute
  * @property int $networkMaskLen
  */
 class DiskConfig {
@@ -195,16 +195,16 @@ class DiskConfig {
 	 * @ignore
 	 * @var string
 	 */
-	protected $_gateway;
+	protected $_defaultRoute;
 	
 	/**
 	 * @access protected
 	 * @ignore
 	 * @return string
 	 */
-	protected function get_gateway()
+	protected function get_defaultRoute()
 	{
-		return $this->_gateway;
+		return $this->_defaultRoute;
 	}
 	
 	/**
@@ -213,9 +213,9 @@ class DiskConfig {
 	 * @param string $v
 	 * @return string
 	 */
-	protected function set_gateway($v)
+	protected function set_defaultRoute($v)
 	{
-		$this->_gateway = $v;
+		$this->_defaultRoute = $v;
 		return $v;
 	}
 	
@@ -267,7 +267,7 @@ class DiskConfig {
 		$this->_password = null;
 		$this->_sshKey = null;
 		$this->_ipAddress = null;
-		$this->_gateway = null;
+		$this->_defaultRoute = null;
 		$this->_networkMaskLen = null;
 	}
 	
@@ -292,8 +292,8 @@ class DiskConfig {
 		if ($this->_ipAddress != null) {
 			Util::setByPath($q, "UserIPAddress", $this->_ipAddress);
 		}
-		if ($this->_gateway != null) {
-			Util::setByPath($q, "UserSubnet.DefaultRoute", $this->_gateway);
+		if ($this->_defaultRoute != null) {
+			Util::setByPath($q, "UserSubnet.DefaultRoute", $this->_defaultRoute);
 		}
 		if ($this->_networkMaskLen != null) {
 			Util::setByPath($q, "UserSubnet.NetworkMaskLen", $this->_networkMaskLen);
@@ -314,7 +314,7 @@ class DiskConfig {
 			case "password": return $this->get_password();
 			case "sshKey": return $this->get_sshKey();
 			case "ipAddress": return $this->get_ipAddress();
-			case "gateway": return $this->get_gateway();
+			case "defaultRoute": return $this->get_defaultRoute();
 			case "networkMaskLen": return $this->get_networkMaskLen();
 			default: return null;
 		}
@@ -329,7 +329,7 @@ class DiskConfig {
 			case "password": return $this->set_password($v);
 			case "sshKey": return $this->set_sshKey($v);
 			case "ipAddress": return $this->set_ipAddress($v);
-			case "gateway": return $this->set_gateway($v);
+			case "defaultRoute": return $this->set_defaultRoute($v);
 			case "networkMaskLen": return $this->set_networkMaskLen($v);
 			default: return $v;
 		}

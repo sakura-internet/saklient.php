@@ -10,14 +10,15 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
- * IPv6ネットワークのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * IPv4ネットワークのリソース情報へのアクセス機能や操作機能を備えたクラス。
  * 
  * @property-read string $id
- * @property-read string $prefix
- * @property-read int $prefixLen
- * @property-read string $prefixTail
+ * @property-read string $address
+ * @property-read int $maskLen
+ * @property-read string $defaultRoute
+ * @property-read string $nextHop
  */
-class Ipv6Net extends Resource {
+class Ipv4Net extends Resource {
 	
 	/**
 	 * @access protected
@@ -31,21 +32,28 @@ class Ipv6Net extends Resource {
 	 * @ignore
 	 * @var string
 	 */
-	protected $m_prefix;
+	protected $m_address;
 	
 	/**
 	 * @access protected
 	 * @ignore
 	 * @var int
 	 */
-	protected $m_prefixLen;
+	protected $m_maskLen;
 	
 	/**
 	 * @access protected
 	 * @ignore
 	 * @var string
 	 */
-	protected $m_prefixTail;
+	protected $m_defaultRoute;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_nextHop;
 	
 	/**
 	 * @private
@@ -55,7 +63,7 @@ class Ipv6Net extends Resource {
 	 */
 	protected function _apiPath()
 	{
-		return "/ipv6net";
+		return "/subnet";
 	}
 	
 	/**
@@ -66,7 +74,7 @@ class Ipv6Net extends Resource {
 	 */
 	protected function _rootKey()
 	{
-		return "IPv6Net";
+		return "Subnet";
 	}
 	
 	/**
@@ -77,7 +85,7 @@ class Ipv6Net extends Resource {
 	 */
 	protected function _rootKeyM()
 	{
-		return "IPv6Nets";
+		return "Subnets";
 	}
 	
 	/**
@@ -139,7 +147,7 @@ class Ipv6Net extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
-	private $n_prefix = false;
+	private $n_address = false;
 	
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
@@ -148,9 +156,9 @@ class Ipv6Net extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_prefix()
+	private function get_address()
 	{
-		return $this->m_prefix;
+		return $this->m_address;
 	}
 	
 	
@@ -160,7 +168,7 @@ class Ipv6Net extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
-	private $n_prefixLen = false;
+	private $n_maskLen = false;
 	
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
@@ -169,9 +177,9 @@ class Ipv6Net extends Resource {
 	 * @ignore
 	 * @return int
 	 */
-	private function get_prefixLen()
+	private function get_maskLen()
 	{
-		return $this->m_prefixLen;
+		return $this->m_maskLen;
 	}
 	
 	
@@ -181,7 +189,7 @@ class Ipv6Net extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
-	private $n_prefixTail = false;
+	private $n_defaultRoute = false;
 	
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
@@ -190,9 +198,30 @@ class Ipv6Net extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_prefixTail()
+	private function get_defaultRoute()
 	{
-		return $this->m_prefixTail;
+		return $this->m_defaultRoute;
+	}
+	
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_nextHop = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_nextHop()
+	{
+		return $this->m_nextHop;
 	}
 	
 	
@@ -219,30 +248,38 @@ class Ipv6Net extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_id = false;
-		if (Util::existsPath($r, "IPv6Prefix")) {
-			$this->m_prefix = Util::getByPath($r, "IPv6Prefix") == null ? null : "" . Util::getByPath($r, "IPv6Prefix");
+		if (Util::existsPath($r, "NetworkAddress")) {
+			$this->m_address = Util::getByPath($r, "NetworkAddress") == null ? null : "" . Util::getByPath($r, "NetworkAddress");
 		}
 		else {
-			$this->m_prefix = null;
+			$this->m_address = null;
 			$this->isIncomplete = true;
 		}
-		$this->n_prefix = false;
-		if (Util::existsPath($r, "IPv6PrefixLen")) {
-			$this->m_prefixLen = Util::getByPath($r, "IPv6PrefixLen") == null ? null : intval("" . Util::getByPath($r, "IPv6PrefixLen"));
+		$this->n_address = false;
+		if (Util::existsPath($r, "NetworkMaskLen")) {
+			$this->m_maskLen = Util::getByPath($r, "NetworkMaskLen") == null ? null : intval("" . Util::getByPath($r, "NetworkMaskLen"));
 		}
 		else {
-			$this->m_prefixLen = null;
+			$this->m_maskLen = null;
 			$this->isIncomplete = true;
 		}
-		$this->n_prefixLen = false;
-		if (Util::existsPath($r, "IPv6PrefixTail")) {
-			$this->m_prefixTail = Util::getByPath($r, "IPv6PrefixTail") == null ? null : "" . Util::getByPath($r, "IPv6PrefixTail");
+		$this->n_maskLen = false;
+		if (Util::existsPath($r, "DefaultRoute")) {
+			$this->m_defaultRoute = Util::getByPath($r, "DefaultRoute") == null ? null : "" . Util::getByPath($r, "DefaultRoute");
 		}
 		else {
-			$this->m_prefixTail = null;
+			$this->m_defaultRoute = null;
 			$this->isIncomplete = true;
 		}
-		$this->n_prefixTail = false;
+		$this->n_defaultRoute = false;
+		if (Util::existsPath($r, "NextHop")) {
+			$this->m_nextHop = Util::getByPath($r, "NextHop") == null ? null : "" . Util::getByPath($r, "NextHop");
+		}
+		else {
+			$this->m_nextHop = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_nextHop = false;
 	}
 	
 	/**
@@ -259,14 +296,17 @@ class Ipv6Net extends Resource {
 		if ($withClean || $this->n_id) {
 			Util::setByPath($ret, "ID", $this->m_id);
 		}
-		if ($withClean || $this->n_prefix) {
-			Util::setByPath($ret, "IPv6Prefix", $this->m_prefix);
+		if ($withClean || $this->n_address) {
+			Util::setByPath($ret, "NetworkAddress", $this->m_address);
 		}
-		if ($withClean || $this->n_prefixLen) {
-			Util::setByPath($ret, "IPv6PrefixLen", $this->m_prefixLen);
+		if ($withClean || $this->n_maskLen) {
+			Util::setByPath($ret, "NetworkMaskLen", $this->m_maskLen);
 		}
-		if ($withClean || $this->n_prefixTail) {
-			Util::setByPath($ret, "IPv6PrefixTail", $this->m_prefixTail);
+		if ($withClean || $this->n_defaultRoute) {
+			Util::setByPath($ret, "DefaultRoute", $this->m_defaultRoute);
+		}
+		if ($withClean || $this->n_nextHop) {
+			Util::setByPath($ret, "NextHop", $this->m_nextHop);
 		}
 		return $ret;
 	}
@@ -277,9 +317,10 @@ class Ipv6Net extends Resource {
 	public function __get($key) {
 		switch ($key) {
 			case "id": return $this->get_id();
-			case "prefix": return $this->get_prefix();
-			case "prefixLen": return $this->get_prefixLen();
-			case "prefixTail": return $this->get_prefixTail();
+			case "address": return $this->get_address();
+			case "maskLen": return $this->get_maskLen();
+			case "defaultRoute": return $this->get_defaultRoute();
+			case "nextHop": return $this->get_nextHop();
 			default: return null;
 		}
 	}

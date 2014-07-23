@@ -4,15 +4,15 @@ namespace SakuraInternet\Saclient\Cloud\Model;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Model/Model.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/InternetPlan.php";
-use \SakuraInternet\Saclient\Cloud\Resource\InternetPlan;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/RouterPlan.php";
+use \SakuraInternet\Saclient\Cloud\Resource\RouterPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
  * ルータのプランを検索するための機能を備えたクラス。
  */
-class Model_InternetPlan extends Model {
+class Model_RouterPlan extends Model {
 	
 	/**
 	 * @private
@@ -55,7 +55,7 @@ class Model_InternetPlan extends Model {
 	 */
 	protected function _className()
 	{
-		return "InternetPlan";
+		return "RouterPlan";
 	}
 	
 	/**
@@ -63,7 +63,7 @@ class Model_InternetPlan extends Model {
 	 * 
 	 * @access public
 	 * @param int $offset オフセット
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_InternetPlan this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_RouterPlan this
 	 */
 	public function offset($offset)
 	{
@@ -75,7 +75,7 @@ class Model_InternetPlan extends Model {
 	 * 
 	 * @access public
 	 * @param int $count 上限レコード数
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_InternetPlan this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_RouterPlan this
 	 */
 	public function limit($count)
 	{
@@ -83,10 +83,24 @@ class Model_InternetPlan extends Model {
 	}
 	
 	/**
+	 * APIのフィルタリング設定を直接指定します。
+	 * 
+	 * @access public
+	 * @param mixed $value
+	 * @param boolean $multiple = false
+	 * @param string $key
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_RouterPlan
+	 */
+	public function filterBy($key, $value, $multiple=false)
+	{
+		return $this->_filterBy($key, $value, $multiple);
+	}
+	
+	/**
 	 * 次のリクエストのために設定されているステートをすべて破棄します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_InternetPlan this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_RouterPlan this
 	 */
 	public function reset()
 	{
@@ -98,7 +112,7 @@ class Model_InternetPlan extends Model {
 	 * 
 	 * @access public
 	 * @param string $id
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\InternetPlan リソースオブジェクト
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\RouterPlan リソースオブジェクト
 	 */
 	public function getById($id)
 	{
@@ -109,7 +123,7 @@ class Model_InternetPlan extends Model {
 	 * リソースの検索リクエストを実行し、結果をリストで取得します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\InternetPlan[] リソースオブジェクトの配列
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\RouterPlan[] リソースオブジェクトの配列
 	 */
 	public function find()
 	{

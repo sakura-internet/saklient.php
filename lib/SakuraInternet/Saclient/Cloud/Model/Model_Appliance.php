@@ -83,6 +83,20 @@ class Model_Appliance extends Model {
 	}
 	
 	/**
+	 * APIのフィルタリング設定を直接指定します。
+	 * 
+	 * @access public
+	 * @param mixed $value
+	 * @param boolean $multiple = false
+	 * @param string $key
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Appliance
+	 */
+	public function filterBy($key, $value, $multiple=false)
+	{
+		return $this->_filterBy($key, $value, $multiple);
+	}
+	
+	/**
 	 * 次のリクエストのために設定されているステートをすべて破棄します。
 	 * 
 	 * @access public

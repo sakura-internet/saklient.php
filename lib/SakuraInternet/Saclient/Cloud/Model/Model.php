@@ -185,6 +185,36 @@ class Model {
 	}
 	
 	/**
+	 * APIのフィルタリング設定を直接指定します。
+	 * 
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $value
+	 * @param boolean $multiple = false
+	 * @param string $key
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model
+	 */
+	protected function _filterBy($key, $value, $multiple=false)
+	{
+		if (!array_key_exists("Filter", $this->_params)) {
+			$this->_params->{"Filter"} = (object)[];
+		}
+		$filter = $this->_params->{"Filter"};
+		if ($multiple) {
+			if (!array_key_exists($key, $filter)) {
+				$filter->{$key} = new \ArrayObject([]);
+			}
+			$values = $filter->{$key};
+			$values->append($value);
+		}
+		else {
+			$filter->{$key} = $value;
+		}
+		return $this;
+	}
+	
+	/**
 	 * 次のリクエストのために設定されているステートをすべて破棄します。
 	 * 
 	 * @private
@@ -277,33 +307,6 @@ class Model {
 		}
 		$records = $result->{$this->_rootKeyM()};
 		return Util::createClassInstance("saclient.cloud.resource." . $this->_className(), new \ArrayObject([$this->_client, $records[0]]));
-	}
-	
-	/**
-	 * @private
-	 * @access protected
-	 * @ignore
-	 * @param mixed $value
-	 * @param boolean $multiple = false
-	 * @param string $key
-	 * @return void
-	 */
-	protected function _filterBy($key, $value, $multiple=false)
-	{
-		if (!array_key_exists("Filter", $this->_params)) {
-			$this->_params->{"Filter"} = (object)[];
-		}
-		$filter = $this->_params->{"Filter"};
-		if ($multiple) {
-			if (!array_key_exists($key, $filter)) {
-				$filter->{$key} = new \ArrayObject([]);
-			}
-			$values = $filter->{$key};
-			$values->append($value);
-		}
-		else {
-			$filter->{$key} = $value;
-		}
 	}
 	
 	/**
