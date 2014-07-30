@@ -18,6 +18,8 @@ require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Appliance.ph
 use \SakuraInternet\Saclient\Cloud\Model\Model_Appliance;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Archive.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model_Archive;
+require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_IsoImage.php";
+use \SakuraInternet\Saclient\Cloud\Model\Model_IsoImage;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Iface.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model_Iface;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Swytch.php";
@@ -38,6 +40,7 @@ use \SakuraInternet\Saclient\Cloud\Model\Model_Ipv6Net;
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Disk $disk
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Appliance $appliance
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Archive $archive
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_IsoImage $isoImage
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Iface $iface
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Swytch $swytch
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Router $router
@@ -189,6 +192,26 @@ class API {
 	 * @private
 	 * @access protected
 	 * @ignore
+	 * @var Model_IsoImage
+	 */
+	protected $_isoImage;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_IsoImage
+	 */
+	protected function get_isoImage()
+	{
+		return $this->_isoImage;
+	}
+	
+	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
 	 * @var Model_Iface
 	 */
 	protected $_iface;
@@ -279,6 +302,7 @@ class API {
 		$this->_disk = new Model_Disk($client);
 		$this->_appliance = new Model_Appliance($client);
 		$this->_archive = new Model_Archive($client);
+		$this->_isoImage = new Model_IsoImage($client);
 		$this->_iface = new Model_Iface($client);
 		$this->_swytch = new Model_Swytch($client);
 		$this->_router = new Model_Router($client);
@@ -338,6 +362,7 @@ class API {
 			case "disk": return $this->get_disk();
 			case "appliance": return $this->get_appliance();
 			case "archive": return $this->get_archive();
+			case "isoImage": return $this->get_isoImage();
 			case "iface": return $this->get_iface();
 			case "swytch": return $this->get_swytch();
 			case "router": return $this->get_router();

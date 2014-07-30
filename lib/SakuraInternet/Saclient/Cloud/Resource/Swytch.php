@@ -201,7 +201,8 @@ class Swytch extends Resource {
 	 */
 	public function removeIpv6Net()
 	{
-		$this->get_router()->removeIpv6Net($this->ipv6Nets[0]);
+		$nets = $this->get_ipv6Nets();
+		$this->get_router()->removeIpv6Net($nets[0]);
 		$this->reload();
 		return $this;
 	}

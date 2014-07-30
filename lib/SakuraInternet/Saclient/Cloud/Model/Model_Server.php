@@ -8,6 +8,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Server.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Server;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/ServerPlan.php";
 use \SakuraInternet\Saclient\Cloud\Resource\ServerPlan;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EServerInstanceStatus.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
@@ -193,6 +195,28 @@ class Model_Server extends Model {
 	{
 		$this->_filterBy("Instance.Status", $status, true);
 		return $this;
+	}
+	
+	/**
+	 * インスタンスが起動中のサーバに絞り込みます。
+	 * 
+	 * @access public
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
+	 */
+	public function withInstanceUp()
+	{
+		return $this->withInstanceStatus(EServerInstanceStatus::up);
+	}
+	
+	/**
+	 * インスタンスが停止中のサーバに絞り込みます。
+	 * 
+	 * @access public
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
+	 */
+	public function withInstanceDown()
+	{
+		return $this->withInstanceStatus(EServerInstanceStatus::down);
 	}
 	
 	

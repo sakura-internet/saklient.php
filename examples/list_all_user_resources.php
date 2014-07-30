@@ -44,9 +44,6 @@ function dumpInALine($type, $obj)
 //	print_r($obj->dump());
 }
 
-//$routers = $api->router->find();
-//foreach ($routers as $router) dumpInALine("router", $router);
-
 $servers = $api->server->find();
 foreach ($servers as $server) dumpInALine("server", $server);
 
@@ -59,19 +56,25 @@ foreach ($appliances as $appliance) dumpInALine("appliance", $appliance);
 $archives = $api->archive->find();
 foreach ($archives as $archive) dumpInALine("archive", $archive);
 
-//$appliances = $api->appliance->find();
-//foreach ($appliances as $appliance) {
-//    printf("\n");
-//    printf("appliance [%s] %s at %s\n", $appliance->id, $appliance->clazz, $appliance->name);
-//    printf("    tags: %s\n", implode(", ", (array)$appliance->tags));
-//    foreach ($appliance->ifaces as $iface) {
-//        printf("    iface [%s] %s %s\n", $iface->id, $iface->mac_address, $iface->ipAddress ? $iface->ipAddress : $iface->userIpAddress);
-//    }
-//}
+$isoImages = $api->isoImage->find();
+foreach ($isoImages as $isoImage) dumpInALine("isoImage", $isoImage);
 
-//$ifaces = $api->iface->find();
-//foreach ($ifaces as $iface) dumpInALine("iface", $iface);
+$appliances = $api->appliance->find();
+foreach ($appliances as $appliance) {
+    printf("\n");
+    printf("appliance [%s] %s at %s\n", $appliance->id, $appliance->clazz, $appliance->name);
+    printf("    tags: %s\n", implode(", ", (array)$appliance->tags));
+    foreach ($appliance->ifaces as $iface) {
+        printf("    iface [%s] %s %s\n", $iface->id, $iface->mac_address, $iface->ipAddress ? $iface->ipAddress : $iface->userIpAddress);
+    }
+}
+
+$ifaces = $api->iface->find();
+foreach ($ifaces as $iface) dumpInALine("iface", $iface);
 
 $swytches = $api->swytch->find();
 foreach ($swytches as $swytch) dumpInALine("swytch", $swytch);
+
+$routers = $api->router->find();
+foreach ($routers as $router) dumpInALine("router", $router);
 

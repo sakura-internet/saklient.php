@@ -17,10 +17,13 @@ use \SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
  * @property-read string $status
  * @property-read string $beforeStatus
  * @property-read NativeDate $statusChangedAt
+ * @property-read IsoImage $isoImage
  */
 class ServerInstance extends Resource {
 	
 	/**
+	 * 起動状態
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -28,6 +31,8 @@ class ServerInstance extends Resource {
 	protected $m_status;
 	
 	/**
+	 * 前回の起動状態
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -35,11 +40,22 @@ class ServerInstance extends Resource {
 	protected $m_beforeStatus;
 	
 	/**
+	 * 現在の起動状態に変化した日時
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var NativeDate
 	 */
 	protected $m_statusChangedAt;
+	
+	/**
+	 * 挿入されているISOイメージ
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var IsoImage
+	 */
+	protected $m_isoImage;
 	
 	/**
 	 * @private
@@ -94,6 +110,9 @@ class ServerInstance extends Resource {
 		return $this->m_status;
 	}
 	
+	/**
+	 * 起動状態
+	 */
 	
 	
 	/**
@@ -115,6 +134,9 @@ class ServerInstance extends Resource {
 		return $this->m_beforeStatus;
 	}
 	
+	/**
+	 * 前回の起動状態
+	 */
 	
 	
 	/**
@@ -136,6 +158,33 @@ class ServerInstance extends Resource {
 		return $this->m_statusChangedAt;
 	}
 	
+	/**
+	 * 現在の起動状態に変化した日時
+	 */
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_isoImage = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return IsoImage
+	 */
+	private function get_isoImage()
+	{
+		return $this->m_isoImage;
+	}
+	
+	/**
+	 * 挿入されているISOイメージ
+	 */
 	
 	
 	/**
@@ -176,6 +225,14 @@ class ServerInstance extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_statusChangedAt = false;
+		if (Util::existsPath($r, "CDROM")) {
+			$this->m_isoImage = Util::getByPath($r, "CDROM") == null ? null : new IsoImage($this->_client, Util::getByPath($r, "CDROM"));
+		}
+		else {
+			$this->m_isoImage = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_isoImage = false;
 	}
 	
 	/**
@@ -198,6 +255,9 @@ class ServerInstance extends Resource {
 		if ($withClean || $this->n_statusChangedAt) {
 			Util::setByPath($ret, "StatusChangedAt", $this->m_statusChangedAt == null ? null : Util::date2str($this->m_statusChangedAt));
 		}
+		if ($withClean || $this->n_isoImage) {
+			Util::setByPath($ret, "CDROM", $withClean ? ($this->m_isoImage == null ? null : $this->m_isoImage->apiSerialize($withClean)) : ($this->m_isoImage == null ? (object)['ID' => "0"] : $this->m_isoImage->apiSerializeID()));
+		}
 		return $ret;
 	}
 	
@@ -209,6 +269,7 @@ class ServerInstance extends Resource {
 			case "status": return $this->get_status();
 			case "beforeStatus": return $this->get_beforeStatus();
 			case "statusChangedAt": return $this->get_statusChangedAt();
+			case "isoImage": return $this->get_isoImage();
 			default: return null;
 		}
 	}

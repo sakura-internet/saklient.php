@@ -8,26 +8,25 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php
 use \SakuraInternet\Saclient\Cloud\Resource\Resource;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Icon.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Icon;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Swytch.php";
-use \SakuraInternet\Saclient\Cloud\Resource\Swytch;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Ipv4Net.php";
-use \SakuraInternet\Saclient\Cloud\Resource\Ipv4Net;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Ipv6Net.php";
-use \SakuraInternet\Saclient\Cloud\Resource\Ipv6Net;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EScope.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EScope;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 
 /**
- * ルータのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * ISOイメージのリソース情報へのアクセス機能や操作機能を備えたクラス。
  * 
+ * @property-read int $sizeGib
  * @property-read string $id
+ * @property string $scope
  * @property string $name
  * @property string $description
- * @property int $networkMaskLen
- * @property int $bandWidthMbps
- * @property-read string $swytchId
+ * @property string[] $tags
+ * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon
+ * @property-read int $sizeMib
+ * @property-read string $serviceClass
  */
-class Router extends Resource {
+class IsoImage extends Resource {
 	
 	/**
 	 * ID
@@ -37,6 +36,15 @@ class Router extends Resource {
 	 * @var string
 	 */
 	protected $m_id;
+	
+	/**
+	 * スコープ
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_scope;
 	
 	/**
 	 * 名前
@@ -57,31 +65,40 @@ class Router extends Resource {
 	protected $m_description;
 	
 	/**
-	 * ネットワークのマスク長
+	 * タグ
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var string[]
+	 */
+	protected $m_tags;
+	
+	/**
+	 * アイコン
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var Icon
+	 */
+	protected $m_icon;
+	
+	/**
+	 * サイズ[MiB]
 	 * 
 	 * @access protected
 	 * @ignore
 	 * @var int
 	 */
-	protected $m_networkMaskLen;
+	protected $m_sizeMib;
 	
 	/**
-	 * 帯域幅
-	 * 
-	 * @access protected
-	 * @ignore
-	 * @var int
-	 */
-	protected $m_bandWidthMbps;
-	
-	/**
-	 * スイッチ
+	 * サービスクラス
 	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
 	 */
-	protected $m_swytchId;
+	protected $m_serviceClass;
 	
 	/**
 	 * @private
@@ -91,7 +108,7 @@ class Router extends Resource {
 	 */
 	protected function _apiPath()
 	{
-		return "/internet";
+		return "/cdrom";
 	}
 	
 	/**
@@ -102,7 +119,7 @@ class Router extends Resource {
 	 */
 	protected function _rootKey()
 	{
-		return "Internet";
+		return "CDROM";
 	}
 	
 	/**
@@ -113,7 +130,7 @@ class Router extends Resource {
 	 */
 	protected function _rootKeyM()
 	{
-		return "Internet";
+		return "CDROMs";
 	}
 	
 	/**
@@ -130,7 +147,7 @@ class Router extends Resource {
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Router this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\IsoImage this
 	 */
 	public function save()
 	{
@@ -141,7 +158,7 @@ class Router extends Resource {
 	 * 最新のリソース情報を再取得します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Router this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\IsoImage this
 	 */
 	public function reload()
 	{
@@ -161,116 +178,19 @@ class Router extends Resource {
 	}
 	
 	/**
-	 * 作成中のルータが利用可能になるまで待機します。
-	 * 
-	 * @access public
-	 * @param int $timeoutSec = 120
-	 * @return boolean
+	 * @access protected
+	 * @ignore
+	 * @return int
 	 */
-	public function sleepWhileCreating($timeoutSec=120)
+	protected function get_sizeGib()
 	{
-		$step = 3;
-		while (0 < $timeoutSec) {
-			if ($this->exists()) {
-				$this->reload();
-				return true;
-			}
-			$timeoutSec -= $step;
-			if (0 < $timeoutSec) {
-				Util::sleep($step);
-			}
-		}
-		return false;
+		return $this->get_sizeMib() >> 10;
 	}
 	
 	/**
-	 * このルータが接続されているスイッチを取得します。
-	 * 
-	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Swytch
+	 * サイズ[GiB]
 	 */
-	public function getSwytch()
-	{
-		$model = Util::createClassInstance("saclient.cloud.model.Model_Swytch", new \ArrayObject([$this->_client]));
-		$id = $this->get_swytchId();
-		return $model->getById($id);
-	}
 	
-	/**
-	 * このルータ＋スイッチでIPv6アドレスを有効にします。
-	 * 
-	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Ipv6Net
-	 */
-	public function addIpv6Net()
-	{
-		$result = $this->_client->request("POST", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/ipv6net");
-		$this->reload();
-		return new Ipv6Net($this->_client, $result->{"IPv6Net"});
-	}
-	
-	/**
-	 * このルータ＋スイッチでIPv6アドレスを無効にします。
-	 * 
-	 * @access public
-	 * @param \SakuraInternet\Saclient\Cloud\Resource\Ipv6Net $ipv6Net
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Router
-	 */
-	public function removeIpv6Net(\SakuraInternet\Saclient\Cloud\Resource\Ipv6Net $ipv6Net)
-	{
-		$this->_client->request("DELETE", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/ipv6net/" . $ipv6Net->_id());
-		$this->reload();
-		return $this;
-	}
-	
-	/**
-	 * このルータ＋スイッチにスタティックルートを追加します。
-	 * 
-	 * @access public
-	 * @param int $maskLen
-	 * @param string $nextHop
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Ipv4Net
-	 */
-	public function addStaticRoute($maskLen, $nextHop)
-	{
-		$q = (object)[];
-		Util::setByPath($q, "NetworkMaskLen", $maskLen);
-		Util::setByPath($q, "NextHop", $nextHop);
-		$result = $this->_client->request("POST", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/subnet", $q);
-		$this->reload();
-		return new Ipv4Net($this->_client, $result->{"Subnet"});
-	}
-	
-	/**
-	 * このルータ＋スイッチからスタティックルートを削除します。
-	 * 
-	 * @access public
-	 * @param \SakuraInternet\Saclient\Cloud\Resource\Ipv4Net $ipv4Net
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Router
-	 */
-	public function removeStaticRoute(\SakuraInternet\Saclient\Cloud\Resource\Ipv4Net $ipv4Net)
-	{
-		$this->_client->request("DELETE", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/subnet/" . $ipv4Net->_id());
-		$this->reload();
-		return $this;
-	}
-	
-	/**
-	 * このルータ＋スイッチの帯域プランを変更します。
-	 * 
-	 * @access public
-	 * @param int $bandWidthMbps
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Router
-	 */
-	public function changePlan($bandWidthMbps)
-	{
-		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/bandwidth";
-		$q = (object)[];
-		Util::setByPath($q, "Internet.BandWidthMbps", $bandWidthMbps);
-		$result = $this->_client->request("PUT", $path, $q);
-		$this->apiDeserialize($result->{$this->_rootKey()});
-		return $this;
-	}
 	
 	/**
 	 * @access private
@@ -293,6 +213,45 @@ class Router extends Resource {
 	
 	/**
 	 * ID
+	 */
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_scope = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_scope()
+	{
+		return $this->m_scope;
+	}
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param string $v
+	 * @return string
+	 */
+	private function set_scope($v)
+	{
+		$this->m_scope = $v;
+		$this->n_scope = true;
+		return $this->m_scope;
+	}
+	
+	/**
+	 * スコープ
 	 */
 	
 	
@@ -379,18 +338,18 @@ class Router extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
-	private $n_networkMaskLen = false;
+	private $n_tags = false;
 	
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
 	 * 
 	 * @access private
 	 * @ignore
-	 * @return int
+	 * @return string[]
 	 */
-	private function get_networkMaskLen()
+	private function get_tags()
 	{
-		return $this->m_networkMaskLen;
+		return $this->m_tags;
 	}
 	
 	/**
@@ -398,18 +357,19 @@ class Router extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @param int $v
-	 * @return int
+	 * @param string[] $v
+	 * @return string[]
 	 */
-	private function set_networkMaskLen($v)
+	private function set_tags($v)
 	{
-		$this->m_networkMaskLen = $v;
-		$this->n_networkMaskLen = true;
-		return $this->m_networkMaskLen;
+		if (is_array($v)) $v = Client::array2ArrayObject($v);
+		$this->m_tags = $v;
+		$this->n_tags = true;
+		return $this->m_tags;
 	}
 	
 	/**
-	 * ネットワークのマスク長
+	 * タグ
 	 */
 	
 	
@@ -418,18 +378,18 @@ class Router extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
-	private $n_bandWidthMbps = false;
+	private $n_icon = false;
 	
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
 	 * 
 	 * @access private
 	 * @ignore
-	 * @return int
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Icon
 	 */
-	private function get_bandWidthMbps()
+	private function get_icon()
 	{
-		return $this->m_bandWidthMbps;
+		return $this->m_icon;
 	}
 	
 	/**
@@ -437,18 +397,18 @@ class Router extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @param int $v
-	 * @return int
+	 * @param \SakuraInternet\Saclient\Cloud\Resource\Icon|null $v
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Icon
 	 */
-	private function set_bandWidthMbps($v)
+	private function set_icon(\SakuraInternet\Saclient\Cloud\Resource\Icon $v=null)
 	{
-		$this->m_bandWidthMbps = $v;
-		$this->n_bandWidthMbps = true;
-		return $this->m_bandWidthMbps;
+		$this->m_icon = $v;
+		$this->n_icon = true;
+		return $this->m_icon;
 	}
 	
 	/**
-	 * 帯域幅
+	 * アイコン
 	 */
 	
 	
@@ -457,7 +417,31 @@ class Router extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
-	private $n_swytchId = false;
+	private $n_sizeMib = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return int
+	 */
+	private function get_sizeMib()
+	{
+		return $this->m_sizeMib;
+	}
+	
+	/**
+	 * サイズ[MiB]
+	 */
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_serviceClass = false;
 	
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
@@ -466,13 +450,13 @@ class Router extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_swytchId()
+	private function get_serviceClass()
 	{
-		return $this->m_swytchId;
+		return $this->m_serviceClass;
 	}
 	
 	/**
-	 * スイッチ
+	 * サービスクラス
 	 */
 	
 	
@@ -498,6 +482,14 @@ class Router extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_id = false;
+		if (Util::existsPath($r, "Scope")) {
+			$this->m_scope = Util::getByPath($r, "Scope") == null ? null : "" . Util::getByPath($r, "Scope");
+		}
+		else {
+			$this->m_scope = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_scope = false;
 		if (Util::existsPath($r, "Name")) {
 			$this->m_name = Util::getByPath($r, "Name") == null ? null : "" . Util::getByPath($r, "Name");
 		}
@@ -514,30 +506,48 @@ class Router extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_description = false;
-		if (Util::existsPath($r, "NetworkMaskLen")) {
-			$this->m_networkMaskLen = Util::getByPath($r, "NetworkMaskLen") == null ? null : intval("" . Util::getByPath($r, "NetworkMaskLen"));
+		if (Util::existsPath($r, "Tags")) {
+			if (Util::getByPath($r, "Tags") == null) {
+				$this->m_tags = new \ArrayObject([]);
+			}
+			else {
+				$this->m_tags = new \ArrayObject([]);
+				foreach (Util::getByPath($r, "Tags") as $t) {
+					$v1 = null;
+					$v1 = $t == null ? null : "" . $t;
+					$this->m_tags->append($v1);
+				}
+			}
 		}
 		else {
-			$this->m_networkMaskLen = null;
+			$this->m_tags = null;
 			$this->isIncomplete = true;
 		}
-		$this->n_networkMaskLen = false;
-		if (Util::existsPath($r, "BandWidthMbps")) {
-			$this->m_bandWidthMbps = Util::getByPath($r, "BandWidthMbps") == null ? null : intval("" . Util::getByPath($r, "BandWidthMbps"));
+		$this->n_tags = false;
+		if (Util::existsPath($r, "Icon")) {
+			$this->m_icon = Util::getByPath($r, "Icon") == null ? null : new Icon($this->_client, Util::getByPath($r, "Icon"));
 		}
 		else {
-			$this->m_bandWidthMbps = null;
+			$this->m_icon = null;
 			$this->isIncomplete = true;
 		}
-		$this->n_bandWidthMbps = false;
-		if (Util::existsPath($r, "Switch.ID")) {
-			$this->m_swytchId = Util::getByPath($r, "Switch.ID") == null ? null : "" . Util::getByPath($r, "Switch.ID");
+		$this->n_icon = false;
+		if (Util::existsPath($r, "SizeMB")) {
+			$this->m_sizeMib = Util::getByPath($r, "SizeMB") == null ? null : intval("" . Util::getByPath($r, "SizeMB"));
 		}
 		else {
-			$this->m_swytchId = null;
+			$this->m_sizeMib = null;
 			$this->isIncomplete = true;
 		}
-		$this->n_swytchId = false;
+		$this->n_sizeMib = false;
+		if (Util::existsPath($r, "ServiceClass")) {
+			$this->m_serviceClass = Util::getByPath($r, "ServiceClass") == null ? null : "" . Util::getByPath($r, "ServiceClass");
+		}
+		else {
+			$this->m_serviceClass = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_serviceClass = false;
 	}
 	
 	/**
@@ -554,20 +564,31 @@ class Router extends Resource {
 		if ($withClean || $this->n_id) {
 			Util::setByPath($ret, "ID", $this->m_id);
 		}
+		if ($withClean || $this->n_scope) {
+			Util::setByPath($ret, "Scope", $this->m_scope);
+		}
 		if ($withClean || $this->n_name) {
 			Util::setByPath($ret, "Name", $this->m_name);
 		}
 		if ($withClean || $this->n_description) {
 			Util::setByPath($ret, "Description", $this->m_description);
 		}
-		if ($withClean || $this->n_networkMaskLen) {
-			Util::setByPath($ret, "NetworkMaskLen", $this->m_networkMaskLen);
+		if ($withClean || $this->n_tags) {
+			Util::setByPath($ret, "Tags", new \ArrayObject([]));
+			foreach ($this->m_tags as $r1) {
+				$v = null;
+				$v = $r1;
+				$ret->{"Tags"}->append($v);
+			}
 		}
-		if ($withClean || $this->n_bandWidthMbps) {
-			Util::setByPath($ret, "BandWidthMbps", $this->m_bandWidthMbps);
+		if ($withClean || $this->n_icon) {
+			Util::setByPath($ret, "Icon", $withClean ? ($this->m_icon == null ? null : $this->m_icon->apiSerialize($withClean)) : ($this->m_icon == null ? (object)['ID' => "0"] : $this->m_icon->apiSerializeID()));
 		}
-		if ($withClean || $this->n_swytchId) {
-			Util::setByPath($ret, "Switch.ID", $this->m_swytchId);
+		if ($withClean || $this->n_sizeMib) {
+			Util::setByPath($ret, "SizeMB", $this->m_sizeMib);
+		}
+		if ($withClean || $this->n_serviceClass) {
+			Util::setByPath($ret, "ServiceClass", $this->m_serviceClass);
 		}
 		return $ret;
 	}
@@ -577,12 +598,15 @@ class Router extends Resource {
 	 */
 	public function __get($key) {
 		switch ($key) {
+			case "sizeGib": return $this->get_sizeGib();
 			case "id": return $this->get_id();
+			case "scope": return $this->get_scope();
 			case "name": return $this->get_name();
 			case "description": return $this->get_description();
-			case "networkMaskLen": return $this->get_networkMaskLen();
-			case "bandWidthMbps": return $this->get_bandWidthMbps();
-			case "swytchId": return $this->get_swytchId();
+			case "tags": return $this->get_tags();
+			case "icon": return $this->get_icon();
+			case "sizeMib": return $this->get_sizeMib();
+			case "serviceClass": return $this->get_serviceClass();
 			default: return null;
 		}
 	}
@@ -592,10 +616,11 @@ class Router extends Resource {
 	 */
 	public function __set($key, $v) {
 		switch ($key) {
+			case "scope": return $this->set_scope($v);
 			case "name": return $this->set_name($v);
 			case "description": return $this->set_description($v);
-			case "networkMaskLen": return $this->set_networkMaskLen($v);
-			case "bandWidthMbps": return $this->set_bandWidthMbps($v);
+			case "tags": return $this->set_tags($v);
+			case "icon": return $this->set_icon($v);
 			default: return $v;
 		}
 	}

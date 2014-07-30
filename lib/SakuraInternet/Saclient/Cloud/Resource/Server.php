@@ -362,7 +362,7 @@ class Server extends Resource {
 	}
 	
 	/**
-	 * インタフェースを1つ増設し、それを取得します。
+	 * サーバにインタフェースを1つ増設し、それを取得します。
 	 * 
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface
@@ -373,6 +373,36 @@ class Server extends Resource {
 		$res = $model->create();
 		$res->setProperty("serverId", $this->_id());
 		return $res->save();
+	}
+	
+	/**
+	 * サーバにISOイメージを挿入します。
+	 * 
+	 * @access public
+	 * @param IsoImage $iso
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
+	 */
+	public function insertIsoImage(IsoImage $iso)
+	{
+		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/cdrom";
+		$q = (object)['CDROM' => (object)['ID' => $iso->_id()]];
+		$result = $this->_client->request("PUT", $path, $q);
+		$this->reload();
+		return $this;
+	}
+	
+	/**
+	 * サーバに挿入されているISOイメージを排出します。
+	 * 
+	 * @access public
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
+	 */
+	public function ejectIsoImage()
+	{
+		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/cdrom";
+		$result = $this->_client->request("DELETE", $path);
+		$this->reload();
+		return $this;
 	}
 	
 	/**
