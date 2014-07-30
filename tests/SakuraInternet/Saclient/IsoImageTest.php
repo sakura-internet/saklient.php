@@ -57,8 +57,6 @@ class IsoImageTest extends \PHPUnit_Framework_TestCase
 		$server->ejectIsoImage();
 		$this->assertNull($server->instance->isoImage);
 		
-		print_r($server->instance->isoImage);
-		
 		// boot
 		echo "booting the server...\n";
 		$server->boot();
@@ -74,8 +72,6 @@ class IsoImageTest extends \PHPUnit_Framework_TestCase
 		echo "ejecting the ISO image from the server...\n";
 		$server->ejectIsoImage();
 		$this->assertNull($server->instance->isoImage);
-		
-		print_r($server->instance->isoImage);
 		
 		// stop
 		sleep(1);
