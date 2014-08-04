@@ -168,6 +168,19 @@ class Model_Disk extends Model {
 	}
 	
 	/**
+	 * 指定したタグを持つディスクに絞り込みます。
+	 * 
+	 * @access public
+	 * @param string[] $tags
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Disk
+	 */
+	public function withTags($tags)
+	{
+		$this->_filterBy("Tags.Name", $tags, true);
+		return $this;
+	}
+	
+	/**
 	 * 指定したサイズのディスクに絞り込みます。
 	 * 
 	 * @access public

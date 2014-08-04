@@ -9,7 +9,7 @@ if (!$isos) die("ISO image not found");
 $iso = $isos[0];
 printf("iso [%s] %s\n\n", $iso->id, $iso->name);
 
-$servers = $api->server->withNameLike("cent")/*->withInstanceUp()*/->find();
+$servers = $api->server->withNameLike("cent")/*->withStatusUp()*/->find();
 foreach ($servers as $server) {
     printf("server (%s) [%s] %s\n", $server->instance->status, $server->id, $server->name);
 	$server->insertIsoImage($iso);

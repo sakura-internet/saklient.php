@@ -16,6 +16,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/ServerPlan.p
 use \SakuraInternet\Saclient\Cloud\Resource\ServerPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/ServerInstance.php";
 use \SakuraInternet\Saclient\Cloud\Resource\ServerInstance;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/IsoImage.php";
+use \SakuraInternet\Saclient\Cloud\Resource\IsoImage;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EServerInstanceStatus.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
@@ -379,10 +381,10 @@ class Server extends Resource {
 	 * サーバにISOイメージを挿入します。
 	 * 
 	 * @access public
-	 * @param IsoImage $iso
+	 * @param \SakuraInternet\Saclient\Cloud\Resource\IsoImage $iso
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
 	 */
-	public function insertIsoImage(IsoImage $iso)
+	public function insertIsoImage(\SakuraInternet\Saclient\Cloud\Resource\IsoImage $iso)
 	{
 		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/cdrom";
 		$q = (object)['CDROM' => (object)['ID' => $iso->_id()]];

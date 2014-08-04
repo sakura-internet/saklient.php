@@ -8,6 +8,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
 use \SakuraInternet\Saclient\Cloud\Util;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Resource;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/IsoImage.php";
+use \SakuraInternet\Saclient\Cloud\Resource\IsoImage;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EServerInstanceStatus.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
 
@@ -17,7 +19,7 @@ use \SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
  * @property-read string $status
  * @property-read string $beforeStatus
  * @property-read NativeDate $statusChangedAt
- * @property-read IsoImage $isoImage
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\IsoImage $isoImage
  */
 class ServerInstance extends Resource {
 	
@@ -175,7 +177,7 @@ class ServerInstance extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @return IsoImage
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\IsoImage
 	 */
 	private function get_isoImage()
 	{

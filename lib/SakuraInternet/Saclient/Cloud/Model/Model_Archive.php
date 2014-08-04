@@ -159,6 +159,19 @@ class Model_Archive extends Model {
 	}
 	
 	/**
+	 * 指定したタグを持つアーカイブに絞り込みます。
+	 * 
+	 * @access public
+	 * @param string[] $tags
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Archive
+	 */
+	public function withTags($tags)
+	{
+		$this->_filterBy("Tags.Name", $tags, true);
+		return $this;
+	}
+	
+	/**
 	 * 指定したサイズのアーカイブに絞り込みます。
 	 * 
 	 * @access public

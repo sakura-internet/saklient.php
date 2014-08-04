@@ -156,6 +156,19 @@ class Model_Icon extends Model {
 		return $this;
 	}
 	
+	/**
+	 * 指定したタグを持つアイコンに絞り込みます。
+	 * 
+	 * @access public
+	 * @param string[] $tags
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Icon
+	 */
+	public function withTags($tags)
+	{
+		$this->_filterBy("Tags.Name", $tags, true);
+		return $this;
+	}
+	
 	
 
 }

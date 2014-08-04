@@ -8,6 +8,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Server.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Server;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/ServerPlan.php";
 use \SakuraInternet\Saclient\Cloud\Resource\ServerPlan;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/IsoImage.php";
+use \SakuraInternet\Saclient\Cloud\Resource\IsoImage;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EServerInstanceStatus.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
@@ -175,6 +177,19 @@ class Model_Server extends Model {
 	 * 指定したタグを持つサーバに絞り込みます。
 	 * 
 	 * @access public
+	 * @param string[] $tags
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
+	 */
+	public function withTags($tags)
+	{
+		$this->_filterBy("Tags.Name", $tags, true);
+		return $this;
+	}
+	
+	/**
+	 * 指定したタグを持つサーバに絞り込みます。
+	 * 
+	 * @access public
 	 * @param \SakuraInternet\Saclient\Cloud\Resource\ServerPlan $plan
 	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
 	 */
@@ -191,7 +206,7 @@ class Model_Server extends Model {
 	 * @param string $status
 	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
 	 */
-	public function withInstanceStatus($status)
+	public function withStatus($status)
 	{
 		$this->_filterBy("Instance.Status", $status, true);
 		return $this;
@@ -203,9 +218,9 @@ class Model_Server extends Model {
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
 	 */
-	public function withInstanceUp()
+	public function withStatusUp()
 	{
-		return $this->withInstanceStatus(EServerInstanceStatus::up);
+		return $this->withStatus(EServerInstanceStatus::up);
 	}
 	
 	/**
@@ -214,9 +229,22 @@ class Model_Server extends Model {
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
 	 */
-	public function withInstanceDown()
+	public function withStatusDown()
 	{
-		return $this->withInstanceStatus(EServerInstanceStatus::down);
+		return $this->withStatus(EServerInstanceStatus::down);
+	}
+	
+	/**
+	 * 指定したISOイメージが挿入されているサーバに絞り込みます。
+	 * 
+	 * @access public
+	 * @param \SakuraInternet\Saclient\Cloud\Resource\IsoImage $iso
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
+	 */
+	public function withIsoImage(\SakuraInternet\Saclient\Cloud\Resource\IsoImage $iso)
+	{
+		$this->_filterBy("Instance.CDROM.ID", $iso->_id(), true);
+		return $this;
 	}
 	
 	

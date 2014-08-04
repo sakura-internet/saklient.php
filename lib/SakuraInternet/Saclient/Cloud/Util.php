@@ -2,6 +2,8 @@
 
 namespace SakuraInternet\Saclient\Cloud;
 
+require_once dirname(__FILE__) . "/../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 class Util {
 	
@@ -157,6 +159,19 @@ class Util {
 	static public function sleep($sec)
 	{
 		\sleep($sec);
+	}
+	
+	/**
+	 * @access public
+	 * @param mixed $value
+	 * @param string $typeName
+	 * @return void
+	 */
+	static public function validateType($value, $typeName)
+	{
+		if ($typeName == "test") {
+			throw new \Exception(new SaclientException("type_mismatch", "Type mismatch"));
+		}
 	}
 	
 	

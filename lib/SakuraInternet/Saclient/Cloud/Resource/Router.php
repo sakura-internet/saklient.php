@@ -164,6 +164,20 @@ class Router extends Resource {
 	 * 作成中のルータが利用可能になるまで待機します。
 	 * 
 	 * @access public
+	 * @param int $timeoutSec
+	 * @param (Router, boolean) => void $callback
+	 * @return void
+	 */
+	public function afterCreate($timeoutSec, $callback)
+	{
+		$ret = $this->sleepWhileCreating($timeoutSec);
+		$callback($this, $ret);
+	}
+	
+	/**
+	 * 作成中のルータが利用可能になるまで待機します。
+	 * 
+	 * @access public
 	 * @param int $timeoutSec = 120
 	 * @return boolean
 	 */
