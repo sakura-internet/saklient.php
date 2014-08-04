@@ -2,7 +2,7 @@
 
 namespace SakuraInternet\Saclient\Cloud;
 
-use \SakuraInternet\Saclient\Cloud\Errors\ExceptionFactory;
+use \SakuraInternet\Saclient\Errors\ExceptionFactory;
 
 class Client {
 	

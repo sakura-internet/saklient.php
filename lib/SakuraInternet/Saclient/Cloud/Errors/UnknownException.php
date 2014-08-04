@@ -2,8 +2,8 @@
 
 namespace SakuraInternet\Saclient\Cloud\Errors;
 
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Errors/HttpInternalServerErrorException.php";
-use \SakuraInternet\Saclient\Cloud\Errors\HttpInternalServerErrorException;
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/HttpInternalServerErrorException.php";
+use \SakuraInternet\Saclient\Errors\HttpInternalServerErrorException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 

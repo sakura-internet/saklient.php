@@ -5,7 +5,7 @@ namespace SakuraInternet\Saclient\Tests;
 require_once "Common.php";
 use SakuraInternet\Saclient\Cloud\API;
 use SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
-use SakuraInternet\Saclient\Cloud\Errors\HttpConflictException;
+use SakuraInternet\Saclient\Errors\HttpConflictException;
 use SakuraInternet\Saclient\Cloud\Resource\Server;
 
 class ServerTest extends \PHPUnit_Framework_TestCase
