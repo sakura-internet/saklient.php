@@ -3,7 +3,7 @@
 namespace SakuraInternet\Saclient\Tests;
 
 require_once "Common.php";
-use \SakuraInternet\Saclient\Cloud\Util;
+use \SakuraInternet\Saclient\Util;
 
 class UtilTest extends \PHPUnit_Framework_TestCase
 {

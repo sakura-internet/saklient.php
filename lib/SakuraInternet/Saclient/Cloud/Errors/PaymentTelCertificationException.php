@@ -4,8 +4,8 @@ namespace SakuraInternet\Saclient\Cloud\Errors;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Errors/HttpPaymentRequiredException.php";
 use \SakuraInternet\Saclient\Cloud\Errors\HttpPaymentRequiredException;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \SakuraInternet\Saclient\Cloud\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
+use \SakuraInternet\Saclient\Util;
 
 /**
  * 要求を受け付けできません。電話認証を先に実行してください。

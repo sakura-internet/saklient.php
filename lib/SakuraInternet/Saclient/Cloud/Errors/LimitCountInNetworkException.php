@@ -4,8 +4,8 @@ namespace SakuraInternet\Saclient\Cloud\Errors;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Errors/HttpConflictException.php";
 use \SakuraInternet\Saclient\Cloud\Errors\HttpConflictException;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \SakuraInternet\Saclient\Cloud\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
+use \SakuraInternet\Saclient\Util;
 
 /**
  * 要求を受け付けできません。ネットワーク内リソース数上限により、リソースの割り当てに失敗しました。

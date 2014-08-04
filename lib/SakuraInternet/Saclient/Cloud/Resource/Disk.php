@@ -20,8 +20,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EAvailability.p
 use \SakuraInternet\Saclient\Cloud\Enums\EAvailability;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EDiskConnection.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EDiskConnection;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \SakuraInternet\Saclient\Cloud\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
+use \SakuraInternet\Saclient\Util;
 
 /**
  * ディスクのリソース情報へのアクセス機能や操作機能を備えたクラス。

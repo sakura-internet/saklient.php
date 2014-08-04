@@ -12,8 +12,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/IsoImage.php
 use \SakuraInternet\Saclient\Cloud\Resource\IsoImage;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EServerInstanceStatus.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \SakuraInternet\Saclient\Cloud\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
+use \SakuraInternet\Saclient\Util;
 
 /**
  * サーバを検索するための機能を備えたクラス。
@@ -144,7 +144,7 @@ class Model_Server extends Model {
 	 */
 	public function find()
 	{
-		return Util::castArray($this->_find(), null);
+		return $this->_find();
 	}
 	
 	/**

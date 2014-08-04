@@ -298,8 +298,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Errors/UserNotSpecifi
 use \SakuraInternet\Saclient\Cloud\Errors\UserNotSpecifiedException;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Errors/VncProxyRequestFailureException.php";
 use \SakuraInternet\Saclient\Cloud\Errors\VncProxyRequestFailureException;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \SakuraInternet\Saclient\Cloud\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
+use \SakuraInternet\Saclient\Util;
 
 class ExceptionFactory {
 	

@@ -2,10 +2,10 @@
 
 namespace SakuraInternet\Saclient\Cloud;
 
+require_once dirname(__FILE__) . "/../../Saclient/Util.php";
+use \SakuraInternet\Saclient\Util;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Client.php";
 use \SakuraInternet\Saclient\Cloud\Client;
-require_once dirname(__FILE__) . "/../../Saclient/Cloud/Util.php";
-use \SakuraInternet\Saclient\Cloud\Util;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Product.php";
 use \SakuraInternet\Saclient\Cloud\Product;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Icon.php";

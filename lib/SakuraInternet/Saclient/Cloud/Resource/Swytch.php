@@ -14,8 +14,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Ipv4Net.php"
 use \SakuraInternet\Saclient\Cloud\Resource\Ipv4Net;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Ipv6Net.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Ipv6Net;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \SakuraInternet\Saclient\Cloud\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
+use \SakuraInternet\Saclient\Util;
 
 /**
  * スイッチのリソース情報へのアクセス機能や操作機能を備えたクラス。

@@ -2,8 +2,8 @@
 
 namespace SakuraInternet\Saclient\Errors;
 
-require_once dirname(__FILE__) . "/../../Saclient/Cloud/Util.php";
-use \SakuraInternet\Saclient\Cloud\Util;
+require_once dirname(__FILE__) . "/../../Saclient/Util.php";
+use \SakuraInternet\Saclient\Util;
 
 class SaclientException extends \Exception {
 	

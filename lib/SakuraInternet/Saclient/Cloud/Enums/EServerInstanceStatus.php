@@ -4,8 +4,8 @@ namespace SakuraInternet\Saclient\Cloud\Enums;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EnumBase.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EnumBase;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \SakuraInternet\Saclient\Cloud\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
+use \SakuraInternet\Saclient\Util;
 
 class EServerInstanceStatus extends EnumBase {
 	

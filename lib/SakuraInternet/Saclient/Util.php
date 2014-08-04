@@ -1,9 +1,11 @@
 <?php
 
-namespace SakuraInternet\Saclient\Cloud;
+namespace SakuraInternet\Saclient;
 
-require_once dirname(__FILE__) . "/../../Saclient/Errors/SaclientException.php";
+require_once dirname(__FILE__) . "/../Saclient/Errors/SaclientException.php";
 use \SakuraInternet\Saclient\Errors\SaclientException;
+require_once dirname(__FILE__) . "/../Saclient/Cloud/Client.php";
+use \SakuraInternet\Saclient\Cloud\Client;
 
 class Util {
 	
@@ -139,16 +141,6 @@ class Util {
 	static public function urlEncode($s)
 	{
 		return rawurlencode($s);
-	}
-	
-	/**
-	 * @access public
-	 * @param T[] $a
-	 * @return U[]
-	 */
-	static public function castArray(\ArrayObject $a, $clazz)
-	{
-		return $a;
 	}
 	
 	/**

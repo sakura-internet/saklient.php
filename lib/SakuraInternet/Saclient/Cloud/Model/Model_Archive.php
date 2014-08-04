@@ -8,8 +8,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Archive.php"
 use \SakuraInternet\Saclient\Cloud\Resource\Archive;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EScope.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EScope;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \SakuraInternet\Saclient\Cloud\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
+use \SakuraInternet\Saclient\Util;
 
 /**
  * アーカイブを検索するための機能を備えたクラス。
@@ -129,7 +129,7 @@ class Model_Archive extends Model {
 	 */
 	public function find()
 	{
-		return Util::castArray($this->_find(), null);
+		return $this->_find();
 	}
 	
 	/**

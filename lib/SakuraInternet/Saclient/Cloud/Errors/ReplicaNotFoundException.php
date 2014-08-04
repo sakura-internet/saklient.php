@@ -4,8 +4,8 @@ namespace SakuraInternet\Saclient\Cloud\Errors;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Errors/HttpNotFoundException.php";
 use \SakuraInternet\Saclient\Cloud\Errors\HttpNotFoundException;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \SakuraInternet\Saclient\Cloud\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
+use \SakuraInternet\Saclient\Util;
 
 /**
  * 対象が見つかりません。このストレージには指定リソースの複製が存在しません。

@@ -6,8 +6,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Model/Model.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/DiskPlan.php";
 use \SakuraInternet\Saclient\Cloud\Resource\DiskPlan;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Util.php";
-use \SakuraInternet\Saclient\Cloud\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
+use \SakuraInternet\Saclient\Util;
 
 /**
  * ディスクのプランを検索するための機能を備えたクラス。
@@ -127,7 +127,7 @@ class Model_DiskPlan extends Model {
 	 */
 	public function find()
 	{
-		return Util::castArray($this->_find(), null);
+		return $this->_find();
 	}
 	
 	
