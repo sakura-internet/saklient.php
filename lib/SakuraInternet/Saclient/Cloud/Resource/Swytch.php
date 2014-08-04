@@ -177,6 +177,8 @@ class Swytch extends Resource {
 	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $r)
 	{
 		parent::__construct($client);
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($client, "\\SakuraInternet\\Saclient\\Cloud\\Client");
 		$this->apiDeserialize($r);
 	}
 	
@@ -217,6 +219,9 @@ class Swytch extends Resource {
 	 */
 	public function addStaticRoute($maskLen, $nextHop)
 	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($maskLen, "int");
+		Util::validateType($nextHop, "string");
 		$ret = $this->get_router()->addStaticRoute($maskLen, $nextHop);
 		$this->reload();
 		return $ret;
@@ -231,6 +236,8 @@ class Swytch extends Resource {
 	 */
 	public function removeStaticRoute(\SakuraInternet\Saclient\Cloud\Resource\Ipv4Net $ipv4Net)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($ipv4Net, "\\SakuraInternet\\Saclient\\Cloud\\Resource\\Ipv4Net");
 		$this->get_router()->removeStaticRoute($ipv4Net);
 		$this->reload();
 		return $this;
@@ -245,6 +252,8 @@ class Swytch extends Resource {
 	 */
 	public function changePlan($bandWidthMbps)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($bandWidthMbps, "int");
 		$this->get_router()->changePlan($bandWidthMbps);
 		$this->reload();
 		return $this;
@@ -303,6 +312,8 @@ class Swytch extends Resource {
 	 */
 	private function set_name($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->m_name = $v;
 		$this->n_name = true;
 		return $this->m_name;
@@ -342,6 +353,8 @@ class Swytch extends Resource {
 	 */
 	private function set_description($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->m_description = $v;
 		$this->n_description = true;
 		return $this->m_description;
@@ -481,6 +494,7 @@ class Swytch extends Resource {
 	 */
 	protected function apiDeserializeImpl($r)
 	{
+		Util::validateArgCount(func_num_args(), 1);
 		$this->isNew = $r == null;
 		if ($this->isNew) {
 			$r = (object)[];
@@ -582,6 +596,7 @@ class Swytch extends Resource {
 	 */
 	protected function apiSerializeImpl($withClean=false)
 	{
+		Util::validateType($withClean, "boolean");
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			Util::setByPath($ret, "ID", $this->m_id);

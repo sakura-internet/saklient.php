@@ -174,6 +174,8 @@ class IsoImage extends Resource {
 	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $r)
 	{
 		parent::__construct($client);
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($client, "\\SakuraInternet\\Saclient\\Cloud\\Client");
 		$this->apiDeserialize($r);
 	}
 	
@@ -245,6 +247,8 @@ class IsoImage extends Resource {
 	 */
 	private function set_scope($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->m_scope = $v;
 		$this->n_scope = true;
 		return $this->m_scope;
@@ -284,6 +288,8 @@ class IsoImage extends Resource {
 	 */
 	private function set_name($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->m_name = $v;
 		$this->n_name = true;
 		return $this->m_name;
@@ -323,6 +329,8 @@ class IsoImage extends Resource {
 	 */
 	private function set_description($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->m_description = $v;
 		$this->n_description = true;
 		return $this->m_description;
@@ -362,6 +370,8 @@ class IsoImage extends Resource {
 	 */
 	private function set_tags($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "\\ArrayObject");
 		if (is_array($v)) $v = Client::array2ArrayObject($v);
 		$this->m_tags = $v;
 		$this->n_tags = true;
@@ -402,6 +412,8 @@ class IsoImage extends Resource {
 	 */
 	private function set_icon(\SakuraInternet\Saclient\Cloud\Resource\Icon $v=null)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "\\SakuraInternet\\Saclient\\Cloud\\Resource\\Icon");
 		$this->m_icon = $v;
 		$this->n_icon = true;
 		return $this->m_icon;
@@ -469,6 +481,7 @@ class IsoImage extends Resource {
 	 */
 	protected function apiDeserializeImpl($r)
 	{
+		Util::validateArgCount(func_num_args(), 1);
 		$this->isNew = $r == null;
 		if ($this->isNew) {
 			$r = (object)[];
@@ -560,6 +573,7 @@ class IsoImage extends Resource {
 	 */
 	protected function apiSerializeImpl($withClean=false)
 	{
+		Util::validateType($withClean, "boolean");
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			Util::setByPath($ret, "ID", $this->m_id);

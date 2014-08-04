@@ -67,6 +67,8 @@ class Model_DiskPlan extends Model {
 	 */
 	public function offset($offset)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($offset, "int");
 		return $this->_offset($offset);
 	}
 	
@@ -79,6 +81,8 @@ class Model_DiskPlan extends Model {
 	 */
 	public function limit($count)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($count, "int");
 		return $this->_limit($count);
 	}
 	
@@ -93,6 +97,9 @@ class Model_DiskPlan extends Model {
 	 */
 	public function filterBy($key, $value, $multiple=false)
 	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($key, "string");
+		Util::validateType($multiple, "boolean");
 		return $this->_filterBy($key, $value, $multiple);
 	}
 	
@@ -116,6 +123,8 @@ class Model_DiskPlan extends Model {
 	 */
 	public function getById($id)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($id, "string");
 		return $this->_getById($id);
 	}
 	

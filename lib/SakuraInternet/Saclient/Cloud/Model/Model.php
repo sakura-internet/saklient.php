@@ -148,6 +148,8 @@ class Model {
 	 */
 	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($client, "\\SakuraInternet\\Saclient\\Cloud\\Client");
 		$this->_client = $client;
 		$this->_params = (object)[];
 		$this->_total = null;
@@ -165,6 +167,8 @@ class Model {
 	 */
 	protected function _offset($offset)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($offset, "int");
 		$this->_params->{"Begin"} = $offset;
 		return $this;
 	}
@@ -180,6 +184,8 @@ class Model {
 	 */
 	protected function _limit($count)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($count, "int");
 		$this->_params->{"Count"} = $count;
 		return $this;
 	}
@@ -197,6 +203,9 @@ class Model {
 	 */
 	protected function _filterBy($key, $value, $multiple=false)
 	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($key, "string");
+		Util::validateType($multiple, "boolean");
 		if (!array_key_exists("Filter", $this->_params)) {
 			$this->_params->{"Filter"} = (object)[];
 		}
@@ -254,6 +263,8 @@ class Model {
 	 */
 	protected function _getById($id)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($id, "string");
 		$params = $this->_params;
 		$this->_reset();
 		$result = $this->_client->request("GET", $this->_apiPath() . "/" . Util::urlEncode($id), $params);

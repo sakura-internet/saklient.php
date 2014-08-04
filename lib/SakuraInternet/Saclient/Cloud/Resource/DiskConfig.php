@@ -87,6 +87,8 @@ class DiskConfig {
 	 */
 	protected function set_hostName($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->_hostName = $v;
 		return $v;
 	}
@@ -119,6 +121,8 @@ class DiskConfig {
 	 */
 	protected function set_password($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->_password = $v;
 		return $v;
 	}
@@ -151,6 +155,8 @@ class DiskConfig {
 	 */
 	protected function set_sshKey($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->_sshKey = $v;
 		return $v;
 	}
@@ -183,6 +189,8 @@ class DiskConfig {
 	 */
 	protected function set_ipAddress($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->_ipAddress = $v;
 		return $v;
 	}
@@ -215,6 +223,8 @@ class DiskConfig {
 	 */
 	protected function set_defaultRoute($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->_defaultRoute = $v;
 		return $v;
 	}
@@ -247,6 +257,8 @@ class DiskConfig {
 	 */
 	protected function set_networkMaskLen($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "int");
 		$this->_networkMaskLen = $v;
 		return $v;
 	}
@@ -261,6 +273,9 @@ class DiskConfig {
 	 */
 	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $diskId)
 	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($client, "\\SakuraInternet\\Saclient\\Cloud\\Client");
+		Util::validateType($diskId, "string");
 		$this->_client = $client;
 		$this->_diskId = $diskId;
 		$this->_hostName = null;

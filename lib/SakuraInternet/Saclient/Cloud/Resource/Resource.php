@@ -49,6 +49,8 @@ class Resource {
 	 */
 	public function setParam($key, $value)
 	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($key, "string");
 		$this->_params->{$key} = $value;
 	}
 	
@@ -113,6 +115,8 @@ class Resource {
 	 */
 	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($client, "\\SakuraInternet\\Saclient\\Cloud\\Client");
 		$this->_client = $client;
 		$this->_params = (object)[];
 	}
@@ -139,7 +143,9 @@ class Resource {
 	 * @return void
 	 */
 	protected function _onBeforeSave($r)
-	{}
+	{
+		Util::validateArgCount(func_num_args(), 1);
+	}
 	
 	/**
 	 * @private
@@ -149,7 +155,9 @@ class Resource {
 	 * @return void
 	 */
 	protected function _onAfterApiDeserialize($r)
-	{}
+	{
+		Util::validateArgCount(func_num_args(), 1);
+	}
 	
 	/**
 	 * @private
@@ -160,7 +168,10 @@ class Resource {
 	 * @return void
 	 */
 	protected function _onAfterApiSerialize($r, $withClean)
-	{}
+	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($withClean, "boolean");
+	}
 	
 	/**
 	 * @access protected
@@ -169,7 +180,9 @@ class Resource {
 	 * @return void
 	 */
 	protected function apiDeserializeImpl($r)
-	{}
+	{
+		Util::validateArgCount(func_num_args(), 1);
+	}
 	
 	/**
 	 * @access public
@@ -178,6 +191,7 @@ class Resource {
 	 */
 	public function apiDeserialize($r)
 	{
+		Util::validateArgCount(func_num_args(), 1);
 		$this->apiDeserializeImpl($r);
 		$this->_onAfterApiDeserialize($r);
 	}
@@ -190,6 +204,7 @@ class Resource {
 	 */
 	protected function apiSerializeImpl($withClean=false)
 	{
+		Util::validateType($withClean, "boolean");
 		return null;
 	}
 	
@@ -200,6 +215,7 @@ class Resource {
 	 */
 	public function apiSerialize($withClean=false)
 	{
+		Util::validateType($withClean, "boolean");
 		$ret = $this->apiSerializeImpl($withClean);
 		$this->_onAfterApiSerialize($ret, $withClean);
 		return $ret;
@@ -229,6 +245,8 @@ class Resource {
 	 */
 	protected function normalizeFieldName($name)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($name, "string");
 		return $name;
 	}
 	
@@ -240,6 +258,8 @@ class Resource {
 	 */
 	public function setProperty($name, $value)
 	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($name, "string");
 		$name = $this->normalizeFieldName($name);
 		$this->__set($name, $value);
 	}

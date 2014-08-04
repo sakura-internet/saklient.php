@@ -206,6 +206,8 @@ class Disk extends Resource {
 	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $r)
 	{
 		parent::__construct($client);
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($client, "\\SakuraInternet\\Saclient\\Cloud\\Client");
 		$this->apiDeserialize($r);
 	}
 	
@@ -242,6 +244,8 @@ class Disk extends Resource {
 	 */
 	protected function set_sizeGib($sizeGib)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($sizeGib, "int");
 		$this->set_sizeMib($sizeGib * 1024);
 		return $sizeGib;
 	}
@@ -275,6 +279,7 @@ class Disk extends Resource {
 	 */
 	public function set_source($source)
 	{
+		Util::validateArgCount(func_num_args(), 1);
 		$this->_source = $source;
 		return $source;
 	}
@@ -293,6 +298,7 @@ class Disk extends Resource {
 	 */
 	protected function _onAfterApiDeserialize($r)
 	{
+		Util::validateArgCount(func_num_args(), 1);
 		if ($r == null) {
 			return;
 		}
@@ -326,6 +332,8 @@ class Disk extends Resource {
 	 */
 	protected function _onAfterApiSerialize($r, $withClean)
 	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($withClean, "boolean");
 		if ($r == null) {
 			return;
 		}
@@ -357,6 +365,8 @@ class Disk extends Resource {
 	 */
 	public function connectTo(\SakuraInternet\Saclient\Cloud\Resource\Server $server)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($server, "\\SakuraInternet\\Saclient\\Cloud\\Resource\\Server");
 		$this->_client->request("PUT", "/disk/" . $this->_id() . "/to/server/" . $server->_id());
 		return $this;
 	}
@@ -394,6 +404,9 @@ class Disk extends Resource {
 	 */
 	public function afterCopy($timeoutSec, $callback)
 	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($timeoutSec, "int");
+		Util::validateType($callback, "function");
 		$ret = $this->sleepWhileCopying($timeoutSec);
 		$callback($this, $ret);
 	}
@@ -407,6 +420,7 @@ class Disk extends Resource {
 	 */
 	public function sleepWhileCopying($timeoutSec=3600)
 	{
+		Util::validateType($timeoutSec, "int");
 		$step = 3;
 		while (0 < $timeoutSec) {
 			$this->reload();
@@ -478,6 +492,8 @@ class Disk extends Resource {
 	 */
 	private function set_name($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->m_name = $v;
 		$this->n_name = true;
 		return $this->m_name;
@@ -517,6 +533,8 @@ class Disk extends Resource {
 	 */
 	private function set_description($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->m_description = $v;
 		$this->n_description = true;
 		return $this->m_description;
@@ -556,6 +574,8 @@ class Disk extends Resource {
 	 */
 	private function set_tags($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "\\ArrayObject");
 		if (is_array($v)) $v = Client::array2ArrayObject($v);
 		$this->m_tags = $v;
 		$this->n_tags = true;
@@ -596,6 +616,8 @@ class Disk extends Resource {
 	 */
 	private function set_icon(\SakuraInternet\Saclient\Cloud\Resource\Icon $v=null)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "\\SakuraInternet\\Saclient\\Cloud\\Resource\\Icon");
 		$this->m_icon = $v;
 		$this->n_icon = true;
 		return $this->m_icon;
@@ -635,6 +657,8 @@ class Disk extends Resource {
 	 */
 	private function set_sizeMib($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "int");
 		$this->m_sizeMib = $v;
 		$this->n_sizeMib = true;
 		return $this->m_sizeMib;
@@ -750,6 +774,7 @@ class Disk extends Resource {
 	 */
 	protected function apiDeserializeImpl($r)
 	{
+		Util::validateArgCount(func_num_args(), 1);
 		$this->isNew = $r == null;
 		if ($this->isNew) {
 			$r = (object)[];
@@ -857,6 +882,7 @@ class Disk extends Resource {
 	 */
 	protected function apiSerializeImpl($withClean=false)
 	{
+		Util::validateType($withClean, "boolean");
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			Util::setByPath($ret, "ID", $this->m_id);

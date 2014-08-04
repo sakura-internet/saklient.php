@@ -157,6 +157,8 @@ class Router extends Resource {
 	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $r)
 	{
 		parent::__construct($client);
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($client, "\\SakuraInternet\\Saclient\\Cloud\\Client");
 		$this->apiDeserialize($r);
 	}
 	
@@ -170,6 +172,9 @@ class Router extends Resource {
 	 */
 	public function afterCreate($timeoutSec, $callback)
 	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($timeoutSec, "int");
+		Util::validateType($callback, "function");
 		$ret = $this->sleepWhileCreating($timeoutSec);
 		$callback($this, $ret);
 	}
@@ -183,6 +188,7 @@ class Router extends Resource {
 	 */
 	public function sleepWhileCreating($timeoutSec=120)
 	{
+		Util::validateType($timeoutSec, "int");
 		$step = 3;
 		while (0 < $timeoutSec) {
 			if ($this->exists()) {
@@ -232,6 +238,8 @@ class Router extends Resource {
 	 */
 	public function removeIpv6Net(\SakuraInternet\Saclient\Cloud\Resource\Ipv6Net $ipv6Net)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($ipv6Net, "\\SakuraInternet\\Saclient\\Cloud\\Resource\\Ipv6Net");
 		$this->_client->request("DELETE", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/ipv6net/" . $ipv6Net->_id());
 		$this->reload();
 		return $this;
@@ -247,6 +255,9 @@ class Router extends Resource {
 	 */
 	public function addStaticRoute($maskLen, $nextHop)
 	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($maskLen, "int");
+		Util::validateType($nextHop, "string");
 		$q = (object)[];
 		Util::setByPath($q, "NetworkMaskLen", $maskLen);
 		Util::setByPath($q, "NextHop", $nextHop);
@@ -264,6 +275,8 @@ class Router extends Resource {
 	 */
 	public function removeStaticRoute(\SakuraInternet\Saclient\Cloud\Resource\Ipv4Net $ipv4Net)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($ipv4Net, "\\SakuraInternet\\Saclient\\Cloud\\Resource\\Ipv4Net");
 		$this->_client->request("DELETE", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/subnet/" . $ipv4Net->_id());
 		$this->reload();
 		return $this;
@@ -278,6 +291,8 @@ class Router extends Resource {
 	 */
 	public function changePlan($bandWidthMbps)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($bandWidthMbps, "int");
 		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/bandwidth";
 		$q = (object)[];
 		Util::setByPath($q, "Internet.BandWidthMbps", $bandWidthMbps);
@@ -339,6 +354,8 @@ class Router extends Resource {
 	 */
 	private function set_name($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->m_name = $v;
 		$this->n_name = true;
 		return $this->m_name;
@@ -378,6 +395,8 @@ class Router extends Resource {
 	 */
 	private function set_description($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->m_description = $v;
 		$this->n_description = true;
 		return $this->m_description;
@@ -417,6 +436,8 @@ class Router extends Resource {
 	 */
 	private function set_networkMaskLen($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "int");
 		$this->m_networkMaskLen = $v;
 		$this->n_networkMaskLen = true;
 		return $this->m_networkMaskLen;
@@ -456,6 +477,8 @@ class Router extends Resource {
 	 */
 	private function set_bandWidthMbps($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "int");
 		$this->m_bandWidthMbps = $v;
 		$this->n_bandWidthMbps = true;
 		return $this->m_bandWidthMbps;
@@ -499,6 +522,7 @@ class Router extends Resource {
 	 */
 	protected function apiDeserializeImpl($r)
 	{
+		Util::validateArgCount(func_num_args(), 1);
 		$this->isNew = $r == null;
 		if ($this->isNew) {
 			$r = (object)[];
@@ -564,6 +588,7 @@ class Router extends Resource {
 	 */
 	protected function apiSerializeImpl($withClean=false)
 	{
+		Util::validateType($withClean, "boolean");
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			Util::setByPath($ret, "ID", $this->m_id);

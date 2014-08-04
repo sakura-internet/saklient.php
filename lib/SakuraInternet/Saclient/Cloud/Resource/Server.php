@@ -193,6 +193,8 @@ class Server extends Resource {
 	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $r)
 	{
 		parent::__construct($client);
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($client, "\\SakuraInternet\\Saclient\\Cloud\\Client");
 		$this->apiDeserialize($r);
 	}
 	
@@ -276,6 +278,9 @@ class Server extends Resource {
 	 */
 	public function afterDown($timeoutSec, $callback)
 	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($timeoutSec, "int");
+		Util::validateType($callback, "function");
 		$this->afterStatus(EServerInstanceStatus::down, $timeoutSec, $callback);
 	}
 	
@@ -291,6 +296,10 @@ class Server extends Resource {
 	 */
 	private function afterStatus($status, $timeoutSec, $callback)
 	{
+		Util::validateArgCount(func_num_args(), 3);
+		Util::validateType($status, "string");
+		Util::validateType($timeoutSec, "int");
+		Util::validateType($callback, "function");
 		$ret = $this->sleepUntil($status, $timeoutSec);
 		$callback($this, $ret);
 	}
@@ -304,6 +313,7 @@ class Server extends Resource {
 	 */
 	public function sleepUntilDown($timeoutSec=180)
 	{
+		Util::validateType($timeoutSec, "int");
 		return $this->sleepUntil(EServerInstanceStatus::down, $timeoutSec);
 	}
 	
@@ -318,6 +328,9 @@ class Server extends Resource {
 	 */
 	private function sleepUntil($status, $timeoutSec=180)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($status, "string");
+		Util::validateType($timeoutSec, "int");
 		$step = 3;
 		while (0 < $timeoutSec) {
 			$this->reload();
@@ -345,6 +358,8 @@ class Server extends Resource {
 	 */
 	public function changePlan(\SakuraInternet\Saclient\Cloud\Resource\ServerPlan $planTo)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($planTo, "\\SakuraInternet\\Saclient\\Cloud\\Resource\\ServerPlan");
 		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/to/plan/" . Util::urlEncode($planTo->_id());
 		$result = $this->_client->request("PUT", $path);
 		$this->apiDeserialize($result->{$this->_rootKey()});
@@ -386,6 +401,8 @@ class Server extends Resource {
 	 */
 	public function insertIsoImage(\SakuraInternet\Saclient\Cloud\Resource\IsoImage $iso)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($iso, "\\SakuraInternet\\Saclient\\Cloud\\Resource\\IsoImage");
 		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/cdrom";
 		$q = (object)['CDROM' => (object)['ID' => $iso->_id()]];
 		$result = $this->_client->request("PUT", $path, $q);
@@ -460,6 +477,8 @@ class Server extends Resource {
 	 */
 	private function set_name($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->m_name = $v;
 		$this->n_name = true;
 		return $this->m_name;
@@ -499,6 +518,8 @@ class Server extends Resource {
 	 */
 	private function set_description($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->m_description = $v;
 		$this->n_description = true;
 		return $this->m_description;
@@ -538,6 +559,8 @@ class Server extends Resource {
 	 */
 	private function set_tags($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "\\ArrayObject");
 		if (is_array($v)) $v = Client::array2ArrayObject($v);
 		$this->m_tags = $v;
 		$this->n_tags = true;
@@ -578,6 +601,8 @@ class Server extends Resource {
 	 */
 	private function set_icon(\SakuraInternet\Saclient\Cloud\Resource\Icon $v=null)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "\\SakuraInternet\\Saclient\\Cloud\\Resource\\Icon");
 		$this->m_icon = $v;
 		$this->n_icon = true;
 		return $this->m_icon;
@@ -617,6 +642,8 @@ class Server extends Resource {
 	 */
 	private function set_plan(\SakuraInternet\Saclient\Cloud\Resource\ServerPlan $v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "\\SakuraInternet\\Saclient\\Cloud\\Resource\\ServerPlan");
 		$this->m_plan = $v;
 		$this->n_plan = true;
 		return $this->m_plan;
@@ -708,6 +735,7 @@ class Server extends Resource {
 	 */
 	protected function apiDeserializeImpl($r)
 	{
+		Util::validateArgCount(func_num_args(), 1);
 		$this->isNew = $r == null;
 		if ($this->isNew) {
 			$r = (object)[];
@@ -817,6 +845,7 @@ class Server extends Resource {
 	 */
 	protected function apiSerializeImpl($withClean=false)
 	{
+		Util::validateType($withClean, "boolean");
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			Util::setByPath($ret, "ID", $this->m_id);

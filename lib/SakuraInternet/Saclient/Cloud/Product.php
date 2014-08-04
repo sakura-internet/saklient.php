@@ -86,6 +86,8 @@ class Product {
 	 */
 	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($client, "\\SakuraInternet\\Saclient\\Cloud\\Client");
 		$this->_server = new Model_ServerPlan($client);
 		$this->_disk = new Model_DiskPlan($client);
 		$this->_router = new Model_RouterPlan($client);

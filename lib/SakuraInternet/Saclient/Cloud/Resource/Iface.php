@@ -131,6 +131,8 @@ class Iface extends Resource {
 	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $r)
 	{
 		parent::__construct($client);
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($client, "\\SakuraInternet\\Saclient\\Cloud\\Client");
 		$this->apiDeserialize($r);
 	}
 	
@@ -238,6 +240,8 @@ class Iface extends Resource {
 	 */
 	private function set_userIpAddress($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->m_userIpAddress = $v;
 		$this->n_userIpAddress = true;
 		return $this->m_userIpAddress;
@@ -274,6 +278,8 @@ class Iface extends Resource {
 	 */
 	private function set_serverId($v)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
 		$this->m_serverId = $v;
 		$this->n_serverId = true;
 		return $this->m_serverId;
@@ -293,6 +299,7 @@ class Iface extends Resource {
 	 */
 	protected function apiDeserializeImpl($r)
 	{
+		Util::validateArgCount(func_num_args(), 1);
 		$this->isNew = $r == null;
 		if ($this->isNew) {
 			$r = (object)[];
@@ -350,6 +357,7 @@ class Iface extends Resource {
 	 */
 	protected function apiSerializeImpl($withClean=false)
 	{
+		Util::validateType($withClean, "boolean");
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			Util::setByPath($ret, "ID", $this->m_id);

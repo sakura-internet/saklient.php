@@ -155,18 +155,48 @@ class Util {
 	
 	/**
 	 * @access public
+	 * @param int $actual
+	 * @param int $expected
+	 * @return void
+	 */
+	static public function validateArgCount($actual, $expected) {
+		if ($actual < $expected) throw new SaclientException('argument_count_mismatch', 'Argument count mismatch');
+	}
+	
+	/**
+	 * @access public
 	 * @param mixed $value
 	 * @param string $typeName
 	 * @return void
 	 */
 	static public function validateType($value, $typeName)
 	{
-		if ($typeName == "test") {
-			throw new \Exception(new SaclientException("type_mismatch", "Type mismatch"));
+		if ($typeName=="mixed" || $typeName=="void" || is_null($value)) return;
+		$isOk = false;
+		switch ($typeName) {
+			case 'float':
+			case 'double':
+			case 'int':
+				$isOk = is_numeric($value);
+				break;
+			case 'string':
+				$isOk = is_scalar($value);
+				break;
+			case 'function':
+				$isOk = is_callable($value);
+				break;
+			case 'array':
+				$isOk = is_array($value);
+				break;
+			
+			//case 'boolean':
+			default:
+				$isOk = true; // already checked by PHP language
 		}
+		if (!$isOk) throw new SaclientException('argument_type_mismatch', 'Argument type mismatch (expected '.$typeName.')');
 	}
 	
 	
-
+	
 }
 

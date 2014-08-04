@@ -295,6 +295,8 @@ class API {
 	 */
 	protected function __construct(\SakuraInternet\Saclient\Cloud\Client $client)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($client, "\\SakuraInternet\\Saclient\\Cloud\\Client");
 		$this->_client = $client;
 		$this->_product = new Product($client);
 		$this->_icon = new Model_Icon($client);
@@ -321,6 +323,9 @@ class API {
 	 */
 	static public function authorize($token, $secret)
 	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($token, "string");
+		Util::validateType($secret, "string");
 		$c = new Client($token, $secret);
 		return new API($c);
 	}
@@ -334,6 +339,8 @@ class API {
 	 */
 	public function inZone($name)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($name, "string");
 		$ret = new API($this->_client->cloneInstance());
 		$ret->_client->setApiRoot("https://secure.sakura.ad.jp/cloud/");
 		$ret->_client->setApiRootSuffix("zone/" . $name);
@@ -347,6 +354,8 @@ class API {
 	 */
 	public function sleep($sec)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($sec, "int");
 		Util::sleep($sec);
 	}
 	

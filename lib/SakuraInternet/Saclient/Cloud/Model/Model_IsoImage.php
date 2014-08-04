@@ -69,6 +69,8 @@ class Model_IsoImage extends Model {
 	 */
 	public function offset($offset)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($offset, "int");
 		return $this->_offset($offset);
 	}
 	
@@ -81,6 +83,8 @@ class Model_IsoImage extends Model {
 	 */
 	public function limit($count)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($count, "int");
 		return $this->_limit($count);
 	}
 	
@@ -95,6 +99,9 @@ class Model_IsoImage extends Model {
 	 */
 	public function filterBy($key, $value, $multiple=false)
 	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($key, "string");
+		Util::validateType($multiple, "boolean");
 		return $this->_filterBy($key, $value, $multiple);
 	}
 	
@@ -118,6 +125,8 @@ class Model_IsoImage extends Model {
 	 */
 	public function getById($id)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($id, "string");
 		return $this->_getById($id);
 	}
 	
@@ -141,6 +150,8 @@ class Model_IsoImage extends Model {
 	 */
 	public function withNameLike($name)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($name, "string");
 		$this->_filterBy("Name", $name);
 		return $this;
 	}
@@ -154,6 +165,8 @@ class Model_IsoImage extends Model {
 	 */
 	public function withTag($tag)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($tag, "string");
 		$this->_filterBy("Tags.Name", $tag, true);
 		return $this;
 	}
@@ -167,6 +180,8 @@ class Model_IsoImage extends Model {
 	 */
 	public function withSizeGib($sizeGib)
 	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($sizeGib, "int");
 		$this->_filterBy("SizeMB", $sizeGib * 1024);
 		return $this;
 	}
