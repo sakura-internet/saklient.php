@@ -27,8 +27,6 @@ class SaclientException extends \Exception {
 	public function __construct($code=null, $message="")
 	{
 		parent::__construct($message);
-		Util::validateType($code, "string");
-		Util::validateType($message, "string");
 		$this->code = $code;
 		$this->message = $message;
 	}

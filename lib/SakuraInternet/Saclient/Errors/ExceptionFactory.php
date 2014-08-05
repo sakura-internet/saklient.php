@@ -312,10 +312,6 @@ class ExceptionFactory {
 	 */
 	static public function create($status, $code=null, $message="")
 	{
-		Util::validateArgCount(func_num_args(), 1);
-		Util::validateType($status, "int");
-		Util::validateType($code, "string");
-		Util::validateType($message, "string");
 		switch ($code) {
 			case "access_apikey_disabled": {
 				return new AccessApiKeyDisabledException($status, $code, $message);

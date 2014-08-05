@@ -34,10 +34,6 @@ class HttpException extends \Exception {
 	public function __construct($status, $code=null, $message="")
 	{
 		parent::__construct($message);
-		Util::validateArgCount(func_num_args(), 1);
-		Util::validateType($status, "int");
-		Util::validateType($code, "string");
-		Util::validateType($message, "string");
 		$this->status = $status;
 		$this->code = $code;
 		$this->message = $message;

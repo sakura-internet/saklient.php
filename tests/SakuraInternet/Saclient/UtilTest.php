@@ -4,6 +4,8 @@ namespace SakuraInternet\Saclient\Tests;
 
 require_once "Common.php";
 use \SakuraInternet\Saclient\Util;
+use \SakuraInternet\Saclient\Cloud\API;
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 class UtilTest extends \PHPUnit_Framework_TestCase
 {
@@ -48,6 +50,26 @@ class UtilTest extends \PHPUnit_Framework_TestCase
 		//
 		$test->first->second *= 10;
 		$this->assertEquals(4560, Util::getByPath($test, "first.second"));
+		
+		//
+		Util::validateType(1, 'int');
+		Util::validateType(1, 'float');
+		Util::validateType(1, 'string');
+		Util::validateType(1.1, 'float');
+		Util::validateType(1.1, 'string');
+		$ex = new SaclientException('a', 'a');
+		Util::validateType($ex, '\\SakuraInternet\\Saclient\\Errors\\SaclientException');
+		Util::validateType($ex, '\\Exception');
+		
+		//
+		$ok = false;
+		try {
+			API::authorize('abc', []);
+		}
+		catch (SaclientException $ex) {
+			$ok = true;
+		}
+		if (!$ok) $this->fail('引数の型が異なる時は SaclientException がスローされなければなりません');
 	}
 	
 }
