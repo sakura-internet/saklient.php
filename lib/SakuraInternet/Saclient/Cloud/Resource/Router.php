@@ -167,14 +167,14 @@ class Router extends Resource {
 	 * 
 	 * @access public
 	 * @param int $timeoutSec
-	 * @param (Router, boolean) => void $callback
+	 * @param callback $callback
 	 * @return void
 	 */
 	public function afterCreate($timeoutSec, $callback)
 	{
 		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($timeoutSec, "int");
-		Util::validateType($callback, "function");
+		Util::validateType($callback, "callback");
 		$ret = $this->sleepWhileCreating($timeoutSec);
 		$callback($this, $ret);
 	}

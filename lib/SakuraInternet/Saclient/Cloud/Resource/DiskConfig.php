@@ -62,6 +62,9 @@ class DiskConfig {
 		return $this->_diskId;
 	}
 	
+	/**
+	 * 修正対象のディスクID
+	 */
 	
 	
 	/**
@@ -96,6 +99,9 @@ class DiskConfig {
 		return $v;
 	}
 	
+	/**
+	 * ホスト名
+	 */
 	
 	
 	/**
@@ -130,6 +136,9 @@ class DiskConfig {
 		return $v;
 	}
 	
+	/**
+	 * ログインパスワード
+	 */
 	
 	
 	/**
@@ -164,6 +173,9 @@ class DiskConfig {
 		return $v;
 	}
 	
+	/**
+	 * SSHキー
+	 */
 	
 	
 	/**
@@ -198,6 +210,9 @@ class DiskConfig {
 		return $v;
 	}
 	
+	/**
+	 * IPアドレス
+	 */
 	
 	
 	/**
@@ -232,6 +247,9 @@ class DiskConfig {
 		return $v;
 	}
 	
+	/**
+	 * デフォルトルート
+	 */
 	
 	
 	/**
@@ -266,6 +284,9 @@ class DiskConfig {
 		return $v;
 	}
 	
+	/**
+	 * ネットワークマスク長
+	 */
 	
 	
 	/**
@@ -286,6 +307,9 @@ class DiskConfig {
 		return $this->_scripts;
 	}
 	
+	/**
+	 * スタートアップスクリプト
+	 */
 	
 	
 	/**
@@ -311,7 +335,22 @@ class DiskConfig {
 	}
 	
 	/**
-	 * *
+	 * スタートアップスクリプトを追加します。
+	 * 
+	 * @access public
+	 * @param \SakuraInternet\Saclient\Cloud\Resource\Script $script
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\DiskConfig
+	 */
+	public function addScript(\SakuraInternet\Saclient\Cloud\Resource\Script $script)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($script, "\\SakuraInternet\\Saclient\\Cloud\\Resource\\Script");
+		$this->_scripts->append($script);
+		return $this;
+	}
+	
+	/**
+	 * 修正内容を実際のディスクに書き込みます。
 	 * 
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\DiskConfig

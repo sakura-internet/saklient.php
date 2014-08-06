@@ -273,14 +273,14 @@ class Server extends Resource {
 	 * 
 	 * @access public
 	 * @param int $timeoutSec
-	 * @param (Server, boolean) => void $callback
+	 * @param callback $callback
 	 * @return void
 	 */
 	public function afterDown($timeoutSec, $callback)
 	{
 		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($timeoutSec, "int");
-		Util::validateType($callback, "function");
+		Util::validateType($callback, "callback");
 		$this->afterStatus(EServerInstanceStatus::down, $timeoutSec, $callback);
 	}
 	
@@ -291,7 +291,7 @@ class Server extends Resource {
 	 * @access private
 	 * @param int $timeoutSec
 	 * @param string $status
-	 * @param (Server, boolean) => void $callback
+	 * @param callback $callback
 	 * @return void
 	 */
 	private function afterStatus($status, $timeoutSec, $callback)
@@ -299,7 +299,7 @@ class Server extends Resource {
 		Util::validateArgCount(func_num_args(), 3);
 		Util::validateType($status, "string");
 		Util::validateType($timeoutSec, "int");
-		Util::validateType($callback, "function");
+		Util::validateType($callback, "callback");
 		$ret = $this->sleepUntil($status, $timeoutSec);
 		$callback($this, $ret);
 	}

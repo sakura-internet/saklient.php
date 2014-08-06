@@ -182,7 +182,7 @@ class Util {
 			case 'string':
 				$isOk = is_scalar($value);
 				break;
-			case 'function':
+			case 'callback':
 				$isOk = is_callable($value);
 				break;
 			case 'array':
