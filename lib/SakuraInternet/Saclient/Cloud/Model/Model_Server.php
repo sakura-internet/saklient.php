@@ -14,6 +14,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EServerInstance
 use \SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * サーバを検索するための機能を備えたクラス。

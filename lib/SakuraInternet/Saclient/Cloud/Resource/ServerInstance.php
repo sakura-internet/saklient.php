@@ -12,6 +12,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/IsoImage.php
 use \SakuraInternet\Saclient\Cloud\Resource\IsoImage;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EServerInstanceStatus.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * サーバインスタンスのリソース情報へのアクセス機能や操作機能を備えたクラス。

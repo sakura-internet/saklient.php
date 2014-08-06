@@ -300,6 +300,8 @@ require_once dirname(__FILE__) . "/../../Saclient/Cloud/Errors/VncProxyRequestFa
 use \SakuraInternet\Saclient\Cloud\Errors\VncProxyRequestFailureException;
 require_once dirname(__FILE__) . "/../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
+require_once dirname(__FILE__) . "/../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 class ExceptionFactory {
 	

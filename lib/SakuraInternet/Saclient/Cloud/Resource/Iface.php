@@ -8,6 +8,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php
 use \SakuraInternet\Saclient\Cloud\Resource\Resource;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * インタフェースのリソース情報へのアクセス機能や操作機能を備えたクラス。
@@ -398,7 +400,7 @@ class Iface extends Resource {
 		switch ($key) {
 			case "userIpAddress": return $this->set_userIpAddress($v);
 			case "serverId": return $this->set_serverId($v);
-			default: return $v;
+			default: throw new SaclientException('non_writable_field', 'Non-writable field: SakuraInternet\\Saclient\\Cloud\\Resource\\Iface#'.$key);
 		}
 	}
 

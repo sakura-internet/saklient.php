@@ -30,6 +30,8 @@ require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Ipv6Net.php"
 use \SakuraInternet\Saclient\Cloud\Model\Model_Ipv6Net;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Script.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model_Script;
+require_once dirname(__FILE__) . "/../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * さくらのクラウドAPIクライアントを利用する際、最初にアクセスすべきルートとなるクラス。

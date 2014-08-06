@@ -8,6 +8,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Iface.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Iface;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * インタフェースを検索するための機能を備えたクラス。

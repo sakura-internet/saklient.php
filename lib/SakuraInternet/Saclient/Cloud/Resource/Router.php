@@ -16,6 +16,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Ipv6Net.php"
 use \SakuraInternet\Saclient\Cloud\Resource\Ipv6Net;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * ルータのリソース情報へのアクセス機能や操作機能を備えたクラス。
@@ -635,7 +637,7 @@ class Router extends Resource {
 			case "description": return $this->set_description($v);
 			case "networkMaskLen": return $this->set_networkMaskLen($v);
 			case "bandWidthMbps": return $this->set_bandWidthMbps($v);
-			default: return $v;
+			default: throw new SaclientException('non_writable_field', 'Non-writable field: SakuraInternet\\Saclient\\Cloud\\Resource\\Router#'.$key);
 		}
 	}
 

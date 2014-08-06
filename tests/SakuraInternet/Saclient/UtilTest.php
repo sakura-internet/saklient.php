@@ -82,6 +82,18 @@ class UtilTest extends \PHPUnit_Framework_TestCase
 		}
 		if (!$ok) $this->fail('引数の型が異なる時は SaclientException がスローされなければなりません');
 		
+		//
+		$ok = false;
+		try {
+			$server = API::authorize('a', 'a')->server->create();
+			$server->availability = 'available';
+			echo $server->availability;
+		}
+		catch (SaclientException $ex) {
+			$ok = true;
+		}
+		if (!$ok) $this->fail('未定義または読み取り専用フィールドへのset時は SaclientException がスローされなければなりません');
+		
 	}
 	
 }

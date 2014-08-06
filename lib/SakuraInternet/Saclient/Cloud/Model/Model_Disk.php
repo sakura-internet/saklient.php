@@ -8,6 +8,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Disk.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Disk;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * ディスクを検索するための機能を備えたクラス。

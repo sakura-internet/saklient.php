@@ -8,6 +8,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Ipv6Net.php"
 use \SakuraInternet\Saclient\Cloud\Resource\Ipv6Net;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * IPv6ネットワークを検索するための機能を備えたクラス。

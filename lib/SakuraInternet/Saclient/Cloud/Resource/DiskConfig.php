@@ -8,6 +8,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Client.php";
 use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Script.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Script;
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * ディスク修正のパラメータ
@@ -417,7 +419,7 @@ class DiskConfig {
 			case "ipAddress": return $this->set_ipAddress($v);
 			case "defaultRoute": return $this->set_defaultRoute($v);
 			case "networkMaskLen": return $this->set_networkMaskLen($v);
-			default: return $v;
+			default: throw new SaclientException('non_writable_field', 'Non-writable field: SakuraInternet\\Saclient\\Cloud\\Resource\\DiskConfig#'.$key);
 		}
 	}
 

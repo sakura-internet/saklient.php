@@ -16,6 +16,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Ipv6Net.php"
 use \SakuraInternet\Saclient\Cloud\Resource\Ipv6Net;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * スイッチのリソース情報へのアクセス機能や操作機能を備えたクラス。
@@ -659,7 +661,7 @@ class Swytch extends Resource {
 		switch ($key) {
 			case "name": return $this->set_name($v);
 			case "description": return $this->set_description($v);
-			default: return $v;
+			default: throw new SaclientException('non_writable_field', 'Non-writable field: SakuraInternet\\Saclient\\Cloud\\Resource\\Swytch#'.$key);
 		}
 	}
 

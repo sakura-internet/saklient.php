@@ -10,6 +10,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EScope.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EScope;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * アーカイブを検索するための機能を備えたクラス。

@@ -10,6 +10,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Icon.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Icon;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * スクリプトのリソース情報へのアクセス機能や操作機能を備えたクラス。
@@ -679,7 +681,7 @@ class Script extends Resource {
 			case "icon": return $this->set_icon($v);
 			case "content": return $this->set_content($v);
 			case "annotation": return $this->set_annotation($v);
-			default: return $v;
+			default: throw new SaclientException('non_writable_field', 'Non-writable field: SakuraInternet\\Saclient\\Cloud\\Resource\\Script#'.$key);
 		}
 	}
 

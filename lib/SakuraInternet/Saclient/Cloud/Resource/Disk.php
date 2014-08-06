@@ -22,6 +22,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EDiskConnection
 use \SakuraInternet\Saclient\Cloud\Enums\EDiskConnection;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * ディスクのリソース情報へのアクセス機能や操作機能を備えたクラス。
@@ -956,7 +958,7 @@ class Disk extends Resource {
 			case "tags": return $this->set_tags($v);
 			case "icon": return $this->set_icon($v);
 			case "sizeMib": return $this->set_sizeMib($v);
-			default: return $v;
+			default: throw new SaclientException('non_writable_field', 'Non-writable field: SakuraInternet\\Saclient\\Cloud\\Resource\\Disk#'.$key);
 		}
 	}
 

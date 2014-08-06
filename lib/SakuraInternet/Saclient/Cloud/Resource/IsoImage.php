@@ -12,6 +12,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EScope.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EScope;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * ISOイメージのリソース情報へのアクセス機能や操作機能を備えたクラス。
@@ -635,7 +637,7 @@ class IsoImage extends Resource {
 			case "description": return $this->set_description($v);
 			case "tags": return $this->set_tags($v);
 			case "icon": return $this->set_icon($v);
-			default: return $v;
+			default: throw new SaclientException('non_writable_field', 'Non-writable field: SakuraInternet\\Saclient\\Cloud\\Resource\\IsoImage#'.$key);
 		}
 	}
 

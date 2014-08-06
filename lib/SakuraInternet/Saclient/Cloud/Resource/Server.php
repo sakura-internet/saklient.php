@@ -22,6 +22,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EServerInstance
 use \SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * サーバのリソース情報へのアクセス機能や操作機能を備えたクラス。
@@ -915,7 +917,7 @@ class Server extends Resource {
 			case "tags": return $this->set_tags($v);
 			case "icon": return $this->set_icon($v);
 			case "plan": return $this->set_plan($v);
-			default: return $v;
+			default: throw new SaclientException('non_writable_field', 'Non-writable field: SakuraInternet\\Saclient\\Cloud\\Resource\\Server#'.$key);
 		}
 	}
 
