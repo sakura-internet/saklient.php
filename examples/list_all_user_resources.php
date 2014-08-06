@@ -41,8 +41,13 @@ function dumpInALine($type, $obj)
 		}
 	}
 	//
+	print_r($obj->annotation);
 //	print_r($obj->dump());
 }
+
+$scripts = $api->script->find();
+foreach ($scripts as $script) dumpInALine("script", $script);
+exit(0);
 
 $servers = $api->server->find();
 foreach ($servers as $server) dumpInALine("server", $server);

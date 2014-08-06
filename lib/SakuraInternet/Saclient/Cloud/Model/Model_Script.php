@@ -4,17 +4,17 @@ namespace SakuraInternet\Saclient\Cloud\Model;
 
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Model/Model.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Icon.php";
-use \SakuraInternet\Saclient\Cloud\Resource\Icon;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Script.php";
+use \SakuraInternet\Saclient\Cloud\Resource\Script;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EScope.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EScope;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
 /**
- * アイコンを検索するための機能を備えたクラス。
+ * スクリプトを検索するための機能を備えたクラス。
  */
-class Model_Icon extends Model {
+class Model_Script extends Model {
 	
 	/**
 	 * @private
@@ -24,7 +24,7 @@ class Model_Icon extends Model {
 	 */
 	protected function _apiPath()
 	{
-		return "/icon";
+		return "/note";
 	}
 	
 	/**
@@ -35,7 +35,7 @@ class Model_Icon extends Model {
 	 */
 	protected function _rootKey()
 	{
-		return "Icon";
+		return "Note";
 	}
 	
 	/**
@@ -46,7 +46,7 @@ class Model_Icon extends Model {
 	 */
 	protected function _rootKeyM()
 	{
-		return "Icons";
+		return "Notes";
 	}
 	
 	/**
@@ -57,7 +57,7 @@ class Model_Icon extends Model {
 	 */
 	protected function _className()
 	{
-		return "Icon";
+		return "Script";
 	}
 	
 	/**
@@ -65,7 +65,7 @@ class Model_Icon extends Model {
 	 * 
 	 * @access public
 	 * @param int $offset オフセット
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Icon this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Script this
 	 */
 	public function offset($offset)
 	{
@@ -79,7 +79,7 @@ class Model_Icon extends Model {
 	 * 
 	 * @access public
 	 * @param int $count 上限レコード数
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Icon this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Script this
 	 */
 	public function limit($count)
 	{
@@ -95,7 +95,7 @@ class Model_Icon extends Model {
 	 * @param mixed $value
 	 * @param boolean $multiple = false
 	 * @param string $key
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Icon
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Script
 	 */
 	public function filterBy($key, $value, $multiple=false)
 	{
@@ -109,7 +109,7 @@ class Model_Icon extends Model {
 	 * 次のリクエストのために設定されているステートをすべて破棄します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Icon this
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Script this
 	 */
 	public function reset()
 	{
@@ -121,7 +121,7 @@ class Model_Icon extends Model {
 	 * 
 	 * @access public
 	 * @param string $id
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Icon リソースオブジェクト
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Script リソースオブジェクト
 	 */
 	public function getById($id)
 	{
@@ -134,7 +134,7 @@ class Model_Icon extends Model {
 	 * リソースの検索リクエストを実行し、結果をリストで取得します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Icon[] リソースオブジェクトの配列
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Script[] リソースオブジェクトの配列
 	 */
 	public function find()
 	{
@@ -142,11 +142,11 @@ class Model_Icon extends Model {
 	}
 	
 	/**
-	 * 指定した文字列を名前に含むアイコンに絞り込みます。
+	 * 指定した文字列を名前に含むスクリプトに絞り込みます。
 	 * 
 	 * @access public
 	 * @param string $name
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Icon
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Script
 	 */
 	public function withNameLike($name)
 	{
@@ -157,11 +157,11 @@ class Model_Icon extends Model {
 	}
 	
 	/**
-	 * 指定したタグを持つアイコンに絞り込みます。
+	 * 指定したタグを持つスクリプトに絞り込みます。
 	 * 
 	 * @access public
 	 * @param string $tag
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Icon
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Script
 	 */
 	public function withTag($tag)
 	{
@@ -172,11 +172,11 @@ class Model_Icon extends Model {
 	}
 	
 	/**
-	 * 指定したタグを持つアイコンに絞り込みます。
+	 * 指定したタグを持つスクリプトに絞り込みます。
 	 * 
 	 * @access public
 	 * @param string[] $tags
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Icon
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Script
 	 */
 	public function withTags($tags)
 	{
@@ -187,10 +187,10 @@ class Model_Icon extends Model {
 	}
 	
 	/**
-	 * パブリックアイコンに絞り込みます。
+	 * パブリックスクリプトに絞り込みます。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Icon
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Script
 	 */
 	public function withSharedScope()
 	{
@@ -199,10 +199,10 @@ class Model_Icon extends Model {
 	}
 	
 	/**
-	 * プライベートアイコンに絞り込みます。
+	 * プライベートスクリプトに絞り込みます。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Icon
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Script
 	 */
 	public function withUserScope()
 	{

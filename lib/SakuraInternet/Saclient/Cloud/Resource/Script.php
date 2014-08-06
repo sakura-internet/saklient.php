@@ -8,30 +8,23 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php
 use \SakuraInternet\Saclient\Cloud\Resource\Resource;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Icon.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Icon;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/DiskPlan.php";
-use \SakuraInternet\Saclient\Cloud\Resource\DiskPlan;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Server.php";
-use \SakuraInternet\Saclient\Cloud\Resource\Server;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EScope.php";
-use \SakuraInternet\Saclient\Cloud\Enums\EScope;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
 /**
- * アーカイブのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * スクリプトのリソース情報へのアクセス機能や操作機能を備えたクラス。
  * 
- * @property-read int $sizeGib
  * @property-read string $id
  * @property-read string $scope
- * @property string $name
+ * @property string $clazz
+ * @property-read string $name
  * @property string $description
  * @property string[] $tags
  * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon
- * @property-read int $sizeMib
- * @property-read string $serviceClass
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\DiskPlan $plan
+ * @property string $content
+ * @property mixed $annotation
  */
-class Archive extends Resource {
+class Script extends Resource {
 	
 	/**
 	 * ID
@@ -50,6 +43,15 @@ class Archive extends Resource {
 	 * @var string
 	 */
 	protected $m_scope;
+	
+	/**
+	 * クラス
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_clazz;
 	
 	/**
 	 * 名前
@@ -88,31 +90,22 @@ class Archive extends Resource {
 	protected $m_icon;
 	
 	/**
-	 * サイズ[MiB]
-	 * 
-	 * @access protected
-	 * @ignore
-	 * @var int
-	 */
-	protected $m_sizeMib;
-	
-	/**
-	 * サービスクラス
+	 * 内容
 	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
 	 */
-	protected $m_serviceClass;
+	protected $m_content;
 	
 	/**
-	 * プラン
+	 * 注釈
 	 * 
 	 * @access protected
 	 * @ignore
-	 * @var DiskPlan
+	 * @var mixed
 	 */
-	protected $m_plan;
+	protected $m_annotation;
 	
 	/**
 	 * @private
@@ -122,7 +115,7 @@ class Archive extends Resource {
 	 */
 	protected function _apiPath()
 	{
-		return "/archive";
+		return "/note";
 	}
 	
 	/**
@@ -133,7 +126,7 @@ class Archive extends Resource {
 	 */
 	protected function _rootKey()
 	{
-		return "Archive";
+		return "Note";
 	}
 	
 	/**
@@ -144,7 +137,7 @@ class Archive extends Resource {
 	 */
 	protected function _rootKeyM()
 	{
-		return "Archives";
+		return "Notes";
 	}
 	
 	/**
@@ -161,7 +154,7 @@ class Archive extends Resource {
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Archive this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Script this
 	 */
 	public function save()
 	{
@@ -172,7 +165,7 @@ class Archive extends Resource {
 	 * 最新のリソース情報を再取得します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Archive this
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Script this
 	 */
 	public function reload()
 	{
@@ -192,21 +185,6 @@ class Archive extends Resource {
 		Util::validateType($client, "\\SakuraInternet\\Saclient\\Cloud\\Client");
 		$this->apiDeserialize($r);
 	}
-	
-	/**
-	 * @access protected
-	 * @ignore
-	 * @return int
-	 */
-	protected function get_sizeGib()
-	{
-		return $this->get_sizeMib() >> 10;
-	}
-	
-	/**
-	 * サイズ[GiB]
-	 */
-	
 	
 	/**
 	 * @access private
@@ -261,6 +239,47 @@ class Archive extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
+	private $n_clazz = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_clazz()
+	{
+		return $this->m_clazz;
+	}
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param string $v
+	 * @return string
+	 */
+	private function set_clazz($v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
+		$this->m_clazz = $v;
+		$this->n_clazz = true;
+		return $this->m_clazz;
+	}
+	
+	/**
+	 * クラス
+	 */
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
 	private $n_name = false;
 	
 	/**
@@ -272,23 +291,6 @@ class Archive extends Resource {
 	 */
 	private function get_name()
 	{
-		return $this->m_name;
-	}
-	
-	/**
-	 * (This method is generated in Translator_default#buildImpl)
-	 * 
-	 * @access private
-	 * @ignore
-	 * @param string $v
-	 * @return string
-	 */
-	private function set_name($v)
-	{
-		Util::validateArgCount(func_num_args(), 1);
-		Util::validateType($v, "string");
-		$this->m_name = $v;
-		$this->n_name = true;
 		return $this->m_name;
 	}
 	
@@ -426,31 +428,7 @@ class Archive extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
-	private $n_sizeMib = false;
-	
-	/**
-	 * (This method is generated in Translator_default#buildImpl)
-	 * 
-	 * @access private
-	 * @ignore
-	 * @return int
-	 */
-	private function get_sizeMib()
-	{
-		return $this->m_sizeMib;
-	}
-	
-	/**
-	 * サイズ[MiB]
-	 */
-	
-	
-	/**
-	 * @access private
-	 * @ignore
-	 * @var boolean
-	 */
-	private $n_serviceClass = false;
+	private $n_content = false;
 	
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
@@ -459,13 +437,30 @@ class Archive extends Resource {
 	 * @ignore
 	 * @return string
 	 */
-	private function get_serviceClass()
+	private function get_content()
 	{
-		return $this->m_serviceClass;
+		return $this->m_content;
 	}
 	
 	/**
-	 * サービスクラス
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param string $v
+	 * @return string
+	 */
+	private function set_content($v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
+		$this->m_content = $v;
+		$this->n_content = true;
+		return $this->m_content;
+	}
+	
+	/**
+	 * 内容
 	 */
 	
 	
@@ -474,22 +469,38 @@ class Archive extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
-	private $n_plan = false;
+	private $n_annotation = false;
 	
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
 	 * 
 	 * @access private
 	 * @ignore
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\DiskPlan
+	 * @return mixed
 	 */
-	private function get_plan()
+	private function get_annotation()
 	{
-		return $this->m_plan;
+		return $this->m_annotation;
 	}
 	
 	/**
-	 * プラン
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param mixed $v
+	 * @return mixed
+	 */
+	private function set_annotation($v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		$this->m_annotation = $v;
+		$this->n_annotation = true;
+		return $this->m_annotation;
+	}
+	
+	/**
+	 * 注釈
 	 */
 	
 	
@@ -524,6 +535,14 @@ class Archive extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_scope = false;
+		if (Util::existsPath($r, "Class")) {
+			$this->m_clazz = Util::getByPath($r, "Class") == null ? null : "" . Util::getByPath($r, "Class");
+		}
+		else {
+			$this->m_clazz = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_clazz = false;
 		if (Util::existsPath($r, "Name")) {
 			$this->m_name = Util::getByPath($r, "Name") == null ? null : "" . Util::getByPath($r, "Name");
 		}
@@ -566,30 +585,22 @@ class Archive extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_icon = false;
-		if (Util::existsPath($r, "SizeMB")) {
-			$this->m_sizeMib = Util::getByPath($r, "SizeMB") == null ? null : intval("" . Util::getByPath($r, "SizeMB"));
+		if (Util::existsPath($r, "Content")) {
+			$this->m_content = Util::getByPath($r, "Content") == null ? null : "" . Util::getByPath($r, "Content");
 		}
 		else {
-			$this->m_sizeMib = null;
+			$this->m_content = null;
 			$this->isIncomplete = true;
 		}
-		$this->n_sizeMib = false;
-		if (Util::existsPath($r, "ServiceClass")) {
-			$this->m_serviceClass = Util::getByPath($r, "ServiceClass") == null ? null : "" . Util::getByPath($r, "ServiceClass");
+		$this->n_content = false;
+		if (Util::existsPath($r, "Remark")) {
+			$this->m_annotation = Util::getByPath($r, "Remark");
 		}
 		else {
-			$this->m_serviceClass = null;
+			$this->m_annotation = null;
 			$this->isIncomplete = true;
 		}
-		$this->n_serviceClass = false;
-		if (Util::existsPath($r, "Plan")) {
-			$this->m_plan = Util::getByPath($r, "Plan") == null ? null : new DiskPlan($this->_client, Util::getByPath($r, "Plan"));
-		}
-		else {
-			$this->m_plan = null;
-			$this->isIncomplete = true;
-		}
-		$this->n_plan = false;
+		$this->n_annotation = false;
 	}
 	
 	/**
@@ -610,6 +621,9 @@ class Archive extends Resource {
 		if ($withClean || $this->n_scope) {
 			Util::setByPath($ret, "Scope", $this->m_scope);
 		}
+		if ($withClean || $this->n_clazz) {
+			Util::setByPath($ret, "Class", $this->m_clazz);
+		}
 		if ($withClean || $this->n_name) {
 			Util::setByPath($ret, "Name", $this->m_name);
 		}
@@ -627,14 +641,11 @@ class Archive extends Resource {
 		if ($withClean || $this->n_icon) {
 			Util::setByPath($ret, "Icon", $withClean ? ($this->m_icon == null ? null : $this->m_icon->apiSerialize($withClean)) : ($this->m_icon == null ? (object)['ID' => "0"] : $this->m_icon->apiSerializeID()));
 		}
-		if ($withClean || $this->n_sizeMib) {
-			Util::setByPath($ret, "SizeMB", $this->m_sizeMib);
+		if ($withClean || $this->n_content) {
+			Util::setByPath($ret, "Content", $this->m_content);
 		}
-		if ($withClean || $this->n_serviceClass) {
-			Util::setByPath($ret, "ServiceClass", $this->m_serviceClass);
-		}
-		if ($withClean || $this->n_plan) {
-			Util::setByPath($ret, "Plan", $withClean ? ($this->m_plan == null ? null : $this->m_plan->apiSerialize($withClean)) : ($this->m_plan == null ? (object)['ID' => "0"] : $this->m_plan->apiSerializeID()));
+		if ($withClean || $this->n_annotation) {
+			Util::setByPath($ret, "Remark", $this->m_annotation);
 		}
 		return $ret;
 	}
@@ -644,16 +655,15 @@ class Archive extends Resource {
 	 */
 	public function __get($key) {
 		switch ($key) {
-			case "sizeGib": return $this->get_sizeGib();
 			case "id": return $this->get_id();
 			case "scope": return $this->get_scope();
+			case "clazz": return $this->get_clazz();
 			case "name": return $this->get_name();
 			case "description": return $this->get_description();
 			case "tags": return $this->get_tags();
 			case "icon": return $this->get_icon();
-			case "sizeMib": return $this->get_sizeMib();
-			case "serviceClass": return $this->get_serviceClass();
-			case "plan": return $this->get_plan();
+			case "content": return $this->get_content();
+			case "annotation": return $this->get_annotation();
 			default: return null;
 		}
 	}
@@ -663,10 +673,12 @@ class Archive extends Resource {
 	 */
 	public function __set($key, $v) {
 		switch ($key) {
-			case "name": return $this->set_name($v);
+			case "clazz": return $this->set_clazz($v);
 			case "description": return $this->set_description($v);
 			case "tags": return $this->set_tags($v);
 			case "icon": return $this->set_icon($v);
+			case "content": return $this->set_content($v);
+			case "annotation": return $this->set_annotation($v);
 			default: return $v;
 		}
 	}

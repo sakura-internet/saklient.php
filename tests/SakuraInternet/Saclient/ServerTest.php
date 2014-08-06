@@ -13,7 +13,9 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 	use \SakuraInternet\Saclient\Tests\Common;
 	
 	const TESTS_DUPLICATE_DISK = false;
-	const TESTS_CONFIG_DISK = false;
+	const TESTS_CONFIG_DISK = true;
+	const TESTS_STARTUP_SCRIPT = true;
+	const TESTS_DONT_STOP_SERVER = false;
 	
 	public function testAuthorize()
 	{
@@ -71,6 +73,18 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$this->assertGreaterThan(0, count($archives));
 		$archive = $archives[0];
 		
+		if (self::TESTS_STARTUP_SCRIPT) {
+			// search scripts
+			echo "searching scripts...\n";
+			$scripts = $api->script
+				->withNameLike('WordPress')
+				->withSharedScope()
+				->limit(1)
+				->find();
+			$this->assertGreaterThan(0, count($scripts));
+			$script = $scripts[0];
+		}
+		
 		// create a disk
 		echo "creating a disk...\n";
 		$disk = $api->disk->create();
@@ -106,6 +120,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\Resource\\Iface", $iface);
 		$this->assertGreaterThan(0, $iface->id);
 		$iface->connectToSharedSegment();
+		echo "IP address: ", $iface->ipAddress, "\n";
 		
 		// wait disk copy
 		echo "waiting disk copy...\n";
@@ -122,11 +137,13 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		
 		if (self::TESTS_CONFIG_DISK) {
 			// config the disk
-			echo "writing configuration to the disk...\n";
+			$passwd = uniqid();
+			echo "writing configuration to the disk (password: $passwd)...\n";
 			$diskconf = $disk->createConfig();
 			$diskconf->hostName = "saclient-test";
 			$diskconf->password = uniqid();
 			$diskconf->sshKey = $sshPublicKey;
+			if ($script) $diskconf->scripts[] = $script;
 			$diskconf->write();
 		}
 		
@@ -161,6 +178,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 			}
 			$this->assertTrue($sshSuccess, '作成したサーバへ正常にSSHできません');
 		}
+		
+		if (self::TESTS_DONT_STOP_SERVER) return;
 		
 		// stop
 		sleep(1);

@@ -16,7 +16,7 @@ $disk = $api->disk->create();
 $disk->name = "!saclient.php-" . date("Ymd_His") . "-" . uniqid();
 $disk->description = "This instance was created by saclient.php example";
 $disk->tags = ["saclient-test"];
-$disk->copyFrom($archive);
+$disk->source = $archive;
 $disk->save();
 
 print_r($disk->apiSerialize(true));
@@ -24,3 +24,10 @@ print_r($disk->apiSerialize(true));
 if (!$disk->sleepWhileCopying()) die("failed");
 
 print_r($disk->apiSerialize(true));
+
+$diskconf = $disk->createConfig();
+$diskconf->hostName = "saclient-test";
+$diskconf->password = uniqid();
+$diskconf->scripts[] = $api->script->getById(112600599509);
+$diskconf->write();
+

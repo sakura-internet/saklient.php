@@ -13,12 +13,15 @@ use \SakuraInternet\Saclient\Util;
  * アイコンのリソース情報へのアクセス機能や操作機能を備えたクラス。
  * 
  * @property-read string $id
+ * @property-read string $scope
  * @property-read string $name
  * @property-read string $url
  */
 class Icon extends Resource {
 	
 	/**
+	 * ID
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -26,6 +29,17 @@ class Icon extends Resource {
 	protected $m_id;
 	
 	/**
+	 * スコープ
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_scope;
+	
+	/**
+	 * 名前
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -33,6 +47,8 @@ class Icon extends Resource {
 	protected $m_name;
 	
 	/**
+	 * URL
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -137,6 +153,33 @@ class Icon extends Resource {
 		return $this->m_id;
 	}
 	
+	/**
+	 * ID
+	 */
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_scope = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_scope()
+	{
+		return $this->m_scope;
+	}
+	
+	/**
+	 * スコープ
+	 */
 	
 	
 	/**
@@ -158,6 +201,9 @@ class Icon extends Resource {
 		return $this->m_name;
 	}
 	
+	/**
+	 * 名前
+	 */
 	
 	
 	/**
@@ -179,6 +225,9 @@ class Icon extends Resource {
 		return $this->m_url;
 	}
 	
+	/**
+	 * URL
+	 */
 	
 	
 	/**
@@ -204,6 +253,14 @@ class Icon extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_id = false;
+		if (Util::existsPath($r, "Scope")) {
+			$this->m_scope = Util::getByPath($r, "Scope") == null ? null : "" . Util::getByPath($r, "Scope");
+		}
+		else {
+			$this->m_scope = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_scope = false;
 		if (Util::existsPath($r, "Name")) {
 			$this->m_name = Util::getByPath($r, "Name") == null ? null : "" . Util::getByPath($r, "Name");
 		}
@@ -237,6 +294,9 @@ class Icon extends Resource {
 		if ($withClean || $this->n_id) {
 			Util::setByPath($ret, "ID", $this->m_id);
 		}
+		if ($withClean || $this->n_scope) {
+			Util::setByPath($ret, "Scope", $this->m_scope);
+		}
 		if ($withClean || $this->n_name) {
 			Util::setByPath($ret, "Name", $this->m_name);
 		}
@@ -252,6 +312,7 @@ class Icon extends Resource {
 	public function __get($key) {
 		switch ($key) {
 			case "id": return $this->get_id();
+			case "scope": return $this->get_scope();
 			case "name": return $this->get_name();
 			case "url": return $this->get_url();
 			default: return null;

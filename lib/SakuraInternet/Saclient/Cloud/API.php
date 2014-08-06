@@ -28,6 +28,8 @@ require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Router.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model_Router;
 require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Ipv6Net.php";
 use \SakuraInternet\Saclient\Cloud\Model\Model_Ipv6Net;
+require_once dirname(__FILE__) . "/../../Saclient/Cloud/Model/Model_Script.php";
+use \SakuraInternet\Saclient\Cloud\Model\Model_Script;
 
 /**
  * さくらのクラウドAPIクライアントを利用する際、最初にアクセスすべきルートとなるクラス。
@@ -45,6 +47,7 @@ use \SakuraInternet\Saclient\Cloud\Model\Model_Ipv6Net;
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Swytch $swytch
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Router $router
  * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Ipv6Net $ipv6Net
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Script $script
  */
 class API {
 	
@@ -289,6 +292,26 @@ class API {
 	
 	
 	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var Model_Script
+	 */
+	protected $_script;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Script
+	 */
+	protected function get_script()
+	{
+		return $this->_script;
+	}
+	
+	
+	
+	/**
 	 * @access protected
 	 * @ignore
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
@@ -309,6 +332,7 @@ class API {
 		$this->_swytch = new Model_Swytch($client);
 		$this->_router = new Model_Router($client);
 		$this->_ipv6Net = new Model_Ipv6Net($client);
+		$this->_script = new Model_Script($client);
 	}
 	
 	/**
@@ -376,6 +400,7 @@ class API {
 			case "swytch": return $this->get_swytch();
 			case "router": return $this->get_router();
 			case "ipv6Net": return $this->get_ipv6Net();
+			case "script": return $this->get_script();
 			default: return null;
 		}
 	}

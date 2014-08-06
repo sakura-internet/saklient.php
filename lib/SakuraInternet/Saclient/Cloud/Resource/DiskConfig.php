@@ -6,6 +6,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Client.php";
 use \SakuraInternet\Saclient\Cloud\Client;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Script.php";
+use \SakuraInternet\Saclient\Cloud\Resource\Script;
 
 /**
  * ディスク修正のパラメータ
@@ -18,6 +20,7 @@ use \SakuraInternet\Saclient\Cloud\Client;
  * @property string $ipAddress
  * @property string $defaultRoute
  * @property int $networkMaskLen
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\Script[] $scripts
  */
 class DiskConfig {
 	
@@ -267,6 +270,26 @@ class DiskConfig {
 	
 	/**
 	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var Script[]
+	 */
+	protected $_scripts;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Script[]
+	 */
+	protected function get_scripts()
+	{
+		return $this->_scripts;
+	}
+	
+	
+	
+	/**
+	 * @private
 	 * @access public
 	 * @param string $diskId
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
@@ -284,6 +307,7 @@ class DiskConfig {
 		$this->_ipAddress = null;
 		$this->_defaultRoute = null;
 		$this->_networkMaskLen = null;
+		$this->_scripts = new \ArrayObject([]);
 	}
 	
 	/**
@@ -313,6 +337,13 @@ class DiskConfig {
 		if ($this->_networkMaskLen != null) {
 			Util::setByPath($q, "UserSubnet.NetworkMaskLen", $this->_networkMaskLen);
 		}
+		if (0 < count($this->_scripts)) {
+			$notes = new \ArrayObject([]);
+			foreach ($this->_scripts as $script) {
+				$notes->append((object)['ID' => $script->_id()]);
+			}
+			Util::setByPath($q, "Notes", $notes);
+		}
 		$path = "/disk/" . $this->_diskId . "/config";
 		$result = $this->_client->request("PUT", $path, $q);
 		return $this;
@@ -331,6 +362,7 @@ class DiskConfig {
 			case "ipAddress": return $this->get_ipAddress();
 			case "defaultRoute": return $this->get_defaultRoute();
 			case "networkMaskLen": return $this->get_networkMaskLen();
+			case "scripts": return $this->get_scripts();
 			default: return null;
 		}
 	}
