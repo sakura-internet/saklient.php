@@ -5,6 +5,7 @@ namespace SakuraInternet\Saclient\Tests;
 require_once "Common.php";
 use SakuraInternet\Saclient\Cloud\API;
 use SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
+use SakuraInternet\Saclient\Errors\SaclientException;
 use SakuraInternet\Saclient\Errors\HttpConflictException;
 use SakuraInternet\Saclient\Cloud\Resource\Server;
 
@@ -89,10 +90,28 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		echo "creating a disk...\n";
 		$disk = $api->disk->create();
 		$disk->name = $name;
-		$disk->description = $description;
+		$disk->description = "";
 		$disk->tags = [$tag];
 		$disk->source = $archive;
 		$disk->save();
+		
+		// check an immutable field
+		echo "updating the disk...\n";
+		try {
+			$disk->sizeMib = 20480;
+			$disk->save();
+		}
+		catch (SaclientException $ex) {
+			$ok = true;
+		}
+		if (!$ok) $this->fail('Immutableフィールドの再set時は SaclientException がスローされなければなりません');
+		
+		// check to update the disk
+		$disk->description = $description;
+		$disk->save();
+		$this->assertEquals($disk->description, $description);
+		$disk->reload();
+		$this->assertEquals($disk->description, $description);
 		
 		// create a server
 		echo "creating a server...\n";

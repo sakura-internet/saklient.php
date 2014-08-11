@@ -2,14 +2,14 @@
 
 namespace SakuraInternet\Saclient\Cloud\Resource;
 
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Client.php";
 use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Resource;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
-require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
-use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * インタフェースのリソース情報へのアクセス機能や操作機能を備えたクラス。
@@ -282,6 +282,9 @@ class Iface extends Resource {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($v, "string");
+		if (!$this->isNew) {
+			throw new SaclientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "SakuraInternet\\Saclient\\Cloud\\Resource\\Iface#serverId");
+		}
 		$this->m_serverId = $v;
 		$this->n_serverId = true;
 		return $this->m_serverId;

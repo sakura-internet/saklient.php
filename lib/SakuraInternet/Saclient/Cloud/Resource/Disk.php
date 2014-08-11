@@ -2,6 +2,8 @@
 
 namespace SakuraInternet\Saclient\Cloud\Resource;
 
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Client.php";
 use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php";
@@ -22,8 +24,6 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EDiskConnection
 use \SakuraInternet\Saclient\Cloud\Enums\EDiskConnection;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
-require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
-use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * ディスクのリソース情報へのアクセス機能や操作機能を備えたクラス。
@@ -661,6 +661,9 @@ class Disk extends Resource {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($v, "int");
+		if (!$this->isNew) {
+			throw new SaclientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "SakuraInternet\\Saclient\\Cloud\\Resource\\Disk#sizeMib");
+		}
 		$this->m_sizeMib = $v;
 		$this->n_sizeMib = true;
 		return $this->m_sizeMib;

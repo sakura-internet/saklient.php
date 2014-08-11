@@ -2,6 +2,8 @@
 
 namespace SakuraInternet\Saclient\Cloud\Resource;
 
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Client.php";
 use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php";
@@ -16,8 +18,6 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Ipv6Net.php"
 use \SakuraInternet\Saclient\Cloud\Resource\Ipv6Net;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
-require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
-use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * ルータのリソース情報へのアクセス機能や操作機能を備えたクラス。
@@ -440,6 +440,9 @@ class Router extends Resource {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($v, "int");
+		if (!$this->isNew) {
+			throw new SaclientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "SakuraInternet\\Saclient\\Cloud\\Resource\\Router#networkMaskLen");
+		}
 		$this->m_networkMaskLen = $v;
 		$this->n_networkMaskLen = true;
 		return $this->m_networkMaskLen;
@@ -481,6 +484,9 @@ class Router extends Resource {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($v, "int");
+		if (!$this->isNew) {
+			throw new SaclientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "SakuraInternet\\Saclient\\Cloud\\Resource\\Router#bandWidthMbps");
+		}
 		$this->m_bandWidthMbps = $v;
 		$this->n_bandWidthMbps = true;
 		return $this->m_bandWidthMbps;

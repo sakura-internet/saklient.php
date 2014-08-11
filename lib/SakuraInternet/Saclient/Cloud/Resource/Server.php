@@ -2,6 +2,8 @@
 
 namespace SakuraInternet\Saclient\Cloud\Resource;
 
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Client.php";
 use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php";
@@ -22,8 +24,6 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EServerInstance
 use \SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
-require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
-use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * サーバのリソース情報へのアクセス機能や操作機能を備えたクラス。
@@ -646,6 +646,9 @@ class Server extends Resource {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($v, "\\SakuraInternet\\Saclient\\Cloud\\Resource\\ServerPlan");
+		if (!$this->isNew) {
+			throw new SaclientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "SakuraInternet\\Saclient\\Cloud\\Resource\\Server#plan");
+		}
 		$this->m_plan = $v;
 		$this->n_plan = true;
 		return $this->m_plan;
