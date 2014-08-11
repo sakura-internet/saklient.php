@@ -19,6 +19,60 @@ class IsoImageTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @depends testAuthorize
 	 */
+	public function testCreate(API $api)
+	{
+		$name = "!phpunit-" . date("Ymd_His") . "-" . uniqid();
+		$description = "This instance was created by Saclient PHPUnit Test";
+		$tag = "saclient-test";
+		
+		$iso = $api->isoImage->create();
+		$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\Resource\\IsoImage", $iso);
+		$iso->name = $name;
+		$iso->description = $description;
+		$iso->tags = [$tag];
+		$iso->sizeMib = 5120;
+		$iso->save();
+		
+		//
+		$ftp = $iso->ftpInfo;
+		$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\Resource\\FtpInfo", $ftp);
+		$this->assertNotEmpty($ftp->hostName);
+		$this->assertNotEmpty($ftp->user);
+		$this->assertNotEmpty($ftp->password);
+		$ftp2 = $iso->openFtp(true)->ftpInfo;
+		$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\Resource\\FtpInfo", $ftp2);
+		$this->assertNotEmpty($ftp2->hostName);
+		$this->assertNotEmpty($ftp2->user);
+		$this->assertNotEmpty($ftp2->password);
+		$this->assertNotEquals($ftp->password, $ftp2->password);
+		
+		//
+		$temp = tempnam(sys_get_temp_dir(), "saclient-");
+		$cmd = "dd if=/dev/urandom bs=4096 count=64 > $temp; ls -l $temp";
+		echo $cmd, "\n"; echo `( $cmd ) 2>&1`;
+		$cmd  = "set ftp:ssl-allow true;";
+		$cmd .= "set ftp:ssl-force true;";
+		$cmd .= "set ftp:ssl-protect-data true;";
+		$cmd .= "set ftp:ssl-protect-list true;";
+		$cmd .= "put $temp;";
+		$cmd .= "exit";
+		$cmd = sprintf(
+			"lftp -u %s,%s -p 21 -e '%s' %s",
+			$ftp2->user, $ftp2->password, $cmd, $ftp2->hostName
+		);
+		echo $cmd, "\n"; echo `( $cmd ) 2>&1`;
+		$cmd = "rm -f $temp";
+		echo $cmd, "\n"; echo `( $cmd ) 2>&1`;
+		
+		$iso->closeFtp();
+		
+		//
+		$iso->destroy();
+	}
+	
+	/**
+	 * @depends testAuthorize
+	 */
 	public function testInsertEject(API $api)
 	{
 		

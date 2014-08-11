@@ -14,22 +14,23 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Server.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Server;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EScope.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EScope;
-require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
-use \SakuraInternet\Saclient\Util;
 require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
 use \SakuraInternet\Saclient\Errors\SaclientException;
+require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
+use \SakuraInternet\Saclient\Util;
 
 /**
  * アーカイブのリソース情報へのアクセス機能や操作機能を備えたクラス。
  * 
  * @property-read int $sizeGib
+ * @property-read FtpInfo $ftpInfo
  * @property-read string $id
  * @property-read string $scope
  * @property string $name
  * @property string $description
  * @property string[] $tags
  * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon
- * @property-read int $sizeMib
+ * @property int $sizeMib
  * @property-read string $serviceClass
  * @property-read \SakuraInternet\Saclient\Cloud\Resource\DiskPlan $plan
  */
@@ -184,15 +185,39 @@ class Archive extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @param mixed $obj
+	 * @param boolean $wrapped = false
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
-	 * @param mixed $r
 	 */
-	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $r)
+	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $obj, $wrapped=false)
 	{
 		parent::__construct($client);
 		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($client, "\\SakuraInternet\\Saclient\\Cloud\\Client");
-		$this->apiDeserialize($r);
+		Util::validateType($wrapped, "boolean");
+		$this->apiDeserialize($obj, $wrapped);
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $root
+	 * @param mixed $r
+	 * @return void
+	 */
+	protected function _onAfterApiDeserialize($r, $root)
+	{
+		Util::validateArgCount(func_num_args(), 2);
+		if ($root == null) {
+			return;
+		}
+		if (array_key_exists("FTPServer", $root)) {
+			$ftp = $root->{"FTPServer"};
+			if ($ftp != null) {
+				$this->_ftpInfo = new FtpInfo($ftp);
+			}
+		}
 	}
 	
 	/**
@@ -209,6 +234,58 @@ class Archive extends Resource {
 	 * サイズ[GiB]
 	 */
 	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var FtpInfo
+	 */
+	protected $_ftpInfo;
+	
+	/**
+	 * @access public
+	 * @return FtpInfo
+	 */
+	public function get_ftpInfo()
+	{
+		return $this->_ftpInfo;
+	}
+	
+	/**
+	 * FTP情報
+	 */
+	
+	
+	/**
+	 * @access public
+	 * @param boolean $reset = false
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Archive
+	 */
+	public function openFtp($reset=false)
+	{
+		Util::validateType($reset, "boolean");
+		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/ftp";
+		$q = (object)[];
+		Util::setByPath($q, "ChangePassword", $reset);
+		$result = $this->_client->request("PUT", $path, $q);
+		$this->_onAfterApiDeserialize(null, $result);
+		return $this;
+	}
+	
+	/**
+	 * @access public
+	 * @param boolean $reset = false
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Archive
+	 */
+	public function closeFtp($reset=false)
+	{
+		Util::validateType($reset, "boolean");
+		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/ftp";
+		$result = $this->_client->request("DELETE", $path);
+		$this->_ftpInfo = null;
+		return $this;
+	}
 	
 	/**
 	 * @access private
@@ -443,6 +520,26 @@ class Archive extends Resource {
 	}
 	
 	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param int $v
+	 * @return int
+	 */
+	private function set_sizeMib($v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "int");
+		if (!$this->isNew) {
+			throw new SaclientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "SakuraInternet\\Saclient\\Cloud\\Resource\\Archive#sizeMib");
+		}
+		$this->m_sizeMib = $v;
+		$this->n_sizeMib = true;
+		return $this->m_sizeMib;
+	}
+	
+	/**
 	 * サイズ[MiB]
 	 */
 	
@@ -647,6 +744,7 @@ class Archive extends Resource {
 	public function __get($key) {
 		switch ($key) {
 			case "sizeGib": return $this->get_sizeGib();
+			case "ftpInfo": return $this->get_ftpInfo();
 			case "id": return $this->get_id();
 			case "scope": return $this->get_scope();
 			case "name": return $this->get_name();
@@ -669,6 +767,7 @@ class Archive extends Resource {
 			case "description": return $this->set_description($v);
 			case "tags": return $this->set_tags($v);
 			case "icon": return $this->set_icon($v);
+			case "sizeMib": return $this->set_sizeMib($v);
 			default: throw new SaclientException('non_writable_field', 'Non-writable field: SakuraInternet\\Saclient\\Cloud\\Resource\\Archive#'.$key);
 		}
 	}

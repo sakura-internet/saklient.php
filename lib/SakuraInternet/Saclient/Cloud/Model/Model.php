@@ -272,8 +272,11 @@ class Model {
 		$result = $this->_client->request("GET", $this->_apiPath() . "/" . Util::urlEncode($id), $params);
 		$this->_total = 1;
 		$this->_count = 1;
-		$record = $result->{$this->_rootKey()};
-		return Util::createClassInstance("saclient.cloud.resource." . $this->_className(), new \ArrayObject([$this->_client, $record]));
+		return Util::createClassInstance("saclient.cloud.resource." . $this->_className(), new \ArrayObject([
+			$this->_client,
+			$result,
+			true
+		]));
 	}
 	
 	/**

@@ -189,15 +189,17 @@ class Server extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @param mixed $obj
+	 * @param boolean $wrapped = false
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
-	 * @param mixed $r
 	 */
-	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $r)
+	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $obj, $wrapped=false)
 	{
 		parent::__construct($client);
 		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($client, "\\SakuraInternet\\Saclient\\Cloud\\Client");
-		$this->apiDeserialize($r);
+		Util::validateType($wrapped, "boolean");
+		$this->apiDeserialize($obj, $wrapped);
 	}
 	
 	/**
@@ -364,7 +366,7 @@ class Server extends Resource {
 		Util::validateType($planTo, "\\SakuraInternet\\Saclient\\Cloud\\Resource\\ServerPlan");
 		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/to/plan/" . Util::urlEncode($planTo->_id());
 		$result = $this->_client->request("PUT", $path);
-		$this->apiDeserialize($result->{$this->_rootKey()});
+		$this->apiDeserialize($result, true);
 		return $this;
 	}
 	

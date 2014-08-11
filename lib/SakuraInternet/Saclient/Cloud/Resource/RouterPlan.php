@@ -51,6 +51,39 @@ class RouterPlan extends Resource {
 	
 	/**
 	 * @private
+	 * @access protected
+	 * @ignore
+	 * @return string
+	 */
+	protected function _apiPath()
+	{
+		return "/product/internet";
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @return string
+	 */
+	protected function _rootKey()
+	{
+		return "InternetPlan";
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @return string
+	 */
+	protected function _rootKeyM()
+	{
+		return "InternetPlans";
+	}
+	
+	/**
+	 * @private
 	 * @access public
 	 * @return string
 	 */
@@ -62,15 +95,17 @@ class RouterPlan extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @param mixed $obj
+	 * @param boolean $wrapped = false
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
-	 * @param mixed $r
 	 */
-	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $r)
+	public function __construct(\SakuraInternet\Saclient\Cloud\Client $client, $obj, $wrapped=false)
 	{
 		parent::__construct($client);
 		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($client, "\\SakuraInternet\\Saclient\\Cloud\\Client");
-		$this->apiDeserialize($r);
+		Util::validateType($wrapped, "boolean");
+		$this->apiDeserialize($obj, $wrapped);
 	}
 	
 	/**

@@ -119,6 +119,17 @@ class Model_IsoImage extends Model {
 	}
 	
 	/**
+	 * *
+	 * 
+	 * @access public
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\IsoImage
+	 */
+	public function create()
+	{
+		return $this->_create();
+	}
+	
+	/**
 	 * 指定したIDを持つ唯一のリソースを取得します。
 	 * 
 	 * @access public

@@ -153,12 +153,13 @@ class Resource {
 	 * @private
 	 * @access protected
 	 * @ignore
+	 * @param mixed $root
 	 * @param mixed $r
 	 * @return void
 	 */
-	protected function _onAfterApiDeserialize($r)
+	protected function _onAfterApiDeserialize($r, $root)
 	{
-		Util::validateArgCount(func_num_args(), 1);
+		Util::validateArgCount(func_num_args(), 2);
 	}
 	
 	/**
@@ -188,14 +189,32 @@ class Resource {
 	
 	/**
 	 * @access public
-	 * @param mixed $r
+	 * @param mixed $obj
+	 * @param boolean $wrapped = false
 	 * @return void
 	 */
-	public function apiDeserialize($r)
+	public function apiDeserialize($obj, $wrapped=false)
 	{
 		Util::validateArgCount(func_num_args(), 1);
-		$this->apiDeserializeImpl($r);
-		$this->_onAfterApiDeserialize($r);
+		Util::validateType($wrapped, "boolean");
+		$root = null;
+		$record = null;
+		$rkey = $this->_rootKey();
+		if ($obj != null) {
+			if (!$wrapped) {
+				if ($rkey != null) {
+					$root = (object)[];
+					$root->{$rkey} = $obj;
+				}
+				$record = $obj;
+			}
+			else {
+				$root = $obj;
+				$record = $obj->{$rkey};
+			}
+		}
+		$this->apiDeserializeImpl($record);
+		$this->_onAfterApiDeserialize($record, $root);
 	}
 	
 	/**
@@ -293,7 +312,7 @@ class Resource {
 		$q = (object)[];
 		$q->{$this->_rootKey()} = $r;
 		$result = $this->_client->request($method, $path, $q);
-		$this->apiDeserialize($result->{$this->_rootKey()});
+		$this->apiDeserialize($result, true);
 		return $this;
 	}
 	
@@ -323,7 +342,7 @@ class Resource {
 	protected function _reload()
 	{
 		$result = $this->_client->request("GET", $this->_apiPath() . "/" . Util::urlEncode($this->_id()));
-		$this->apiDeserialize($result->{$this->_rootKey()});
+		$this->apiDeserialize($result, true);
 		return $this;
 	}
 	
