@@ -169,29 +169,31 @@ class Util {
 	 * @param string $typeName
 	 * @return void
 	 */
-	static public function validateType($value, $typeName)
+	static public function validateType($value, $typeName, $force=false)
 	{
-		if ($typeName=="mixed" || $typeName=="void" || is_null($value)) return;
 		$isOk = false;
-		switch ($typeName) {
-			case 'float':
-			case 'double':
-			case 'int':
-				$isOk = is_numeric($value);
-				break;
-			case 'string':
-				$isOk = is_scalar($value);
-				break;
-			case 'callback':
-				$isOk = is_callable($value);
-				break;
-			case 'array':
-				$isOk = is_array($value);
-				break;
-			
-			//case 'boolean':
-			default:
-				$isOk = true; // already checked by PHP language
+		if (!$force) {
+			if ($typeName=="mixed" || $typeName=="void" || is_null($value)) return;
+			switch ($typeName) {
+				case 'float':
+				case 'double':
+				case 'int':
+					$isOk = is_numeric($value);
+					break;
+				case 'string':
+					$isOk = is_scalar($value);
+					break;
+				case 'callback':
+					$isOk = is_callable($value);
+					break;
+				case 'array':
+					$isOk = is_array($value);
+					break;
+				
+				//case 'boolean':
+				default:
+					$isOk = true; // already checked by PHP language
+			}
 		}
 		if (!$isOk) throw new SaclientException('argument_type_mismatch', 'Argument type mismatch (expected '.$typeName.')');
 	}

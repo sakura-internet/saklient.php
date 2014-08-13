@@ -16,6 +16,8 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Server.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Server;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Archive.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Archive;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Disk.php";
+use \SakuraInternet\Saclient\Cloud\Resource\Disk;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/DiskConfig.php";
 use \SakuraInternet\Saclient\Cloud\Resource\DiskConfig;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EAvailability.php";
@@ -304,24 +306,23 @@ class Disk extends Resource {
 	protected function _onAfterApiDeserialize($r, $root)
 	{
 		Util::validateArgCount(func_num_args(), 2);
-		if ($r == null) {
-			return;
-		}
-		if (array_key_exists("SourceArchive", $r)) {
-			$s = $r->{"SourceArchive"};
-			if ($s != null) {
-				$id = $s->{"ID"};
-				if ($id != null) {
-					$this->_source = new Archive($this->_client, $s);
+		if ($r != null) {
+			if (array_key_exists("SourceArchive", $r)) {
+				$s = $r->{"SourceArchive"};
+				if ($s != null) {
+					$id = $s->{"ID"};
+					if ($id != null) {
+						$this->_source = new Archive($this->_client, $s);
+					}
 				}
 			}
-		}
-		if (array_key_exists("SourceDisk", $r)) {
-			$s = $r->{"SourceDisk"};
-			if ($s != null) {
-				$id = $s->{"ID"};
-				if ($id != null) {
-					$this->_source = new Disk($this->_client, $s);
+			if (array_key_exists("SourceDisk", $r)) {
+				$s = $r->{"SourceDisk"};
+				if ($s != null) {
+					$id = $s->{"ID"};
+					if ($id != null) {
+						$this->_source = new Disk($this->_client, $s);
+					}
 				}
 			}
 		}
@@ -355,7 +356,8 @@ class Disk extends Resource {
 					$r->{"SourceDisk"} = $s;
 				}
 				else {
-					$r->{"SourceArchive"} = (object)['ID' => 1];
+					$this->_source = null;
+					Util::validateType($this->_source, "Disk or Archive", true);
 				}
 			}
 		}

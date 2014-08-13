@@ -8,12 +8,20 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php
 use \SakuraInternet\Saclient\Cloud\Resource\Resource;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Icon.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Icon;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/FtpInfo.php";
+use \SakuraInternet\Saclient\Cloud\Resource\FtpInfo;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/DiskPlan.php";
 use \SakuraInternet\Saclient\Cloud\Resource\DiskPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Server.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Server;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Archive.php";
+use \SakuraInternet\Saclient\Cloud\Resource\Archive;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Disk.php";
+use \SakuraInternet\Saclient\Cloud\Resource\Disk;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EScope.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EScope;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EAvailability.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EAvailability;
 require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
 use \SakuraInternet\Saclient\Errors\SaclientException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
@@ -22,8 +30,10 @@ use \SakuraInternet\Saclient\Util;
 /**
  * アーカイブのリソース情報へのアクセス機能や操作機能を備えたクラス。
  * 
- * @property-read int $sizeGib
- * @property-read FtpInfo $ftpInfo
+ * @property-read boolean $isAvailable
+ * @property int $sizeGib
+ * @property mixed $source
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\FtpInfo $ftpInfo
  * @property-read string $id
  * @property-read string $scope
  * @property string $name
@@ -33,6 +43,7 @@ use \SakuraInternet\Saclient\Util;
  * @property int $sizeMib
  * @property-read string $serviceClass
  * @property-read \SakuraInternet\Saclient\Cloud\Resource\DiskPlan $plan
+ * @property-read string $availability
  */
 class Archive extends Resource {
 	
@@ -118,6 +129,15 @@ class Archive extends Resource {
 	protected $m_plan;
 	
 	/**
+	 * 有効状態
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_availability;
+	
+	/**
 	 * @private
 	 * @access protected
 	 * @ignore
@@ -199,26 +219,19 @@ class Archive extends Resource {
 	}
 	
 	/**
-	 * @private
 	 * @access protected
 	 * @ignore
-	 * @param mixed $root
-	 * @param mixed $r
-	 * @return void
+	 * @return boolean
 	 */
-	protected function _onAfterApiDeserialize($r, $root)
+	protected function get_isAvailable()
 	{
-		Util::validateArgCount(func_num_args(), 2);
-		if ($root == null) {
-			return;
-		}
-		if (array_key_exists("FTPServer", $root)) {
-			$ftp = $root->{"FTPServer"};
-			if ($ftp != null) {
-				$this->_ftpInfo = new FtpInfo($ftp);
-			}
-		}
+		return $this->get_availability() == EAvailability::available;
 	}
+	
+	/**
+	 * ディスクが利用可能なときtrueを返します。
+	 */
+	
 	
 	/**
 	 * @access protected
@@ -231,7 +244,55 @@ class Archive extends Resource {
 	}
 	
 	/**
+	 * @access protected
+	 * @ignore
+	 * @param int $sizeGib
+	 * @return int
+	 */
+	protected function set_sizeGib($sizeGib)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($sizeGib, "int");
+		$this->set_sizeMib($sizeGib * 1024);
+		return $sizeGib;
+	}
+	
+	/**
 	 * サイズ[GiB]
+	 */
+	
+	
+	/**
+	 * @private
+	 * @access private
+	 * @ignore
+	 * @var mixed
+	 */
+	private $_source;
+	
+	/**
+	 * @access public
+	 * @return mixed
+	 */
+	public function get_source()
+	{
+		return $this->_source;
+	}
+	
+	/**
+	 * @access public
+	 * @param mixed $source
+	 * @return mixed
+	 */
+	public function set_source($source)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		$this->_source = $source;
+		return $source;
+	}
+	
+	/**
+	 * アーカイブのコピー元
 	 */
 	
 	
@@ -245,7 +306,7 @@ class Archive extends Resource {
 	
 	/**
 	 * @access public
-	 * @return FtpInfo
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\FtpInfo
 	 */
 	public function get_ftpInfo()
 	{
@@ -256,6 +317,82 @@ class Archive extends Resource {
 	 * FTP情報
 	 */
 	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $root
+	 * @param mixed $r
+	 * @return void
+	 */
+	protected function _onAfterApiDeserialize($r, $root)
+	{
+		Util::validateArgCount(func_num_args(), 2);
+		if ($root != null) {
+			if (array_key_exists("FTPServer", $root)) {
+				$ftp = $root->{"FTPServer"};
+				if ($ftp != null) {
+					$this->_ftpInfo = new FtpInfo($ftp);
+				}
+			}
+		}
+		if ($r != null) {
+			if (array_key_exists("SourceArchive", $r)) {
+				$s = $r->{"SourceArchive"};
+				if ($s != null) {
+					$id = $s->{"ID"};
+					if ($id != null) {
+						$this->_source = new Archive($this->_client, $s);
+					}
+				}
+			}
+			if (array_key_exists("SourceDisk", $r)) {
+				$s = $r->{"SourceDisk"};
+				if ($s != null) {
+					$id = $s->{"ID"};
+					if ($id != null) {
+						$this->_source = new Disk($this->_client, $s);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param boolean $withClean
+	 * @param mixed $r
+	 * @return void
+	 */
+	protected function _onAfterApiSerialize($r, $withClean)
+	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($withClean, "boolean");
+		if ($r == null) {
+			return;
+		}
+		if ($this->_source != null) {
+			if ($this->_source instanceof Archive) {
+				$archive = $this->_source;
+				$s = $withClean ? $archive->apiSerialize(true) : (object)['ID' => $archive->_id()];
+				$r->{"SourceArchive"} = $s;
+			}
+			else {
+				if ($this->_source instanceof Disk) {
+					$disk = $this->_source;
+					$s = $withClean ? $disk->apiSerialize(true) : (object)['ID' => $disk->_id()];
+					$r->{"SourceDisk"} = $s;
+				}
+				else {
+					$this->_source = null;
+					Util::validateType($this->_source, "Disk or Archive", true);
+				}
+			}
+		}
+	}
 	
 	/**
 	 * @access public
@@ -285,6 +422,51 @@ class Archive extends Resource {
 		$result = $this->_client->request("DELETE", $path);
 		$this->_ftpInfo = null;
 		return $this;
+	}
+	
+	/**
+	 * コピー中のアーカイブが利用可能になるまで待機します。
+	 * 
+	 * @access public
+	 * @param int $timeoutSec
+	 * @param callback $callback
+	 * @return void
+	 */
+	public function afterCopy($timeoutSec, $callback)
+	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($timeoutSec, "int");
+		Util::validateType($callback, "callback");
+		$ret = $this->sleepWhileCopying($timeoutSec);
+		$callback($this, $ret);
+	}
+	
+	/**
+	 * コピー中のアーカイブが利用可能になるまで待機します。
+	 * 
+	 * @access public
+	 * @param int $timeoutSec = 3600
+	 * @return boolean
+	 */
+	public function sleepWhileCopying($timeoutSec=3600)
+	{
+		Util::validateType($timeoutSec, "int");
+		$step = 3;
+		while (0 < $timeoutSec) {
+			$this->reload();
+			$a = $this->get_availability();
+			if ($a == EAvailability::available) {
+				return true;
+			}
+			if ($a != EAvailability::migrating) {
+				$timeoutSec = 0;
+			}
+			$timeoutSec -= $step;
+			if (0 < $timeoutSec) {
+				Util::sleep($step);
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -593,6 +775,30 @@ class Archive extends Resource {
 	
 	
 	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_availability = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_availability()
+	{
+		return $this->m_availability;
+	}
+	
+	/**
+	 * 有効状態
+	 */
+	
+	
+	/**
 	 * (This method is generated in Translator_default#buildImpl)
 	 * 
 	 * @access protected
@@ -689,6 +895,14 @@ class Archive extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_plan = false;
+		if (Util::existsPath($r, "Availability")) {
+			$this->m_availability = Util::getByPath($r, "Availability") == null ? null : "" . Util::getByPath($r, "Availability");
+		}
+		else {
+			$this->m_availability = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_availability = false;
 	}
 	
 	/**
@@ -735,6 +949,9 @@ class Archive extends Resource {
 		if ($withClean || $this->n_plan) {
 			Util::setByPath($ret, "Plan", $withClean ? ($this->m_plan == null ? null : $this->m_plan->apiSerialize($withClean)) : ($this->m_plan == null ? (object)['ID' => "0"] : $this->m_plan->apiSerializeID()));
 		}
+		if ($withClean || $this->n_availability) {
+			Util::setByPath($ret, "Availability", $this->m_availability);
+		}
 		return $ret;
 	}
 	
@@ -743,7 +960,9 @@ class Archive extends Resource {
 	 */
 	public function __get($key) {
 		switch ($key) {
+			case "isAvailable": return $this->get_isAvailable();
 			case "sizeGib": return $this->get_sizeGib();
+			case "source": return $this->get_source();
 			case "ftpInfo": return $this->get_ftpInfo();
 			case "id": return $this->get_id();
 			case "scope": return $this->get_scope();
@@ -754,6 +973,7 @@ class Archive extends Resource {
 			case "sizeMib": return $this->get_sizeMib();
 			case "serviceClass": return $this->get_serviceClass();
 			case "plan": return $this->get_plan();
+			case "availability": return $this->get_availability();
 			default: return null;
 		}
 	}
@@ -763,6 +983,8 @@ class Archive extends Resource {
 	 */
 	public function __set($key, $v) {
 		switch ($key) {
+			case "sizeGib": return $this->set_sizeGib($v);
+			case "source": return $this->set_source($v);
 			case "name": return $this->set_name($v);
 			case "description": return $this->set_description($v);
 			case "tags": return $this->set_tags($v);

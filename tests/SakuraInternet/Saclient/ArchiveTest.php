@@ -69,4 +69,44 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
 		$archive->destroy();
 	}
 	
+	/**
+	 * @depends testAuthorize
+	 */
+	public function testCopy(API $api)
+	{
+		$name = "!phpunit-" . date("Ymd_His") . "-" . uniqid();
+		$description = "This instance was created by Saclient PHPUnit Test";
+		$tag = "saclient-test";
+		
+		$disk = $api->disk->create();
+		$disk->name = $name;
+		$disk->description = $description;
+		$disk->tags = [$tag];
+		$disk->sizeGib = 20;
+		$disk->save();
+		
+		$archive = $api->archive->create();
+		$archive->name = $name;
+		$archive->description = $description;
+		$archive->tags = [$tag];
+		$archive->source = $disk;
+		$archive->save();
+		
+		if (!$archive->sleepWhileCopying()) {
+			$this->fail('ディスクからアーカイブへのコピーがタイムアウトまたは失敗しました');
+		}
+		
+		$disk->destroy();
+		
+		$ftp = $archive->openFtp()->ftpInfo;
+		$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\Resource\\FtpInfo", $ftp);
+		$this->assertNotEmpty($ftp->hostName);
+		$this->assertNotEmpty($ftp->user);
+		$this->assertNotEmpty($ftp->password);
+		
+		$archive->closeFtp();
+		$archive->destroy();
+		
+	}
+	
 }
