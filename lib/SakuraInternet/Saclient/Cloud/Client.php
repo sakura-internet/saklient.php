@@ -87,9 +87,6 @@ class Client {
 		if (!preg_match('/^http/', $path)) {
 			$urlRoot = $this->config->apiRoot;
 			if ($this->config->apiRootSuffix != null) {
-				if (preg_match('/is1[v-z]/', $this->config->apiRootSuffix)) {
-					$urlRoot = preg_replace('|/cloud/$|', '/cloud-test/', $urlRoot);
-				}
 				$urlRoot .= $this->config->apiRootSuffix;
 				$urlRoot = preg_replace('/\\/?$/', '/', $urlRoot);
 			}
