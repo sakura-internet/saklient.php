@@ -89,6 +89,14 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		// create a disk
 		echo "creating a disk...\n";
 		$disk = $api->disk->create();
+		$ok = false;
+		try {
+			$disk->save();
+		}
+		catch (SaclientException $ex) {
+			$ok = true;
+		}
+		if (!$ok) $this->fail('Requiredフィールドが未set時は SaclientException がスローされなければなりません');
 		$disk->name = $name;
 		$disk->description = "";
 		$disk->tags = [$tag];
@@ -97,6 +105,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		
 		// check an immutable field
 		echo "updating the disk...\n";
+		$ok = false;
 		try {
 			$disk->sizeMib = 20480;
 			$disk->save();

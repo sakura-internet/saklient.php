@@ -2,6 +2,8 @@
 
 namespace SakuraInternet\Saclient\Cloud\Resource;
 
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Client.php";
 use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php";
@@ -16,8 +18,6 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Ipv6Net.php"
 use \SakuraInternet\Saclient\Cloud\Resource\Ipv6Net;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
-require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
-use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * スイッチのリソース情報へのアクセス機能や操作機能を備えたクラス。
@@ -601,12 +601,18 @@ class Swytch extends Resource {
 	protected function apiSerializeImpl($withClean=false)
 	{
 		Util::validateType($withClean, "boolean");
+		$missing = new \ArrayObject([]);
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			Util::setByPath($ret, "ID", $this->m_id);
 		}
 		if ($withClean || $this->n_name) {
 			Util::setByPath($ret, "Name", $this->m_name);
+		}
+		else {
+			if ($this->isNew) {
+				$missing->append("name");
+			}
 		}
 		if ($withClean || $this->n_description) {
 			Util::setByPath($ret, "Description", $this->m_description);
@@ -635,6 +641,9 @@ class Swytch extends Resource {
 				$v = $withClean ? ($r2 == null ? null : $r2->apiSerialize($withClean)) : ($r2 == null ? (object)['ID' => "0"] : $r2->apiSerializeID());
 				$ret->{"IPv6Nets"}->append($v);
 			}
+		}
+		if ($missing->count() > 0) {
+			throw new SaclientException("required_field", "Required fields must be set before the Swytch creation: " . implode(", ", (array)($missing)));
 		}
 		return $ret;
 	}

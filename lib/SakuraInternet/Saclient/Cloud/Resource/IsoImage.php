@@ -675,6 +675,7 @@ class IsoImage extends Resource {
 	protected function apiSerializeImpl($withClean=false)
 	{
 		Util::validateType($withClean, "boolean");
+		$missing = new \ArrayObject([]);
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			Util::setByPath($ret, "ID", $this->m_id);
@@ -684,6 +685,11 @@ class IsoImage extends Resource {
 		}
 		if ($withClean || $this->n_name) {
 			Util::setByPath($ret, "Name", $this->m_name);
+		}
+		else {
+			if ($this->isNew) {
+				$missing->append("name");
+			}
 		}
 		if ($withClean || $this->n_description) {
 			Util::setByPath($ret, "Description", $this->m_description);
@@ -702,8 +708,16 @@ class IsoImage extends Resource {
 		if ($withClean || $this->n_sizeMib) {
 			Util::setByPath($ret, "SizeMB", $this->m_sizeMib);
 		}
+		else {
+			if ($this->isNew) {
+				$missing->append("sizeMib");
+			}
+		}
 		if ($withClean || $this->n_serviceClass) {
 			Util::setByPath($ret, "ServiceClass", $this->m_serviceClass);
+		}
+		if ($missing->count() > 0) {
+			throw new SaclientException("required_field", "Required fields must be set before the IsoImage creation: " . implode(", ", (array)($missing)));
 		}
 		return $ret;
 	}

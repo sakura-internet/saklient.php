@@ -378,7 +378,7 @@ class DiskConfig {
 		if ($this->_networkMaskLen != null) {
 			Util::setByPath($q, "UserSubnet.NetworkMaskLen", $this->_networkMaskLen);
 		}
-		if (0 < count($this->_scripts)) {
+		if (0 < $this->_scripts->count()) {
 			$notes = new \ArrayObject([]);
 			foreach ($this->_scripts as $script) {
 				$notes->append((object)['ID' => $script->_id()]);

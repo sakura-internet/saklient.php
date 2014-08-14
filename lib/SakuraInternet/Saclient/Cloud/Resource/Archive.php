@@ -914,6 +914,7 @@ class Archive extends Resource {
 	protected function apiSerializeImpl($withClean=false)
 	{
 		Util::validateType($withClean, "boolean");
+		$missing = new \ArrayObject([]);
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			Util::setByPath($ret, "ID", $this->m_id);
@@ -923,6 +924,11 @@ class Archive extends Resource {
 		}
 		if ($withClean || $this->n_name) {
 			Util::setByPath($ret, "Name", $this->m_name);
+		}
+		else {
+			if ($this->isNew) {
+				$missing->append("name");
+			}
 		}
 		if ($withClean || $this->n_description) {
 			Util::setByPath($ret, "Description", $this->m_description);
@@ -949,6 +955,9 @@ class Archive extends Resource {
 		}
 		if ($withClean || $this->n_availability) {
 			Util::setByPath($ret, "Availability", $this->m_availability);
+		}
+		if ($missing->count() > 0) {
+			throw new SaclientException("required_field", "Required fields must be set before the Archive creation: " . implode(", ", (array)($missing)));
 		}
 		return $ret;
 	}

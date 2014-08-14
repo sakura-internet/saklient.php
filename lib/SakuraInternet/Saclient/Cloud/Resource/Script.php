@@ -2,6 +2,8 @@
 
 namespace SakuraInternet\Saclient\Cloud\Resource;
 
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Client.php";
 use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php";
@@ -10,8 +12,6 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Icon.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Icon;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
-require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
-use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * スクリプトのリソース情報へのアクセス機能や操作機能を備えたクラス。
@@ -618,6 +618,7 @@ class Script extends Resource {
 	protected function apiSerializeImpl($withClean=false)
 	{
 		Util::validateType($withClean, "boolean");
+		$missing = new \ArrayObject([]);
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			Util::setByPath($ret, "ID", $this->m_id);
@@ -630,6 +631,11 @@ class Script extends Resource {
 		}
 		if ($withClean || $this->n_name) {
 			Util::setByPath($ret, "Name", $this->m_name);
+		}
+		else {
+			if ($this->isNew) {
+				$missing->append("name");
+			}
 		}
 		if ($withClean || $this->n_description) {
 			Util::setByPath($ret, "Description", $this->m_description);
@@ -648,8 +654,16 @@ class Script extends Resource {
 		if ($withClean || $this->n_content) {
 			Util::setByPath($ret, "Content", $this->m_content);
 		}
+		else {
+			if ($this->isNew) {
+				$missing->append("content");
+			}
+		}
 		if ($withClean || $this->n_annotation) {
 			Util::setByPath($ret, "Remark", $this->m_annotation);
+		}
+		if ($missing->count() > 0) {
+			throw new SaclientException("required_field", "Required fields must be set before the Script creation: " . implode(", ", (array)($missing)));
 		}
 		return $ret;
 	}

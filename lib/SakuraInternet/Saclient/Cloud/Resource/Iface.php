@@ -365,6 +365,7 @@ class Iface extends Resource {
 	protected function apiSerializeImpl($withClean=false)
 	{
 		Util::validateType($withClean, "boolean");
+		$missing = new \ArrayObject([]);
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			Util::setByPath($ret, "ID", $this->m_id);
@@ -380,6 +381,14 @@ class Iface extends Resource {
 		}
 		if ($withClean || $this->n_serverId) {
 			Util::setByPath($ret, "Server.ID", $this->m_serverId);
+		}
+		else {
+			if ($this->isNew) {
+				$missing->append("serverId");
+			}
+		}
+		if ($missing->count() > 0) {
+			throw new SaclientException("required_field", "Required fields must be set before the Iface creation: " . implode(", ", (array)($missing)));
 		}
 		return $ret;
 	}

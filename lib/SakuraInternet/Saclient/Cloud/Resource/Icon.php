@@ -2,21 +2,21 @@
 
 namespace SakuraInternet\Saclient\Cloud\Resource;
 
+require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
+use \SakuraInternet\Saclient\Errors\SaclientException;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Client.php";
 use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Resource;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
-require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
-use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
  * アイコンのリソース情報へのアクセス機能や操作機能を備えたクラス。
  * 
  * @property-read string $id
  * @property-read string $scope
- * @property-read string $name
+ * @property string $name
  * @property-read string $url
  */
 class Icon extends Resource {
@@ -206,6 +206,23 @@ class Icon extends Resource {
 	}
 	
 	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param string $v
+	 * @return string
+	 */
+	private function set_name($v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
+		$this->m_name = $v;
+		$this->n_name = true;
+		return $this->m_name;
+	}
+	
+	/**
 	 * 名前
 	 */
 	
@@ -294,6 +311,7 @@ class Icon extends Resource {
 	protected function apiSerializeImpl($withClean=false)
 	{
 		Util::validateType($withClean, "boolean");
+		$missing = new \ArrayObject([]);
 		$ret = (object)[];
 		if ($withClean || $this->n_id) {
 			Util::setByPath($ret, "ID", $this->m_id);
@@ -304,8 +322,16 @@ class Icon extends Resource {
 		if ($withClean || $this->n_name) {
 			Util::setByPath($ret, "Name", $this->m_name);
 		}
+		else {
+			if ($this->isNew) {
+				$missing->append("name");
+			}
+		}
 		if ($withClean || $this->n_url) {
 			Util::setByPath($ret, "URL", $this->m_url);
+		}
+		if ($missing->count() > 0) {
+			throw new SaclientException("required_field", "Required fields must be set before the Icon creation: " . implode(", ", (array)($missing)));
 		}
 		return $ret;
 	}
@@ -320,6 +346,16 @@ class Icon extends Resource {
 			case "name": return $this->get_name();
 			case "url": return $this->get_url();
 			default: return null;
+		}
+	}
+	
+	/**
+	 * @ignore
+	 */
+	public function __set($key, $v) {
+		switch ($key) {
+			case "name": return $this->set_name($v);
+			default: throw new SaclientException('non_writable_field', 'Non-writable field: SakuraInternet\\Saclient\\Cloud\\Resource\\Icon#'.$key);
 		}
 	}
 
