@@ -90,12 +90,10 @@ class Resource {
 	}
 	
 	/**
-	 * @private
-	 * @access protected
-	 * @ignore
+	 * @access public
 	 * @return string
 	 */
-	protected function _className()
+	public function className()
 	{
 		return null;
 	}

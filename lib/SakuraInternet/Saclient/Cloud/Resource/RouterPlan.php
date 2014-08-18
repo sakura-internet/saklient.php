@@ -83,6 +83,15 @@ class RouterPlan extends Resource {
 	}
 	
 	/**
+	 * @access public
+	 * @return string
+	 */
+	public function className()
+	{
+		return "RouterPlan";
+	}
+	
+	/**
 	 * @private
 	 * @access public
 	 * @return string

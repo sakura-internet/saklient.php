@@ -14,8 +14,6 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/DiskPlan.php
 use \SakuraInternet\Saclient\Cloud\Resource\DiskPlan;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Server.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Server;
-require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Archive.php";
-use \SakuraInternet\Saclient\Cloud\Resource\Archive;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/DiskConfig.php";
 use \SakuraInternet\Saclient\Cloud\Resource\DiskConfig;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EAvailability.php";
@@ -30,7 +28,7 @@ use \SakuraInternet\Saclient\Util;
  * 
  * @property-read boolean $isAvailable
  * @property int $sizeGib
- * @property mixed $source
+ * @property \SakuraInternet\Saclient\Cloud\Resource\Resource $source
  * @property-read string $id
  * @property string $name
  * @property string $description
@@ -168,6 +166,15 @@ class Disk extends Resource {
 	}
 	
 	/**
+	 * @access public
+	 * @return string
+	 */
+	public function className()
+	{
+		return "Disk";
+	}
+	
+	/**
 	 * @private
 	 * @access public
 	 * @return string
@@ -263,13 +270,13 @@ class Disk extends Resource {
 	 * @private
 	 * @access private
 	 * @ignore
-	 * @var mixed
+	 * @var Resource
 	 */
 	private $_source;
 	
 	/**
 	 * @access public
-	 * @return mixed
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource
 	 */
 	public function get_source()
 	{
@@ -278,12 +285,13 @@ class Disk extends Resource {
 	
 	/**
 	 * @access public
-	 * @param mixed $source
-	 * @return mixed
+	 * @param \SakuraInternet\Saclient\Cloud\Resource\Resource|null $source
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource
 	 */
-	public function set_source($source)
+	public function set_source(\SakuraInternet\Saclient\Cloud\Resource\Resource $source=null)
 	{
 		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($source, "\\SakuraInternet\\Saclient\\Cloud\\Resource\\Resource");
 		$this->_source = $source;
 		return $source;
 	}
@@ -305,21 +313,22 @@ class Disk extends Resource {
 	{
 		Util::validateArgCount(func_num_args(), 2);
 		if ($r != null) {
-			if (array_key_exists("SourceArchive", $r)) {
-				$s = $r->{"SourceArchive"};
-				if ($s != null) {
-					$id = $s->{"ID"};
-					if ($id != null) {
-						$this->_source = new Archive($this->_client, $s);
-					}
-				}
-			}
 			if (array_key_exists("SourceDisk", $r)) {
 				$s = $r->{"SourceDisk"};
 				if ($s != null) {
 					$id = $s->{"ID"};
 					if ($id != null) {
 						$this->_source = new Disk($this->_client, $s);
+					}
+				}
+			}
+			if (array_key_exists("SourceArchive", $r)) {
+				$s = $r->{"SourceArchive"};
+				if ($s != null) {
+					$id = $s->{"ID"};
+					if ($id != null) {
+						$obj = Util::createClassInstance("saclient.cloud.resource.Archive", new \ArrayObject([$this->_client, $s]));
+						$this->_source = $obj;
 					}
 				}
 			}
@@ -342,16 +351,14 @@ class Disk extends Resource {
 			return;
 		}
 		if ($this->_source != null) {
-			if ($this->_source instanceof Archive) {
-				$archive = $this->_source;
-				$s = $withClean ? $archive->apiSerialize(true) : (object)['ID' => $archive->_id()];
-				$r->{"SourceArchive"} = $s;
+			if ($this->_source->className() == "Disk") {
+				$s = $withClean ? $this->_source->apiSerialize(true) : (object)['ID' => $this->_source->_id()];
+				$r->{"SourceDisk"} = $s;
 			}
 			else {
-				if ($this->_source instanceof Disk) {
-					$disk = $this->_source;
-					$s = $withClean ? $disk->apiSerialize(true) : (object)['ID' => $disk->_id()];
-					$r->{"SourceDisk"} = $s;
+				if ($this->_source->className() == "Archive") {
+					$s = $withClean ? $this->_source->apiSerialize(true) : (object)['ID' => $this->_source->_id()];
+					$r->{"SourceArchive"} = $s;
 				}
 				else {
 					$this->_source = null;

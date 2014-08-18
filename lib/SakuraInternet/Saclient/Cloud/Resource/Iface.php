@@ -93,6 +93,15 @@ class Iface extends Resource {
 	}
 	
 	/**
+	 * @access public
+	 * @return string
+	 */
+	public function className()
+	{
+		return "Iface";
+	}
+	
+	/**
 	 * @private
 	 * @access public
 	 * @return string

@@ -75,6 +75,15 @@ class DiskPlan extends Resource {
 	}
 	
 	/**
+	 * @access public
+	 * @return string
+	 */
+	public function className()
+	{
+		return "DiskPlan";
+	}
+	
+	/**
 	 * @private
 	 * @access public
 	 * @return string

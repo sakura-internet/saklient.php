@@ -143,6 +143,15 @@ class Script extends Resource {
 	}
 	
 	/**
+	 * @access public
+	 * @return string
+	 */
+	public function className()
+	{
+		return "Script";
+	}
+	
+	/**
 	 * @private
 	 * @access public
 	 * @return string

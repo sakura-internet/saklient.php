@@ -137,6 +137,15 @@ class Appliance extends Resource {
 	}
 	
 	/**
+	 * @access public
+	 * @return string
+	 */
+	public function className()
+	{
+		return "Appliance";
+	}
+	
+	/**
 	 * @private
 	 * @access public
 	 * @return string

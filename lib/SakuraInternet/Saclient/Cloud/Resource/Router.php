@@ -119,6 +119,15 @@ class Router extends Resource {
 	}
 	
 	/**
+	 * @access public
+	 * @return string
+	 */
+	public function className()
+	{
+		return "Router";
+	}
+	
+	/**
 	 * @private
 	 * @access public
 	 * @return string

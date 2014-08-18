@@ -92,6 +92,15 @@ class ServerPlan extends Resource {
 	}
 	
 	/**
+	 * @access public
+	 * @return string
+	 */
+	public function className()
+	{
+		return "ServerPlan";
+	}
+	
+	/**
 	 * @private
 	 * @access public
 	 * @return string

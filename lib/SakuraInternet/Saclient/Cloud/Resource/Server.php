@@ -155,6 +155,15 @@ class Server extends Resource {
 	}
 	
 	/**
+	 * @access public
+	 * @return string
+	 */
+	public function className()
+	{
+		return "Server";
+	}
+	
+	/**
 	 * @private
 	 * @access public
 	 * @return string

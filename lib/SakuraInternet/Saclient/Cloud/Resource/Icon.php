@@ -91,6 +91,15 @@ class Icon extends Resource {
 	}
 	
 	/**
+	 * @access public
+	 * @return string
+	 */
+	public function className()
+	{
+		return "Icon";
+	}
+	
+	/**
 	 * @private
 	 * @access public
 	 * @return string

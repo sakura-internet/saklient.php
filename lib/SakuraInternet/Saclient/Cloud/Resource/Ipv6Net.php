@@ -85,6 +85,15 @@ class Ipv6Net extends Resource {
 	}
 	
 	/**
+	 * @access public
+	 * @return string
+	 */
+	public function className()
+	{
+		return "Ipv6Net";
+	}
+	
+	/**
 	 * @private
 	 * @access public
 	 * @return string

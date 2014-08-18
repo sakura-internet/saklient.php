@@ -139,6 +139,15 @@ class IsoImage extends Resource {
 	}
 	
 	/**
+	 * @access public
+	 * @return string
+	 */
+	public function className()
+	{
+		return "IsoImage";
+	}
+	
+	/**
 	 * @private
 	 * @access public
 	 * @return string

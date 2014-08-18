@@ -139,6 +139,15 @@ class Swytch extends Resource {
 	}
 	
 	/**
+	 * @access public
+	 * @return string
+	 */
+	public function className()
+	{
+		return "Swytch";
+	}
+	
+	/**
 	 * @private
 	 * @access public
 	 * @return string
