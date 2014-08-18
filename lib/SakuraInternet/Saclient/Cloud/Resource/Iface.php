@@ -12,17 +12,19 @@ require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
 /**
- * インタフェースのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * インタフェースの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read string $id
- * @property-read string $macAddress
- * @property-read string $ipAddress
- * @property string $userIpAddress
- * @property string $serverId
+ * @property-read string $id ID 
+ * @property-read string $macAddress MACアドレス 
+ * @property-read string $ipAddress IPv4アドレス（共有セグメントによる自動割当） 
+ * @property string $userIpAddress ユーザ設定IPv4アドレス 
+ * @property string $serverId このインタフェースが取り付けられているサーバのID 
  */
 class Iface extends Resource {
 	
 	/**
+	 * ID
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -30,6 +32,8 @@ class Iface extends Resource {
 	protected $m_id;
 	
 	/**
+	 * MACアドレス
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -37,6 +41,8 @@ class Iface extends Resource {
 	protected $m_macAddress;
 	
 	/**
+	 * IPv4アドレス（共有セグメントによる自動割当）
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -44,6 +50,8 @@ class Iface extends Resource {
 	protected $m_ipAddress;
 	
 	/**
+	 * ユーザ設定IPv4アドレス
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -51,7 +59,7 @@ class Iface extends Resource {
 	protected $m_userIpAddress;
 	
 	/**
-	 * サーバ
+	 * このインタフェースが取り付けられているサーバのID
 	 * 
 	 * @access protected
 	 * @ignore
@@ -93,10 +101,12 @@ class Iface extends Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return "Iface";
 	}
@@ -104,6 +114,7 @@ class Iface extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -112,7 +123,7 @@ class Iface extends Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
+	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
 	 * 
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface this
@@ -134,7 +145,7 @@ class Iface extends Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false
@@ -153,7 +164,7 @@ class Iface extends Resource {
 	 * 共有セグメントに接続します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface this
 	 */
 	public function connectToSharedSegment()
 	{
@@ -301,9 +312,6 @@ class Iface extends Resource {
 		return $this->m_serverId;
 	}
 	
-	/**
-	 * サーバ
-	 */
 	
 	
 	/**

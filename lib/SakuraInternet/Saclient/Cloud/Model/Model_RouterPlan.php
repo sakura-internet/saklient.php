@@ -11,9 +11,7 @@ use \SakuraInternet\Saclient\Util;
 require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
-/**
- * ルータのプランを検索するための機能を備えたクラス。
- */
+/** ルータ帯域プランを検索するための機能を備えたクラス。 */
 class Model_RouterPlan extends Model {
 	
 	/**

@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpServiceUnavailableException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * サービスが利用できません。サーバを停止できません。再度お試しください。
- */
+/** サービスが利用できません。サーバを停止できません。再度お試しください。 */
 class ServerCouldNotStopException extends HttpServiceUnavailableException {
 	
 	/**

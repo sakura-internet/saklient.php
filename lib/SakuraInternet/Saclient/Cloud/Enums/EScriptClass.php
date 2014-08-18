@@ -9,22 +9,22 @@ use \SakuraInternet\Saclient\Util;
 require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
-/** アプライアンスのクラスを表す列挙子。 */
-class EApplianceClass extends EnumBase {
+/** スクリプトのクラスを表す列挙子。 */
+class EScriptClass extends EnumBase {
 	
 	/** @access public */
-	const loadbalancer = "loadbalancer";
+	const shell = "shell";
 	
 	/** @access public */
-	const vpcrouter = "vpcrouter";
+	const ansible = "ansible";
 	
 	
 	
 	/** @ignore */
 	static function _map() {
 		return [
-			"loadbalancer" => 10,
-			"vpcrouter" => 20
+			"shell" => 200,
+			"ansible" => 300
 		];
 	}
 	

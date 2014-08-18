@@ -18,18 +18,18 @@ require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
 /**
- * ISOイメージのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * ISOイメージの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read int $sizeGib
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\FtpInfo $ftpInfo
- * @property-read string $id
- * @property string $scope
- * @property string $name
- * @property string $description
- * @property string[] $tags
- * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon
- * @property int $sizeMib
- * @property-read string $serviceClass
+ * @property-read int $sizeGib サイズ[GiB] 
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\FtpInfo $ftpInfo FTP情報 
+ * @property-read string $id ID 
+ * @property string $scope スコープ {@link EScope} 
+ * @property string $name 名前 
+ * @property string $description 説明 
+ * @property \ArrayObject $tags タグ 
+ * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon アイコン 
+ * @property int $sizeMib サイズ[MiB] 
+ * @property-read string $serviceClass サービスクラス 
  */
 class IsoImage extends Resource {
 	
@@ -43,7 +43,7 @@ class IsoImage extends Resource {
 	protected $m_id;
 	
 	/**
-	 * スコープ
+	 * スコープ {@link EScope}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -139,10 +139,12 @@ class IsoImage extends Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return "IsoImage";
 	}
@@ -150,6 +152,7 @@ class IsoImage extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -158,7 +161,7 @@ class IsoImage extends Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
+	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
 	 * 
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\IsoImage this
@@ -180,7 +183,7 @@ class IsoImage extends Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false
@@ -227,9 +230,6 @@ class IsoImage extends Resource {
 		return $this->get_sizeMib() >> 10;
 	}
 	
-	/**
-	 * サイズ[GiB]
-	 */
 	
 	
 	/**
@@ -242,6 +242,7 @@ class IsoImage extends Resource {
 	
 	/**
 	 * @access public
+	 * @ignore
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\FtpInfo
 	 */
 	public function get_ftpInfo()
@@ -249,15 +250,16 @@ class IsoImage extends Resource {
 		return $this->_ftpInfo;
 	}
 	
-	/**
-	 * FTP情報
-	 */
 	
 	
 	/**
+	 * FTPSを開始し、イメージファイルをアップロード・ダウンロードできる状態にします。
+	 * 
+	 * アカウント情報は、ftpInfo プロパティから取得することができます。
+	 * 
 	 * @access public
-	 * @param boolean $reset = false
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\IsoImage
+	 * @param boolean $reset 既にFTPSが開始されているとき、trueを指定してこのメソッドを呼ぶことでパスワードを再設定します。 = false
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\IsoImage this
 	 */
 	public function openFtp($reset=false)
 	{
@@ -271,13 +273,13 @@ class IsoImage extends Resource {
 	}
 	
 	/**
+	 * FTPSを終了し、ISOイメージを利用可能な状態にします。
+	 * 
 	 * @access public
-	 * @param boolean $reset = false
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\IsoImage
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\IsoImage this
 	 */
-	public function closeFtp($reset=false)
+	public function closeFtp()
 	{
-		Util::validateType($reset, "boolean");
 		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/ftp";
 		$result = $this->_client->request("DELETE", $path);
 		$this->_ftpInfo = null;
@@ -303,9 +305,6 @@ class IsoImage extends Resource {
 		return $this->m_id;
 	}
 	
-	/**
-	 * ID
-	 */
 	
 	
 	/**
@@ -344,9 +343,6 @@ class IsoImage extends Resource {
 		return $this->m_scope;
 	}
 	
-	/**
-	 * スコープ
-	 */
 	
 	
 	/**
@@ -385,9 +381,6 @@ class IsoImage extends Resource {
 		return $this->m_name;
 	}
 	
-	/**
-	 * 名前
-	 */
 	
 	
 	/**
@@ -426,9 +419,6 @@ class IsoImage extends Resource {
 		return $this->m_description;
 	}
 	
-	/**
-	 * 説明
-	 */
 	
 	
 	/**
@@ -468,9 +458,6 @@ class IsoImage extends Resource {
 		return $this->m_tags;
 	}
 	
-	/**
-	 * タグ
-	 */
 	
 	
 	/**
@@ -509,9 +496,6 @@ class IsoImage extends Resource {
 		return $this->m_icon;
 	}
 	
-	/**
-	 * アイコン
-	 */
 	
 	
 	/**
@@ -553,9 +537,6 @@ class IsoImage extends Resource {
 		return $this->m_sizeMib;
 	}
 	
-	/**
-	 * サイズ[MiB]
-	 */
 	
 	
 	/**
@@ -577,9 +558,6 @@ class IsoImage extends Resource {
 		return $this->m_serviceClass;
 	}
 	
-	/**
-	 * サービスクラス
-	 */
 	
 	
 	/**

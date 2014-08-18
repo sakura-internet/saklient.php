@@ -20,16 +20,16 @@ require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
 /**
- * スイッチのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * スイッチの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read string $id
- * @property string $name
- * @property string $description
- * @property-read string $userDefaultRoute
- * @property-read int $userMaskLen
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\Router $router
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\Ipv4Net[] $ipv4Nets
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\Ipv6Net[] $ipv6Nets
+ * @property-read string $id ID 
+ * @property string $name 名前 
+ * @property string $description 説明 
+ * @property-read string $userDefaultRoute ユーザ設定IPv4ネットワークのゲートウェイ 
+ * @property-read int $userMaskLen ユーザ設定IPv4ネットワークのマスク長 
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\Router $router 接続されているルータ 
+ * @property-read \ArrayObject $ipv4Nets IPv4ネットワーク（ルータによる自動割当） 
+ * @property-read \ArrayObject $ipv6Nets IPv6ネットワーク（ルータによる自動割当） 
  */
 class Swytch extends Resource {
 	
@@ -61,7 +61,7 @@ class Swytch extends Resource {
 	protected $m_description;
 	
 	/**
-	 * ユーザ設定ネットワークのゲートウェイ
+	 * ユーザ設定IPv4ネットワークのゲートウェイ
 	 * 
 	 * @access protected
 	 * @ignore
@@ -70,7 +70,7 @@ class Swytch extends Resource {
 	protected $m_userDefaultRoute;
 	
 	/**
-	 * ユーザ設定ネットワークのマスク長
+	 * ユーザ設定IPv4ネットワークのマスク長
 	 * 
 	 * @access protected
 	 * @ignore
@@ -88,7 +88,7 @@ class Swytch extends Resource {
 	protected $m_router;
 	
 	/**
-	 * IPv4ネットワーク
+	 * IPv4ネットワーク（ルータによる自動割当）
 	 * 
 	 * @access protected
 	 * @ignore
@@ -97,7 +97,7 @@ class Swytch extends Resource {
 	protected $m_ipv4Nets;
 	
 	/**
-	 * IPv6ネットワーク
+	 * IPv6ネットワーク（ルータによる自動割当）
 	 * 
 	 * @access protected
 	 * @ignore
@@ -139,10 +139,12 @@ class Swytch extends Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return "Swytch";
 	}
@@ -150,6 +152,7 @@ class Swytch extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -158,7 +161,7 @@ class Swytch extends Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
+	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
 	 * 
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Swytch this
@@ -180,7 +183,7 @@ class Swytch extends Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false
@@ -199,7 +202,7 @@ class Swytch extends Resource {
 	 * このルータ＋スイッチでIPv6アドレスを有効にします。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Ipv6Net
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Ipv6Net 有効化されたIPv6ネットワーク
 	 */
 	public function addIpv6Net()
 	{
@@ -212,7 +215,7 @@ class Swytch extends Resource {
 	 * このルータ＋スイッチでIPv6アドレスを無効にします。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Swytch
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Swytch this
 	 */
 	public function removeIpv6Net()
 	{
@@ -228,7 +231,7 @@ class Swytch extends Resource {
 	 * @access public
 	 * @param int $maskLen
 	 * @param string $nextHop
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Ipv4Net
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Ipv4Net 追加されたIPv4ネットワーク
 	 */
 	public function addStaticRoute($maskLen, $nextHop)
 	{
@@ -245,7 +248,7 @@ class Swytch extends Resource {
 	 * 
 	 * @access public
 	 * @param \SakuraInternet\Saclient\Cloud\Resource\Ipv4Net $ipv4Net
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Swytch
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Swytch this
 	 */
 	public function removeStaticRoute(\SakuraInternet\Saclient\Cloud\Resource\Ipv4Net $ipv4Net)
 	{
@@ -261,7 +264,7 @@ class Swytch extends Resource {
 	 * 
 	 * @access public
 	 * @param int $bandWidthMbps
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Swytch
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Swytch this
 	 */
 	public function changePlan($bandWidthMbps)
 	{
@@ -291,9 +294,6 @@ class Swytch extends Resource {
 		return $this->m_id;
 	}
 	
-	/**
-	 * ID
-	 */
 	
 	
 	/**
@@ -332,9 +332,6 @@ class Swytch extends Resource {
 		return $this->m_name;
 	}
 	
-	/**
-	 * 名前
-	 */
 	
 	
 	/**
@@ -373,9 +370,6 @@ class Swytch extends Resource {
 		return $this->m_description;
 	}
 	
-	/**
-	 * 説明
-	 */
 	
 	
 	/**
@@ -397,9 +391,6 @@ class Swytch extends Resource {
 		return $this->m_userDefaultRoute;
 	}
 	
-	/**
-	 * ユーザ設定ネットワークのゲートウェイ
-	 */
 	
 	
 	/**
@@ -421,9 +412,6 @@ class Swytch extends Resource {
 		return $this->m_userMaskLen;
 	}
 	
-	/**
-	 * ユーザ設定ネットワークのマスク長
-	 */
 	
 	
 	/**
@@ -445,9 +433,6 @@ class Swytch extends Resource {
 		return $this->m_router;
 	}
 	
-	/**
-	 * 接続されているルータ
-	 */
 	
 	
 	/**
@@ -469,9 +454,6 @@ class Swytch extends Resource {
 		return $this->m_ipv4Nets;
 	}
 	
-	/**
-	 * IPv4ネットワーク
-	 */
 	
 	
 	/**
@@ -493,9 +475,6 @@ class Swytch extends Resource {
 		return $this->m_ipv6Nets;
 	}
 	
-	/**
-	 * IPv6ネットワーク
-	 */
 	
 	
 	/**

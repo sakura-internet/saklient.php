@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpException;
 require_once dirname(__FILE__) . "/../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * HTTPエラー。Insufficient Storage.
- */
+/** HTTPエラー。Insufficient Storage. */
 class HttpInsufficientStorageException extends HttpException {
 	
 	/**

@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpBadRequestException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 不適切な要求です。現在の容量よりも小さくリサイズすることはできません。
- */
+/** 不適切な要求です。現在の容量よりも小さくリサイズすることはできません。 */
 class CantResizeSmallerException extends HttpBadRequestException {
 	
 	/**

@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpException;
 require_once dirname(__FILE__) . "/../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 要求された操作を行えません。現在の対象の状態では、この操作を受け付けできません。
- */
+/** 要求された操作を行えません。現在の対象の状態では、この操作を受け付けできません。 */
 class HttpConflictException extends HttpException {
 	
 	/**

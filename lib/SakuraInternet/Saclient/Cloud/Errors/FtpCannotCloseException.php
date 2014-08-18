@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpConflictException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 要求された操作を行えません。FTP共有によりアップロードされたファイルを操作できません。ファイル名等をご確認ください。
- */
+/** 要求された操作を行えません。FTP共有によりアップロードされたファイルを操作できません。ファイル名等をご確認ください。 */
 class FtpCannotCloseException extends HttpConflictException {
 	
 	/**

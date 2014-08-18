@@ -4,6 +4,9 @@ namespace SakuraInternet\Saclient\Cloud;
 
 use \SakuraInternet\Saclient\Errors\ExceptionFactory;
 
+/**
+ * @ignore
+ */
 class Client {
 	
 	private static function println($msg) {

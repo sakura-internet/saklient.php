@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpInternalServerErrorException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 予期しないエラーが発生しました。このエラーが繰り返し発生する場合は、サポートサイトやメンテナンス情報をご確認ください。
- */
+/** 予期しないエラーが発生しました。このエラーが繰り返し発生する場合は、サポートサイトやメンテナンス情報をご確認ください。 */
 class UnknownException extends HttpInternalServerErrorException {
 	
 	/**

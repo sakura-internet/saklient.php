@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpConflictException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 要求された操作を行えません。ISOイメージをサーバから排出後に実行してください。
- */
+/** 要求された操作を行えません。ISOイメージをサーバから排出後に実行してください。 */
 class CdromInUseException extends HttpConflictException {
 	
 	/**

@@ -13,9 +13,7 @@ use \SakuraInternet\Saclient\Util;
 require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
-/**
- * スクリプトを検索するための機能を備えたクラス。
- */
+/** スクリプトを検索・作成するための機能を備えたクラス。 */
 class Model_Script extends Model {
 	
 	/**
@@ -144,7 +142,9 @@ class Model_Script extends Model {
 	}
 	
 	/**
-	 * 指定した文字列を名前に含むスクリプトに絞り込みます。
+	 * 指定した文字列を名前に含むリソースに絞り込みます。
+	 * 大文字・小文字は区別されません。
+	 * 半角スペースで区切られた複数の文字列は、それらをすべて含むことが条件とみなされます。
 	 * 
 	 * @access public
 	 * @param string $name
@@ -154,12 +154,12 @@ class Model_Script extends Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($name, "string");
-		$this->_filterBy("Name", $name);
-		return $this;
+		return $this->_withNameLike($name);
 	}
 	
 	/**
-	 * 指定したタグを持つスクリプトに絞り込みます。
+	 * 指定したタグを持つリソースに絞り込みます。
+	 * 複数のタグを指定する場合は withTags() を利用してください。
 	 * 
 	 * @access public
 	 * @param string $tag
@@ -169,12 +169,11 @@ class Model_Script extends Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($tag, "string");
-		$this->_filterBy("Tags.Name", $tag, true);
-		return $this;
+		return $this->_withTag($tag);
 	}
 	
 	/**
-	 * 指定したタグを持つスクリプトに絞り込みます。
+	 * 指定したすべてのタグを持つリソースに絞り込みます。
 	 * 
 	 * @access public
 	 * @param string[] $tags
@@ -184,8 +183,20 @@ class Model_Script extends Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($tags, "\\ArrayObject");
-		$this->_filterBy("Tags.Name", $tags, true);
-		return $this;
+		return $this->_withTags($tags);
+	}
+	
+	/**
+	 * 名前でソートします。
+	 * 
+	 * @access public
+	 * @param boolean $reverse = false
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Script
+	 */
+	public function sortByName($reverse=false)
+	{
+		Util::validateType($reverse, "boolean");
+		return $this->_sortByName($reverse);
 	}
 	
 	/**
@@ -209,20 +220,6 @@ class Model_Script extends Model {
 	public function withUserScope()
 	{
 		$this->_filterBy("Scope", EScope::user);
-		return $this;
-	}
-	
-	/**
-	 * 名前でソートします。
-	 * 
-	 * @access public
-	 * @param boolean $reverse = false
-	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Script
-	 */
-	public function sortByName($reverse=false)
-	{
-		Util::validateType($reverse, "boolean");
-		$this->_sort("Name", $reverse);
 		return $this;
 	}
 	

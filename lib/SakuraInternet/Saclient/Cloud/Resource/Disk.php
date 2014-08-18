@@ -20,25 +20,27 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EAvailability.p
 use \SakuraInternet\Saclient\Cloud\Enums\EAvailability;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EDiskConnection.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EDiskConnection;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EStorageClass.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EStorageClass;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
 /**
- * ディスクのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * ディスクの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read boolean $isAvailable
- * @property int $sizeGib
- * @property \SakuraInternet\Saclient\Cloud\Resource\Resource $source
- * @property-read string $id
- * @property string $name
- * @property string $description
- * @property string[] $tags
- * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon
- * @property int $sizeMib
- * @property-read string $serviceClass
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\DiskPlan $plan
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\Server $server
- * @property-read string $availability
+ * @property-read boolean $isAvailable ディスクが利用可能なときtrueを返します。 
+ * @property int $sizeGib サイズ[GiB] 
+ * @property \SakuraInternet\Saclient\Cloud\Resource\Resource $source ディスクのコピー元 
+ * @property-read string $id ID 
+ * @property string $name 名前 
+ * @property string $description 説明 
+ * @property \ArrayObject $tags タグ 
+ * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon アイコン 
+ * @property int $sizeMib サイズ[MiB] 
+ * @property-read string $serviceClass サービスクラス 
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\DiskPlan $plan プラン 
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\Server $server 接続先のサーバ 
+ * @property-read string $availability 有効状態 {@link EAvailability} 
  */
 class Disk extends Resource {
 	
@@ -124,7 +126,7 @@ class Disk extends Resource {
 	protected $m_server;
 	
 	/**
-	 * 有効状態
+	 * 有効状態 {@link EAvailability}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -166,10 +168,12 @@ class Disk extends Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return "Disk";
 	}
@@ -177,6 +181,7 @@ class Disk extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -185,7 +190,7 @@ class Disk extends Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
+	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
 	 * 
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk this
@@ -207,7 +212,7 @@ class Disk extends Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false
@@ -232,9 +237,6 @@ class Disk extends Resource {
 		return $this->get_availability() == EAvailability::available;
 	}
 	
-	/**
-	 * ディスクが利用可能なときtrueを返します。
-	 */
 	
 	
 	/**
@@ -261,9 +263,6 @@ class Disk extends Resource {
 		return $sizeGib;
 	}
 	
-	/**
-	 * サイズ[GiB]
-	 */
 	
 	
 	/**
@@ -276,6 +275,7 @@ class Disk extends Resource {
 	
 	/**
 	 * @access public
+	 * @ignore
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource
 	 */
 	public function get_source()
@@ -285,6 +285,7 @@ class Disk extends Resource {
 	
 	/**
 	 * @access public
+	 * @ignore
 	 * @param \SakuraInternet\Saclient\Cloud\Resource\Resource|null $source
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource
 	 */
@@ -296,9 +297,6 @@ class Disk extends Resource {
 		return $source;
 	}
 	
-	/**
-	 * ディスクのコピー元
-	 */
 	
 	
 	/**
@@ -351,12 +349,12 @@ class Disk extends Resource {
 			return;
 		}
 		if ($this->_source != null) {
-			if ($this->_source->className() == "Disk") {
+			if ($this->_source->_className() == "Disk") {
 				$s = $withClean ? $this->_source->apiSerialize(true) : (object)['ID' => $this->_source->_id()];
 				$r->{"SourceDisk"} = $s;
 			}
 			else {
-				if ($this->_source->className() == "Archive") {
+				if ($this->_source->_className() == "Archive") {
 					$s = $withClean ? $this->_source->apiSerialize(true) : (object)['ID' => $this->_source->_id()];
 					$r->{"SourceArchive"} = $s;
 				}
@@ -373,7 +371,7 @@ class Disk extends Resource {
 	 * 
 	 * @access public
 	 * @param \SakuraInternet\Saclient\Cloud\Resource\Server $server
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk this
 	 */
 	public function connectTo(\SakuraInternet\Saclient\Cloud\Resource\Server $server)
 	{
@@ -387,7 +385,7 @@ class Disk extends Resource {
 	 * ディスクをサーバから取り外します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Disk this
 	 */
 	public function disconnect()
 	{
@@ -396,7 +394,9 @@ class Disk extends Resource {
 	}
 	
 	/**
-	 * *
+	 * ディスク修正を行うためのオブジェクトを用意します。
+	 * 
+	 * 返り値のオブジェクトにパラメータを設定し、write() を呼ぶことで修正を行います。
 	 * 
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\DiskConfig
@@ -409,6 +409,7 @@ class Disk extends Resource {
 	/**
 	 * コピー中のディスクが利用可能になるまで待機します。
 	 * 
+	 * @ignore
 	 * @access public
 	 * @param int $timeoutSec
 	 * @param callback $callback
@@ -428,7 +429,7 @@ class Disk extends Resource {
 	 * 
 	 * @access public
 	 * @param int $timeoutSec = 3600
-	 * @return boolean
+	 * @return boolean 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
 	 */
 	public function sleepWhileCopying($timeoutSec=3600)
 	{
@@ -470,9 +471,6 @@ class Disk extends Resource {
 		return $this->m_id;
 	}
 	
-	/**
-	 * ID
-	 */
 	
 	
 	/**
@@ -511,9 +509,6 @@ class Disk extends Resource {
 		return $this->m_name;
 	}
 	
-	/**
-	 * 名前
-	 */
 	
 	
 	/**
@@ -552,9 +547,6 @@ class Disk extends Resource {
 		return $this->m_description;
 	}
 	
-	/**
-	 * 説明
-	 */
 	
 	
 	/**
@@ -594,9 +586,6 @@ class Disk extends Resource {
 		return $this->m_tags;
 	}
 	
-	/**
-	 * タグ
-	 */
 	
 	
 	/**
@@ -635,9 +624,6 @@ class Disk extends Resource {
 		return $this->m_icon;
 	}
 	
-	/**
-	 * アイコン
-	 */
 	
 	
 	/**
@@ -679,9 +665,6 @@ class Disk extends Resource {
 		return $this->m_sizeMib;
 	}
 	
-	/**
-	 * サイズ[MiB]
-	 */
 	
 	
 	/**
@@ -703,9 +686,6 @@ class Disk extends Resource {
 		return $this->m_serviceClass;
 	}
 	
-	/**
-	 * サービスクラス
-	 */
 	
 	
 	/**
@@ -727,9 +707,6 @@ class Disk extends Resource {
 		return $this->m_plan;
 	}
 	
-	/**
-	 * プラン
-	 */
 	
 	
 	/**
@@ -751,9 +728,6 @@ class Disk extends Resource {
 		return $this->m_server;
 	}
 	
-	/**
-	 * 接続先のサーバ
-	 */
 	
 	
 	/**
@@ -775,9 +749,6 @@ class Disk extends Resource {
 		return $this->m_availability;
 	}
 	
-	/**
-	 * 有効状態
-	 */
 	
 	
 	/**

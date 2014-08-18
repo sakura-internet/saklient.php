@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpConflictException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 要求された操作を行えません。リソースが既に存在するか、リソース同士が既に関連付けられています。
- */
+/** 要求された操作を行えません。リソースが既に存在するか、リソース同士が既に関連付けられています。 */
 class DuplicateEntryException extends HttpConflictException {
 	
 	/**

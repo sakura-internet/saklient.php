@@ -6,21 +6,25 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Client.php";
 use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Resource;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EStorageClass.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EStorageClass;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
- * ディスクのプラン情報へのアクセス機能を備えたクラス。
+ * ディスクプラン情報の1レコードに対応するクラス。
  * 
- * @property-read string $id
- * @property-read string $name
- * @property-read string $storageClass
+ * @property-read string $id ID 
+ * @property-read string $name 名前 
+ * @property-read string $storageClass ストレージクラス {@link EStorageClass} 
  */
 class DiskPlan extends Resource {
 	
 	/**
+	 * ID
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -28,6 +32,8 @@ class DiskPlan extends Resource {
 	protected $m_id;
 	
 	/**
+	 * 名前
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -35,6 +41,8 @@ class DiskPlan extends Resource {
 	protected $m_name;
 	
 	/**
+	 * ストレージクラス {@link EStorageClass}
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -75,10 +83,12 @@ class DiskPlan extends Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return "DiskPlan";
 	}
@@ -86,6 +96,7 @@ class DiskPlan extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -94,7 +105,7 @@ class DiskPlan extends Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false

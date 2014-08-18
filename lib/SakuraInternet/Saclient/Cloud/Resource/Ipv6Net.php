@@ -14,16 +14,18 @@ require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.ph
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
- * IPv6ネットワークのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * IPv6ネットワークの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read string $id
- * @property-read string $prefix
- * @property-read int $prefixLen
- * @property-read string $prefixTail
+ * @property-read string $id ID 
+ * @property-read string $prefix ネットワークプレフィックス 
+ * @property-read int $prefixLen ネットワークプレフィックス長 
+ * @property-read string $prefixTail このネットワーク範囲における最後のIPv6アドレス 
  */
 class Ipv6Net extends Resource {
 	
 	/**
+	 * ID
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -31,6 +33,8 @@ class Ipv6Net extends Resource {
 	protected $m_id;
 	
 	/**
+	 * ネットワークプレフィックス
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -38,6 +42,8 @@ class Ipv6Net extends Resource {
 	protected $m_prefix;
 	
 	/**
+	 * ネットワークプレフィックス長
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var int
@@ -45,6 +51,8 @@ class Ipv6Net extends Resource {
 	protected $m_prefixLen;
 	
 	/**
+	 * このネットワーク範囲における最後のIPv6アドレス
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -85,10 +93,12 @@ class Ipv6Net extends Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return "Ipv6Net";
 	}
@@ -96,6 +106,7 @@ class Ipv6Net extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -115,7 +126,7 @@ class Ipv6Net extends Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false

@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpException;
 require_once dirname(__FILE__) . "/../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * HTTPエラー。Not Implemented.
- */
+/** HTTPエラー。Not Implemented. */
 class HttpNotImplementedException extends HttpException {
 	
 	/**

@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpGatewayTimeoutException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * APIプロクシが応答しません。要求は実行された可能性があります。しばらく時間をおいてからご確認ください。
- */
+/** APIプロクシが応答しません。要求は実行された可能性があります。しばらく時間をおいてからご確認ください。 */
 class ApiProxyTimeoutNonGetException extends HttpGatewayTimeoutException {
 	
 	/**

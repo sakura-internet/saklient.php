@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpNotFoundException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 対象が見つかりません。このストレージには指定リソースの複製が存在しません。
- */
+/** 対象が見つかりません。このストレージには指定リソースの複製が存在しません。 */
 class ReplicaNotFoundException extends HttpNotFoundException {
 	
 	/**

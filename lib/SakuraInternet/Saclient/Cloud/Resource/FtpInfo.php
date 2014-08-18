@@ -8,11 +8,11 @@ require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.ph
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
- * FTPサーバのアカウント情報
+ * FTPサーバのアカウント情報。
  * 
- * @property-read string $hostName
- * @property-read string $user
- * @property-read string $password
+ * @property-read string $hostName ホスト名 
+ * @property-read string $user ユーザ名 
+ * @property-read string $password パスワード 
  */
 class FtpInfo {
 	
@@ -26,6 +26,7 @@ class FtpInfo {
 	
 	/**
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function get_hostName()
@@ -33,9 +34,6 @@ class FtpInfo {
 		return $this->_hostName;
 	}
 	
-	/**
-	 * ホスト名
-	 */
 	
 	
 	/**
@@ -48,6 +46,7 @@ class FtpInfo {
 	
 	/**
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function get_user()
@@ -55,9 +54,6 @@ class FtpInfo {
 		return $this->_user;
 	}
 	
-	/**
-	 * ユーザ名
-	 */
 	
 	
 	/**
@@ -70,6 +66,7 @@ class FtpInfo {
 	
 	/**
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function get_password()
@@ -77,13 +74,10 @@ class FtpInfo {
 		return $this->_password;
 	}
 	
-	/**
-	 * パスワード
-	 */
 	
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 */

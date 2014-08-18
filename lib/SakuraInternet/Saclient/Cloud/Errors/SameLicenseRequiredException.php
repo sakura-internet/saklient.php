@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpConflictException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 要求された操作を行えません。再インストール時に指定できるソースは、同一のライセンスを必要とするアーカイブに限られます。
- */
+/** 要求された操作を行えません。再インストール時に指定できるソースは、同一のライセンスを必要とするアーカイブに限られます。 */
 class SameLicenseRequiredException extends HttpConflictException {
 	
 	/**

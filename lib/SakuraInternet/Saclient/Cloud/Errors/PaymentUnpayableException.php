@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpPaymentRequiredException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * お客様のご都合により操作を受け付けることができません。
- */
+/** お客様のご都合により操作を受け付けることができません。 */
 class PaymentUnpayableException extends HttpPaymentRequiredException {
 	
 	/**

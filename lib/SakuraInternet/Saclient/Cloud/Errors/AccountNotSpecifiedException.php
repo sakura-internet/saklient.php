@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpForbiddenException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 要求された操作は許可されていません。このAPIはアカウントを特定できる認証方法でアクセスする必要があります。
- */
+/** 要求された操作は許可されていません。このAPIはアカウントを特定できる認証方法でアクセスする必要があります。 */
 class AccountNotSpecifiedException extends HttpForbiddenException {
 	
 	/**

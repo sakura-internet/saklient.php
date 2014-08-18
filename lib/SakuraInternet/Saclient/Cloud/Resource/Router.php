@@ -20,14 +20,14 @@ require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
 /**
- * ルータのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * ルータの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read string $id
- * @property string $name
- * @property string $description
- * @property int $networkMaskLen
- * @property int $bandWidthMbps
- * @property-read string $swytchId
+ * @property-read string $id ID 
+ * @property string $name 名前 
+ * @property string $description 説明 
+ * @property int $networkMaskLen ネットワークのマスク長 
+ * @property int $bandWidthMbps 帯域幅 
+ * @property-read string $swytchId スイッチ 
  */
 class Router extends Resource {
 	
@@ -119,10 +119,12 @@ class Router extends Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return "Router";
 	}
@@ -130,6 +132,7 @@ class Router extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -138,7 +141,7 @@ class Router extends Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
+	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
 	 * 
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Router this
@@ -160,7 +163,7 @@ class Router extends Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false
@@ -178,6 +181,7 @@ class Router extends Resource {
 	/**
 	 * 作成中のルータが利用可能になるまで待機します。
 	 * 
+	 * @ignore
 	 * @access public
 	 * @param int $timeoutSec
 	 * @param callback $callback
@@ -197,7 +201,7 @@ class Router extends Resource {
 	 * 
 	 * @access public
 	 * @param int $timeoutSec = 120
-	 * @return boolean
+	 * @return boolean 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
 	 */
 	public function sleepWhileCreating($timeoutSec=120)
 	{
@@ -233,7 +237,7 @@ class Router extends Resource {
 	 * このルータ＋スイッチでIPv6アドレスを有効にします。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Ipv6Net
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Ipv6Net 有効化されたIPv6ネットワーク
 	 */
 	public function addIpv6Net()
 	{
@@ -247,7 +251,7 @@ class Router extends Resource {
 	 * 
 	 * @access public
 	 * @param \SakuraInternet\Saclient\Cloud\Resource\Ipv6Net $ipv6Net
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Router
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Router this
 	 */
 	public function removeIpv6Net(\SakuraInternet\Saclient\Cloud\Resource\Ipv6Net $ipv6Net)
 	{
@@ -264,7 +268,7 @@ class Router extends Resource {
 	 * @access public
 	 * @param int $maskLen
 	 * @param string $nextHop
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Ipv4Net
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Ipv4Net 追加されたスタティックルート
 	 */
 	public function addStaticRoute($maskLen, $nextHop)
 	{
@@ -284,7 +288,7 @@ class Router extends Resource {
 	 * 
 	 * @access public
 	 * @param \SakuraInternet\Saclient\Cloud\Resource\Ipv4Net $ipv4Net
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Router
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Router this
 	 */
 	public function removeStaticRoute(\SakuraInternet\Saclient\Cloud\Resource\Ipv4Net $ipv4Net)
 	{
@@ -298,9 +302,11 @@ class Router extends Resource {
 	/**
 	 * このルータ＋スイッチの帯域プランを変更します。
 	 * 
+	 * 成功時はリソースIDが変わることにご注意ください。
+	 * 
 	 * @access public
 	 * @param int $bandWidthMbps
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Router
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Router this
 	 */
 	public function changePlan($bandWidthMbps)
 	{
@@ -333,9 +339,6 @@ class Router extends Resource {
 		return $this->m_id;
 	}
 	
-	/**
-	 * ID
-	 */
 	
 	
 	/**
@@ -374,9 +377,6 @@ class Router extends Resource {
 		return $this->m_name;
 	}
 	
-	/**
-	 * 名前
-	 */
 	
 	
 	/**
@@ -415,9 +415,6 @@ class Router extends Resource {
 		return $this->m_description;
 	}
 	
-	/**
-	 * 説明
-	 */
 	
 	
 	/**
@@ -459,9 +456,6 @@ class Router extends Resource {
 		return $this->m_networkMaskLen;
 	}
 	
-	/**
-	 * ネットワークのマスク長
-	 */
 	
 	
 	/**
@@ -503,9 +497,6 @@ class Router extends Resource {
 		return $this->m_bandWidthMbps;
 	}
 	
-	/**
-	 * 帯域幅
-	 */
 	
 	
 	/**
@@ -527,9 +518,6 @@ class Router extends Resource {
 		return $this->m_swytchId;
 	}
 	
-	/**
-	 * スイッチ
-	 */
 	
 	
 	/**

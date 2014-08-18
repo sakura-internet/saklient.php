@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpConflictException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 要求された操作を行えません。このアーカイブは不完全です。複製処理等の完了後に再度お試しください。
- */
+/** 要求された操作を行えません。このアーカイブは不完全です。複製処理等の完了後に再度お試しください。 */
 class ArchiveIsIncompleteException extends HttpConflictException {
 	
 	/**

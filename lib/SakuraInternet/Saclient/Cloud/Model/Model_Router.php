@@ -11,9 +11,7 @@ use \SakuraInternet\Saclient\Util;
 require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
-/**
- * ルータを検索するための機能を備えたクラス。
- */
+/** ルータを検索するための機能を備えたクラス。 */
 class Model_Router extends Model {
 	
 	/**
@@ -117,10 +115,12 @@ class Model_Router extends Model {
 	}
 	
 	/**
-	 * *
+	 * 新規リソース作成用のオブジェクトを用意します。
+	 * 
+	 * 返り値のオブジェクトにパラメータを設定し、save() を呼ぶことで実際のリソースが作成されます。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Router
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Router リソースオブジェクト
 	 */
 	public function create()
 	{
@@ -153,7 +153,9 @@ class Model_Router extends Model {
 	}
 	
 	/**
-	 * 指定した文字列を名前に含むルータに絞り込みます。
+	 * 指定した文字列を名前に含むリソースに絞り込みます。
+	 * 大文字・小文字は区別されません。
+	 * 半角スペースで区切られた複数の文字列は、それらをすべて含むことが条件とみなされます。
 	 * 
 	 * @access public
 	 * @param string $name
@@ -163,8 +165,20 @@ class Model_Router extends Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($name, "string");
-		$this->_filterBy("Name", $name);
-		return $this;
+		return $this->_withNameLike($name);
+	}
+	
+	/**
+	 * 名前でソートします。
+	 * 
+	 * @access public
+	 * @param boolean $reverse = false
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Router
+	 */
+	public function sortByName($reverse=false)
+	{
+		Util::validateType($reverse, "boolean");
+		return $this->_sortByName($reverse);
 	}
 	
 	/**

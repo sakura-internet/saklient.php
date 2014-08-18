@@ -14,17 +14,19 @@ require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.ph
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
- * IPv4ネットワークのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * IPv4ネットワークの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read string $id
- * @property-read string $address
- * @property-read int $maskLen
- * @property-read string $defaultRoute
- * @property-read string $nextHop
+ * @property-read string $id ID 
+ * @property-read string $address ネットワークアドレス 
+ * @property-read int $maskLen マスク長 
+ * @property-read string $defaultRoute デフォルトルート 
+ * @property-read string $nextHop ネクストホップ 
  */
 class Ipv4Net extends Resource {
 	
 	/**
+	 * ID
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -32,6 +34,8 @@ class Ipv4Net extends Resource {
 	protected $m_id;
 	
 	/**
+	 * ネットワークアドレス
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -39,6 +43,8 @@ class Ipv4Net extends Resource {
 	protected $m_address;
 	
 	/**
+	 * マスク長
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var int
@@ -46,6 +52,8 @@ class Ipv4Net extends Resource {
 	protected $m_maskLen;
 	
 	/**
+	 * デフォルトルート
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -53,6 +61,8 @@ class Ipv4Net extends Resource {
 	protected $m_defaultRoute;
 	
 	/**
+	 * ネクストホップ
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -93,10 +103,12 @@ class Ipv4Net extends Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return "Ipv4Net";
 	}
@@ -104,6 +116,7 @@ class Ipv4Net extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -123,7 +136,7 @@ class Ipv4Net extends Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false

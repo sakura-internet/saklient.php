@@ -24,22 +24,22 @@ require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
 /**
- * アーカイブのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * アーカイブの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read boolean $isAvailable
- * @property int $sizeGib
- * @property \SakuraInternet\Saclient\Cloud\Resource\Resource $source
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\FtpInfo $ftpInfo
- * @property-read string $id
- * @property-read string $scope
- * @property string $name
- * @property string $description
- * @property string[] $tags
- * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon
- * @property int $sizeMib
- * @property-read string $serviceClass
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\DiskPlan $plan
- * @property-read string $availability
+ * @property-read boolean $isAvailable ディスクが利用可能なときtrueを返します。 
+ * @property int $sizeGib サイズ[GiB] 
+ * @property \SakuraInternet\Saclient\Cloud\Resource\Resource $source アーカイブのコピー元 
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\FtpInfo $ftpInfo FTP情報 
+ * @property-read string $id ID 
+ * @property-read string $scope スコープ {@link EScope} 
+ * @property string $name 名前 
+ * @property string $description 説明 
+ * @property \ArrayObject $tags タグ 
+ * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon アイコン 
+ * @property int $sizeMib サイズ[MiB] 
+ * @property-read string $serviceClass サービスクラス 
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\DiskPlan $plan プラン 
+ * @property-read string $availability 有効状態 {@link EAvailability} 
  */
 class Archive extends Resource {
 	
@@ -53,7 +53,7 @@ class Archive extends Resource {
 	protected $m_id;
 	
 	/**
-	 * スコープ
+	 * スコープ {@link EScope}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -125,7 +125,7 @@ class Archive extends Resource {
 	protected $m_plan;
 	
 	/**
-	 * 有効状態
+	 * 有効状態 {@link EAvailability}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -167,10 +167,12 @@ class Archive extends Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return "Archive";
 	}
@@ -178,6 +180,7 @@ class Archive extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -186,7 +189,7 @@ class Archive extends Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
+	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
 	 * 
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Archive this
@@ -208,7 +211,7 @@ class Archive extends Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false
@@ -233,9 +236,6 @@ class Archive extends Resource {
 		return $this->get_availability() == EAvailability::available;
 	}
 	
-	/**
-	 * ディスクが利用可能なときtrueを返します。
-	 */
 	
 	
 	/**
@@ -262,9 +262,6 @@ class Archive extends Resource {
 		return $sizeGib;
 	}
 	
-	/**
-	 * サイズ[GiB]
-	 */
 	
 	
 	/**
@@ -277,6 +274,7 @@ class Archive extends Resource {
 	
 	/**
 	 * @access public
+	 * @ignore
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource
 	 */
 	public function get_source()
@@ -286,6 +284,7 @@ class Archive extends Resource {
 	
 	/**
 	 * @access public
+	 * @ignore
 	 * @param \SakuraInternet\Saclient\Cloud\Resource\Resource|null $source
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource
 	 */
@@ -297,9 +296,6 @@ class Archive extends Resource {
 		return $source;
 	}
 	
-	/**
-	 * アーカイブのコピー元
-	 */
 	
 	
 	/**
@@ -312,6 +308,7 @@ class Archive extends Resource {
 	
 	/**
 	 * @access public
+	 * @ignore
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\FtpInfo
 	 */
 	public function get_ftpInfo()
@@ -319,9 +316,6 @@ class Archive extends Resource {
 		return $this->_ftpInfo;
 	}
 	
-	/**
-	 * FTP情報
-	 */
 	
 	
 	/**
@@ -382,12 +376,12 @@ class Archive extends Resource {
 			return;
 		}
 		if ($this->_source != null) {
-			if ($this->_source->className() == "Archive") {
+			if ($this->_source->_className() == "Archive") {
 				$s = $withClean ? $this->_source->apiSerialize(true) : (object)['ID' => $this->_source->_id()];
 				$r->{"SourceArchive"} = $s;
 			}
 			else {
-				if ($this->_source->className() == "Disk") {
+				if ($this->_source->_className() == "Disk") {
 					$s = $withClean ? $this->_source->apiSerialize(true) : (object)['ID' => $this->_source->_id()];
 					$r->{"SourceDisk"} = $s;
 				}
@@ -400,9 +394,13 @@ class Archive extends Resource {
 	}
 	
 	/**
+	 * FTPSを開始し、イメージファイルをアップロード・ダウンロードできる状態にします。
+	 * 
+	 * アカウント情報は、ftpInfo プロパティから取得することができます。
+	 * 
 	 * @access public
-	 * @param boolean $reset = false
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Archive
+	 * @param boolean $reset 既にFTPSが開始されているとき、trueを指定してこのメソッドを呼ぶことでパスワードを再設定します。 = false
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Archive this
 	 */
 	public function openFtp($reset=false)
 	{
@@ -416,13 +414,13 @@ class Archive extends Resource {
 	}
 	
 	/**
+	 * FTPSを終了し、アーカイブを利用可能な状態にします。
+	 * 
 	 * @access public
-	 * @param boolean $reset = false
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Archive
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Archive this
 	 */
-	public function closeFtp($reset=false)
+	public function closeFtp()
 	{
-		Util::validateType($reset, "boolean");
 		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/ftp";
 		$result = $this->_client->request("DELETE", $path);
 		$this->_ftpInfo = null;
@@ -432,6 +430,7 @@ class Archive extends Resource {
 	/**
 	 * コピー中のアーカイブが利用可能になるまで待機します。
 	 * 
+	 * @ignore
 	 * @access public
 	 * @param int $timeoutSec
 	 * @param callback $callback
@@ -451,7 +450,7 @@ class Archive extends Resource {
 	 * 
 	 * @access public
 	 * @param int $timeoutSec = 3600
-	 * @return boolean
+	 * @return boolean 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
 	 */
 	public function sleepWhileCopying($timeoutSec=3600)
 	{
@@ -493,9 +492,6 @@ class Archive extends Resource {
 		return $this->m_id;
 	}
 	
-	/**
-	 * ID
-	 */
 	
 	
 	/**
@@ -517,9 +513,6 @@ class Archive extends Resource {
 		return $this->m_scope;
 	}
 	
-	/**
-	 * スコープ
-	 */
 	
 	
 	/**
@@ -558,9 +551,6 @@ class Archive extends Resource {
 		return $this->m_name;
 	}
 	
-	/**
-	 * 名前
-	 */
 	
 	
 	/**
@@ -599,9 +589,6 @@ class Archive extends Resource {
 		return $this->m_description;
 	}
 	
-	/**
-	 * 説明
-	 */
 	
 	
 	/**
@@ -641,9 +628,6 @@ class Archive extends Resource {
 		return $this->m_tags;
 	}
 	
-	/**
-	 * タグ
-	 */
 	
 	
 	/**
@@ -682,9 +666,6 @@ class Archive extends Resource {
 		return $this->m_icon;
 	}
 	
-	/**
-	 * アイコン
-	 */
 	
 	
 	/**
@@ -726,9 +707,6 @@ class Archive extends Resource {
 		return $this->m_sizeMib;
 	}
 	
-	/**
-	 * サイズ[MiB]
-	 */
 	
 	
 	/**
@@ -750,9 +728,6 @@ class Archive extends Resource {
 		return $this->m_serviceClass;
 	}
 	
-	/**
-	 * サービスクラス
-	 */
 	
 	
 	/**
@@ -774,9 +749,6 @@ class Archive extends Resource {
 		return $this->m_plan;
 	}
 	
-	/**
-	 * プラン
-	 */
 	
 	
 	/**
@@ -798,9 +770,6 @@ class Archive extends Resource {
 		return $this->m_availability;
 	}
 	
-	/**
-	 * 有効状態
-	 */
 	
 	
 	/**

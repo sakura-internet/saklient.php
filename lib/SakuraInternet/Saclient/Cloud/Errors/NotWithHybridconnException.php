@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpConflictException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 要求された操作を行えません。ハイブリッド接続と併用する場合はお問い合わせください。
- */
+/** 要求された操作を行えません。ハイブリッド接続と併用する場合はお問い合わせください。 */
 class NotWithHybridconnException extends HttpConflictException {
 	
 	/**

@@ -9,21 +9,18 @@ use \SakuraInternet\Saclient\Util;
 require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
+/** ディスクの接続方式を表す列挙子。 */
 class EDiskConnection extends EnumBase {
 	
-	/**
-	 * @access public
-	 */
+	/** @access public */
 	const ide = "ide";
 	
-	/**
-	 * @access public
-	 */
+	/** @access public */
 	const virtio = "virtio";
 	
 	
 	
-	
+	/** @ignore */
 	static function _map() {
 		return [
 			"ide" => 100,

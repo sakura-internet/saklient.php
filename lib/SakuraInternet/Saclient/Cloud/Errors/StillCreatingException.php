@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpConflictException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 要求された操作を行えません。リソースの作成処理が進行中です。完了後に再度お試しください。
- */
+/** 要求された操作を行えません。リソースの作成処理が進行中です。完了後に再度お試しください。 */
 class StillCreatingException extends HttpConflictException {
 	
 	/**

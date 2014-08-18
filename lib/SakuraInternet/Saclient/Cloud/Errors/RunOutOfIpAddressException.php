@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpConflictException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 要求された操作を行えません。指定されたネットワークに属するIPアドレスはすべて使用中です。
- */
+/** 要求された操作を行えません。指定されたネットワークに属するIPアドレスはすべて使用中です。 */
 class RunOutOfIpAddressException extends HttpConflictException {
 	
 	/**

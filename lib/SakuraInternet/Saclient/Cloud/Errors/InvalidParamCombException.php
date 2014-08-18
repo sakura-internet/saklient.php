@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpBadRequestException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 不適切な要求です。同時に指定できないパラメータが含まれています。
- */
+/** 不適切な要求です。同時に指定できないパラメータが含まれています。 */
 class InvalidParamCombException extends HttpBadRequestException {
 	
 	/**

@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpBadRequestException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 不適切な要求です。リクエストパラメータに指定されたゾーンをパスに含むURLへアクセスしてください。
- */
+/** 不適切な要求です。リクエストパラメータに指定されたゾーンをパスに含むURLへアクセスしてください。 */
 class AmbiguousZoneException extends HttpBadRequestException {
 	
 	/**

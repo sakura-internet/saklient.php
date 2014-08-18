@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpServiceUnavailableException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 要求を受け付けできません。リクエストの密度が高すぎます。
- */
+/** 要求を受け付けできません。リクエストの密度が高すぎます。 */
 class TooManyRequestException extends HttpServiceUnavailableException {
 	
 	/**

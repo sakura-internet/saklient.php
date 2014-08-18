@@ -18,16 +18,16 @@ require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
 /**
- * アプライアンスのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * アプライアンスの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read string $id
- * @property string $clazz
- * @property string $name
- * @property string $description
- * @property string[] $tags
- * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\Iface[] $ifaces
- * @property-read string $serviceClass
+ * @property-read string $id ID 
+ * @property string $clazz クラス {@link EApplianceClass} 
+ * @property string $name 名前 
+ * @property string $description 説明 
+ * @property \ArrayObject $tags タグ 
+ * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon アイコン 
+ * @property-read \ArrayObject $ifaces プラン 
+ * @property-read string $serviceClass サービスクラス 
  */
 class Appliance extends Resource {
 	
@@ -41,7 +41,7 @@ class Appliance extends Resource {
 	protected $m_id;
 	
 	/**
-	 * クラス
+	 * クラス {@link EApplianceClass}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -137,10 +137,12 @@ class Appliance extends Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return "Appliance";
 	}
@@ -148,6 +150,7 @@ class Appliance extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -156,7 +159,7 @@ class Appliance extends Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
+	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
 	 * 
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance this
@@ -178,7 +181,7 @@ class Appliance extends Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false
@@ -197,7 +200,7 @@ class Appliance extends Resource {
 	 * アプライアンスを起動します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance this
 	 */
 	public function boot()
 	{
@@ -209,7 +212,7 @@ class Appliance extends Resource {
 	 * アプライアンスをシャットダウンします。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance this
 	 */
 	public function shutdown()
 	{
@@ -221,7 +224,7 @@ class Appliance extends Resource {
 	 * アプライアンスを強制停止します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance this
 	 */
 	public function stop()
 	{
@@ -233,7 +236,7 @@ class Appliance extends Resource {
 	 * アプライアンスを強制再起動します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Appliance this
 	 */
 	public function reboot()
 	{
@@ -260,9 +263,6 @@ class Appliance extends Resource {
 		return $this->m_id;
 	}
 	
-	/**
-	 * ID
-	 */
 	
 	
 	/**
@@ -304,9 +304,6 @@ class Appliance extends Resource {
 		return $this->m_clazz;
 	}
 	
-	/**
-	 * クラス
-	 */
 	
 	
 	/**
@@ -345,9 +342,6 @@ class Appliance extends Resource {
 		return $this->m_name;
 	}
 	
-	/**
-	 * 名前
-	 */
 	
 	
 	/**
@@ -386,9 +380,6 @@ class Appliance extends Resource {
 		return $this->m_description;
 	}
 	
-	/**
-	 * 説明
-	 */
 	
 	
 	/**
@@ -428,9 +419,6 @@ class Appliance extends Resource {
 		return $this->m_tags;
 	}
 	
-	/**
-	 * タグ
-	 */
 	
 	
 	/**
@@ -469,9 +457,6 @@ class Appliance extends Resource {
 		return $this->m_icon;
 	}
 	
-	/**
-	 * アイコン
-	 */
 	
 	
 	/**
@@ -493,9 +478,6 @@ class Appliance extends Resource {
 		return $this->m_ifaces;
 	}
 	
-	/**
-	 * プラン
-	 */
 	
 	
 	/**
@@ -517,9 +499,6 @@ class Appliance extends Resource {
 		return $this->m_serviceClass;
 	}
 	
-	/**
-	 * サービスクラス
-	 */
 	
 	
 	/**

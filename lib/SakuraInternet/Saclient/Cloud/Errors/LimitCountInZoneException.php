@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpConflictException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 要求を受け付けできません。ゾーン内リソース数上限により、リソースの割り当てに失敗しました。
- */
+/** 要求を受け付けできません。ゾーン内リソース数上限により、リソースの割り当てに失敗しました。 */
 class LimitCountInZoneException extends HttpConflictException {
 	
 	/**

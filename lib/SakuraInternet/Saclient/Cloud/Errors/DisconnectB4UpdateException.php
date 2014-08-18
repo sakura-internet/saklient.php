@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpConflictException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 要求された操作を行えません。サーバと接続された状態では変更できない値が含まれています。
- */
+/** 要求された操作を行えません。サーバと接続された状態では変更できない値が含まれています。 */
 class DisconnectB4UpdateException extends HttpConflictException {
 	
 	/**

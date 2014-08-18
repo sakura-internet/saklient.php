@@ -12,18 +12,20 @@ require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.ph
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
- * サーバのプラン情報へのアクセス機能を備えたクラス。
+ * サーバプラン情報の1レコードに対応するクラス。
  * 
  * @property-read int $memoryGib
- * @property-read string $id
- * @property-read string $name
- * @property-read int $cpu
- * @property-read int $memoryMib
- * @property-read string $serviceClass
+ * @property-read string $id ID 
+ * @property-read string $name 名前 
+ * @property-read int $cpu 仮想コア数 
+ * @property-read int $memoryMib メモリ容量[MiB] 
+ * @property-read string $serviceClass サービスクラス 
  */
 class ServerPlan extends Resource {
 	
 	/**
+	 * ID
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -31,6 +33,8 @@ class ServerPlan extends Resource {
 	protected $m_id;
 	
 	/**
+	 * 名前
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -38,6 +42,8 @@ class ServerPlan extends Resource {
 	protected $m_name;
 	
 	/**
+	 * 仮想コア数
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var int
@@ -45,6 +51,8 @@ class ServerPlan extends Resource {
 	protected $m_cpu;
 	
 	/**
+	 * メモリ容量[MiB]
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var int
@@ -52,6 +60,8 @@ class ServerPlan extends Resource {
 	protected $m_memoryMib;
 	
 	/**
+	 * サービスクラス
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -92,10 +102,12 @@ class ServerPlan extends Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return "ServerPlan";
 	}
@@ -103,6 +115,7 @@ class ServerPlan extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -111,7 +124,7 @@ class ServerPlan extends Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false

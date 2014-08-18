@@ -9,21 +9,18 @@ use \SakuraInternet\Saclient\Util;
 require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
+/** リソースの公開範囲を表す列挙子。 */
 class EScope extends EnumBase {
 	
-	/**
-	 * @access public
-	 */
+	/** @access public */
 	const user = "user";
 	
-	/**
-	 * @access public
-	 */
+	/** @access public */
 	const shared = "shared";
 	
 	
 	
-	
+	/** @ignore */
 	static function _map() {
 		return [
 			"user" => 100,

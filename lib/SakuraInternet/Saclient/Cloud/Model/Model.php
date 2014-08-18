@@ -266,12 +266,14 @@ class Model {
 	}
 	
 	/**
-	 *  *
+	 * 新規リソース作成用のオブジェクトを用意します。
+	 * 
+	 * 返り値のオブジェクトにパラメータを設定し、save() を呼ぶことで実際のリソースが作成されます。
 	 * 
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Resource リソースオブジェクト
 	 */
 	protected function _create()
 	{
@@ -347,6 +349,72 @@ class Model {
 		}
 		$records = $result->{$this->_rootKeyM()};
 		return Util::createClassInstance("saclient.cloud.resource." . $this->_className(), new \ArrayObject([$this->_client, $records[0]]));
+	}
+	
+	/**
+	 * 指定した文字列を名前に含むリソースに絞り込みます。
+	 * 大文字・小文字は区別されません。
+	 * 半角スペースで区切られた複数の文字列は、それらをすべて含むことが条件とみなされます。
+	 * 
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param string $name
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model
+	 */
+	protected function _withNameLike($name)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($name, "string");
+		return $this->_filterBy("Name", $name);
+	}
+	
+	/**
+	 * 指定したタグを持つリソースに絞り込みます。
+	 * 複数のタグを指定する場合は withTags() を利用してください。
+	 * 
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param string $tag
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model
+	 */
+	protected function _withTag($tag)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($tag, "string");
+		return $this->_filterBy("Tags.Name", $tag, true);
+	}
+	
+	/**
+	 * 指定したすべてのタグを持つリソースに絞り込みます。
+	 * 
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param string[] $tags
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model
+	 */
+	protected function _withTags($tags)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($tags, "\\ArrayObject");
+		return $this->_filterBy("Tags.Name", $tags, true);
+	}
+	
+	/**
+	 * 名前でソートします。
+	 * 
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param boolean $reverse = false
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model
+	 */
+	protected function _sortByName($reverse=false)
+	{
+		Util::validateType($reverse, "boolean");
+		return $this->_sort("Name", $reverse);
 	}
 	
 	/**

@@ -22,21 +22,23 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/IsoImage.php
 use \SakuraInternet\Saclient\Cloud\Resource\IsoImage;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EServerInstanceStatus.php";
 use \SakuraInternet\Saclient\Cloud\Enums\EServerInstanceStatus;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EAvailability.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EAvailability;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
 /**
- * サーバのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * サーバの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read string $id
- * @property string $name
- * @property string $description
- * @property string[] $tags
- * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon
- * @property \SakuraInternet\Saclient\Cloud\Resource\ServerPlan $plan
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\Iface[] $ifaces
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\ServerInstance $instance
- * @property-read string $availability
+ * @property-read string $id ID 
+ * @property string $name 名前 
+ * @property string $description 説明 
+ * @property \ArrayObject $tags タグ 
+ * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon アイコン 
+ * @property \SakuraInternet\Saclient\Cloud\Resource\ServerPlan $plan プラン 
+ * @property-read \ArrayObject $ifaces インタフェース 
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\ServerInstance $instance インスタンス情報 
+ * @property-read string $availability 有効状態 {@link EAvailability} 
  */
 class Server extends Resource {
 	
@@ -113,7 +115,7 @@ class Server extends Resource {
 	protected $m_instance;
 	
 	/**
-	 * 有効状態
+	 * 有効状態 {@link EAvailability}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -155,10 +157,12 @@ class Server extends Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return "Server";
 	}
@@ -166,6 +170,7 @@ class Server extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -174,7 +179,7 @@ class Server extends Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
+	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
 	 * 
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server this
@@ -196,7 +201,7 @@ class Server extends Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false
@@ -237,7 +242,7 @@ class Server extends Resource {
 	 * サーバを起動します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server this
 	 */
 	public function boot()
 	{
@@ -249,7 +254,7 @@ class Server extends Resource {
 	 * サーバをシャットダウンします。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server this
 	 */
 	public function shutdown()
 	{
@@ -261,7 +266,7 @@ class Server extends Resource {
 	 * サーバを強制停止します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server this
 	 */
 	public function stop()
 	{
@@ -273,7 +278,7 @@ class Server extends Resource {
 	 * サーバを強制再起動します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server this
 	 */
 	public function reboot()
 	{
@@ -287,7 +292,7 @@ class Server extends Resource {
 	 * @access public
 	 * @param int $timeoutSec
 	 * @param callback $callback
-	 * @return void
+	 * @return void 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
 	 */
 	public function afterDown($timeoutSec, $callback)
 	{
@@ -322,7 +327,7 @@ class Server extends Resource {
 	 * 
 	 * @access public
 	 * @param int $timeoutSec = 180
-	 * @return boolean
+	 * @return boolean 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
 	 */
 	public function sleepUntilDown($timeoutSec=180)
 	{
@@ -363,11 +368,13 @@ class Server extends Resource {
 	}
 	
 	/**
-	 * サーバのプランを変更します。
+	 * サーバプランを変更します。
+	 * 
+	 * 成功時はリソースIDが変わることにご注意ください。
 	 * 
 	 * @access public
 	 * @param \SakuraInternet\Saclient\Cloud\Resource\ServerPlan $planTo
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server this
 	 */
 	public function changePlan(\SakuraInternet\Saclient\Cloud\Resource\ServerPlan $planTo)
 	{
@@ -395,7 +402,7 @@ class Server extends Resource {
 	 * サーバにインタフェースを1つ増設し、それを取得します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface 増設されたインタフェース
 	 */
 	public function addIface()
 	{
@@ -410,7 +417,7 @@ class Server extends Resource {
 	 * 
 	 * @access public
 	 * @param \SakuraInternet\Saclient\Cloud\Resource\IsoImage $iso
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server this
 	 */
 	public function insertIsoImage(\SakuraInternet\Saclient\Cloud\Resource\IsoImage $iso)
 	{
@@ -427,7 +434,7 @@ class Server extends Resource {
 	 * サーバに挿入されているISOイメージを排出します。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Server this
 	 */
 	public function ejectIsoImage()
 	{
@@ -456,9 +463,6 @@ class Server extends Resource {
 		return $this->m_id;
 	}
 	
-	/**
-	 * ID
-	 */
 	
 	
 	/**
@@ -497,9 +501,6 @@ class Server extends Resource {
 		return $this->m_name;
 	}
 	
-	/**
-	 * 名前
-	 */
 	
 	
 	/**
@@ -538,9 +539,6 @@ class Server extends Resource {
 		return $this->m_description;
 	}
 	
-	/**
-	 * 説明
-	 */
 	
 	
 	/**
@@ -580,9 +578,6 @@ class Server extends Resource {
 		return $this->m_tags;
 	}
 	
-	/**
-	 * タグ
-	 */
 	
 	
 	/**
@@ -621,9 +616,6 @@ class Server extends Resource {
 		return $this->m_icon;
 	}
 	
-	/**
-	 * アイコン
-	 */
 	
 	
 	/**
@@ -665,9 +657,6 @@ class Server extends Resource {
 		return $this->m_plan;
 	}
 	
-	/**
-	 * プラン
-	 */
 	
 	
 	/**
@@ -689,9 +678,6 @@ class Server extends Resource {
 		return $this->m_ifaces;
 	}
 	
-	/**
-	 * インタフェース
-	 */
 	
 	
 	/**
@@ -713,9 +699,6 @@ class Server extends Resource {
 		return $this->m_instance;
 	}
 	
-	/**
-	 * インスタンス情報
-	 */
 	
 	
 	/**
@@ -737,9 +720,6 @@ class Server extends Resource {
 		return $this->m_availability;
 	}
 	
-	/**
-	 * 有効状態
-	 */
 	
 	
 	/**

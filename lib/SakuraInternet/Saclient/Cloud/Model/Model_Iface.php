@@ -11,9 +11,7 @@ use \SakuraInternet\Saclient\Util;
 require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
-/**
- * インタフェースを検索するための機能を備えたクラス。
- */
+/** インタフェースを検索・作成するための機能を備えたクラス。 */
 class Model_Iface extends Model {
 	
 	/**
@@ -117,10 +115,12 @@ class Model_Iface extends Model {
 	}
 	
 	/**
-	 * *
+	 * 新規リソース作成用のオブジェクトを用意します。
+	 * 
+	 * 返り値のオブジェクトにパラメータを設定し、save() を呼ぶことで実際のリソースが作成されます。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\Iface リソースオブジェクト
 	 */
 	public function create()
 	{

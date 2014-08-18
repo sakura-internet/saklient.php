@@ -12,17 +12,15 @@ require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.ph
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
- * ディスク修正のパラメータ
+ * ディスク修正のパラメータ。
  * 
- * @property-read \SakuraInternet\Saclient\Cloud\Client $client
- * @property-read string $diskId
- * @property string $hostName
- * @property string $password
- * @property string $sshKey
- * @property string $ipAddress
- * @property string $defaultRoute
- * @property int $networkMaskLen
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\Script[] $scripts
+ * @property string $hostName ホスト名 
+ * @property string $password ログインパスワード 
+ * @property string $sshKey SSHキー 
+ * @property string $ipAddress IPアドレス 
+ * @property string $defaultRoute デフォルトルート 
+ * @property int $networkMaskLen ネットワークマスク長 
+ * @property-read \ArrayObject $scripts スタートアップスクリプト（pushによりスクリプトを追加できます） 
  */
 class DiskConfig {
 	
@@ -64,9 +62,6 @@ class DiskConfig {
 		return $this->_diskId;
 	}
 	
-	/**
-	 * 修正対象のディスクID
-	 */
 	
 	
 	/**
@@ -101,9 +96,6 @@ class DiskConfig {
 		return $v;
 	}
 	
-	/**
-	 * ホスト名
-	 */
 	
 	
 	/**
@@ -138,9 +130,6 @@ class DiskConfig {
 		return $v;
 	}
 	
-	/**
-	 * ログインパスワード
-	 */
 	
 	
 	/**
@@ -175,9 +164,6 @@ class DiskConfig {
 		return $v;
 	}
 	
-	/**
-	 * SSHキー
-	 */
 	
 	
 	/**
@@ -212,9 +198,6 @@ class DiskConfig {
 		return $v;
 	}
 	
-	/**
-	 * IPアドレス
-	 */
 	
 	
 	/**
@@ -249,9 +232,6 @@ class DiskConfig {
 		return $v;
 	}
 	
-	/**
-	 * デフォルトルート
-	 */
 	
 	
 	/**
@@ -286,9 +266,6 @@ class DiskConfig {
 		return $v;
 	}
 	
-	/**
-	 * ネットワークマスク長
-	 */
 	
 	
 	/**
@@ -309,13 +286,10 @@ class DiskConfig {
 		return $this->_scripts;
 	}
 	
-	/**
-	 * スタートアップスクリプト
-	 */
 	
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param string $diskId
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
@@ -339,9 +313,11 @@ class DiskConfig {
 	/**
 	 * スタートアップスクリプトを追加します。
 	 * 
+	 * diskConfig.addScript(script) と diskConfig.scripts.push(script) の効果は同等です。
+	 * 
 	 * @access public
 	 * @param \SakuraInternet\Saclient\Cloud\Resource\Script $script
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\DiskConfig
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\DiskConfig this
 	 */
 	public function addScript(\SakuraInternet\Saclient\Cloud\Resource\Script $script)
 	{
@@ -355,7 +331,7 @@ class DiskConfig {
 	 * 修正内容を実際のディスクに書き込みます。
 	 * 
 	 * @access public
-	 * @return \SakuraInternet\Saclient\Cloud\Resource\DiskConfig
+	 * @return \SakuraInternet\Saclient\Cloud\Resource\DiskConfig this
 	 */
 	public function write()
 	{

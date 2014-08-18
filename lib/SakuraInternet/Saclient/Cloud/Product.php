@@ -16,9 +16,11 @@ require_once dirname(__FILE__) . "/../../Saclient/Errors/SaclientException.php";
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_ServerPlan $server
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_DiskPlan $disk
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_RouterPlan $router
+ * 商品情報にアクセスするためのモデルを集めたクラス。
+ * 
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_ServerPlan $server サーバプラン情報。 
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_DiskPlan $disk ディスクプラン情報。 
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_RouterPlan $router ルータ帯域プラン情報。 
  */
 class Product {
 	
@@ -83,6 +85,7 @@ class Product {
 	
 	
 	/**
+	 * @ignore
 	 * @access public
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
 	 */

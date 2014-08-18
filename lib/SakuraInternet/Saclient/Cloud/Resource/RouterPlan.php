@@ -12,16 +12,18 @@ require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.ph
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
- * ルータのプラン情報へのアクセス機能を備えたクラス。
+ * ルータ帯域プラン情報の1レコードに対応するクラス。
  * 
- * @property-read string $id
- * @property-read string $name
- * @property-read int $bandWidthMbps
- * @property-read string $serviceClass
+ * @property-read string $id ID 
+ * @property-read string $name 名前 
+ * @property-read int $bandWidthMbps 帯域幅 
+ * @property-read string $serviceClass サービスクラス 
  */
 class RouterPlan extends Resource {
 	
 	/**
+	 * ID
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -29,6 +31,8 @@ class RouterPlan extends Resource {
 	protected $m_id;
 	
 	/**
+	 * 名前
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -36,6 +40,8 @@ class RouterPlan extends Resource {
 	protected $m_name;
 	
 	/**
+	 * 帯域幅
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var int
@@ -43,6 +49,8 @@ class RouterPlan extends Resource {
 	protected $m_bandWidthMbps;
 	
 	/**
+	 * サービスクラス
+	 * 
 	 * @access protected
 	 * @ignore
 	 * @var string
@@ -83,10 +91,12 @@ class RouterPlan extends Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return "RouterPlan";
 	}
@@ -94,6 +104,7 @@ class RouterPlan extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -102,7 +113,7 @@ class RouterPlan extends Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false

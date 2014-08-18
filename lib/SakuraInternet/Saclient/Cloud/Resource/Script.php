@@ -10,21 +10,25 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php
 use \SakuraInternet\Saclient\Cloud\Resource\Resource;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Icon.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Icon;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EScope.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EScope;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EScriptClass.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EScriptClass;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
 /**
- * スクリプトのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * スクリプトの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read string $id
- * @property-read string $scope
- * @property string $clazz
- * @property-read string $name
- * @property string $description
- * @property string[] $tags
- * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon
- * @property string $content
- * @property mixed $annotation
+ * @property-read string $id ID 
+ * @property-read string $scope スコープ {@link EScope} 
+ * @property string $clazz クラス {@link EScriptClass} 
+ * @property-read string $name 名前 
+ * @property string $description 説明 
+ * @property \ArrayObject $tags タグ 
+ * @property \SakuraInternet\Saclient\Cloud\Resource\Icon $icon アイコン 
+ * @property string $content 内容 
+ * @property mixed $annotation 注釈 
  */
 class Script extends Resource {
 	
@@ -38,7 +42,7 @@ class Script extends Resource {
 	protected $m_id;
 	
 	/**
-	 * スコープ
+	 * スコープ {@link EScope}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -47,7 +51,7 @@ class Script extends Resource {
 	protected $m_scope;
 	
 	/**
-	 * クラス
+	 * クラス {@link EScriptClass}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -143,10 +147,12 @@ class Script extends Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return "Script";
 	}
@@ -154,6 +160,7 @@ class Script extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -162,7 +169,7 @@ class Script extends Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
+	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
 	 * 
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Script this
@@ -184,7 +191,7 @@ class Script extends Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false
@@ -218,9 +225,6 @@ class Script extends Resource {
 		return $this->m_id;
 	}
 	
-	/**
-	 * ID
-	 */
 	
 	
 	/**
@@ -242,9 +246,6 @@ class Script extends Resource {
 		return $this->m_scope;
 	}
 	
-	/**
-	 * スコープ
-	 */
 	
 	
 	/**
@@ -283,9 +284,6 @@ class Script extends Resource {
 		return $this->m_clazz;
 	}
 	
-	/**
-	 * クラス
-	 */
 	
 	
 	/**
@@ -307,9 +305,6 @@ class Script extends Resource {
 		return $this->m_name;
 	}
 	
-	/**
-	 * 名前
-	 */
 	
 	
 	/**
@@ -348,9 +343,6 @@ class Script extends Resource {
 		return $this->m_description;
 	}
 	
-	/**
-	 * 説明
-	 */
 	
 	
 	/**
@@ -390,9 +382,6 @@ class Script extends Resource {
 		return $this->m_tags;
 	}
 	
-	/**
-	 * タグ
-	 */
 	
 	
 	/**
@@ -431,9 +420,6 @@ class Script extends Resource {
 		return $this->m_icon;
 	}
 	
-	/**
-	 * アイコン
-	 */
 	
 	
 	/**
@@ -472,9 +458,6 @@ class Script extends Resource {
 		return $this->m_content;
 	}
 	
-	/**
-	 * 内容
-	 */
 	
 	
 	/**
@@ -512,9 +495,6 @@ class Script extends Resource {
 		return $this->m_annotation;
 	}
 	
-	/**
-	 * 注釈
-	 */
 	
 	
 	/**

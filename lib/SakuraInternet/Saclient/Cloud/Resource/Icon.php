@@ -8,16 +8,18 @@ require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Client.php";
 use \SakuraInternet\Saclient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Resource/Resource.php";
 use \SakuraInternet\Saclient\Cloud\Resource\Resource;
+require_once dirname(__FILE__) . "/../../../Saclient/Cloud/Enums/EScope.php";
+use \SakuraInternet\Saclient\Cloud\Enums\EScope;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
 /**
- * アイコンのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * アイコンの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read string $id
- * @property-read string $scope
- * @property string $name
- * @property-read string $url
+ * @property-read string $id ID 
+ * @property-read string $scope スコープ {@link EScope} 
+ * @property string $name 名前 
+ * @property-read string $url URL 
  */
 class Icon extends Resource {
 	
@@ -31,7 +33,7 @@ class Icon extends Resource {
 	protected $m_id;
 	
 	/**
-	 * スコープ
+	 * スコープ {@link EScope}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -91,10 +93,12 @@ class Icon extends Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return "Icon";
 	}
@@ -102,6 +106,7 @@ class Icon extends Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -110,7 +115,7 @@ class Icon extends Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
+	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
 	 * 
 	 * @access public
 	 * @return \SakuraInternet\Saclient\Cloud\Resource\Icon this
@@ -132,7 +137,7 @@ class Icon extends Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false
@@ -166,9 +171,6 @@ class Icon extends Resource {
 		return $this->m_id;
 	}
 	
-	/**
-	 * ID
-	 */
 	
 	
 	/**
@@ -190,9 +192,6 @@ class Icon extends Resource {
 		return $this->m_scope;
 	}
 	
-	/**
-	 * スコープ
-	 */
 	
 	
 	/**
@@ -231,9 +230,6 @@ class Icon extends Resource {
 		return $this->m_name;
 	}
 	
-	/**
-	 * 名前
-	 */
 	
 	
 	/**
@@ -255,9 +251,6 @@ class Icon extends Resource {
 		return $this->m_url;
 	}
 	
-	/**
-	 * URL
-	 */
 	
 	
 	/**

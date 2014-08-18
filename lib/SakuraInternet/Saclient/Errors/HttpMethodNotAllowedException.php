@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpException;
 require_once dirname(__FILE__) . "/../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 要求されたHTTPメソッドは対応していません。
- */
+/** 要求されたHTTPメソッドは対応していません。 */
 class HttpMethodNotAllowedException extends HttpException {
 	
 	/**

@@ -37,19 +37,18 @@ use \SakuraInternet\Saclient\Errors\SaclientException;
  * さくらのクラウドAPIクライアントを利用する際、最初にアクセスすべきルートとなるクラス。
  * 
  * @see API.authorize
- * @property-read \SakuraInternet\Saclient\Cloud\Client $client
- * @property-read \SakuraInternet\Saclient\Cloud\Product $product
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Icon $icon
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Server $server
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Disk $disk
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Appliance $appliance
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Archive $archive
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_IsoImage $isoImage
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Iface $iface
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Swytch $swytch
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Router $router
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Ipv6Net $ipv6Net
- * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Script $script
+ * @property-read \SakuraInternet\Saclient\Cloud\Product $product 商品情報にアクセスするためのモデルを集めたオブジェクト。 
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Icon $icon アイコンにアクセスするためのモデル。 
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Server $server サーバにアクセスするためのモデル。 
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Disk $disk ディスクにアクセスするためのモデル。 
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Appliance $appliance アプライアンスにアクセスするためのモデル。 
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Archive $archive アーカイブにアクセスするためのモデル。 
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_IsoImage $isoImage ISOイメージにアクセスするためのモデル。 
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Iface $iface インタフェースにアクセスするためのモデル。 
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Swytch $swytch スイッチにアクセスするためのモデル。 
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Router $router ルータにアクセスするためのモデル。 
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Ipv6Net $ipv6Net IPv6ネットワークにアクセスするためのモデル。 
+ * @property-read \SakuraInternet\Saclient\Cloud\Model\Model_Script $script スクリプトにアクセスするためのモデル。 
  */
 class API {
 	
@@ -314,8 +313,8 @@ class API {
 	
 	
 	/**
-	 * @access protected
 	 * @ignore
+	 * @access protected
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
 	 */
 	protected function __construct(\SakuraInternet\Saclient\Cloud\Client $client)
@@ -339,6 +338,7 @@ class API {
 	
 	/**
 	 * 指定した認証情報を用いてアクセスを行うAPIクライアントを作成します。
+	 * 
 	 * 必要な認証情報は、コントロールパネル右上にあるアカウントのプルダウンから
 	 * 「設定」を選択し、「APIキー」のページにて作成できます。
 	 * 
@@ -370,18 +370,6 @@ class API {
 		$ret = new API($this->_client->cloneInstance());
 		$ret->_client->setApiRootSuffix("zone/" . $name);
 		return $ret;
-	}
-	
-	/**
-	 * @access public
-	 * @param int $sec
-	 * @return void
-	 */
-	public function sleep($sec)
-	{
-		Util::validateArgCount(func_num_args(), 1);
-		Util::validateType($sec, "int");
-		Util::sleep($sec);
 	}
 	
 	/**

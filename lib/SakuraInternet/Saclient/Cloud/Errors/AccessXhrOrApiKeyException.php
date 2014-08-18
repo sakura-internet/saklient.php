@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpForbiddenException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 要求された操作は許可されていません。XHRまたはAPIキーによるアクセスのみ許可されています。
- */
+/** 要求された操作は許可されていません。XHRまたはAPIキーによるアクセスのみ許可されています。 */
 class AccessXhrOrApiKeyException extends HttpForbiddenException {
 	
 	/**

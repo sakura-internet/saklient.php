@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpServiceUnavailableException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * サービスが利用できません。サーバの画面が応答していません。
- */
+/** サービスが利用できません。サーバの画面が応答していません。 */
 class NoDisplayResponseException extends HttpServiceUnavailableException {
 	
 	/**

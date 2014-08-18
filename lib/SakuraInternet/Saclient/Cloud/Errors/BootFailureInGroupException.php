@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpServiceUnavailableException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * サービスが利用できません。サーバ起動グループ指定に問題がある可能性があります。
- */
+/** サービスが利用できません。サーバ起動グループ指定に問題がある可能性があります。 */
 class BootFailureInGroupException extends HttpServiceUnavailableException {
 	
 	/**

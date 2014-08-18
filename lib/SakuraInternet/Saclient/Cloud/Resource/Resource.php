@@ -90,10 +90,12 @@ class Resource {
 	}
 	
 	/**
+	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
-	public function className()
+	public function _className()
 	{
 		return null;
 	}
@@ -101,6 +103,7 @@ class Resource {
 	/**
 	 * @private
 	 * @access public
+	 * @ignore
 	 * @return string
 	 */
 	public function _id()
@@ -109,7 +112,7 @@ class Resource {
 	}
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param \SakuraInternet\Saclient\Cloud\Client $client
 	 */
@@ -284,7 +287,7 @@ class Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、上書き保存します。
+	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
 	 * 
 	 * @private
 	 * @access protected
@@ -315,7 +318,7 @@ class Resource {
 	}
 	
 	/**
-	 * このローカルオブジェクトのIDと対応するリソースの削除リクエストをAPIに送信します。
+	 * このローカルオブジェクトのIDと一致するリソースの削除リクエストをAPIに送信します。
 	 * 
 	 * @access public
 	 * @return void

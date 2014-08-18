@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpException;
 require_once dirname(__FILE__) . "/../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * HTTPエラー。Http Version Not Supported.
- */
+/** HTTPエラー。Http Version Not Supported. */
 class HttpHttpVersionNotSupportedException extends HttpException {
 	
 	/**

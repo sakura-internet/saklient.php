@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpNotFoundException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * 対象が見つかりません。パスに誤りがあります。
- */
+/** 対象が見つかりません。パスに誤りがあります。 */
 class ResourcePathNotFoundException extends HttpNotFoundException {
 	
 	/**

@@ -11,9 +11,7 @@ use \SakuraInternet\Saclient\Util;
 require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.php";
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
-/**
- * サーバのプランを検索するための機能を備えたクラス。
- */
+/** サーバプランを検索するための機能を備えたクラス。 */
 class Model_ServerPlan extends Model {
 	
 	/**

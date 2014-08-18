@@ -16,17 +16,17 @@ require_once dirname(__FILE__) . "/../../../Saclient/Errors/SaclientException.ph
 use \SakuraInternet\Saclient\Errors\SaclientException;
 
 /**
- * サーバインスタンスのリソース情報へのアクセス機能や操作機能を備えたクラス。
+ * サーバインスタンスの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read string $status
- * @property-read string $beforeStatus
- * @property-read NativeDate $statusChangedAt
- * @property-read \SakuraInternet\Saclient\Cloud\Resource\IsoImage $isoImage
+ * @property-read string $status 起動状態 {@link EServerInstanceStatus} 
+ * @property-read string $beforeStatus 前回の起動状態 {@link EServerInstanceStatus} 
+ * @property-read NativeDate $statusChangedAt 現在の起動状態に変化した日時 
+ * @property-read \SakuraInternet\Saclient\Cloud\Resource\IsoImage $isoImage 挿入されているISOイメージ 
  */
 class ServerInstance extends Resource {
 	
 	/**
-	 * 起動状態
+	 * 起動状態 {@link EServerInstanceStatus}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -35,7 +35,7 @@ class ServerInstance extends Resource {
 	protected $m_status;
 	
 	/**
-	 * 前回の起動状態
+	 * 前回の起動状態 {@link EServerInstanceStatus}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -62,7 +62,7 @@ class ServerInstance extends Resource {
 	protected $m_isoImage;
 	
 	/**
-	 * @private
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @param boolean $wrapped = false
@@ -118,9 +118,6 @@ class ServerInstance extends Resource {
 		return $this->m_status;
 	}
 	
-	/**
-	 * 起動状態
-	 */
 	
 	
 	/**
@@ -142,9 +139,6 @@ class ServerInstance extends Resource {
 		return $this->m_beforeStatus;
 	}
 	
-	/**
-	 * 前回の起動状態
-	 */
 	
 	
 	/**
@@ -166,9 +160,6 @@ class ServerInstance extends Resource {
 		return $this->m_statusChangedAt;
 	}
 	
-	/**
-	 * 現在の起動状態に変化した日時
-	 */
 	
 	
 	/**
@@ -190,9 +181,6 @@ class ServerInstance extends Resource {
 		return $this->m_isoImage;
 	}
 	
-	/**
-	 * 挿入されているISOイメージ
-	 */
 	
 	
 	/**

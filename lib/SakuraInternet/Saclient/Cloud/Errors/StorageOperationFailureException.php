@@ -7,9 +7,7 @@ use \SakuraInternet\Saclient\Errors\HttpServiceUnavailableException;
 require_once dirname(__FILE__) . "/../../../Saclient/Util.php";
 use \SakuraInternet\Saclient\Util;
 
-/**
- * サービスが利用できません。ストレージの操作に失敗しました。サーバが混雑している可能性があります。
- */
+/** サービスが利用できません。ストレージの操作に失敗しました。サーバが混雑している可能性があります。 */
 class StorageOperationFailureException extends HttpServiceUnavailableException {
 	
 	/**
