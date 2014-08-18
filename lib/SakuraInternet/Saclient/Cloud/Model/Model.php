@@ -193,6 +193,30 @@ class Model {
 	}
 	
 	/**
+	 * 次に取得するリストのソートカラムを指定します。
+	 * 
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param boolean $reverse = false
+	 * @param string $column カラム名
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model this
+	 */
+	protected function _sort($column, $reverse=false)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($column, "string");
+		Util::validateType($reverse, "boolean");
+		if (!array_key_exists("Sort", $this->_params)) {
+			$this->_params->{"Sort"} = new \ArrayObject([]);
+		}
+		$sort = $this->_params->{"Sort"};
+		$op = $reverse ? "-" : "";
+		$sort->append($op . $column);
+		return $this;
+	}
+	
+	/**
 	 * APIのフィルタリング設定を直接指定します。
 	 * 
 	 * @private

@@ -270,6 +270,62 @@ class Model_Server extends Model {
 		return $this;
 	}
 	
+	/**
+	 * 名前でソートします。
+	 * 
+	 * @access public
+	 * @param boolean $reverse = false
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
+	 */
+	public function sortByName($reverse=false)
+	{
+		Util::validateType($reverse, "boolean");
+		$this->_sort("Name", $reverse);
+		return $this;
+	}
+	
+	/**
+	 * プランでソートします。
+	 * 
+	 * @access public
+	 * @param boolean $reverse = false
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
+	 */
+	public function sortByPlan($reverse=false)
+	{
+		Util::validateType($reverse, "boolean");
+		$this->_sort("ServerPlan.ID", $reverse);
+		return $this;
+	}
+	
+	/**
+	 * 仮想コア数でソートします。
+	 * 
+	 * @access public
+	 * @param boolean $reverse = false
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
+	 */
+	public function sortByCpu($reverse=false)
+	{
+		Util::validateType($reverse, "boolean");
+		$this->_sort("ServerPlan.CPU", $reverse);
+		return $this;
+	}
+	
+	/**
+	 * メモリ容量でソートします。
+	 * 
+	 * @access public
+	 * @param boolean $reverse = false
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Server
+	 */
+	public function sortByMemory($reverse=false)
+	{
+		Util::validateType($reverse, "boolean");
+		$this->_sort("ServerPlan.MemoryMB", $reverse);
+		return $this;
+	}
+	
 	
 
 }

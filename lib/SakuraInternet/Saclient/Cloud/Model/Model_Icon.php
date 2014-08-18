@@ -212,6 +212,20 @@ class Model_Icon extends Model {
 		return $this;
 	}
 	
+	/**
+	 * 名前でソートします。
+	 * 
+	 * @access public
+	 * @param boolean $reverse = false
+	 * @return \SakuraInternet\Saclient\Cloud\Model\Model_Icon
+	 */
+	public function sortByName($reverse=false)
+	{
+		Util::validateType($reverse, "boolean");
+		$this->_sort("Name", $reverse);
+		return $this;
+	}
+	
 	
 
 }

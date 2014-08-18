@@ -28,9 +28,10 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testFind(API $api)
 	{
-		$servers = $api->server->find();
+		$servers = $api->server->sortByMemory()->find();
 		$this->assertInstanceOf("ArrayObject", $servers);
 		$this->assertCountAtLeast(1, $servers, "server");
+		$mem = 0;
 		foreach ($servers as $server) {
 			$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\Resource\\Server", $server);
 			$this->assertInstanceOf("SakuraInternet\\Saclient\\Cloud\\Resource\\ServerPlan", $server->plan);
@@ -42,6 +43,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 			foreach ($server->tags as $tag) {
 				$this->assertTrue(is_string($tag));
 			}
+			$this->assertGreaterThanOrEqual($mem, $server->plan->memoryGib);
+			$mem = $server->plan->memoryGib;
 		}
 		
 		$servers = $api->server->limit(1)->find();
