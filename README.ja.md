@@ -29,8 +29,8 @@ curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 
 # このリポジトリをクローン
-git clone git@github.com:sakura-internet/saclient.php.git
-cd saclient.php
+git clone git@github.com:sakura-internet/saklient.php.git
+cd saklient.php
 
 # Composerのautoloaderをインストール
 composer install
@@ -60,11 +60,11 @@ cat > composer.json << EOT
     "repositories": [
         {
             "type": "git",
-            "url": "git@github.com:sakura-internet/saclient.php.git"
+            "url": "git@github.com:sakura-internet/saklient.php.git"
         }
     ],
     "require": {
-        "sakura-internet/saclient": "dev-master"
+        "sakura-internet/saklient": "dev-master"
     }
 }
 EOT
@@ -80,7 +80,7 @@ vi YOUR-CODE.php
 <?php
 
 require_once 'vendor/autoload.php';
-$api = \SakuraInternet\Saclient\Cloud\API::authorize(YOUR_API_TOKEN, YOUR_API_SECRET);
+$api = \SakuraInternet\Saklient\Cloud\API::authorize(YOUR_API_TOKEN, YOUR_API_SECRET);
 
 // 指定したゾーンのAPIにアクセスするには
 $api_is1b = $api->inZone("is1b");

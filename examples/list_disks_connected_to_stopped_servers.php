@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-$api = \SakuraInternet\Saclient\Cloud\API::authorize($argv[1], $argv[2]);
+$api = \SakuraInternet\Saklient\Cloud\API::authorize($argv[1], $argv[2]);
 
 $servers = $api->server->withStatus("down")->find();
 foreach ($servers as $server) {

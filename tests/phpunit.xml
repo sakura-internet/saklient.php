@@ -16,7 +16,7 @@
         </whitelist>
     </filter>
     <testsuites>
-        <testsuite name="SakuraInternet\Saclient Tests">
+        <testsuite name="SakuraInternet\Saklient Tests">
             <directory>.</directory>
         </testsuite>
     </testsuites>
