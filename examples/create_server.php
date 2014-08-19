@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-$api = \SakuraInternet\Saklient\Cloud\API::authorize($argv[1], $argv[2]);
+$api = \Saklient\Cloud\API::authorize($argv[1], $argv[2]);
 
 $server = $api->server->create();
 $server->name = "!saklient.php-" . date("Ymd_His") . "-" . uniqid();

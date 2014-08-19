@@ -80,7 +80,7 @@ vi YOUR-CODE.php
 <?php
 
 require_once 'vendor/autoload.php';
-$api = \SakuraInternet\Saklient\Cloud\API::authorize(YOUR_API_TOKEN, YOUR_API_SECRET);
+$api = \Saklient\Cloud\API::authorize(YOUR_API_TOKEN, YOUR_API_SECRET);
 
 // 指定したゾーンのAPIにアクセスするには
 $api_is1b = $api->inZone("is1b");
