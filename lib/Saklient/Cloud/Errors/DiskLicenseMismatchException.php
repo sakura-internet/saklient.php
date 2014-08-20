@@ -2,9 +2,9 @@
 
 namespace Saklient\Cloud\Errors;
 
-require_once dirname(__FILE__) . "/../../../Saklient/Errors/HttpConflictException.php";
+require_once __DIR__ . "/../../../Saklient/Errors/HttpConflictException.php";
 use \Saklient\Errors\HttpConflictException;
-require_once dirname(__FILE__) . "/../../../Saklient/Util.php";
+require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 
 /** 要求された操作を行えません。ライセンスの問題により、組み合わせて使用できないディスクが接続されています。 */

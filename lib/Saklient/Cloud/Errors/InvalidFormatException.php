@@ -2,9 +2,9 @@
 
 namespace Saklient\Cloud\Errors;
 
-require_once dirname(__FILE__) . "/../../../Saklient/Errors/HttpBadRequestException.php";
+require_once __DIR__ . "/../../../Saklient/Errors/HttpBadRequestException.php";
 use \Saklient\Errors\HttpBadRequestException;
-require_once dirname(__FILE__) . "/../../../Saklient/Util.php";
+require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 
 /** 不適切な要求です。パラメータに含まれている値のフォーマットが一部不正です。 */

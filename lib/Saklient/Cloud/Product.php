@@ -2,17 +2,17 @@
 
 namespace Saklient\Cloud;
 
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Model/Model_ServerPlan.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_ServerPlan.php";
 use \Saklient\Cloud\Model\Model_ServerPlan;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Model/Model_DiskPlan.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_DiskPlan.php";
 use \Saklient\Cloud\Model\Model_DiskPlan;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Model/Model_RouterPlan.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_RouterPlan.php";
 use \Saklient\Cloud\Model\Model_RouterPlan;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Client.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
-require_once dirname(__FILE__) . "/../../Saklient/Util.php";
+require_once __DIR__ . "/../../Saklient/Util.php";
 use \Saklient\Util;
-require_once dirname(__FILE__) . "/../../Saklient/Errors/SaklientException.php";
+require_once __DIR__ . "/../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 
 /**

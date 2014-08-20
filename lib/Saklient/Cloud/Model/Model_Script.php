@@ -2,15 +2,15 @@
 
 namespace Saklient\Cloud\Model;
 
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Model/Model.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Model/Model.php";
 use \Saklient\Cloud\Model\Model;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Resource/Script.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Resource/Script.php";
 use \Saklient\Cloud\Resource\Script;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Enums/EScope.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EScope.php";
 use \Saklient\Cloud\Enums\EScope;
-require_once dirname(__FILE__) . "/../../../Saklient/Util.php";
+require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
-require_once dirname(__FILE__) . "/../../../Saklient/Errors/SaklientException.php";
+require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 
 /** スクリプトを検索・作成するための機能を備えたクラス。 */

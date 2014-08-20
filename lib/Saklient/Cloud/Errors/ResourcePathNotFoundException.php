@@ -2,9 +2,9 @@
 
 namespace Saklient\Cloud\Errors;
 
-require_once dirname(__FILE__) . "/../../../Saklient/Errors/HttpNotFoundException.php";
+require_once __DIR__ . "/../../../Saklient/Errors/HttpNotFoundException.php";
 use \Saklient\Errors\HttpNotFoundException;
-require_once dirname(__FILE__) . "/../../../Saklient/Util.php";
+require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 
 /** 対象が見つかりません。パスに誤りがあります。 */

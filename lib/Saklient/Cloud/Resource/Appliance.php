@@ -2,19 +2,19 @@
 
 namespace Saklient\Cloud\Resource;
 
-require_once dirname(__FILE__) . "/../../../Saklient/Errors/SaklientException.php";
+require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Client.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Resource/Resource.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Resource/Resource.php";
 use \Saklient\Cloud\Resource\Resource;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Resource/Icon.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Resource/Icon.php";
 use \Saklient\Cloud\Resource\Icon;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Resource/Iface.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Resource/Iface.php";
 use \Saklient\Cloud\Resource\Iface;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Enums/EApplianceClass.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EApplianceClass.php";
 use \Saklient\Cloud\Enums\EApplianceClass;
-require_once dirname(__FILE__) . "/../../../Saklient/Util.php";
+require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 
 /**

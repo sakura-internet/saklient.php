@@ -2,19 +2,19 @@
 
 namespace Saklient\Cloud\Model;
 
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Model/Model.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Model/Model.php";
 use \Saklient\Cloud\Model\Model;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Resource/Server.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Resource/Server.php";
 use \Saklient\Cloud\Resource\Server;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Resource/ServerPlan.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Resource/ServerPlan.php";
 use \Saklient\Cloud\Resource\ServerPlan;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Resource/IsoImage.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Resource/IsoImage.php";
 use \Saklient\Cloud\Resource\IsoImage;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Enums/EServerInstanceStatus.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EServerInstanceStatus.php";
 use \Saklient\Cloud\Enums\EServerInstanceStatus;
-require_once dirname(__FILE__) . "/../../../Saklient/Util.php";
+require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
-require_once dirname(__FILE__) . "/../../../Saklient/Errors/SaklientException.php";
+require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 
 /** サーバを検索・作成するための機能を備えたクラス。 */

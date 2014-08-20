@@ -2,13 +2,13 @@
 
 namespace Saklient\Cloud\Model;
 
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Model/Model.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Model/Model.php";
 use \Saklient\Cloud\Model\Model;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Resource/Router.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Resource/Router.php";
 use \Saklient\Cloud\Resource\Router;
-require_once dirname(__FILE__) . "/../../../Saklient/Util.php";
+require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
-require_once dirname(__FILE__) . "/../../../Saklient/Errors/SaklientException.php";
+require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 
 /** ルータを検索するための機能を備えたクラス。 */

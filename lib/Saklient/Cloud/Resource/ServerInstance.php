@@ -2,17 +2,17 @@
 
 namespace Saklient\Cloud\Resource;
 
-require_once dirname(__FILE__) . "/../../../Saklient/Util.php";
+require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Client.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Resource/Resource.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Resource/Resource.php";
 use \Saklient\Cloud\Resource\Resource;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Resource/IsoImage.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Resource/IsoImage.php";
 use \Saklient\Cloud\Resource\IsoImage;
-require_once dirname(__FILE__) . "/../../../Saklient/Cloud/Enums/EServerInstanceStatus.php";
+require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EServerInstanceStatus.php";
 use \Saklient\Cloud\Enums\EServerInstanceStatus;
-require_once dirname(__FILE__) . "/../../../Saklient/Errors/SaklientException.php";
+require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 
 /**

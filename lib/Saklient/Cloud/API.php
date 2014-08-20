@@ -2,35 +2,35 @@
 
 namespace Saklient\Cloud;
 
-require_once dirname(__FILE__) . "/../../Saklient/Util.php";
+require_once __DIR__ . "/../../Saklient/Util.php";
 use \Saklient\Util;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Client.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Product.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Product.php";
 use \Saklient\Cloud\Product;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Model/Model_Icon.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Icon.php";
 use \Saklient\Cloud\Model\Model_Icon;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Model/Model_Server.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Server.php";
 use \Saklient\Cloud\Model\Model_Server;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Model/Model_Disk.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Disk.php";
 use \Saklient\Cloud\Model\Model_Disk;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Model/Model_Appliance.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Appliance.php";
 use \Saklient\Cloud\Model\Model_Appliance;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Model/Model_Archive.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Archive.php";
 use \Saklient\Cloud\Model\Model_Archive;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Model/Model_IsoImage.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_IsoImage.php";
 use \Saklient\Cloud\Model\Model_IsoImage;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Model/Model_Iface.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Iface.php";
 use \Saklient\Cloud\Model\Model_Iface;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Model/Model_Swytch.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Swytch.php";
 use \Saklient\Cloud\Model\Model_Swytch;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Model/Model_Router.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Router.php";
 use \Saklient\Cloud\Model\Model_Router;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Model/Model_Ipv6Net.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Ipv6Net.php";
 use \Saklient\Cloud\Model\Model_Ipv6Net;
-require_once dirname(__FILE__) . "/../../Saklient/Cloud/Model/Model_Script.php";
+require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Script.php";
 use \Saklient\Cloud\Model\Model_Script;
-require_once dirname(__FILE__) . "/../../Saklient/Errors/SaklientException.php";
+require_once __DIR__ . "/../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 
 /**
