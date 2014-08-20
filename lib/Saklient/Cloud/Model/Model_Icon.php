@@ -89,12 +89,12 @@ class Model_Icon extends Model {
 	}
 	
 	/**
-	 * APIのフィルタリング設定を直接指定します。
+	 * Web APIのフィルタリング設定を直接指定します。
 	 * 
 	 * @access public
-	 * @param mixed $value
-	 * @param boolean $multiple = false
-	 * @param string $key
+	 * @param string $key キー
+	 * @param mixed $value 値
+	 * @param boolean $multiple=false valueに配列を与え、OR条件で完全一致検索する場合にtrueを指定します。通常、valueはスカラ値であいまい検索されます。
 	 * @return \Saklient\Cloud\Model\Model_Icon
 	 */
 	public function filterBy($key, $value, $multiple=false)
@@ -143,6 +143,7 @@ class Model_Icon extends Model {
 	
 	/**
 	 * 指定した文字列を名前に含むリソースに絞り込みます。
+	 * 
 	 * 大文字・小文字は区別されません。
 	 * 半角スペースで区切られた複数の文字列は、それらをすべて含むことが条件とみなされます。
 	 * 
@@ -159,6 +160,7 @@ class Model_Icon extends Model {
 	
 	/**
 	 * 指定したタグを持つリソースに絞り込みます。
+	 * 
 	 * 複数のタグを指定する場合は withTags() を利用してください。
 	 * 
 	 * @access public
@@ -190,7 +192,7 @@ class Model_Icon extends Model {
 	 * 名前でソートします。
 	 * 
 	 * @access public
-	 * @param boolean $reverse = false
+	 * @param boolean $reverse=false
 	 * @return \Saklient\Cloud\Model\Model_Icon
 	 */
 	public function sortByName($reverse=false)

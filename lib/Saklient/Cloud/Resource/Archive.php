@@ -31,7 +31,7 @@ use \Saklient\Util;
  * @property \Saklient\Cloud\Resource\Resource $source アーカイブのコピー元 
  * @property-read \Saklient\Cloud\Resource\FtpInfo $ftpInfo FTP情報 
  * @property-read string $id ID 
- * @property-read string $scope スコープ {@link EScope} 
+ * @property-read string $scope スコープ {@link \Saklient\Cloud\Enums\EScope} 
  * @property string $name 名前 
  * @property string $description 説明 
  * @property \ArrayObject $tags タグ 
@@ -39,7 +39,7 @@ use \Saklient\Util;
  * @property int $sizeMib サイズ[MiB] 
  * @property-read string $serviceClass サービスクラス 
  * @property-read \Saklient\Cloud\Resource\DiskPlan $plan プラン 
- * @property-read string $availability 有効状態 {@link EAvailability} 
+ * @property-read string $availability 有効状態 {@link \Saklient\Cloud\Enums\EAvailability} 
  */
 class Archive extends Resource {
 	
@@ -53,7 +53,7 @@ class Archive extends Resource {
 	protected $m_id;
 	
 	/**
-	 * スコープ {@link EScope}
+	 * スコープ {@link \Saklient\Cloud\Enums\EScope}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -125,7 +125,7 @@ class Archive extends Resource {
 	protected $m_plan;
 	
 	/**
-	 * 有効状態 {@link EAvailability}
+	 * 有効状態 {@link \Saklient\Cloud\Enums\EAvailability}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -213,9 +213,9 @@ class Archive extends Resource {
 	/**
 	 * @ignore
 	 * @access public
-	 * @param mixed $obj
-	 * @param boolean $wrapped = false
 	 * @param \Saklient\Cloud\Client $client
+	 * @param mixed $obj
+	 * @param boolean $wrapped=false
 	 */
 	public function __construct(\Saklient\Cloud\Client $client, $obj, $wrapped=false)
 	{
@@ -322,8 +322,8 @@ class Archive extends Resource {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @param mixed $root
 	 * @param mixed $r
+	 * @param mixed $root
 	 * @return void
 	 */
 	protected function _onAfterApiDeserialize($r, $root)
@@ -364,8 +364,8 @@ class Archive extends Resource {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @param boolean $withClean
 	 * @param mixed $r
+	 * @param boolean $withClean
 	 * @return void
 	 */
 	protected function _onAfterApiSerialize($r, $withClean)
@@ -399,7 +399,7 @@ class Archive extends Resource {
 	 * アカウント情報は、ftpInfo プロパティから取得することができます。
 	 * 
 	 * @access public
-	 * @param boolean $reset 既にFTPSが開始されているとき、trueを指定してこのメソッドを呼ぶことでパスワードを再設定します。 = false
+	 * @param boolean $reset=false 既にFTPSが開始されているとき、trueを指定してこのメソッドを呼ぶことでパスワードを再設定します。
 	 * @return \Saklient\Cloud\Resource\Archive this
 	 */
 	public function openFtp($reset=false)
@@ -449,7 +449,7 @@ class Archive extends Resource {
 	 * コピー中のアーカイブが利用可能になるまで待機します。
 	 * 
 	 * @access public
-	 * @param int $timeoutSec = 3600
+	 * @param int $timeoutSec=3600
 	 * @return boolean 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
 	 */
 	public function sleepWhileCopying($timeoutSec=3600)
@@ -880,11 +880,9 @@ class Archive extends Resource {
 	}
 	
 	/**
-	 * (This method is generated in Translator_default#buildImpl)
-	 * 
-	 * @access protected
 	 * @ignore
-	 * @param boolean $withClean = false
+	 * @access protected
+	 * @param boolean $withClean=false
 	 * @return mixed
 	 */
 	protected function apiSerializeImpl($withClean=false)

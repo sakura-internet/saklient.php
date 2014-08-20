@@ -138,9 +138,9 @@ class Ipv4Net extends Resource {
 	/**
 	 * @ignore
 	 * @access public
-	 * @param mixed $obj
-	 * @param boolean $wrapped = false
 	 * @param \Saklient\Cloud\Client $client
+	 * @param mixed $obj
+	 * @param boolean $wrapped=false
 	 */
 	public function __construct(\Saklient\Cloud\Client $client, $obj, $wrapped=false)
 	{
@@ -314,11 +314,9 @@ class Ipv4Net extends Resource {
 	}
 	
 	/**
-	 * (This method is generated in Translator_default#buildImpl)
-	 * 
-	 * @access protected
 	 * @ignore
-	 * @param boolean $withClean = false
+	 * @access protected
+	 * @param boolean $withClean=false
 	 * @return mixed
 	 */
 	protected function apiSerializeImpl($withClean=false)

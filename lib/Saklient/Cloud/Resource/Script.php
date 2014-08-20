@@ -21,8 +21,8 @@ use \Saklient\Util;
  * スクリプトの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
  * @property-read string $id ID 
- * @property-read string $scope スコープ {@link EScope} 
- * @property string $clazz クラス {@link EScriptClass} 
+ * @property-read string $scope スコープ {@link \Saklient\Cloud\Enums\EScope} 
+ * @property string $clazz クラス {@link \Saklient\Cloud\Enums\EScriptClass} 
  * @property-read string $name 名前 
  * @property string $description 説明 
  * @property \ArrayObject $tags タグ 
@@ -42,7 +42,7 @@ class Script extends Resource {
 	protected $m_id;
 	
 	/**
-	 * スコープ {@link EScope}
+	 * スコープ {@link \Saklient\Cloud\Enums\EScope}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -51,7 +51,7 @@ class Script extends Resource {
 	protected $m_scope;
 	
 	/**
-	 * クラス {@link EScriptClass}
+	 * クラス {@link \Saklient\Cloud\Enums\EScriptClass}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -193,9 +193,9 @@ class Script extends Resource {
 	/**
 	 * @ignore
 	 * @access public
-	 * @param mixed $obj
-	 * @param boolean $wrapped = false
 	 * @param \Saklient\Cloud\Client $client
+	 * @param mixed $obj
+	 * @param boolean $wrapped=false
 	 */
 	public function __construct(\Saklient\Cloud\Client $client, $obj, $wrapped=false)
 	{
@@ -597,11 +597,9 @@ class Script extends Resource {
 	}
 	
 	/**
-	 * (This method is generated in Translator_default#buildImpl)
-	 * 
-	 * @access protected
 	 * @ignore
-	 * @param boolean $withClean = false
+	 * @access protected
+	 * @param boolean $withClean=false
 	 * @return mixed
 	 */
 	protected function apiSerializeImpl($withClean=false)

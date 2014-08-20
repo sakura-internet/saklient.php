@@ -307,9 +307,9 @@ class ExceptionFactory {
 	
 	/**
 	 * @access public
-	 * @param string $message = ""
 	 * @param int $status
-	 * @param string $code = null
+	 * @param string $code=null
+	 * @param string $message=""
 	 * @return \Saklient\Errors\HttpException
 	 */
 	static public function create($status, $code=null, $message="")

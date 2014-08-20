@@ -291,8 +291,8 @@ class DiskConfig {
 	/**
 	 * @ignore
 	 * @access public
-	 * @param string $diskId
 	 * @param \Saklient\Cloud\Client $client
+	 * @param string $diskId
 	 */
 	public function __construct(\Saklient\Cloud\Client $client, $diskId)
 	{

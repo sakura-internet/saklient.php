@@ -38,7 +38,7 @@ use \Saklient\Util;
  * @property \Saklient\Cloud\Resource\ServerPlan $plan プラン 
  * @property-read \ArrayObject $ifaces インタフェース 
  * @property-read \Saklient\Cloud\Resource\ServerInstance $instance インスタンス情報 
- * @property-read string $availability 有効状態 {@link EAvailability} 
+ * @property-read string $availability 有効状態 {@link \Saklient\Cloud\Enums\EAvailability} 
  */
 class Server extends Resource {
 	
@@ -115,7 +115,7 @@ class Server extends Resource {
 	protected $m_instance;
 	
 	/**
-	 * 有効状態 {@link EAvailability}
+	 * 有効状態 {@link \Saklient\Cloud\Enums\EAvailability}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -203,9 +203,9 @@ class Server extends Resource {
 	/**
 	 * @ignore
 	 * @access public
-	 * @param mixed $obj
-	 * @param boolean $wrapped = false
 	 * @param \Saklient\Cloud\Client $client
+	 * @param mixed $obj
+	 * @param boolean $wrapped=false
 	 */
 	public function __construct(\Saklient\Cloud\Client $client, $obj, $wrapped=false)
 	{
@@ -307,8 +307,8 @@ class Server extends Resource {
 	 * 
 	 * @ignore
 	 * @access private
-	 * @param int $timeoutSec
 	 * @param string $status
+	 * @param int $timeoutSec
 	 * @param callback $callback
 	 * @return void
 	 */
@@ -326,7 +326,7 @@ class Server extends Resource {
 	 * サーバが停止するまで待機します。
 	 * 
 	 * @access public
-	 * @param int $timeoutSec = 180
+	 * @param int $timeoutSec=180
 	 * @return boolean 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
 	 */
 	public function sleepUntilDown($timeoutSec=180)
@@ -340,8 +340,8 @@ class Server extends Resource {
 	 * 
 	 * @ignore
 	 * @access private
-	 * @param int $timeoutSec = 180
 	 * @param string $status
+	 * @param int $timeoutSec=180
 	 * @return boolean
 	 */
 	private function sleepUntil($status, $timeoutSec=180)
@@ -832,11 +832,9 @@ class Server extends Resource {
 	}
 	
 	/**
-	 * (This method is generated in Translator_default#buildImpl)
-	 * 
-	 * @access protected
 	 * @ignore
-	 * @param boolean $withClean = false
+	 * @access protected
+	 * @param boolean $withClean=false
 	 * @return mixed
 	 */
 	protected function apiSerializeImpl($withClean=false)

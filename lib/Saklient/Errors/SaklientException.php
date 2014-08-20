@@ -21,8 +21,8 @@ class SaklientException extends \Exception {
 	
 	/**
 	 * @access public
-	 * @param string $message = ""
-	 * @param string $code = null
+	 * @param string $code=null
+	 * @param string $message=""
 	 */
 	public function __construct($code=null, $message="")
 	{

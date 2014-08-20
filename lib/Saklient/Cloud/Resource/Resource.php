@@ -9,10 +9,7 @@ use \Saklient\Cloud\Client;
 require_once dirname(__FILE__) . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 
-/**
- * @ignore
- * @property-read \Saklient\Cloud\Client $client
- */
+/** @ignore */
 class Resource {
 	
 	/**
@@ -44,9 +41,10 @@ class Resource {
 	protected $_params;
 	
 	/**
+	 * @ignore
 	 * @access public
-	 * @param mixed $value
 	 * @param string $key
+	 * @param mixed $value
 	 * @return void
 	 */
 	public function setParam($key, $value)
@@ -125,15 +123,15 @@ class Resource {
 	}
 	
 	/**
-	 * @access protected
 	 * @ignore
+	 * @access protected
 	 * @var boolean
 	 */
 	protected $isNew;
 	
 	/**
-	 * @access protected
 	 * @ignore
+	 * @access protected
 	 * @var boolean
 	 */
 	protected $isIncomplete;
@@ -154,8 +152,8 @@ class Resource {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @param mixed $root
 	 * @param mixed $r
+	 * @param mixed $root
 	 * @return void
 	 */
 	protected function _onAfterApiDeserialize($r, $root)
@@ -167,8 +165,8 @@ class Resource {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @param boolean $withClean
 	 * @param mixed $r
+	 * @param boolean $withClean
 	 * @return void
 	 */
 	protected function _onAfterApiSerialize($r, $withClean)
@@ -178,8 +176,8 @@ class Resource {
 	}
 	
 	/**
-	 * @access protected
 	 * @ignore
+	 * @access protected
 	 * @param mixed $r
 	 * @return void
 	 */
@@ -189,9 +187,10 @@ class Resource {
 	}
 	
 	/**
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
-	 * @param boolean $wrapped = false
+	 * @param boolean $wrapped=false
 	 * @return void
 	 */
 	public function apiDeserialize($obj, $wrapped=false)
@@ -219,9 +218,9 @@ class Resource {
 	}
 	
 	/**
-	 * @access protected
 	 * @ignore
-	 * @param boolean $withClean = false
+	 * @access protected
+	 * @param boolean $withClean=false
 	 * @return mixed
 	 */
 	protected function apiSerializeImpl($withClean=false)
@@ -231,8 +230,9 @@ class Resource {
 	}
 	
 	/**
+	 * @ignore
 	 * @access public
-	 * @param boolean $withClean = false
+	 * @param boolean $withClean=false
 	 * @return mixed
 	 */
 	public function apiSerialize($withClean=false)
@@ -244,8 +244,8 @@ class Resource {
 	}
 	
 	/**
-	 * @access protected
 	 * @ignore
+	 * @access protected
 	 * @return mixed
 	 */
 	protected function apiSerializeID()
@@ -260,8 +260,8 @@ class Resource {
 	}
 	
 	/**
-	 * @access protected
 	 * @ignore
+	 * @access protected
 	 * @param string $name
 	 * @return string
 	 */
@@ -273,6 +273,7 @@ class Resource {
 	}
 	
 	/**
+	 * @ignore
 	 * @access public
 	 * @param string $name
 	 * @param mixed $value
@@ -363,6 +364,7 @@ class Resource {
 	}
 	
 	/**
+	 * @ignore
 	 * @access public
 	 * @return mixed
 	 */

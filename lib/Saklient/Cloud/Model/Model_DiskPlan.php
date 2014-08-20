@@ -87,12 +87,12 @@ class Model_DiskPlan extends Model {
 	}
 	
 	/**
-	 * APIのフィルタリング設定を直接指定します。
+	 * Web APIのフィルタリング設定を直接指定します。
 	 * 
 	 * @access public
-	 * @param mixed $value
-	 * @param boolean $multiple = false
-	 * @param string $key
+	 * @param string $key キー
+	 * @param mixed $value 値
+	 * @param boolean $multiple=false valueに配列を与え、OR条件で完全一致検索する場合にtrueを指定します。通常、valueはスカラ値であいまい検索されます。
 	 * @return \Saklient\Cloud\Model\Model_DiskPlan
 	 */
 	public function filterBy($key, $value, $multiple=false)

@@ -40,7 +40,7 @@ use \Saklient\Util;
  * @property-read string $serviceClass サービスクラス 
  * @property-read \Saklient\Cloud\Resource\DiskPlan $plan プラン 
  * @property-read \Saklient\Cloud\Resource\Server $server 接続先のサーバ 
- * @property-read string $availability 有効状態 {@link EAvailability} 
+ * @property-read string $availability 有効状態 {@link \Saklient\Cloud\Enums\EAvailability} 
  */
 class Disk extends Resource {
 	
@@ -126,7 +126,7 @@ class Disk extends Resource {
 	protected $m_server;
 	
 	/**
-	 * 有効状態 {@link EAvailability}
+	 * 有効状態 {@link \Saklient\Cloud\Enums\EAvailability}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -214,9 +214,9 @@ class Disk extends Resource {
 	/**
 	 * @ignore
 	 * @access public
-	 * @param mixed $obj
-	 * @param boolean $wrapped = false
 	 * @param \Saklient\Cloud\Client $client
+	 * @param mixed $obj
+	 * @param boolean $wrapped=false
 	 */
 	public function __construct(\Saklient\Cloud\Client $client, $obj, $wrapped=false)
 	{
@@ -303,8 +303,8 @@ class Disk extends Resource {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @param mixed $root
 	 * @param mixed $r
+	 * @param mixed $root
 	 * @return void
 	 */
 	protected function _onAfterApiDeserialize($r, $root)
@@ -337,8 +337,8 @@ class Disk extends Resource {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @param boolean $withClean
 	 * @param mixed $r
+	 * @param boolean $withClean
 	 * @return void
 	 */
 	protected function _onAfterApiSerialize($r, $withClean)
@@ -428,7 +428,7 @@ class Disk extends Resource {
 	 * コピー中のディスクが利用可能になるまで待機します。
 	 * 
 	 * @access public
-	 * @param int $timeoutSec = 3600
+	 * @param int $timeoutSec=3600
 	 * @return boolean 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
 	 */
 	public function sleepWhileCopying($timeoutSec=3600)
@@ -859,11 +859,9 @@ class Disk extends Resource {
 	}
 	
 	/**
-	 * (This method is generated in Translator_default#buildImpl)
-	 * 
-	 * @access protected
 	 * @ignore
-	 * @param boolean $withClean = false
+	 * @access protected
+	 * @param boolean $withClean=false
 	 * @return mixed
 	 */
 	protected function apiSerializeImpl($withClean=false)

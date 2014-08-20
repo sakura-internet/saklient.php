@@ -27,9 +27,9 @@ class HttpException extends \Exception {
 	
 	/**
 	 * @access public
-	 * @param string $message = ""
 	 * @param int $status
-	 * @param string $code = null
+	 * @param string $code=null
+	 * @param string $message=""
 	 */
 	public function __construct($status, $code=null, $message="")
 	{

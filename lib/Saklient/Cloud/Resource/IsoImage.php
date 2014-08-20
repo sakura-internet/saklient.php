@@ -23,7 +23,7 @@ use \Saklient\Util;
  * @property-read int $sizeGib サイズ[GiB] 
  * @property-read \Saklient\Cloud\Resource\FtpInfo $ftpInfo FTP情報 
  * @property-read string $id ID 
- * @property string $scope スコープ {@link EScope} 
+ * @property string $scope スコープ {@link \Saklient\Cloud\Enums\EScope} 
  * @property string $name 名前 
  * @property string $description 説明 
  * @property \ArrayObject $tags タグ 
@@ -43,7 +43,7 @@ class IsoImage extends Resource {
 	protected $m_id;
 	
 	/**
-	 * スコープ {@link EScope}
+	 * スコープ {@link \Saklient\Cloud\Enums\EScope}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -185,9 +185,9 @@ class IsoImage extends Resource {
 	/**
 	 * @ignore
 	 * @access public
-	 * @param mixed $obj
-	 * @param boolean $wrapped = false
 	 * @param \Saklient\Cloud\Client $client
+	 * @param mixed $obj
+	 * @param boolean $wrapped=false
 	 */
 	public function __construct(\Saklient\Cloud\Client $client, $obj, $wrapped=false)
 	{
@@ -202,8 +202,8 @@ class IsoImage extends Resource {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @param mixed $root
 	 * @param mixed $r
+	 * @param mixed $root
 	 * @return void
 	 */
 	protected function _onAfterApiDeserialize($r, $root)
@@ -258,7 +258,7 @@ class IsoImage extends Resource {
 	 * アカウント情報は、ftpInfo プロパティから取得することができます。
 	 * 
 	 * @access public
-	 * @param boolean $reset 既にFTPSが開始されているとき、trueを指定してこのメソッドを呼ぶことでパスワードを再設定します。 = false
+	 * @param boolean $reset=false 既にFTPSが開始されているとき、trueを指定してこのメソッドを呼ぶことでパスワードを再設定します。
 	 * @return \Saklient\Cloud\Resource\IsoImage this
 	 */
 	public function openFtp($reset=false)
@@ -652,11 +652,9 @@ class IsoImage extends Resource {
 	}
 	
 	/**
-	 * (This method is generated in Translator_default#buildImpl)
-	 * 
-	 * @access protected
 	 * @ignore
-	 * @param boolean $withClean = false
+	 * @access protected
+	 * @param boolean $withClean=false
 	 * @return mixed
 	 */
 	protected function apiSerializeImpl($withClean=false)

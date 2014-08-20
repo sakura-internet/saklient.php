@@ -18,15 +18,15 @@ use \Saklient\Errors\SaklientException;
 /**
  * サーバインスタンスの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read string $status 起動状態 {@link EServerInstanceStatus} 
- * @property-read string $beforeStatus 前回の起動状態 {@link EServerInstanceStatus} 
+ * @property-read string $status 起動状態 {@link \Saklient\Cloud\Enums\EServerInstanceStatus} 
+ * @property-read string $beforeStatus 前回の起動状態 {@link \Saklient\Cloud\Enums\EServerInstanceStatus} 
  * @property-read NativeDate $statusChangedAt 現在の起動状態に変化した日時 
  * @property-read \Saklient\Cloud\Resource\IsoImage $isoImage 挿入されているISOイメージ 
  */
 class ServerInstance extends Resource {
 	
 	/**
-	 * 起動状態 {@link EServerInstanceStatus}
+	 * 起動状態 {@link \Saklient\Cloud\Enums\EServerInstanceStatus}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -35,7 +35,7 @@ class ServerInstance extends Resource {
 	protected $m_status;
 	
 	/**
-	 * 前回の起動状態 {@link EServerInstanceStatus}
+	 * 前回の起動状態 {@link \Saklient\Cloud\Enums\EServerInstanceStatus}
 	 * 
 	 * @access protected
 	 * @ignore
@@ -64,9 +64,9 @@ class ServerInstance extends Resource {
 	/**
 	 * @ignore
 	 * @access public
-	 * @param mixed $obj
-	 * @param boolean $wrapped = false
 	 * @param \Saklient\Cloud\Client $client
+	 * @param mixed $obj
+	 * @param boolean $wrapped=false
 	 */
 	public function __construct(\Saklient\Cloud\Client $client, $obj, $wrapped=false)
 	{
@@ -233,11 +233,9 @@ class ServerInstance extends Resource {
 	}
 	
 	/**
-	 * (This method is generated in Translator_default#buildImpl)
-	 * 
-	 * @access protected
 	 * @ignore
-	 * @param boolean $withClean = false
+	 * @access protected
+	 * @param boolean $withClean=false
 	 * @return mixed
 	 */
 	protected function apiSerializeImpl($withClean=false)
