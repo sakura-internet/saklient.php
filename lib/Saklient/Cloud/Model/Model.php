@@ -153,9 +153,7 @@ class Model {
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($client, "\\Saklient\\Cloud\\Client");
 		$this->_client = $client;
-		$this->_params = (object)[];
-		$this->_total = null;
-		$this->_count = null;
+		$this->_reset();
 	}
 	
 	/**
@@ -259,7 +257,7 @@ class Model {
 	 */
 	protected function _reset()
 	{
-		$this->_params = (object)[];
+		$this->_params = (object)['Count' => 0];
 		$this->_total = 0;
 		$this->_count = 0;
 		return $this;
