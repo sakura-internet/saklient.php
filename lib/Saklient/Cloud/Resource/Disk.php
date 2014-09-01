@@ -903,6 +903,11 @@ class Disk extends Resource {
 		if ($withClean || $this->n_plan) {
 			Util::setByPath($ret, "Plan", $withClean ? ($this->m_plan == null ? null : $this->m_plan->apiSerialize($withClean)) : ($this->m_plan == null ? (object)['ID' => "0"] : $this->m_plan->apiSerializeID()));
 		}
+		else {
+			if ($this->isNew) {
+				$missing->append("plan");
+			}
+		}
 		if ($withClean || $this->n_server) {
 			Util::setByPath($ret, "Server", $withClean ? ($this->m_server == null ? null : $this->m_server->apiSerialize($withClean)) : ($this->m_server == null ? (object)['ID' => "0"] : $this->m_server->apiSerializeID()));
 		}

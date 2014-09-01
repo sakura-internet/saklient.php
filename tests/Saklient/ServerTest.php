@@ -64,7 +64,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$mem = 2;
 		$hostName = "saklient-test";
 		$sshPublicKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC3sSg8Vfxrs3eFTx3G//wMRlgqmFGxh5Ia8DZSSf2YrkZGqKbL1t2AsiUtIMwxGiEVVBc0K89lORzra7qoHQj5v5Xlcdqodgcs9nwuSeS38XWO6tXNF4a8LvKnfGS55+uzmBmVUwAztr3TIJR5TTWxZXpcxSsSEHx7nIcr31zcvosjgdxqvSokAsIgJyPQyxCxsPK8SFIsUV+aATqBCWNyp+R1jECPkd74ipEBoccnA0pYZnRhIsKNWR9phBRXIVd5jx/gK5jHqouhFWvCucUs0gwilEGwpng3b/YxrinNskpfOpMhOD9zjNU58OCoMS8MA17yqoZv59l3u16CrnrD saklient-test@local";
-		$sshPrivateKeyFile = dirname(dirname(dirname(__DIR__))) . "/test-sshkey.txt";
+		$sshPrivateKeyFile = dirname(dirname(__DIR__)) . "/test-sshkey.txt";
 		
 		// search archives
 		echo "searching archives...\n";
