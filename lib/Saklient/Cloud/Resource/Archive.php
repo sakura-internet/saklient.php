@@ -702,7 +702,7 @@ class Archive extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @param int $v
+	 * @param int|null $v
 	 * @return int
 	 */
 	private function set_displayOrder($v)

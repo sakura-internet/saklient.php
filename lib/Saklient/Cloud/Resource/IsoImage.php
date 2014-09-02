@@ -28,6 +28,7 @@ use \Saklient\Util;
  * @property string $description 説明 
  * @property \ArrayObject $tags タグ 
  * @property \Saklient\Cloud\Resource\Icon $icon アイコン 
+ * @property int $displayOrder 表示順序 
  * @property int $sizeMib サイズ[MiB] 
  * @property-read string $serviceClass サービスクラス 
  */
@@ -86,6 +87,15 @@ class IsoImage extends Resource {
 	 * @var Icon
 	 */
 	protected $m_icon;
+	
+	/**
+	 * 表示順序
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var int
+	 */
+	protected $m_displayOrder;
 	
 	/**
 	 * サイズ[MiB]
@@ -503,6 +513,44 @@ class IsoImage extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
+	private $n_displayOrder = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return int
+	 */
+	private function get_displayOrder()
+	{
+		return $this->m_displayOrder;
+	}
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param int|null $v
+	 * @return int
+	 */
+	private function set_displayOrder($v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "int");
+		$this->m_displayOrder = $v;
+		$this->n_displayOrder = true;
+		return $this->m_displayOrder;
+	}
+	
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
 	private $n_sizeMib = false;
 	
 	/**
@@ -633,6 +681,14 @@ class IsoImage extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_icon = false;
+		if (Util::existsPath($r, "DisplayOrder")) {
+			$this->m_displayOrder = Util::getByPath($r, "DisplayOrder") == null ? null : intval("" . Util::getByPath($r, "DisplayOrder"));
+		}
+		else {
+			$this->m_displayOrder = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_displayOrder = false;
 		if (Util::existsPath($r, "SizeMB")) {
 			$this->m_sizeMib = Util::getByPath($r, "SizeMB") == null ? null : intval("" . Util::getByPath($r, "SizeMB"));
 		}
@@ -690,6 +746,9 @@ class IsoImage extends Resource {
 		if ($withClean || $this->n_icon) {
 			Util::setByPath($ret, "Icon", $withClean ? ($this->m_icon == null ? null : $this->m_icon->apiSerialize($withClean)) : ($this->m_icon == null ? (object)['ID' => "0"] : $this->m_icon->apiSerializeID()));
 		}
+		if ($withClean || $this->n_displayOrder) {
+			Util::setByPath($ret, "DisplayOrder", $this->m_displayOrder);
+		}
 		if ($withClean || $this->n_sizeMib) {
 			Util::setByPath($ret, "SizeMB", $this->m_sizeMib);
 		}
@@ -720,6 +779,7 @@ class IsoImage extends Resource {
 			case "description": return $this->get_description();
 			case "tags": return $this->get_tags();
 			case "icon": return $this->get_icon();
+			case "displayOrder": return $this->get_displayOrder();
 			case "sizeMib": return $this->get_sizeMib();
 			case "serviceClass": return $this->get_serviceClass();
 			default: return null;
@@ -736,6 +796,7 @@ class IsoImage extends Resource {
 			case "description": return $this->set_description($v);
 			case "tags": return $this->set_tags($v);
 			case "icon": return $this->set_icon($v);
+			case "displayOrder": return $this->set_displayOrder($v);
 			case "sizeMib": return $this->set_sizeMib($v);
 			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resource\\IsoImage#'.$key);
 		}
