@@ -38,7 +38,7 @@ use \Saklient\Util;
  * @property \Saklient\Cloud\Resource\Icon $icon アイコン 
  * @property int $sizeMib サイズ[MiB] 
  * @property-read string $serviceClass サービスクラス 
- * @property-read \Saklient\Cloud\Resource\DiskPlan $plan プラン 
+ * @property \Saklient\Cloud\Resource\DiskPlan $plan プラン 
  * @property-read \Saklient\Cloud\Resource\Server $server 接続先のサーバ 
  * @property-read string $availability 有効状態 {@link \Saklient\Cloud\Enums\EAvailability} 
  */
@@ -707,6 +707,26 @@ class Disk extends Resource {
 		return $this->m_plan;
 	}
 	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param \Saklient\Cloud\Resource\DiskPlan $v
+	 * @return \Saklient\Cloud\Resource\DiskPlan
+	 */
+	private function set_plan(\Saklient\Cloud\Resource\DiskPlan $v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "\\Saklient\\Cloud\\Resource\\DiskPlan");
+		if (!$this->isNew) {
+			throw new SaklientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "Saklient\\Cloud\\Resource\\Disk#plan");
+		}
+		$this->m_plan = $v;
+		$this->n_plan = true;
+		return $this->m_plan;
+	}
+	
 	
 	
 	/**
@@ -954,6 +974,7 @@ class Disk extends Resource {
 			case "tags": return $this->set_tags($v);
 			case "icon": return $this->set_icon($v);
 			case "sizeMib": return $this->set_sizeMib($v);
+			case "plan": return $this->set_plan($v);
 			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resource\\Disk#'.$key);
 		}
 	}
