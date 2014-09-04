@@ -2,6 +2,8 @@
 
 namespace Saklient\Cloud\Model;
 
+require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
+use \Saklient\Cloud\Client;
 require_once __DIR__ . "/../../../Saklient/Cloud/Model/Model.php";
 use \Saklient\Cloud\Model\Model;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resource/DiskPlan.php";
@@ -11,7 +13,12 @@ use \Saklient\Util;
 require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 
-/** ディスクプランを検索するための機能を備えたクラス。 */
+/**
+ * ディスクプランを検索するための機能を備えたクラス。
+ * 
+ * @property-read \Saklient\Cloud\Resource\DiskPlan $hdd 標準プラン 
+ * @property-read \Saklient\Cloud\Resource\DiskPlan $ssd SSDプラン 
+ */
 class Model_DiskPlan extends Model {
 	
 	/**
@@ -139,7 +146,76 @@ class Model_DiskPlan extends Model {
 		return $this->_find();
 	}
 	
+	/**
+	 * @ignore
+	 * @access public
+	 * @param \Saklient\Cloud\Client $client
+	 */
+	public function __construct(\Saklient\Cloud\Client $client)
+	{
+		parent::__construct($client);
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($client, "\\Saklient\\Cloud\\Client");
+		$this->_hdd = null;
+		$this->_ssd = null;
+	}
 	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var DiskPlan
+	 */
+	protected $_hdd;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \Saklient\Cloud\Resource\DiskPlan
+	 */
+	protected function get_hdd()
+	{
+		if ($this->_hdd == null) {
+			$this->_hdd = $this->getById("2");
+		}
+		return $this->_hdd;
+	}
+	
+	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var DiskPlan
+	 */
+	protected $_ssd;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \Saklient\Cloud\Resource\DiskPlan
+	 */
+	protected function get_ssd()
+	{
+		if ($this->_ssd == null) {
+			$this->_ssd = $this->getById("4");
+		}
+		return $this->_ssd;
+	}
+	
+	
+	
+	/**
+	 * @ignore
+	 */
+	public function __get($key) {
+		switch ($key) {
+			case "hdd": return $this->get_hdd();
+			case "ssd": return $this->get_ssd();
+			default: return null;
+		}
+	}
 
 }
 
