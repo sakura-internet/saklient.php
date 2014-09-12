@@ -200,6 +200,20 @@ class Model_Disk extends Model {
 	}
 	
 	/**
+	 * 指定したDNFに合致するタグを持つリソースに絞り込みます。
+	 * 
+	 * @access public
+	 * @param string[][] $dnf
+	 * @return \Saklient\Cloud\Model\Model_Disk
+	 */
+	public function withTagDnf($dnf)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($dnf, "\\ArrayObject");
+		return $this->_withTagDnf($dnf);
+	}
+	
+	/**
 	 * 名前でソートします。
 	 * 
 	 * @access public
@@ -223,7 +237,7 @@ class Model_Disk extends Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($sizeGib, "int");
-		$this->_filterBy("SizeMB", $sizeGib * 1024);
+		$this->_filterBy("SizeMB", new \ArrayObject([$sizeGib * 1024]));
 		return $this;
 	}
 	
@@ -238,7 +252,7 @@ class Model_Disk extends Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($id, "string");
-		$this->_filterBy("Server.ID", $id);
+		$this->_filterBy("Server.ID", new \ArrayObject([$id]));
 		return $this;
 	}
 	

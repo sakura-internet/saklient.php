@@ -206,6 +206,20 @@ class Model_Server extends Model {
 	}
 	
 	/**
+	 * 指定したDNFに合致するタグを持つリソースに絞り込みます。
+	 * 
+	 * @access public
+	 * @param string[][] $dnf
+	 * @return \Saklient\Cloud\Model\Model_Server
+	 */
+	public function withTagDnf($dnf)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($dnf, "\\ArrayObject");
+		return $this->_withTagDnf($dnf);
+	}
+	
+	/**
 	 * 名前でソートします。
 	 * 
 	 * @access public
@@ -229,7 +243,7 @@ class Model_Server extends Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($plan, "\\Saklient\\Cloud\\Resource\\ServerPlan");
-		$this->_filterBy("ServerPlan.ID", $plan->_id(), true);
+		$this->_filterBy("ServerPlan.ID", new \ArrayObject([$plan->_id()]));
 		return $this;
 	}
 	
@@ -244,7 +258,7 @@ class Model_Server extends Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($status, "string");
-		$this->_filterBy("Instance.Status", $status, true);
+		$this->_filterBy("Instance.Status", new \ArrayObject([$status]));
 		return $this;
 	}
 	
@@ -281,7 +295,7 @@ class Model_Server extends Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($iso, "\\Saklient\\Cloud\\Resource\\IsoImage");
-		$this->_filterBy("Instance.CDROM.ID", $iso->_id(), true);
+		$this->_filterBy("Instance.CDROM.ID", new \ArrayObject([$iso->_id()]));
 		return $this;
 	}
 	

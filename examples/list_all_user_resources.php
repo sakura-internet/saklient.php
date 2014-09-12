@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-$api = \Saklient\Cloud\API::authorize($argv[1], $argv[2]);
+$api = \Saklient\Cloud\API::authorize($argv[1], $argv[2], $argv[3]);
 
 function dumpInALine($type, $obj)
 {
@@ -11,6 +11,7 @@ function dumpInALine($type, $obj)
 	if (@$obj->sizeGib) echo " ", $obj->sizeGib, "GiB";
 	if (@$obj->bandWidthMbps) echo " ", $obj->bandWidthMbps, "Mbps";
 	if (@$obj->scope) echo " (", $obj->scope, ")";
+	if (@$obj->clazz) echo " (", $obj->clazz, ")";
 	if (@$obj->macAddress) echo " ", $obj->macAddress;
 	echo " ", $obj->name;
 	if (@$obj->serverId) echo " (of server ", @$obj->serverId, ")";
@@ -34,20 +35,26 @@ function dumpInALine($type, $obj)
 	//
 	if (@$obj->ifaces) {
 		foreach ($obj->ifaces as $iface) {
-			printf("    iface [%s] %s", $iface->id, $iface->macAddress);
-			if ($iface->ipAddress) echo " (", $iface->ipAddress, ")";
-			elseif ($iface->userIpAddress) echo " (", $iface->userIpAddress, ")";
-			echo "\n";
+			if ($iface) {
+				echo "    iface";
+				if ($iface->id) echo " [", $iface->id, "]";
+				if ($iface->macAddress) echo " ", $iface->macAddress;
+				if ($iface->ipAddress) echo " (", $iface->ipAddress, ")";
+				elseif ($iface->userIpAddress) echo " (", $iface->userIpAddress, ")";
+				echo "\n";
+			}
+			else {
+				printf("    iface --\n");
+			}
 		}
 	}
 	//
-	print_r($obj->annotation);
+//	print_r($obj->annotation);
 //	print_r($obj->dump());
 }
 
 $scripts = $api->script->find();
 foreach ($scripts as $script) dumpInALine("script", $script);
-exit(0);
 
 $servers = $api->server->find();
 foreach ($servers as $server) dumpInALine("server", $server);
@@ -65,14 +72,7 @@ $isoImages = $api->isoImage->find();
 foreach ($isoImages as $isoImage) dumpInALine("isoImage", $isoImage);
 
 $appliances = $api->appliance->find();
-foreach ($appliances as $appliance) {
-    printf("\n");
-    printf("appliance [%s] %s at %s\n", $appliance->id, $appliance->clazz, $appliance->name);
-    printf("    tags: %s\n", implode(", ", (array)$appliance->tags));
-    foreach ($appliance->ifaces as $iface) {
-        printf("    iface [%s] %s %s\n", $iface->id, $iface->mac_address, $iface->ipAddress ? $iface->ipAddress : $iface->userIpAddress);
-    }
-}
+foreach ($appliances as $appliance) dumpInALine("appliance", $isoImage);
 
 $ifaces = $api->iface->find();
 foreach ($ifaces as $iface) dumpInALine("iface", $iface);

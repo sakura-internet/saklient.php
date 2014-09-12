@@ -6,15 +6,15 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resource/Resource.php";
 use \Saklient\Cloud\Resource\Resource;
-require_once __DIR__ . "/../../../Saklient/Util.php";
-use \Saklient\Util;
 require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
+require_once __DIR__ . "/../../../Saklient/Util.php";
+use \Saklient\Util;
 
 /**
  * @ignore
  * @property-read \Saklient\Cloud\Client $client
- * @property-read TQueryParams $params
+ * @property-read TQueryParams $query
  * @property-read int $total
  * @property-read int $count
  */
@@ -46,16 +46,16 @@ class Model {
 	 * @ignore
 	 * @var TQueryParams
 	 */
-	protected $_params;
+	protected $_query;
 	
 	/**
 	 * @access protected
 	 * @ignore
 	 * @return TQueryParams
 	 */
-	protected function get_params()
+	protected function get_query()
 	{
-		return $this->_params;
+		return $this->_query;
 	}
 	
 	
@@ -169,7 +169,7 @@ class Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($offset, "int");
-		$this->_params->{"Begin"} = $offset;
+		$this->_query->{"Begin"} = $offset;
 		return $this;
 	}
 	
@@ -186,7 +186,7 @@ class Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($count, "int");
-		$this->_params->{"Count"} = $count;
+		$this->_query->{"Count"} = $count;
 		return $this;
 	}
 	
@@ -205,10 +205,10 @@ class Model {
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($column, "string");
 		Util::validateType($reverse, "boolean");
-		if (!array_key_exists("Sort", $this->_params)) {
-			$this->_params->{"Sort"} = new \ArrayObject([]);
+		if (!array_key_exists("Sort", $this->_query)) {
+			$this->_query->{"Sort"} = new \ArrayObject([]);
 		}
-		$sort = $this->_params->{"Sort"};
+		$sort = $this->_query->{"Sort"};
 		$op = $reverse ? "-" : "";
 		$sort->append($op . $column);
 		return $this;
@@ -230,10 +230,10 @@ class Model {
 		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($key, "string");
 		Util::validateType($multiple, "boolean");
-		if (!array_key_exists("Filter", $this->_params)) {
-			$this->_params->{"Filter"} = (object)[];
+		if (!array_key_exists("Filter", $this->_query)) {
+			$this->_query->{"Filter"} = (object)[];
 		}
-		$filter = $this->_params->{"Filter"};
+		$filter = $this->_query->{"Filter"};
 		if ($multiple) {
 			if (!array_key_exists($key, $filter)) {
 				$filter->{$key} = new \ArrayObject([]);
@@ -242,6 +242,9 @@ class Model {
 			$values->append($value);
 		}
 		else {
+			if (array_key_exists($key, $filter)) {
+				throw new SaklientException("filter_duplicated", "The same filter key can be specified only once (by calling the same method 'withFooBar')");
+			}
 			$filter->{$key} = $value;
 		}
 		return $this;
@@ -257,7 +260,7 @@ class Model {
 	 */
 	protected function _reset()
 	{
-		$this->_params = (object)['Count' => 0];
+		$this->_query = (object)['Count' => 0];
 		$this->_total = 0;
 		$this->_count = 0;
 		return $this;
@@ -291,9 +294,9 @@ class Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($id, "string");
-		$params = $this->_params;
+		$query = $this->_query;
 		$this->_reset();
-		$result = $this->_client->request("GET", $this->_apiPath() . "/" . Util::urlEncode($id), $params);
+		$result = $this->_client->request("GET", $this->_apiPath() . "/" . Util::urlEncode($id), $query);
 		$this->_total = 1;
 		$this->_count = 1;
 		return Util::createClassInstance("saklient.cloud.resource." . $this->_className(), new \ArrayObject([
@@ -313,9 +316,9 @@ class Model {
 	 */
 	protected function _find()
 	{
-		$params = $this->_params;
+		$query = $this->_query;
 		$this->_reset();
-		$result = $this->_client->request("GET", $this->_apiPath(), $params);
+		$result = $this->_client->request("GET", $this->_apiPath(), $query);
 		$this->_total = $result->{"Total"};
 		$this->_count = $result->{"Count"};
 		$records = $result->{$this->_rootKeyM()};
@@ -337,9 +340,9 @@ class Model {
 	 */
 	protected function _findOne()
 	{
-		$params = $this->_params;
+		$query = $this->_query;
 		$this->_reset();
-		$result = $this->_client->request("GET", $this->_apiPath(), $params);
+		$result = $this->_client->request("GET", $this->_apiPath(), $query);
 		$this->_total = $result->{"Total"};
 		$this->_count = $result->{"Count"};
 		if ($this->_total == 0) {
@@ -365,7 +368,7 @@ class Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($name, "string");
-		return $this->_filterBy("Name", $name);
+		return $this->_filterBy("Name", new \ArrayObject([$name]));
 	}
 	
 	/**
@@ -383,7 +386,7 @@ class Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($tag, "string");
-		return $this->_filterBy("Tags.Name", $tag, true);
+		return $this->_filterBy("Tags.Name", new \ArrayObject([$tag]));
 	}
 	
 	/**
@@ -399,7 +402,23 @@ class Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($tags, "\\ArrayObject");
-		return $this->_filterBy("Tags.Name", $tags, true);
+		return $this->_filterBy("Tags.Name", new \ArrayObject([$tags]));
+	}
+	
+	/**
+	 * 指定したDNFに合致するタグを持つリソースに絞り込みます。
+	 * 
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param string[][] $dnf
+	 * @return \Saklient\Cloud\Model\Model
+	 */
+	protected function _withTagDnf($dnf)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($dnf, "\\ArrayObject");
+		return $this->_filterBy("Tags.Name", $dnf);
 	}
 	
 	/**
@@ -423,7 +442,7 @@ class Model {
 	public function __get($key) {
 		switch ($key) {
 			case "client": return $this->get_client();
-			case "params": return $this->get_params();
+			case "query": return $this->get_query();
 			case "total": return $this->get_total();
 			case "count": return $this->get_count();
 			default: return null;

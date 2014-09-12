@@ -189,6 +189,20 @@ class Model_Script extends Model {
 	}
 	
 	/**
+	 * 指定したDNFに合致するタグを持つリソースに絞り込みます。
+	 * 
+	 * @access public
+	 * @param string[][] $dnf
+	 * @return \Saklient\Cloud\Model\Model_Script
+	 */
+	public function withTagDnf($dnf)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($dnf, "\\ArrayObject");
+		return $this->_withTagDnf($dnf);
+	}
+	
+	/**
 	 * 名前でソートします。
 	 * 
 	 * @access public
@@ -209,7 +223,7 @@ class Model_Script extends Model {
 	 */
 	public function withSharedScope()
 	{
-		$this->_filterBy("Scope", EScope::shared);
+		$this->_filterBy("Scope", new \ArrayObject([EScope::shared]));
 		return $this;
 	}
 	
@@ -221,7 +235,7 @@ class Model_Script extends Model {
 	 */
 	public function withUserScope()
 	{
-		$this->_filterBy("Scope", EScope::user);
+		$this->_filterBy("Scope", new \ArrayObject([EScope::user]));
 		return $this;
 	}
 	

@@ -152,8 +152,8 @@ class Model_ServerPlan extends Model {
 		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($cores, "int");
 		Util::validateType($memoryGib, "int");
-		$this->_filterBy("CPU", $cores, true);
-		$this->_filterBy("MemoryMB", $memoryGib * 1024, true);
+		$this->_filterBy("CPU", new \ArrayObject([$cores]));
+		$this->_filterBy("MemoryMB", new \ArrayObject([$memoryGib * 1024]));
 		return $this->_findOne();
 	}
 	

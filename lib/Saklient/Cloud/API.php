@@ -345,15 +345,21 @@ class API {
 	 * @access public
 	 * @param string $token ACCESS TOKEN
 	 * @param string $secret ACCESS TOKEN SECRET
+	 * @param string $zone=null
 	 * @return \Saklient\Cloud\API APIクライアント
 	 */
-	static public function authorize($token, $secret)
+	static public function authorize($token, $secret, $zone=null)
 	{
 		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($token, "string");
 		Util::validateType($secret, "string");
+		Util::validateType($zone, "string");
 		$c = new Client($token, $secret);
-		return new API($c);
+		$ret = new API($c);
+		if ($zone != null) {
+			$ret = $ret->inZone($zone);
+		}
+		return $ret;
 	}
 	
 	/**
@@ -368,6 +374,11 @@ class API {
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($name, "string");
 		$ret = new API($this->_client->cloneInstance());
+		$suffix = "";
+		if ($name == "is1x" || $name == "is1y") {
+			$suffix = "-test";
+		}
+		$ret->_client->setApiRoot("https://secure.sakura.ad.jp/cloud" . $suffix . "/");
 		$ret->_client->setApiRootSuffix("zone/" . $name);
 		return $ret;
 	}

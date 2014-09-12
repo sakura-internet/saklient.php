@@ -38,7 +38,7 @@ class Resource {
 	 * @ignore
 	 * @var mixed
 	 */
-	protected $_params;
+	protected $_query;
 	
 	/**
 	 * @ignore
@@ -51,7 +51,7 @@ class Resource {
 	{
 		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($key, "string");
-		$this->_params->{$key} = $value;
+		$this->_query->{$key} = $value;
 	}
 	
 	/**
@@ -119,7 +119,7 @@ class Resource {
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($client, "\\Saklient\\Cloud\\Client");
 		$this->_client = $client;
-		$this->_params = (object)[];
+		$this->_query = (object)[];
 	}
 	
 	/**
@@ -298,11 +298,11 @@ class Resource {
 	protected function _save()
 	{
 		$r = $this->apiSerialize();
-		$params = $this->_params;
-		$this->_params = (object)[];
-		$keys = array_keys((array)$params);
+		$query = $this->_query;
+		$this->_query = (object)[];
+		$keys = array_keys((array)$query);
 		foreach ($keys as $k) {
-			$v = $params->{$k};
+			$v = $query->{$k};
 			$r->{$k} = $v;
 		}
 		$this->_onBeforeSave($r);
@@ -356,10 +356,10 @@ class Resource {
 	 */
 	public function exists()
 	{
-		$params = (object)[];
-		Util::setByPath($params, "Filter.ID", new \ArrayObject([$this->_id()]));
-		Util::setByPath($params, "Include", new \ArrayObject(["ID"]));
-		$result = $this->_client->request("GET", $this->_apiPath(), $params);
+		$query = (object)[];
+		Util::setByPath($query, "Filter.ID", new \ArrayObject([$this->_id()]));
+		Util::setByPath($query, "Include", new \ArrayObject(["ID"]));
+		$result = $this->_client->request("GET", $this->_apiPath(), $query);
 		return $result->{"Count"} == 1;
 	}
 	

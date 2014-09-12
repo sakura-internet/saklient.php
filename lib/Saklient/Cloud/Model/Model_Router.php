@@ -193,7 +193,7 @@ class Model_Router extends Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($mbps, "int");
-		$this->_filterBy("BandWidthMbps", $mbps);
+		$this->_filterBy("BandWidthMbps", new \ArrayObject([$mbps]));
 		return $this;
 	}
 	

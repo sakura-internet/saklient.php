@@ -5,7 +5,7 @@ source config.sh
 
 mode=$1
 if [ "$mode" != "" ]; then
-	php "examples/$mode.php" "$SACLOUD_TOKEN" "$SACLOUD_SECRET"
+	php "examples/$mode.php" "$SACLOUD_TOKEN" "$SACLOUD_SECRET" "$SACLOUD_ZONE"
 	exit $?
 fi
 
@@ -41,7 +41,7 @@ echo
 PS3="Select mode > "
 select mode in $( ls -1 examples | sed 's/\.php$//' ) "quit"; do
 	( [ -z "$mode" ] || [ "$mode" = "quit" ] ) && exit 1
-	php "examples/$mode.php" "$SACLOUD_TOKEN" "$SACLOUD_SECRET"
+	php "examples/$mode.php" "$SACLOUD_TOKEN" "$SACLOUD_SECRET" "$SACLOUD_ZONE"
 	exit $?
 done
 
