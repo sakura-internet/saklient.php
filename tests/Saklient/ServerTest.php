@@ -15,7 +15,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 	
 	const TESTS_DUPLICATE_DISK = false;
 	const TESTS_CONFIG_DISK = true;
-	const TESTS_STARTUP_SCRIPT = true;
+	const TESTS_STARTUP_SCRIPT = false;
 	const TESTS_DONT_STOP_SERVER = false;
 	
 	public function testAuthorize()
@@ -77,6 +77,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$this->assertGreaterThan(0, count($archives));
 		$archive = $archives[0];
 		
+		$script = null;
 		if (self::TESTS_STARTUP_SCRIPT) {
 			// search scripts
 			echo "searching scripts...\n";
@@ -103,6 +104,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$disk->name = $name;
 		$disk->description = "";
 		$disk->tags = [$tag];
+		$disk->plan = $api->product->disk->ssd;
 		$disk->source = $archive;
 		$disk->save();
 		
@@ -233,6 +235,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 			$disk2->name = $name . "-copy";
 			$disk2->description = $description;
 			$disk2->tags = [$tag];
+			$disk2->plan = $api->product->disk->hdd;
 			$disk2->source = $disk;
 			$disk2->sizeGib = 40;
 			$disk2->save();

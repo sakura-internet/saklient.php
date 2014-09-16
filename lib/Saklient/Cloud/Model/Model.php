@@ -6,6 +6,8 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resource/Resource.php";
 use \Saklient\Cloud\Resource\Resource;
+require_once __DIR__ . "/../../../Saklient/Cloud/Model/QueryParams.php";
+use \Saklient\Cloud\Model\QueryParams;
 require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 require_once __DIR__ . "/../../../Saklient/Util.php";
@@ -14,7 +16,7 @@ use \Saklient\Util;
 /**
  * @ignore
  * @property-read \Saklient\Cloud\Client $client
- * @property-read TQueryParams $query
+ * @property-read \Saklient\Cloud\Model\QueryParams $query
  * @property-read int $total
  * @property-read int $count
  */
@@ -44,14 +46,14 @@ class Model {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @var TQueryParams
+	 * @var QueryParams
 	 */
 	protected $_query;
 	
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return TQueryParams
+	 * @return \Saklient\Cloud\Model\QueryParams
 	 */
 	protected function get_query()
 	{
@@ -169,7 +171,7 @@ class Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($offset, "int");
-		$this->_query->{"Begin"} = $offset;
+		$this->_query->begin = $offset;
 		return $this;
 	}
 	
@@ -186,7 +188,7 @@ class Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($count, "int");
-		$this->_query->{"Count"} = $count;
+		$this->_query->count = $count;
 		return $this;
 	}
 	
@@ -205,12 +207,8 @@ class Model {
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($column, "string");
 		Util::validateType($reverse, "boolean");
-		if (!array_key_exists("Sort", $this->_query)) {
-			$this->_query->{"Sort"} = new \ArrayObject([]);
-		}
-		$sort = $this->_query->{"Sort"};
 		$op = $reverse ? "-" : "";
-		$sort->append($op . $column);
+		$this->_query->sort->append($op . $column);
 		return $this;
 	}
 	
@@ -230,10 +228,7 @@ class Model {
 		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($key, "string");
 		Util::validateType($multiple, "boolean");
-		if (!array_key_exists("Filter", $this->_query)) {
-			$this->_query->{"Filter"} = (object)[];
-		}
-		$filter = $this->_query->{"Filter"};
+		$filter = $this->_query->filter;
 		if ($multiple) {
 			if (!array_key_exists($key, $filter)) {
 				$filter->{$key} = new \ArrayObject([]);
@@ -260,7 +255,7 @@ class Model {
 	 */
 	protected function _reset()
 	{
-		$this->_query = (object)['Count' => 0];
+		$this->_query = new QueryParams();
 		$this->_total = 0;
 		$this->_count = 0;
 		return $this;
@@ -294,7 +289,7 @@ class Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($id, "string");
-		$query = $this->_query;
+		$query = $this->_query->build();
 		$this->_reset();
 		$result = $this->_client->request("GET", $this->_apiPath() . "/" . Util::urlEncode($id), $query);
 		$this->_total = 1;
@@ -316,7 +311,7 @@ class Model {
 	 */
 	protected function _find()
 	{
-		$query = $this->_query;
+		$query = $this->_query->build();
 		$this->_reset();
 		$result = $this->_client->request("GET", $this->_apiPath(), $query);
 		$this->_total = $result->{"Total"};
@@ -340,7 +335,7 @@ class Model {
 	 */
 	protected function _findOne()
 	{
-		$query = $this->_query;
+		$query = $this->_query->build();
 		$this->_reset();
 		$result = $this->_client->request("GET", $this->_apiPath(), $query);
 		$this->_total = $result->{"Total"};
@@ -359,6 +354,7 @@ class Model {
 	 * 半角スペースで区切られた複数の文字列は、それらをすべて含むことが条件とみなされます。
 	 * 
 	 * @private
+	 * @todo Implement test case
 	 * @access protected
 	 * @ignore
 	 * @param string $name
@@ -368,7 +364,7 @@ class Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($name, "string");
-		return $this->_filterBy("Name", new \ArrayObject([$name]));
+		return $this->_filterBy("Name", $name);
 	}
 	
 	/**
@@ -377,6 +373,7 @@ class Model {
 	 * 複数のタグを指定する場合は withTags() を利用してください。
 	 * 
 	 * @private
+	 * @todo Implement test case
 	 * @access protected
 	 * @ignore
 	 * @param string $tag
@@ -393,6 +390,7 @@ class Model {
 	 * 指定したすべてのタグを持つリソースに絞り込みます。
 	 * 
 	 * @private
+	 * @todo Implement test case
 	 * @access protected
 	 * @ignore
 	 * @param string[] $tags
@@ -409,6 +407,7 @@ class Model {
 	 * 指定したDNFに合致するタグを持つリソースに絞り込みます。
 	 * 
 	 * @private
+	 * @todo Implement test case
 	 * @access protected
 	 * @ignore
 	 * @param string[][] $dnf
@@ -425,6 +424,7 @@ class Model {
 	 * 名前でソートします。
 	 * 
 	 * @private
+	 * @todo Implement test case
 	 * @access protected
 	 * @ignore
 	 * @param boolean $reverse=false

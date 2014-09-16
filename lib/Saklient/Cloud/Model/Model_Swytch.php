@@ -158,6 +158,7 @@ class Model_Swytch extends Model {
 	 * 大文字・小文字は区別されません。
 	 * 半角スペースで区切られた複数の文字列は、それらをすべて含むことが条件とみなされます。
 	 * 
+	 * @todo Implement test case
 	 * @access public
 	 * @param string $name
 	 * @return \Saklient\Cloud\Model\Model_Swytch
@@ -172,6 +173,7 @@ class Model_Swytch extends Model {
 	/**
 	 * 名前でソートします。
 	 * 
+	 * @todo Implement test case
 	 * @access public
 	 * @param boolean $reverse=false
 	 * @return \Saklient\Cloud\Model\Model_Swytch

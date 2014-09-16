@@ -158,6 +158,7 @@ class Model_Disk extends Model {
 	 * 大文字・小文字は区別されません。
 	 * 半角スペースで区切られた複数の文字列は、それらをすべて含むことが条件とみなされます。
 	 * 
+	 * @todo Implement test case
 	 * @access public
 	 * @param string $name
 	 * @return \Saklient\Cloud\Model\Model_Disk
@@ -174,6 +175,7 @@ class Model_Disk extends Model {
 	 * 
 	 * 複数のタグを指定する場合は withTags() を利用してください。
 	 * 
+	 * @todo Implement test case
 	 * @access public
 	 * @param string $tag
 	 * @return \Saklient\Cloud\Model\Model_Disk
@@ -188,6 +190,7 @@ class Model_Disk extends Model {
 	/**
 	 * 指定したすべてのタグを持つリソースに絞り込みます。
 	 * 
+	 * @todo Implement test case
 	 * @access public
 	 * @param string[] $tags
 	 * @return \Saklient\Cloud\Model\Model_Disk
@@ -202,6 +205,7 @@ class Model_Disk extends Model {
 	/**
 	 * 指定したDNFに合致するタグを持つリソースに絞り込みます。
 	 * 
+	 * @todo Implement test case
 	 * @access public
 	 * @param string[][] $dnf
 	 * @return \Saklient\Cloud\Model\Model_Disk
@@ -216,6 +220,7 @@ class Model_Disk extends Model {
 	/**
 	 * 名前でソートします。
 	 * 
+	 * @todo Implement test case
 	 * @access public
 	 * @param boolean $reverse=false
 	 * @return \Saklient\Cloud\Model\Model_Disk
