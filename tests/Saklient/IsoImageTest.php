@@ -4,8 +4,8 @@ namespace Saklient\Tests;
 
 require_once "Common.php";
 use Saklient\Cloud\API;
-use Saklient\Cloud\Resource\Server;
-use Saklient\Cloud\Resource\IsoImage;
+use Saklient\Cloud\Resources\Server;
+use Saklient\Cloud\Resources\IsoImage;
 
 class IsoImageTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,7 +26,7 @@ class IsoImageTest extends \PHPUnit_Framework_TestCase
 		$tag = "saklient-test";
 		
 		$iso = $api->isoImage->create();
-		$this->assertInstanceOf("Saklient\\Cloud\\Resource\\IsoImage", $iso);
+		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\IsoImage", $iso);
 		$iso->name = $name;
 		$iso->description = $description;
 		$iso->tags = [$tag];
@@ -35,12 +35,12 @@ class IsoImageTest extends \PHPUnit_Framework_TestCase
 		
 		//
 		$ftp = $iso->ftpInfo;
-		$this->assertInstanceOf("Saklient\\Cloud\\Resource\\FtpInfo", $ftp);
+		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\FtpInfo", $ftp);
 		$this->assertNotEmpty($ftp->hostName);
 		$this->assertNotEmpty($ftp->user);
 		$this->assertNotEmpty($ftp->password);
 		$ftp2 = $iso->openFtp(true)->ftpInfo;
-		$this->assertInstanceOf("Saklient\\Cloud\\Resource\\FtpInfo", $ftp2);
+		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\FtpInfo", $ftp2);
 		$this->assertNotEmpty($ftp2->hostName);
 		$this->assertNotEmpty($ftp2->user);
 		$this->assertNotEmpty($ftp2->password);
@@ -93,7 +93,7 @@ class IsoImageTest extends \PHPUnit_Framework_TestCase
 		// create a server
 		echo "creating a server...\n";
 		$server = $api->server->create();
-		$this->assertInstanceOf("Saklient\\Cloud\\Resource\\Server", $server);
+		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Server", $server);
 		$server->name = $name;
 		$server->description = $description;
 		$server->tags = [$tag];
@@ -103,7 +103,7 @@ class IsoImageTest extends \PHPUnit_Framework_TestCase
 		// insert iso image while the server is down
 		echo "inserting an ISO image to the server...\n";
 		$server->insertIsoImage($iso);
-		$this->assertInstanceOf("Saklient\\Cloud\\Resource\\IsoImage", $server->instance->isoImage);
+		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\IsoImage", $server->instance->isoImage);
 		$this->assertEquals($iso->id, $server->instance->isoImage->id);
 		
 		// eject iso image while the server is down
@@ -119,7 +119,7 @@ class IsoImageTest extends \PHPUnit_Framework_TestCase
 		// insert iso image while the server is up
 		echo "inserting an ISO image to the server...\n";
 		$server->insertIsoImage($iso);
-		$this->assertInstanceOf("Saklient\\Cloud\\Resource\\IsoImage", $server->instance->isoImage);
+		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\IsoImage", $server->instance->isoImage);
 		$this->assertEquals($iso->id, $server->instance->isoImage->id);
 		
 		// eject iso image while the server is up

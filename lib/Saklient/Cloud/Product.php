@@ -2,12 +2,12 @@
 
 namespace Saklient\Cloud;
 
-require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_ServerPlan.php";
-use \Saklient\Cloud\Model\Model_ServerPlan;
-require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_DiskPlan.php";
-use \Saklient\Cloud\Model\Model_DiskPlan;
-require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_RouterPlan.php";
-use \Saklient\Cloud\Model\Model_RouterPlan;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_ServerPlan.php";
+use \Saklient\Cloud\Models\Model_ServerPlan;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_DiskPlan.php";
+use \Saklient\Cloud\Models\Model_DiskPlan;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_RouterPlan.php";
+use \Saklient\Cloud\Models\Model_RouterPlan;
 require_once __DIR__ . "/../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
 require_once __DIR__ . "/../../Saklient/Util.php";
@@ -18,9 +18,9 @@ use \Saklient\Errors\SaklientException;
 /**
  * 商品情報にアクセスするためのモデルを集めたクラス。
  * 
- * @property-read \Saklient\Cloud\Model\Model_ServerPlan $server サーバプラン情報。 
- * @property-read \Saklient\Cloud\Model\Model_DiskPlan $disk ディスクプラン情報。 
- * @property-read \Saklient\Cloud\Model\Model_RouterPlan $router ルータ帯域プラン情報。 
+ * @property-read \Saklient\Cloud\Models\Model_ServerPlan $server サーバプラン情報。 
+ * @property-read \Saklient\Cloud\Models\Model_DiskPlan $disk ディスクプラン情報。 
+ * @property-read \Saklient\Cloud\Models\Model_RouterPlan $router ルータ帯域プラン情報。 
  */
 class Product {
 	
@@ -35,7 +35,7 @@ class Product {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saklient\Cloud\Model\Model_ServerPlan
+	 * @return \Saklient\Cloud\Models\Model_ServerPlan
 	 */
 	protected function get_server()
 	{
@@ -55,7 +55,7 @@ class Product {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saklient\Cloud\Model\Model_DiskPlan
+	 * @return \Saklient\Cloud\Models\Model_DiskPlan
 	 */
 	protected function get_disk()
 	{
@@ -75,7 +75,7 @@ class Product {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saklient\Cloud\Model\Model_RouterPlan
+	 * @return \Saklient\Cloud\Models\Model_RouterPlan
 	 */
 	protected function get_router()
 	{

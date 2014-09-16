@@ -4,7 +4,7 @@ namespace Saklient\Tests;
 
 require_once "Common.php";
 use Saklient\Cloud\API;
-use Saklient\Cloud\Resource\Archive;
+use Saklient\Cloud\Resources\Archive;
 
 class ArchiveTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,7 +25,7 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
 		$tag = "saklient-test";
 		
 		$archive = $api->archive->create();
-		$this->assertInstanceOf("Saklient\\Cloud\\Resource\\Archive", $archive);
+		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Archive", $archive);
 		$archive->name = $name;
 		$archive->description = $description;
 		$archive->tags = [$tag];
@@ -34,12 +34,12 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
 		
 		//
 		$ftp = $archive->ftpInfo;
-		$this->assertInstanceOf("Saklient\\Cloud\\Resource\\FtpInfo", $ftp);
+		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\FtpInfo", $ftp);
 		$this->assertNotEmpty($ftp->hostName);
 		$this->assertNotEmpty($ftp->user);
 		$this->assertNotEmpty($ftp->password);
 		$ftp2 = $archive->openFtp(true)->ftpInfo;
-		$this->assertInstanceOf("Saklient\\Cloud\\Resource\\FtpInfo", $ftp2);
+		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\FtpInfo", $ftp2);
 		$this->assertNotEmpty($ftp2->hostName);
 		$this->assertNotEmpty($ftp2->user);
 		$this->assertNotEmpty($ftp2->password);
@@ -99,7 +99,7 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
 		$disk->destroy();
 		
 		$ftp = $archive->openFtp()->ftpInfo;
-		$this->assertInstanceOf("Saklient\\Cloud\\Resource\\FtpInfo", $ftp);
+		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\FtpInfo", $ftp);
 		$this->assertNotEmpty($ftp->hostName);
 		$this->assertNotEmpty($ftp->user);
 		$this->assertNotEmpty($ftp->password);

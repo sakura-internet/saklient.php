@@ -8,28 +8,28 @@ require_once __DIR__ . "/../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
 require_once __DIR__ . "/../../Saklient/Cloud/Product.php";
 use \Saklient\Cloud\Product;
-require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Icon.php";
-use \Saklient\Cloud\Model\Model_Icon;
-require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Server.php";
-use \Saklient\Cloud\Model\Model_Server;
-require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Disk.php";
-use \Saklient\Cloud\Model\Model_Disk;
-require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Appliance.php";
-use \Saklient\Cloud\Model\Model_Appliance;
-require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Archive.php";
-use \Saklient\Cloud\Model\Model_Archive;
-require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_IsoImage.php";
-use \Saklient\Cloud\Model\Model_IsoImage;
-require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Iface.php";
-use \Saklient\Cloud\Model\Model_Iface;
-require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Swytch.php";
-use \Saklient\Cloud\Model\Model_Swytch;
-require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Router.php";
-use \Saklient\Cloud\Model\Model_Router;
-require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Ipv6Net.php";
-use \Saklient\Cloud\Model\Model_Ipv6Net;
-require_once __DIR__ . "/../../Saklient/Cloud/Model/Model_Script.php";
-use \Saklient\Cloud\Model\Model_Script;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Icon.php";
+use \Saklient\Cloud\Models\Model_Icon;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Server.php";
+use \Saklient\Cloud\Models\Model_Server;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Disk.php";
+use \Saklient\Cloud\Models\Model_Disk;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Appliance.php";
+use \Saklient\Cloud\Models\Model_Appliance;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Archive.php";
+use \Saklient\Cloud\Models\Model_Archive;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_IsoImage.php";
+use \Saklient\Cloud\Models\Model_IsoImage;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Iface.php";
+use \Saklient\Cloud\Models\Model_Iface;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Swytch.php";
+use \Saklient\Cloud\Models\Model_Swytch;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Router.php";
+use \Saklient\Cloud\Models\Model_Router;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Ipv6Net.php";
+use \Saklient\Cloud\Models\Model_Ipv6Net;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Script.php";
+use \Saklient\Cloud\Models\Model_Script;
 require_once __DIR__ . "/../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 
@@ -38,17 +38,17 @@ use \Saklient\Errors\SaklientException;
  * 
  * @see API.authorize
  * @property-read \Saklient\Cloud\Product $product 商品情報にアクセスするためのモデルを集めたオブジェクト。 
- * @property-read \Saklient\Cloud\Model\Model_Icon $icon アイコンにアクセスするためのモデル。 
- * @property-read \Saklient\Cloud\Model\Model_Server $server サーバにアクセスするためのモデル。 
- * @property-read \Saklient\Cloud\Model\Model_Disk $disk ディスクにアクセスするためのモデル。 
- * @property-read \Saklient\Cloud\Model\Model_Appliance $appliance アプライアンスにアクセスするためのモデル。 
- * @property-read \Saklient\Cloud\Model\Model_Archive $archive アーカイブにアクセスするためのモデル。 
- * @property-read \Saklient\Cloud\Model\Model_IsoImage $isoImage ISOイメージにアクセスするためのモデル。 
- * @property-read \Saklient\Cloud\Model\Model_Iface $iface インタフェースにアクセスするためのモデル。 
- * @property-read \Saklient\Cloud\Model\Model_Swytch $swytch スイッチにアクセスするためのモデル。 
- * @property-read \Saklient\Cloud\Model\Model_Router $router ルータにアクセスするためのモデル。 
- * @property-read \Saklient\Cloud\Model\Model_Ipv6Net $ipv6Net IPv6ネットワークにアクセスするためのモデル。 
- * @property-read \Saklient\Cloud\Model\Model_Script $script スクリプトにアクセスするためのモデル。 
+ * @property-read \Saklient\Cloud\Models\Model_Icon $icon アイコンにアクセスするためのモデル。 
+ * @property-read \Saklient\Cloud\Models\Model_Server $server サーバにアクセスするためのモデル。 
+ * @property-read \Saklient\Cloud\Models\Model_Disk $disk ディスクにアクセスするためのモデル。 
+ * @property-read \Saklient\Cloud\Models\Model_Appliance $appliance アプライアンスにアクセスするためのモデル。 
+ * @property-read \Saklient\Cloud\Models\Model_Archive $archive アーカイブにアクセスするためのモデル。 
+ * @property-read \Saklient\Cloud\Models\Model_IsoImage $isoImage ISOイメージにアクセスするためのモデル。 
+ * @property-read \Saklient\Cloud\Models\Model_Iface $iface インタフェースにアクセスするためのモデル。 
+ * @property-read \Saklient\Cloud\Models\Model_Swytch $swytch スイッチにアクセスするためのモデル。 
+ * @property-read \Saklient\Cloud\Models\Model_Router $router ルータにアクセスするためのモデル。 
+ * @property-read \Saklient\Cloud\Models\Model_Ipv6Net $ipv6Net IPv6ネットワークにアクセスするためのモデル。 
+ * @property-read \Saklient\Cloud\Models\Model_Script $script スクリプトにアクセスするためのモデル。 
  */
 class API {
 	
@@ -103,7 +103,7 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saklient\Cloud\Model\Model_Icon
+	 * @return \Saklient\Cloud\Models\Model_Icon
 	 */
 	protected function get_icon()
 	{
@@ -123,7 +123,7 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saklient\Cloud\Model\Model_Server
+	 * @return \Saklient\Cloud\Models\Model_Server
 	 */
 	protected function get_server()
 	{
@@ -143,7 +143,7 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saklient\Cloud\Model\Model_Disk
+	 * @return \Saklient\Cloud\Models\Model_Disk
 	 */
 	protected function get_disk()
 	{
@@ -163,7 +163,7 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saklient\Cloud\Model\Model_Appliance
+	 * @return \Saklient\Cloud\Models\Model_Appliance
 	 */
 	protected function get_appliance()
 	{
@@ -183,7 +183,7 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saklient\Cloud\Model\Model_Archive
+	 * @return \Saklient\Cloud\Models\Model_Archive
 	 */
 	protected function get_archive()
 	{
@@ -203,7 +203,7 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saklient\Cloud\Model\Model_IsoImage
+	 * @return \Saklient\Cloud\Models\Model_IsoImage
 	 */
 	protected function get_isoImage()
 	{
@@ -223,7 +223,7 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saklient\Cloud\Model\Model_Iface
+	 * @return \Saklient\Cloud\Models\Model_Iface
 	 */
 	protected function get_iface()
 	{
@@ -243,7 +243,7 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saklient\Cloud\Model\Model_Swytch
+	 * @return \Saklient\Cloud\Models\Model_Swytch
 	 */
 	protected function get_swytch()
 	{
@@ -263,7 +263,7 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saklient\Cloud\Model\Model_Router
+	 * @return \Saklient\Cloud\Models\Model_Router
 	 */
 	protected function get_router()
 	{
@@ -283,7 +283,7 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saklient\Cloud\Model\Model_Ipv6Net
+	 * @return \Saklient\Cloud\Models\Model_Ipv6Net
 	 */
 	protected function get_ipv6Net()
 	{
@@ -303,7 +303,7 @@ class API {
 	/**
 	 * @access protected
 	 * @ignore
-	 * @return \Saklient\Cloud\Model\Model_Script
+	 * @return \Saklient\Cloud\Models\Model_Script
 	 */
 	protected function get_script()
 	{

@@ -7,7 +7,7 @@ use Saklient\Cloud\API;
 use Saklient\Cloud\Enums\EServerInstanceStatus;
 use Saklient\Errors\SaklientException;
 use Saklient\Errors\HttpConflictException;
-use Saklient\Cloud\Resource\Server;
+use Saklient\Cloud\Resources\Server;
 
 class ServerTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,8 +33,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$this->assertCountAtLeast(1, $servers, "server");
 		$mem = 0;
 		foreach ($servers as $server) {
-			$this->assertInstanceOf("Saklient\\Cloud\\Resource\\Server", $server);
-			$this->assertInstanceOf("Saklient\\Cloud\\Resource\\ServerPlan", $server->plan);
+			$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Server", $server);
+			$this->assertInstanceOf("Saklient\\Cloud\\Resources\\ServerPlan", $server->plan);
 			$this->assertGreaterThanOrEqual(1, $server->plan->cpu);
 			$this->assertGreaterThanOrEqual(1, $server->plan->memoryMib);
 			$this->assertGreaterThanOrEqual(1, $server->plan->memoryGib);
@@ -130,7 +130,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		// create a server
 		echo "creating a server...\n";
 		$server = $api->server->create();
-		$this->assertInstanceOf("Saklient\\Cloud\\Resource\\Server", $server);
+		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Server", $server);
 		$server->name = $name;
 		$server->description = $description;
 		$server->tags = [$tag];
@@ -150,7 +150,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		// connect to shared segment
 		echo "connecting the server to shared segment...\n";
 		$iface = $server->addIface();
-		$this->assertInstanceOf("Saklient\\Cloud\\Resource\\Iface", $iface);
+		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Iface", $iface);
 		$this->assertGreaterThan(0, $iface->id);
 		$iface->connectToSharedSegment();
 		echo "IP address: ", $iface->ipAddress, "\n";
@@ -160,7 +160,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		if (!$disk->sleepWhileCopying()) $this->fail("アーカイブからディスクへのコピーがタイムアウトしました");
 		$disk->source = null;
 		$disk->reload();
-		$this->assertInstanceOf("Saklient\\Cloud\\Resource\\Archive", $disk->source);
+		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Archive", $disk->source);
 		$this->assertEquals($archive->id, $disk->source->id);
 		$this->assertEquals($archive->sizeGib, $disk->sizeGib);
 		
@@ -245,7 +245,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 			if (!$disk2->sleepWhileCopying()) $this->fail("ディスクの複製がタイムアウトしました");
 			$disk2->source = null;
 			$disk2->reload();
-			$this->assertInstanceOf("Saklient\\Cloud\\Resource\\Disk", $disk2->source);
+			$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Disk", $disk2->source);
 			$this->assertEquals($disk->id, $disk2->source->id);
 			$this->assertEquals(40, $disk2->sizeGib);
 		}
