@@ -16,6 +16,17 @@ class UserNotSpecifiedException extends HttpForbiddenException {
 	 */
 	static public $defaultMessage = "要求された操作は許可されていません。このAPIはユーザを特定できる認証方法でアクセスする必要があります。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

@@ -16,6 +16,17 @@ class HostOperationFailureException extends HttpServiceUnavailableException {
 	 */
 	static public $defaultMessage = "サービスが利用できません。サーバの操作に失敗しました。このエラーが繰り返し発生する場合は、メンテナンス情報、サポートサイトをご確認ください。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

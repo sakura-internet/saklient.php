@@ -16,6 +16,17 @@ class CdromInUseException extends HttpConflictException {
 	 */
 	static public $defaultMessage = "要求された操作を行えません。ISOイメージをサーバから排出後に実行してください。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

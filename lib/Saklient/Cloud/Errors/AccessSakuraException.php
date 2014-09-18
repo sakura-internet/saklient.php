@@ -16,6 +16,17 @@ class AccessSakuraException extends HttpForbiddenException {
 	 */
 	static public $defaultMessage = "要求された操作は許可されていません。さくらインターネットの会員メニューより認証後に実行してください。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

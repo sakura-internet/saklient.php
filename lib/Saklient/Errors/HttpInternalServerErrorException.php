@@ -16,6 +16,17 @@ class HttpInternalServerErrorException extends HttpException {
 	 */
 	static public $defaultMessage = "サーバ内部エラーが発生しました。このエラーが繰り返し発生する場合は、メンテナンス情報、サポートサイトをご確認ください。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

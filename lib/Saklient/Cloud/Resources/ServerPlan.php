@@ -146,7 +146,8 @@ class ServerPlan extends Resource {
 	 */
 	protected function get_memoryGib()
 	{
-		return $this->get_memoryMib() >> 10;
+		$memoryMib = $this->get_memoryMib();
+		return $memoryMib == null ? null : $memoryMib >> 10;
 	}
 	
 	

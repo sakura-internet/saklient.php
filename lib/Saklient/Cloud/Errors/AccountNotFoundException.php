@@ -16,6 +16,17 @@ class AccountNotFoundException extends HttpBadRequestException {
 	 */
 	static public $defaultMessage = "不適切な要求です。アカウントが存在しません。IDをご確認ください。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

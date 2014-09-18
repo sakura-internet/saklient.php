@@ -187,7 +187,8 @@ class Util {
 					$isOk = is_callable($value);
 					break;
 				case 'array':
-					$isOk = is_array($value);
+				case '\\ArrayObject':
+					$isOk = is_array($value) || $value instanceof \ArrayObject;
 					break;
 				
 				//case 'boolean':

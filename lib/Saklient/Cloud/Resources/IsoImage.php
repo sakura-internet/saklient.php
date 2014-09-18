@@ -20,7 +20,7 @@ use \Saklient\Util;
 /**
  * ISOイメージの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read int $sizeGib サイズ[GiB] 
+ * @property int $sizeGib サイズ[GiB] 
  * @property-read \Saklient\Cloud\Resources\FtpInfo $ftpInfo FTP情報 
  * @property-read string $id ID 
  * @property string $scope スコープ {@link \Saklient\Cloud\Enums\EScope} 
@@ -237,7 +237,22 @@ class IsoImage extends Resource {
 	 */
 	protected function get_sizeGib()
 	{
-		return $this->get_sizeMib() >> 10;
+		$sizeMib = $this->get_sizeMib();
+		return $sizeMib == null ? null : $sizeMib >> 10;
+	}
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @param int|null $sizeGib
+	 * @return int
+	 */
+	protected function set_sizeGib($sizeGib)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($sizeGib, "int");
+		$this->set_sizeMib($sizeGib == null ? null : $sizeGib * 1024);
+		return $sizeGib;
 	}
 	
 	
@@ -570,7 +585,7 @@ class IsoImage extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @param int $v
+	 * @param int|null $v
 	 * @return int
 	 */
 	private function set_sizeMib($v)
@@ -791,6 +806,7 @@ class IsoImage extends Resource {
 	 */
 	public function __set($key, $v) {
 		switch ($key) {
+			case "sizeGib": return $this->set_sizeGib($v);
 			case "scope": return $this->set_scope($v);
 			case "name": return $this->set_name($v);
 			case "description": return $this->set_description($v);

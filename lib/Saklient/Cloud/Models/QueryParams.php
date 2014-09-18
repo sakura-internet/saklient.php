@@ -30,7 +30,7 @@ class QueryParams {
 	
 	/**
 	 * @access public
-	 * @var string[]
+	 * @var mixed[]
 	 */
 	public $sort;
 	

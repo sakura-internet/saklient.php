@@ -16,6 +16,17 @@ class InvalidUriArgumentException extends HttpNotFoundException {
 	 */
 	static public $defaultMessage = "対象が見つかりません。パスに使用できない文字が含まれています。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

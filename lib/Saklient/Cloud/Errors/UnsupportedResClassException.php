@@ -16,6 +16,17 @@ class UnsupportedResClassException extends HttpBadRequestException {
 	 */
 	static public $defaultMessage = "不適切な要求です。この種類のリソースは要求された操作に対応しません。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

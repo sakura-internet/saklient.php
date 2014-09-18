@@ -16,6 +16,17 @@ class DnsPtrUpdateFailureException extends HttpServiceUnavailableException {
 	 */
 	static public $defaultMessage = "サービスが利用できません。PTRレコードを設定できません。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

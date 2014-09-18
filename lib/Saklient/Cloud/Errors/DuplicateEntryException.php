@@ -16,6 +16,17 @@ class DuplicateEntryException extends HttpConflictException {
 	 */
 	static public $defaultMessage = "要求された操作を行えません。リソースが既に存在するか、リソース同士が既に関連付けられています。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

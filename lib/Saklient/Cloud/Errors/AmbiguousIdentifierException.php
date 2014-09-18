@@ -16,6 +16,17 @@ class AmbiguousIdentifierException extends HttpNotFoundException {
 	 */
 	static public $defaultMessage = "対象が見つかりません。識別名から一意にリソースを特定できません。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

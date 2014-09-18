@@ -2,6 +2,8 @@
 
 namespace Saklient\Cloud\Models;
 
+require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
+use \Saklient\Cloud\Client;
 require_once __DIR__ . "/../../../Saklient/Cloud/Models/Model.php";
 use \Saklient\Cloud\Models\Model;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Iface.php";
@@ -150,6 +152,18 @@ class Model_Iface extends Model {
 	public function find()
 	{
 		return $this->_find();
+	}
+	
+	/**
+	 * @ignore
+	 * @access public
+	 * @param \Saklient\Cloud\Client $client
+	 */
+	public function __construct(\Saklient\Cloud\Client $client)
+	{
+		parent::__construct($client);
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($client, "\\Saklient\\Cloud\\Client");
 	}
 	
 	

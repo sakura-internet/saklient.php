@@ -273,7 +273,8 @@ class Model {
 	 */
 	protected function _create()
 	{
-		return Util::createClassInstance("saklient.cloud.resources." . $this->_className(), new \ArrayObject([$this->_client, null]));
+		$a = new \ArrayObject([$this->_client, null]);
+		return Util::createClassInstance("saklient.cloud.resources." . $this->_className(), $a);
 	}
 	
 	/**
@@ -319,7 +320,8 @@ class Model {
 		$records = $result->{$this->_rootKeyM()};
 		$data = new \ArrayObject([]);
 		foreach ($records as $record) {
-			$i = Util::createClassInstance("saklient.cloud.resources." . $this->_className(), new \ArrayObject([$this->_client, $record]));
+			$a = new \ArrayObject([$this->_client, $record]);
+			$i = Util::createClassInstance("saklient.cloud.resources." . $this->_className(), $a);
 			$data->append($i);
 		}
 		return $data;

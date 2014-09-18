@@ -16,6 +16,17 @@ class TooManyRequestException extends HttpServiceUnavailableException {
 	 */
 	static public $defaultMessage = "要求を受け付けできません。リクエストの密度が高すぎます。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

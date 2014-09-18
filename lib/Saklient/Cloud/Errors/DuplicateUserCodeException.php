@@ -16,6 +16,17 @@ class DuplicateUserCodeException extends HttpConflictException {
 	 */
 	static public $defaultMessage = "要求された操作を行えません。同一ユーザ名で複数のユーザを作成することはできません。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

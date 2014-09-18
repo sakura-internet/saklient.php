@@ -16,6 +16,17 @@ class PaymentPaymentException extends HttpPaymentRequiredException {
 	 */
 	static public $defaultMessage = "お客様のご都合により操作を受け付けることができません。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

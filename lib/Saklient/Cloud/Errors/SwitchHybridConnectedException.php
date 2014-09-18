@@ -16,6 +16,17 @@ class SwitchHybridConnectedException extends HttpConflictException {
 	 */
 	static public $defaultMessage = "要求された操作を行えません。ハイブリッド接続されているスイッチに対して、この操作はできません。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

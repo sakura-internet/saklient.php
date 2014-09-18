@@ -16,6 +16,17 @@ class HttpExpectationFailedException extends HttpException {
 	 */
 	static public $defaultMessage = "HTTPエラー。Expectation Failed.";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

@@ -16,6 +16,17 @@ class InvalidParamCombException extends HttpBadRequestException {
 	 */
 	static public $defaultMessage = "不適切な要求です。同時に指定できないパラメータが含まれています。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

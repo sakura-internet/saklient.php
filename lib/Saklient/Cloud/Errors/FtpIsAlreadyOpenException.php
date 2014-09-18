@@ -16,6 +16,17 @@ class FtpIsAlreadyOpenException extends HttpConflictException {
 	 */
 	static public $defaultMessage = "要求された操作を行えません。FTP共有は既に開始されています。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

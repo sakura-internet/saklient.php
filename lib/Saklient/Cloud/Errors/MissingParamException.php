@@ -16,6 +16,17 @@ class MissingParamException extends HttpBadRequestException {
 	 */
 	static public $defaultMessage = "不適切な要求です。必要なパラメータが指定されていません。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

@@ -16,6 +16,17 @@ class DisconnectB4DeleteException extends HttpConflictException {
 	 */
 	static public $defaultMessage = "要求された操作を行えません。サーバとの接続を切り離した後に実行してください。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

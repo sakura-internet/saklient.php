@@ -122,6 +122,8 @@ require_once __DIR__ . "/../../Saklient/Cloud/Errors/DeleteRouterB4SwitchExcepti
 use \Saklient\Cloud\Errors\DeleteRouterB4SwitchException;
 require_once __DIR__ . "/../../Saklient/Cloud/Errors/DeleteStaticRouteFirstException.php";
 use \Saklient\Cloud\Errors\DeleteStaticRouteFirstException;
+require_once __DIR__ . "/../../Saklient/Cloud/Errors/DisabledInSandboxException.php";
+use \Saklient\Cloud\Errors\DisabledInSandboxException;
 require_once __DIR__ . "/../../Saklient/Cloud/Errors/DisconnectB4DeleteException.php";
 use \Saklient\Cloud\Errors\DisconnectB4DeleteException;
 require_once __DIR__ . "/../../Saklient/Cloud/Errors/DisconnectB4UpdateException.php";
@@ -144,6 +146,8 @@ require_once __DIR__ . "/../../Saklient/Cloud/Errors/DnsAaaaRecordNotFoundExcept
 use \Saklient\Cloud\Errors\DnsAaaaRecordNotFoundException;
 require_once __DIR__ . "/../../Saklient/Cloud/Errors/DnsPtrUpdateFailureException.php";
 use \Saklient\Cloud\Errors\DnsPtrUpdateFailureException;
+require_once __DIR__ . "/../../Saklient/Cloud/Errors/DontCreateInSandboxException.php";
+use \Saklient\Cloud\Errors\DontCreateInSandboxException;
 require_once __DIR__ . "/../../Saklient/Cloud/Errors/DuplicateAccountCodeException.php";
 use \Saklient\Cloud\Errors\DuplicateAccountCodeException;
 require_once __DIR__ . "/../../Saklient/Cloud/Errors/DuplicateEntryException.php";
@@ -408,6 +412,9 @@ class ExceptionFactory {
 			case "delete_static_route_first": {
 				return new DeleteStaticRouteFirstException($status, $code, $message);
 			}
+			case "disabled_in_sandbox": {
+				return new DisabledInSandboxException($status, $code, $message);
+			}
 			case "disconnect_b4_delete": {
 				return new DisconnectB4DeleteException($status, $code, $message);
 			}
@@ -440,6 +447,9 @@ class ExceptionFactory {
 			}
 			case "dns_ptr_update_failure": {
 				return new DnsPtrUpdateFailureException($status, $code, $message);
+			}
+			case "dont_create_in_sandbox": {
+				return new DontCreateInSandboxException($status, $code, $message);
 			}
 			case "duplicate_account_code": {
 				return new DuplicateAccountCodeException($status, $code, $message);

@@ -7,14 +7,14 @@ use \Saklient\Errors\HttpForbiddenException;
 require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 
-/** 要求された操作は許可されていません。APIキーによるアクセスはできません。 */
-class AccessApiKeyDisabledException extends HttpForbiddenException {
+/** 要求された操作は許可されていません。このゾーンではこの操作は禁止されています。他のゾーンでお試しください。 */
+class DisabledInSandboxException extends HttpForbiddenException {
 	
 	/**
 	 * @access public
 	 * @var string
 	 */
-	static public $defaultMessage = "要求された操作は許可されていません。APIキーによるアクセスはできません。";
+	static public $defaultMessage = "要求された操作は許可されていません。このゾーンではこの操作は禁止されています。他のゾーンでお試しください。";
 	
 	/**
 	 * @access public

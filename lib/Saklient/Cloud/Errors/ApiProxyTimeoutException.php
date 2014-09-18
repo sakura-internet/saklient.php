@@ -16,6 +16,17 @@ class ApiProxyTimeoutException extends HttpGatewayTimeoutException {
 	 */
 	static public $defaultMessage = "APIプロクシがタイムアウトしました。サーバが混雑している可能性があります。";
 	
+	/**
+	 * @access public
+	 * @param int $status
+	 * @param string $code=null
+	 * @param string $message=""
+	 */
+	public function __construct($status, $code=null, $message="")
+	{
+		parent::__construct($status, $code, $message);
+	}
+	
 	
 
 }

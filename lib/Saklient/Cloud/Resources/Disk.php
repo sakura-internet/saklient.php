@@ -246,20 +246,21 @@ class Disk extends Resource {
 	 */
 	protected function get_sizeGib()
 	{
-		return $this->get_sizeMib() >> 10;
+		$sizeMib = $this->get_sizeMib();
+		return $sizeMib == null ? null : $sizeMib >> 10;
 	}
 	
 	/**
 	 * @access protected
 	 * @ignore
-	 * @param int $sizeGib
+	 * @param int|null $sizeGib
 	 * @return int
 	 */
 	protected function set_sizeGib($sizeGib)
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($sizeGib, "int");
-		$this->set_sizeMib($sizeGib * 1024);
+		$this->set_sizeMib($sizeGib == null ? null : $sizeGib * 1024);
 		return $sizeGib;
 	}
 	
@@ -650,7 +651,7 @@ class Disk extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @param int $v
+	 * @param int|null $v
 	 * @return int
 	 */
 	private function set_sizeMib($v)
