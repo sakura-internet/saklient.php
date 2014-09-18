@@ -363,7 +363,11 @@ class Archive extends Resource {
 				if ($s != null) {
 					$id = $s->{"ID"};
 					if ($id != null) {
-						$obj = Util::createClassInstance("saklient.cloud.resources.Disk", new \ArrayObject([$this->_client, $s]));
+						$obj = Util::createClassInstance("saklient.cloud.resources.Disk", new \ArrayObject([
+							$this->_client,
+							$s,
+							false
+						]));
 						$this->_source = $obj;
 					}
 				}
@@ -433,7 +437,7 @@ class Archive extends Resource {
 	public function closeFtp()
 	{
 		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/ftp";
-		$result = $this->_client->request("DELETE", $path);
+		$this->_client->request("DELETE", $path);
 		$this->_ftpInfo = null;
 		return $this;
 	}

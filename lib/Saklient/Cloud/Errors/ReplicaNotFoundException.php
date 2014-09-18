@@ -12,19 +12,13 @@ class ReplicaNotFoundException extends HttpNotFoundException {
 	
 	/**
 	 * @access public
-	 * @var string
-	 */
-	static public $defaultMessage = "対象が見つかりません。このストレージには指定リソースの複製が存在しません。";
-	
-	/**
-	 * @access public
 	 * @param int $status
 	 * @param string $code=null
 	 * @param string $message=""
 	 */
 	public function __construct($status, $code=null, $message="")
 	{
-		parent::__construct($status, $code, $message);
+		parent::__construct($status, $code, $message == null || $message == "" ? "対象が見つかりません。このストレージには指定リソースの複製が存在しません。" : $message);
 	}
 	
 	

@@ -21,12 +21,6 @@ class HttpException extends \Exception {
 	
 	/**
 	 * @access public
-	 * @var string
-	 */
-	public $message;
-	
-	/**
-	 * @access public
 	 * @param int $status
 	 * @param string $code=null
 	 * @param string $message=""
@@ -36,7 +30,6 @@ class HttpException extends \Exception {
 		parent::__construct($message);
 		$this->status = $status;
 		$this->code = $code;
-		$this->message = $message;
 	}
 	
 	

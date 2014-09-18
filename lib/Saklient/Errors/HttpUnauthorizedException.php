@@ -12,19 +12,13 @@ class HttpUnauthorizedException extends HttpException {
 	
 	/**
 	 * @access public
-	 * @var string
-	 */
-	static public $defaultMessage = "この操作は認証が必要です。IDまたはパスワードが誤っている可能性があります。";
-	
-	/**
-	 * @access public
 	 * @param int $status
 	 * @param string $code=null
 	 * @param string $message=""
 	 */
 	public function __construct($status, $code=null, $message="")
 	{
-		parent::__construct($status, $code, $message);
+		parent::__construct($status, $code, $message == null || $message == "" ? "この操作は認証が必要です。IDまたはパスワードが誤っている可能性があります。" : $message);
 	}
 	
 	

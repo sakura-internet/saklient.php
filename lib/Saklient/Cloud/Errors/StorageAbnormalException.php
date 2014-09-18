@@ -12,19 +12,13 @@ class StorageAbnormalException extends HttpServiceUnavailableException {
 	
 	/**
 	 * @access public
-	 * @var string
-	 */
-	static public $defaultMessage = "サービスが利用できません。ストレージが問題が発生している可能性があります。このエラーが繰り返し発生する場合は、メンテナンス情報、サポートサイトをご確認ください。";
-	
-	/**
-	 * @access public
 	 * @param int $status
 	 * @param string $code=null
 	 * @param string $message=""
 	 */
 	public function __construct($status, $code=null, $message="")
 	{
-		parent::__construct($status, $code, $message);
+		parent::__construct($status, $code, $message == null || $message == "" ? "サービスが利用できません。ストレージが問題が発生している可能性があります。このエラーが繰り返し発生する場合は、メンテナンス情報、サポートサイトをご確認ください。" : $message);
 	}
 	
 	

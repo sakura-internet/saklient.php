@@ -273,7 +273,11 @@ class Model {
 	 */
 	protected function _create()
 	{
-		$a = new \ArrayObject([$this->_client, null]);
+		$a = new \ArrayObject([
+			$this->_client,
+			null,
+			false
+		]);
 		return Util::createClassInstance("saklient.cloud.resources." . $this->_className(), $a);
 	}
 	
@@ -295,11 +299,12 @@ class Model {
 		$result = $this->_client->request("GET", $this->_apiPath() . "/" . Util::urlEncode($id), $query);
 		$this->_total = 1;
 		$this->_count = 1;
-		return Util::createClassInstance("saklient.cloud.resources." . $this->_className(), new \ArrayObject([
+		$a = new \ArrayObject([
 			$this->_client,
 			$result,
 			true
-		]));
+		]);
+		return Util::createClassInstance("saklient.cloud.resources." . $this->_className(), $a);
 	}
 	
 	/**
@@ -317,10 +322,14 @@ class Model {
 		$result = $this->_client->request("GET", $this->_apiPath(), $query);
 		$this->_total = $result->{"Total"};
 		$this->_count = $result->{"Count"};
-		$records = $result->{$this->_rootKeyM()};
 		$data = new \ArrayObject([]);
+		$records = $result->{$this->_rootKeyM()};
 		foreach ($records as $record) {
-			$a = new \ArrayObject([$this->_client, $record]);
+			$a = new \ArrayObject([
+				$this->_client,
+				$record,
+				false
+			]);
 			$i = Util::createClassInstance("saklient.cloud.resources." . $this->_className(), $a);
 			$data->append($i);
 		}
@@ -346,7 +355,12 @@ class Model {
 			return null;
 		}
 		$records = $result->{$this->_rootKeyM()};
-		return Util::createClassInstance("saklient.cloud.resources." . $this->_className(), new \ArrayObject([$this->_client, $records[0]]));
+		$a = new \ArrayObject([
+			$this->_client,
+			$records[0],
+			false
+		]);
+		return Util::createClassInstance("saklient.cloud.resources." . $this->_className(), $a);
 	}
 	
 	/**

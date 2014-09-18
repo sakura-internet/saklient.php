@@ -12,19 +12,13 @@ class PaymentRegistrationException extends HttpPaymentRequiredException {
 	
 	/**
 	 * @access public
-	 * @var string
-	 */
-	static public $defaultMessage = "要求を受け付けできません。支払情報が未登録です。会員メニューから支払、クレジットカードの情報を登録してください";
-	
-	/**
-	 * @access public
 	 * @param int $status
 	 * @param string $code=null
 	 * @param string $message=""
 	 */
 	public function __construct($status, $code=null, $message="")
 	{
-		parent::__construct($status, $code, $message);
+		parent::__construct($status, $code, $message == null || $message == "" ? "要求を受け付けできません。支払情報が未登録です。会員メニューから支払、クレジットカードの情報を登録してください" : $message);
 	}
 	
 	

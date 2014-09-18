@@ -306,7 +306,7 @@ class IsoImage extends Resource {
 	public function closeFtp()
 	{
 		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/ftp";
-		$result = $this->_client->request("DELETE", $path);
+		$this->_client->request("DELETE", $path);
 		$this->_ftpInfo = null;
 		return $this;
 	}

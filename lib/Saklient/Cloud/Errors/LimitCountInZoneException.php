@@ -12,19 +12,13 @@ class LimitCountInZoneException extends HttpConflictException {
 	
 	/**
 	 * @access public
-	 * @var string
-	 */
-	static public $defaultMessage = "要求を受け付けできません。ゾーン内リソース数上限により、リソースの割り当てに失敗しました。";
-	
-	/**
-	 * @access public
 	 * @param int $status
 	 * @param string $code=null
 	 * @param string $message=""
 	 */
 	public function __construct($status, $code=null, $message="")
 	{
-		parent::__construct($status, $code, $message);
+		parent::__construct($status, $code, $message == null || $message == "" ? "要求を受け付けできません。ゾーン内リソース数上限により、リソースの割り当てに失敗しました。" : $message);
 	}
 	
 	

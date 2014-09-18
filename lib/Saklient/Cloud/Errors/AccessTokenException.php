@@ -12,19 +12,13 @@ class AccessTokenException extends HttpForbiddenException {
 	
 	/**
 	 * @access public
-	 * @var string
-	 */
-	static public $defaultMessage = "要求された操作は許可されていません。この操作は有効期限内のトークンが必要です。";
-	
-	/**
-	 * @access public
 	 * @param int $status
 	 * @param string $code=null
 	 * @param string $message=""
 	 */
 	public function __construct($status, $code=null, $message="")
 	{
-		parent::__construct($status, $code, $message);
+		parent::__construct($status, $code, $message == null || $message == "" ? "要求された操作は許可されていません。この操作は有効期限内のトークンが必要です。" : $message);
 	}
 	
 	

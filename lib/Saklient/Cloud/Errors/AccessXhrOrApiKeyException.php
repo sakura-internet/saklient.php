@@ -12,19 +12,13 @@ class AccessXhrOrApiKeyException extends HttpForbiddenException {
 	
 	/**
 	 * @access public
-	 * @var string
-	 */
-	static public $defaultMessage = "要求された操作は許可されていません。XHRまたはAPIキーによるアクセスのみ許可されています。";
-	
-	/**
-	 * @access public
 	 * @param int $status
 	 * @param string $code=null
 	 * @param string $message=""
 	 */
 	public function __construct($status, $code=null, $message="")
 	{
-		parent::__construct($status, $code, $message);
+		parent::__construct($status, $code, $message == null || $message == "" ? "要求された操作は許可されていません。XHRまたはAPIキーによるアクセスのみ許可されています。" : $message);
 	}
 	
 	

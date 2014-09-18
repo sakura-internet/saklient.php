@@ -24,6 +24,10 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EServerInstanceStatus.php
 use \Saklient\Cloud\Enums\EServerInstanceStatus;
 require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EAvailability.php";
 use \Saklient\Cloud\Enums\EAvailability;
+require_once __DIR__ . "/../../../Saklient/Cloud/Models/Model_Disk.php";
+use \Saklient\Cloud\Models\Model_Disk;
+require_once __DIR__ . "/../../../Saklient/Cloud/Models/Model_Iface.php";
+use \Saklient\Cloud\Models\Model_Iface;
 require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 
@@ -425,7 +429,7 @@ class Server extends Resource {
 		Util::validateType($iso, "\\Saklient\\Cloud\\Resources\\IsoImage");
 		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/cdrom";
 		$q = (object)['CDROM' => (object)['ID' => $iso->_id()]];
-		$result = $this->_client->request("PUT", $path, $q);
+		$this->_client->request("PUT", $path, $q);
 		$this->reload();
 		return $this;
 	}
@@ -439,7 +443,7 @@ class Server extends Resource {
 	public function ejectIsoImage()
 	{
 		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/cdrom";
-		$result = $this->_client->request("DELETE", $path);
+		$this->_client->request("DELETE", $path);
 		$this->reload();
 		return $this;
 	}

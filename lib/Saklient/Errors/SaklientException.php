@@ -15,12 +15,6 @@ class SaklientException extends \Exception {
 	
 	/**
 	 * @access public
-	 * @var string
-	 */
-	public $message;
-	
-	/**
-	 * @access public
 	 * @param string $code=null
 	 * @param string $message=""
 	 */
@@ -28,7 +22,6 @@ class SaklientException extends \Exception {
 	{
 		parent::__construct($message);
 		$this->code = $code;
-		$this->message = $message;
 	}
 	
 	

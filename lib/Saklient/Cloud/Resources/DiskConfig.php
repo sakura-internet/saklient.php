@@ -362,7 +362,7 @@ class DiskConfig {
 			Util::setByPath($q, "Notes", $notes);
 		}
 		$path = "/disk/" . $this->_diskId . "/config";
-		$result = $this->_client->request("PUT", $path, $q);
+		$this->_client->request("PUT", $path, $q);
 		return $this;
 	}
 	

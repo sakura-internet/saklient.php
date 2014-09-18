@@ -16,6 +16,8 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Ipv4Net.php";
 use \Saklient\Cloud\Resources\Ipv4Net;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Ipv6Net.php";
 use \Saklient\Cloud\Resources\Ipv6Net;
+require_once __DIR__ . "/../../../Saklient/Cloud/Models/Model_Swytch.php";
+use \Saklient\Cloud\Models\Model_Swytch;
 require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 

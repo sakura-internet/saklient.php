@@ -12,19 +12,13 @@ class HttpRequestedRangeNotSatisfiableException extends HttpException {
 	
 	/**
 	 * @access public
-	 * @var string
-	 */
-	static public $defaultMessage = "HTTPエラー。Requested Range Not Satisfiable.";
-	
-	/**
-	 * @access public
 	 * @param int $status
 	 * @param string $code=null
 	 * @param string $message=""
 	 */
 	public function __construct($status, $code=null, $message="")
 	{
-		parent::__construct($status, $code, $message);
+		parent::__construct($status, $code, $message == null || $message == "" ? "HTTPエラー。Requested Range Not Satisfiable." : $message);
 	}
 	
 	

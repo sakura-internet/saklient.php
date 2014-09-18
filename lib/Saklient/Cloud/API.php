@@ -356,10 +356,7 @@ class API {
 		Util::validateType($zone, "string");
 		$c = new Client($token, $secret);
 		$ret = new API($c);
-		if ($zone != null) {
-			$ret = $ret->inZone($zone);
-		}
-		return $ret;
+		return $zone != null ? $ret->inZone($zone) : $ret;
 	}
 	
 	/**

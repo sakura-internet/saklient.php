@@ -12,19 +12,13 @@ class HttpHttpVersionNotSupportedException extends HttpException {
 	
 	/**
 	 * @access public
-	 * @var string
-	 */
-	static public $defaultMessage = "HTTPエラー。Http Version Not Supported.";
-	
-	/**
-	 * @access public
 	 * @param int $status
 	 * @param string $code=null
 	 * @param string $message=""
 	 */
 	public function __construct($status, $code=null, $message="")
 	{
-		parent::__construct($status, $code, $message);
+		parent::__construct($status, $code, $message == null || $message == "" ? "HTTPエラー。Http Version Not Supported." : $message);
 	}
 	
 	

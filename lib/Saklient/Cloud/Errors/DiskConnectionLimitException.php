@@ -12,19 +12,13 @@ class DiskConnectionLimitException extends HttpConflictException {
 	
 	/**
 	 * @access public
-	 * @var string
-	 */
-	static public $defaultMessage = "要求された操作を行えません。この接続インタフェースにこれ以上のディスクを接続することができません。";
-	
-	/**
-	 * @access public
 	 * @param int $status
 	 * @param string $code=null
 	 * @param string $message=""
 	 */
 	public function __construct($status, $code=null, $message="")
 	{
-		parent::__construct($status, $code, $message);
+		parent::__construct($status, $code, $message == null || $message == "" ? "要求された操作を行えません。この接続インタフェースにこれ以上のディスクを接続することができません。" : $message);
 	}
 	
 	

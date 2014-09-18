@@ -12,19 +12,13 @@ class CantResizeSmallerException extends HttpBadRequestException {
 	
 	/**
 	 * @access public
-	 * @var string
-	 */
-	static public $defaultMessage = "不適切な要求です。現在の容量よりも小さくリサイズすることはできません。";
-	
-	/**
-	 * @access public
 	 * @param int $status
 	 * @param string $code=null
 	 * @param string $message=""
 	 */
 	public function __construct($status, $code=null, $message="")
 	{
-		parent::__construct($status, $code, $message);
+		parent::__construct($status, $code, $message == null || $message == "" ? "不適切な要求です。現在の容量よりも小さくリサイズすることはできません。" : $message);
 	}
 	
 	

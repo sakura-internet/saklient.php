@@ -12,19 +12,13 @@ class HttpNotExtendedException extends HttpException {
 	
 	/**
 	 * @access public
-	 * @var string
-	 */
-	static public $defaultMessage = "HTTPエラー。Not Extended.";
-	
-	/**
-	 * @access public
 	 * @param int $status
 	 * @param string $code=null
 	 * @param string $message=""
 	 */
 	public function __construct($status, $code=null, $message="")
 	{
-		parent::__construct($status, $code, $message);
+		parent::__construct($status, $code, $message == null || $message == "" ? "HTTPエラー。Not Extended." : $message);
 	}
 	
 	
