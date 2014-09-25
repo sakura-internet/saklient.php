@@ -47,6 +47,8 @@ config.shで定義されるAPIキーの値には、コントロールパネル�
 [(Account Name) > Settings > API key](https://secure.sakura.ad.jp/cloud/#!/pref/apikey/)
 ページで生成されたものを使用してください。
 
+[他のサンプルコード](http://sakura-internet.github.io/saklient.doc/) もご覧いただけます。
+
 
 ## <a name="how-to-use-this-library-in-your-project"></a> あなたのプロジェクトでのこのライブラリの使用方法
 
@@ -92,9 +94,9 @@ $api = \Saklient\Cloud\API::authorize(YOUR_API_TOKEN, YOUR_API_SECRET, ZONE);
 
 $api->server->find() のようないくつかのメソッドは配列を返します。
 この配列はPHP標準の [array](http://www.php.net/manual/ja/book.array.php) の代わりに
-[ArrayObject](http://www.php.net/manual/ja/class.arrayobject.php) から成っています。
+[ArrayObject](http://www.php.net/manual/ja/class.arrayobject.php) を使用しています。
 
-従って、[array_shift()](http://www.php.net/manual/ja/function.array-shift.php)
+このため、[array_shift()](http://www.php.net/manual/ja/function.array-shift.php)
 のようなPHP標準の配列APIの引数に、（このライブラリのあらゆるメソッドから返される）この配列を渡す場合、
 事前にArrayObjectから標準のarrayにキャストしなければなりません。
 
