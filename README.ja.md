@@ -23,6 +23,15 @@
 
 ## <a name="how-to-run-the-example-code"></a> サンプルコードの実行方法
 
+config.shで定義されるAPIキーの値には、コントロールパネルの
+[(Account Name) > Settings > API key](https://secure.sakura.ad.jp/cloud/#!/pref/apikey/)
+ページで生成されたものを使用してください。
+
+最初にお試しいただく際は 'tk1v'(Sandbox) ゾーンの使用が強く推奨されます。
+あなたのAPIキーを用い、他のゾーンでこれらのサンプルコードを実行すると **課金が発生する場合があります**。
+
+他のサンプルコードは [こちら](http://sakura-internet.github.io/saklient.doc/) でご覧いただけます。
+
 ```bash
 # Composerをインストール（まだの場合）
 curl -sS https://getcomposer.org/installer | php
@@ -42,15 +51,6 @@ vi config.sh
 # サンプルコードを実行
 ./example.sh
 ```
-
-config.shで定義されるAPIキーの値には、コントロールパネルの
-[(Account Name) > Settings > API key](https://secure.sakura.ad.jp/cloud/#!/pref/apikey/)
-ページで生成されたものを使用してください。
-
-最初にお試しいただく際は 'tk1v'(Sandbox) ゾーンの使用が強く推奨されます。
-あなたのAPIキーを用い、他のゾーンでこれらのサンプルコードを実行すると **課金が発生する場合があります**。
-
-[他のサンプルコード](http://sakura-internet.github.io/saklient.doc/) もご覧いただけます。
 
 
 ## <a name="how-to-use-this-library-in-your-project"></a> あなたのプロジェクトでのこのライブラリの使用方法
