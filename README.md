@@ -80,10 +80,9 @@ vi YOUR-CODE.php
 <?php
 
 require_once 'vendor/autoload.php';
-$api = \Saklient\Cloud\API::authorize(YOUR_API_TOKEN, YOUR_API_SECRET);
-
-// To access resources in the specified zone
-$api_is1b = $api->inZone("is1b");
+$api = \Saklient\Cloud\API::authorize(YOUR_API_TOKEN, YOUR_API_SECRET, ZONE);
+// ZONE: "is1a" (Ishikari 1st zone), "is1b" (Ishikari 2nd zone), "tk1v" (Sandbox)
+// "tk1v" is recommended for tests
 
 // ...
 ```

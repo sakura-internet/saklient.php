@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-$api = \Saklient\Cloud\API::authorize($argv[1], $argv[2]);
+$api = \Saklient\Cloud\API::authorize($argv[1], $argv[2], $argv[3]);
 
 $planFrom = $api->product->server->getBySpec(2, 4);
 printf("plan from: [%s] %dcore %dGB\n", $planFrom->id, $planFrom->cpu, $planFrom->memoryGib);

@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-$api = \Saklient\Cloud\API::authorize($argv[1], $argv[2]);
+$api = \Saklient\Cloud\API::authorize($argv[1], $argv[2], $argv[3]);
 
 $servers = $api->server->withStatus("down")->find();
 foreach ($servers as $server) {

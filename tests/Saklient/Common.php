@@ -28,7 +28,7 @@ trait Common
 		}
 		if (empty($config->SACLOUD_TOKEN))  $this->fail("SACLOUD_TOKEN must be defined in config.sh");
 		if (empty($config->SACLOUD_SECRET)) $this->fail("SACLOUD_SECRET must be defined in config.sh");
-		// if (empty($config->SACLOUD_ZONE)) $this->fail("SACLOUD_ZONE must be defined in config.sh");
+		if (empty($config->SACLOUD_ZONE)) $this->fail("SACLOUD_ZONE must be defined in config.sh");
 		return $config;
 	}
 	

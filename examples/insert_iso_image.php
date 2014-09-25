@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-$api = \Saklient\Cloud\API::authorize($argv[1], $argv[2]);
+$api = \Saklient\Cloud\API::authorize($argv[1], $argv[2], $argv[3]);
 
 $isos = $api->isoImage->withNameLike("cent 6.5 64")->withSharedScope()->find();
 if (!$isos) die("ISO image not found");

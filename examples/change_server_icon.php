@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-$api = \Saklient\Cloud\API::authorize($argv[1], $argv[2]);
+$api = \Saklient\Cloud\API::authorize($argv[1], $argv[2], $argv[3]);
 
 $icons = $api->icon->withNameLike("cent")->limit(1)->find();
 if (!$icons) die("icon not found");
