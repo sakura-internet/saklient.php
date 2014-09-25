@@ -9,9 +9,9 @@
 ## 目次
 
 * [必須環境](#requirements)
-* [サンプルコードの実行方法](#how-to-run-the-example-code)
 * [あなたのプロジェクトでのこのライブラリの使用方法](#how-to-use-this-library-in-your-project)
 * [ArrayObjectに関する注意](#a-notice-about-arrayobject-arrayobject)
+* [Examples](#examples)
 * [コピーライトおよびライセンス](#copyright-and-license)
 
 
@@ -19,38 +19,6 @@
 
 - PHP 5.4+
 - [Composer](https://getcomposer.org/)
-
-
-## <a name="how-to-run-the-example-code"></a> サンプルコードの実行方法
-
-config.shで定義されるAPIキーの値には、コントロールパネルの
-[(Account Name) > Settings > API key](https://secure.sakura.ad.jp/cloud/#!/pref/apikey/)
-ページで生成されたものを使用してください。
-
-最初にお試しいただく際は 'tk1v'(Sandbox) ゾーンの使用が強く推奨されます。
-あなたのAPIキーを用い、他のゾーンでこれらのサンプルコードを実行すると **課金が発生する場合があります**。
-
-他のサンプルコードは [こちら](http://sakura-internet.github.io/saklient.doc/) でご覧いただけます。
-
-```bash
-# Composerをインストール（まだの場合）
-curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/local/bin/composer
-
-# このリポジトリをクローン
-git clone git@github.com:sakura-internet/saklient.php.git
-cd saklient.php
-
-# Composerのautoloaderをインストール
-composer install
-
-# APIキーを設定
-cp config.example.sh config.sh
-vi config.sh
-
-# サンプルコードを実行
-./example.sh
-```
 
 
 ## <a name="how-to-use-this-library-in-your-project"></a> あなたのプロジェクトでのこのライブラリの使用方法
@@ -158,6 +126,11 @@ for ($i=0; $i < count($servers); $i++) {
 }
 
 ```
+
+
+## <a name="examples"></a> サンプルコード
+
+サンプルコードは [こちら](http://sakura-internet.github.io/saklient.doc/) で入手できます。
 
 
 ## <a name="copyright-and-license"></a> コピーライトおよびライセンス
