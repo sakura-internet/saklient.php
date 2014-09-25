@@ -40,7 +40,7 @@ cp config.example.sh config.sh
 vi config.sh
 
 # サンプルコードを実行
-./test.sh
+./example.sh
 ```
 
 config.shで定義されるAPIキーの値には、コントロールパネルの
