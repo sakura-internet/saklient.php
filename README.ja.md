@@ -11,7 +11,7 @@
 * [必須環境](#requirements)
 * [あなたのプロジェクトでのこのライブラリの使用方法](#how-to-use-this-library-in-your-project)
 * [ArrayObjectに関する注意](#a-notice-about-arrayobject-arrayobject)
-* [Examples](#examples)
+* [サンプルコード](#examples)
 * [コピーライトおよびライセンス](#copyright-and-license)
 
 
