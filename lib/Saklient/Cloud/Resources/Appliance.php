@@ -27,6 +27,8 @@ use \Saklient\Util;
  * @property \ArrayObject $tags タグ 
  * @property \Saklient\Cloud\Resources\Icon $icon アイコン 
  * @property-read \ArrayObject $ifaces プラン 
+ * @property-read mixed $annotation 注釈 
+ * @property mixed $rawSettings 設定の生データ 
  * @property-read string $serviceClass サービスクラス 
  */
 class Appliance extends Resource {
@@ -93,6 +95,31 @@ class Appliance extends Resource {
 	 * @var Iface[]
 	 */
 	protected $m_ifaces;
+	
+	/**
+	 * 注釈
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var mixed
+	 */
+	protected $m_annotation;
+	
+	/**
+	 * 設定の生データ
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var mixed
+	 */
+	protected $m_rawSettings;
+	
+	/**
+	 * @ignore
+	 * @access protected
+	 * @var string
+	 */
+	protected $m_rawSettingsHash;
 	
 	/**
 	 * サービスクラス
@@ -183,6 +210,24 @@ class Appliance extends Resource {
 	/**
 	 * @ignore
 	 * @access public
+	 * @return string
+	 */
+	public function trueClassName()
+	{
+		switch ($this->clazz) {
+			case "loadbalancer": {
+				return "LoadBalancer";
+			}
+			case "vpcrouter": {
+				return "VpcRouter";
+			}
+		}
+		
+	}
+	
+	/**
+	 * @ignore
+	 * @access public
 	 * @param \Saklient\Cloud\Client $client
 	 * @param mixed $obj
 	 * @param boolean $wrapped=false
@@ -194,6 +239,19 @@ class Appliance extends Resource {
 		Util::validateType($client, "\\Saklient\\Cloud\\Client");
 		Util::validateType($wrapped, "boolean");
 		$this->apiDeserialize($obj, $wrapped);
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $query
+	 * @return void
+	 */
+	protected function _onBeforeSave($query)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::setByPath($query, "OriginalSettingsHash", $this->rawSettingsHash);
 	}
 	
 	/**
@@ -398,6 +456,7 @@ class Appliance extends Resource {
 	 */
 	private function get_tags()
 	{
+		$this->n_tags = true;
 		return $this->m_tags;
 	}
 	
@@ -476,6 +535,86 @@ class Appliance extends Resource {
 	private function get_ifaces()
 	{
 		return $this->m_ifaces;
+	}
+	
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_annotation = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return mixed
+	 */
+	private function get_annotation()
+	{
+		return $this->m_annotation;
+	}
+	
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_rawSettings = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return mixed
+	 */
+	private function get_rawSettings()
+	{
+		$this->n_rawSettings = true;
+		return $this->m_rawSettings;
+	}
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param mixed $v
+	 * @return mixed
+	 */
+	private function set_rawSettings($v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		$this->m_rawSettings = $v;
+		$this->n_rawSettings = true;
+		return $this->m_rawSettings;
+	}
+	
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_rawSettingsHash = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_rawSettingsHash()
+	{
+		return $this->m_rawSettingsHash;
 	}
 	
 	
@@ -592,6 +731,30 @@ class Appliance extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_ifaces = false;
+		if (Util::existsPath($r, "Remark")) {
+			$this->m_annotation = Util::getByPath($r, "Remark");
+		}
+		else {
+			$this->m_annotation = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_annotation = false;
+		if (Util::existsPath($r, "Settings")) {
+			$this->m_rawSettings = Util::getByPath($r, "Settings");
+		}
+		else {
+			$this->m_rawSettings = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_rawSettings = false;
+		if (Util::existsPath($r, "SettingsHash")) {
+			$this->m_rawSettingsHash = Util::getByPath($r, "SettingsHash") == null ? null : "" . Util::getByPath($r, "SettingsHash");
+		}
+		else {
+			$this->m_rawSettingsHash = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_rawSettingsHash = false;
 		if (Util::existsPath($r, "ServiceClass")) {
 			$this->m_serviceClass = Util::getByPath($r, "ServiceClass") == null ? null : "" . Util::getByPath($r, "ServiceClass");
 		}
@@ -654,6 +817,15 @@ class Appliance extends Resource {
 				$ret->{"Interfaces"}->append($v);
 			}
 		}
+		if ($withClean || $this->n_annotation) {
+			Util::setByPath($ret, "Remark", $this->m_annotation);
+		}
+		if ($withClean || $this->n_rawSettings) {
+			Util::setByPath($ret, "Settings", $this->m_rawSettings);
+		}
+		if ($withClean || $this->n_rawSettingsHash) {
+			Util::setByPath($ret, "SettingsHash", $this->m_rawSettingsHash);
+		}
 		if ($withClean || $this->n_serviceClass) {
 			Util::setByPath($ret, "ServiceClass", $this->m_serviceClass);
 		}
@@ -675,6 +847,9 @@ class Appliance extends Resource {
 			case "tags": return $this->get_tags();
 			case "icon": return $this->get_icon();
 			case "ifaces": return $this->get_ifaces();
+			case "annotation": return $this->get_annotation();
+			case "rawSettings": return $this->get_rawSettings();
+			case "rawSettingsHash": return $this->get_rawSettingsHash();
 			case "serviceClass": return $this->get_serviceClass();
 			default: return null;
 		}
@@ -690,6 +865,7 @@ class Appliance extends Resource {
 			case "description": return $this->set_description($v);
 			case "tags": return $this->set_tags($v);
 			case "icon": return $this->set_icon($v);
+			case "rawSettings": return $this->set_rawSettings($v);
 			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resources\\Appliance#'.$key);
 		}
 	}

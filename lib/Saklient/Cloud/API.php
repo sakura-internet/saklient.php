@@ -345,7 +345,7 @@ class API {
 	 * @access public
 	 * @param string $token ACCESS TOKEN
 	 * @param string $secret ACCESS TOKEN SECRET
-	 * @param string $zone=null
+	 * @param string $zone=null ゾーン名
 	 * @return \Saklient\Cloud\API APIクライアント
 	 */
 	static public function authorize($token, $secret, $zone=null)

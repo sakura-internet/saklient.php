@@ -262,6 +262,21 @@ class Model {
 	}
 	
 	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $obj
+	 * @param boolean $wrapped=false
+	 * @return \Saklient\Cloud\Resources\Resource
+	 */
+	protected function _createResourceWith($obj, $wrapped=false)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($wrapped, "boolean");
+		return Resource::createWith($this->_className(), $this->_client, $obj, $wrapped);
+	}
+	
+	/**
 	 * 新規リソース作成用のオブジェクトを用意します。
 	 * 
 	 * 返り値のオブジェクトにパラメータを設定し、save() を呼ぶことで実際のリソースが作成されます。
@@ -273,12 +288,7 @@ class Model {
 	 */
 	protected function _create()
 	{
-		$a = new \ArrayObject([
-			$this->_client,
-			null,
-			false
-		]);
-		return Util::createClassInstance("saklient.cloud.resources." . $this->_className(), $a);
+		return $this->_createResourceWith(null);
 	}
 	
 	/**
@@ -299,12 +309,7 @@ class Model {
 		$result = $this->_client->request("GET", $this->_apiPath() . "/" . Util::urlEncode($id), $query);
 		$this->_total = 1;
 		$this->_count = 1;
-		$a = new \ArrayObject([
-			$this->_client,
-			$result,
-			true
-		]);
-		return Util::createClassInstance("saklient.cloud.resources." . $this->_className(), $a);
+		return $this->_createResourceWith($result, true);
 	}
 	
 	/**
@@ -325,13 +330,7 @@ class Model {
 		$data = new \ArrayObject([]);
 		$records = $result->{$this->_rootKeyM()};
 		foreach ($records as $record) {
-			$a = new \ArrayObject([
-				$this->_client,
-				$record,
-				false
-			]);
-			$i = Util::createClassInstance("saklient.cloud.resources." . $this->_className(), $a);
-			$data->append($i);
+			$data->append($this->_createResourceWith($record));
 		}
 		return $data;
 	}
@@ -355,12 +354,7 @@ class Model {
 			return null;
 		}
 		$records = $result->{$this->_rootKeyM()};
-		$a = new \ArrayObject([
-			$this->_client,
-			$records[0],
-			false
-		]);
-		return Util::createClassInstance("saklient.cloud.resources." . $this->_className(), $a);
+		return $this->_createResourceWith($records[0]);
 	}
 	
 	/**

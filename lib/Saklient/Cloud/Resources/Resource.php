@@ -140,10 +140,10 @@ class Resource {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @param mixed $r
+	 * @param mixed $query
 	 * @return void
 	 */
-	protected function _onBeforeSave($r)
+	protected function _onBeforeSave($query)
 	{
 		Util::validateArgCount(func_num_args(), 1);
 	}
@@ -305,7 +305,6 @@ class Resource {
 			$v = $query->{$k};
 			$r->{$k} = $v;
 		}
-		$this->_onBeforeSave($r);
 		$method = $this->isNew ? "POST" : "PUT";
 		$path = $this->_apiPath();
 		if (!$this->isNew) {
@@ -313,6 +312,7 @@ class Resource {
 		}
 		$q = (object)[];
 		$q->{$this->_rootKey()} = $r;
+		$this->_onBeforeSave($q);
 		$result = $this->_client->request($method, $path, $q);
 		$this->apiDeserialize($result, true);
 		return $this;
@@ -360,7 +360,8 @@ class Resource {
 		Util::setByPath($query, "Filter.ID", new \ArrayObject([$this->_id()]));
 		Util::setByPath($query, "Include", new \ArrayObject(["ID"]));
 		$result = $this->_client->request("GET", $this->_apiPath(), $query);
-		return $result->{"Count"} == 1;
+		$cnt = $result->{"Count"};
+		return $cnt == 1;
 	}
 	
 	/**
@@ -371,6 +372,44 @@ class Resource {
 	public function dump()
 	{
 		return $this->apiSerialize(true);
+	}
+	
+	/**
+	 * @ignore
+	 * @access public
+	 * @return string
+	 */
+	public function trueClassName()
+	{
+		return null;
+	}
+	
+	/**
+	 * @ignore
+	 * @access public
+	 * @param string $className
+	 * @param \Saklient\Cloud\Client $client
+	 * @param mixed $obj
+	 * @param boolean $wrapped=false
+	 * @return \Saklient\Cloud\Resources\Resource
+	 */
+	static public function createWith($className, \Saklient\Cloud\Client $client, $obj, $wrapped=false)
+	{
+		Util::validateArgCount(func_num_args(), 3);
+		Util::validateType($className, "string");
+		Util::validateType($client, "\\Saklient\\Cloud\\Client");
+		Util::validateType($wrapped, "boolean");
+		$a = new \ArrayObject([
+			$client,
+			$obj,
+			$wrapped
+		]);
+		$ret = Util::createClassInstance("saklient.cloud.resources." . $className, $a);
+		$trueClassName = $ret->trueClassName();
+		if ($trueClassName != null) {
+			$ret = Util::createClassInstance("saklient.cloud.resources." . $trueClassName, $a);
+		}
+		return $ret;
 	}
 	
 	/**

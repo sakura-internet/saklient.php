@@ -28,7 +28,7 @@ use \Saklient\Util;
  * @property \ArrayObject $tags タグ 
  * @property \Saklient\Cloud\Resources\Icon $icon アイコン 
  * @property string $content 内容 
- * @property mixed $annotation 注釈 
+ * @property-read mixed $annotation 注釈 
  */
 class Script extends Resource {
 	
@@ -361,6 +361,7 @@ class Script extends Resource {
 	 */
 	private function get_tags()
 	{
+		$this->n_tags = true;
 		return $this->m_tags;
 	}
 	
@@ -476,22 +477,6 @@ class Script extends Resource {
 	 */
 	private function get_annotation()
 	{
-		return $this->m_annotation;
-	}
-	
-	/**
-	 * (This method is generated in Translator_default#buildImpl)
-	 * 
-	 * @access private
-	 * @ignore
-	 * @param mixed $v
-	 * @return mixed
-	 */
-	private function set_annotation($v)
-	{
-		Util::validateArgCount(func_num_args(), 1);
-		$this->m_annotation = $v;
-		$this->n_annotation = true;
 		return $this->m_annotation;
 	}
 	
@@ -683,7 +668,6 @@ class Script extends Resource {
 			case "tags": return $this->set_tags($v);
 			case "icon": return $this->set_icon($v);
 			case "content": return $this->set_content($v);
-			case "annotation": return $this->set_annotation($v);
 			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resources\\Script#'.$key);
 		}
 	}

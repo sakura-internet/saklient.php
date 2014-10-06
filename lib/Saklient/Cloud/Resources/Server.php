@@ -561,6 +561,7 @@ class Server extends Resource {
 	 */
 	private function get_tags()
 	{
+		$this->n_tags = true;
 		return $this->m_tags;
 	}
 	

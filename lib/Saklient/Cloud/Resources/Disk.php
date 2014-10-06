@@ -326,12 +326,7 @@ class Disk extends Resource {
 				if ($s != null) {
 					$id = $s->{"ID"};
 					if ($id != null) {
-						$obj = Util::createClassInstance("saklient.cloud.resources.Archive", new \ArrayObject([
-							$this->_client,
-							$s,
-							false
-						]));
-						$this->_source = $obj;
+						$this->_source = Resource::createWith("Archive", $this->_client, $s);
 					}
 				}
 			}
@@ -570,6 +565,7 @@ class Disk extends Resource {
 	 */
 	private function get_tags()
 	{
+		$this->n_tags = true;
 		return $this->m_tags;
 	}
 	
