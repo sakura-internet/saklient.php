@@ -276,6 +276,20 @@ class Resource {
 	 * @ignore
 	 * @access public
 	 * @param string $name
+	 * @return mixed
+	 */
+	public function getProperty($name)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($name, "string");
+		$name = $this->normalizeFieldName($name);
+		return $this->__get($name);
+	}
+	
+	/**
+	 * @ignore
+	 * @access public
+	 * @param string $name
 	 * @param mixed $value
 	 * @return void
 	 */

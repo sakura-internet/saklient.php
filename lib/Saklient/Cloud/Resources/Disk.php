@@ -959,7 +959,7 @@ class Disk extends Resource {
 			case "plan": return $this->get_plan();
 			case "server": return $this->get_server();
 			case "availability": return $this->get_availability();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 	
@@ -976,7 +976,7 @@ class Disk extends Resource {
 			case "icon": return $this->set_icon($v);
 			case "sizeMib": return $this->set_sizeMib($v);
 			case "plan": return $this->set_plan($v);
-			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resources\\Disk#'.$key);
+			default: return parent::__set($key, $v);
 		}
 	}
 

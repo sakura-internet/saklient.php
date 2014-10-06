@@ -356,7 +356,11 @@ class Server extends Resource {
 		$step = 3;
 		while (0 < $timeoutSec) {
 			$this->reload();
-			$s = $this->get_instance()->status;
+			$s = null;
+			$inst = $this->get_instance();
+			if ($inst != null) {
+				$s = $inst->getProperty("status");
+			}
 			if ($s == null) {
 				$s = EServerInstanceStatus::down;
 			}
@@ -914,7 +918,7 @@ class Server extends Resource {
 			case "ifaces": return $this->get_ifaces();
 			case "instance": return $this->get_instance();
 			case "availability": return $this->get_availability();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 	
@@ -928,7 +932,7 @@ class Server extends Resource {
 			case "tags": return $this->set_tags($v);
 			case "icon": return $this->set_icon($v);
 			case "plan": return $this->set_plan($v);
-			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resources\\Server#'.$key);
+			default: return parent::__set($key, $v);
 		}
 	}
 

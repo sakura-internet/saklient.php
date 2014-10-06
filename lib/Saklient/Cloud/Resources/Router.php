@@ -648,7 +648,7 @@ class Router extends Resource {
 			case "networkMaskLen": return $this->get_networkMaskLen();
 			case "bandWidthMbps": return $this->get_bandWidthMbps();
 			case "swytchId": return $this->get_swytchId();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 	
@@ -661,7 +661,7 @@ class Router extends Resource {
 			case "description": return $this->set_description($v);
 			case "networkMaskLen": return $this->set_networkMaskLen($v);
 			case "bandWidthMbps": return $this->set_bandWidthMbps($v);
-			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resources\\Router#'.$key);
+			default: return parent::__set($key, $v);
 		}
 	}
 

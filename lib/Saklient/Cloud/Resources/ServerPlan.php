@@ -353,7 +353,7 @@ class ServerPlan extends Resource {
 			case "cpu": return $this->get_cpu();
 			case "memoryMib": return $this->get_memoryMib();
 			case "serviceClass": return $this->get_serviceClass();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 

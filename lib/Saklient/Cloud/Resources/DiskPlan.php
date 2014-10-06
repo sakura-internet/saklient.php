@@ -254,7 +254,7 @@ class DiskPlan extends Resource {
 			case "id": return $this->get_id();
 			case "name": return $this->get_name();
 			case "storageClass": return $this->get_storageClass();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 

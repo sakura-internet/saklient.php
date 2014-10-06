@@ -214,7 +214,7 @@ class Appliance extends Resource {
 	 */
 	public function trueClassName()
 	{
-		switch ($this->clazz) {
+		switch ($this->get_clazz()) {
 			case "loadbalancer": {
 				return "LoadBalancer";
 			}
@@ -223,6 +223,7 @@ class Appliance extends Resource {
 			}
 		}
 		
+		return null;
 	}
 	
 	/**
@@ -251,7 +252,7 @@ class Appliance extends Resource {
 	protected function _onBeforeSave($query)
 	{
 		Util::validateArgCount(func_num_args(), 1);
-		Util::setByPath($query, "OriginalSettingsHash", $this->rawSettingsHash);
+		Util::setByPath($query, "OriginalSettingsHash", $this->get_rawSettingsHash());
 	}
 	
 	/**
@@ -851,7 +852,7 @@ class Appliance extends Resource {
 			case "rawSettings": return $this->get_rawSettings();
 			case "rawSettingsHash": return $this->get_rawSettingsHash();
 			case "serviceClass": return $this->get_serviceClass();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 	
@@ -866,7 +867,7 @@ class Appliance extends Resource {
 			case "tags": return $this->set_tags($v);
 			case "icon": return $this->set_icon($v);
 			case "rawSettings": return $this->set_rawSettings($v);
-			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resources\\Appliance#'.$key);
+			default: return parent::__set($key, $v);
 		}
 	}
 

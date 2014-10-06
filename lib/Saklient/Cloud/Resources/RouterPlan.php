@@ -295,7 +295,7 @@ class RouterPlan extends Resource {
 			case "name": return $this->get_name();
 			case "bandWidthMbps": return $this->get_bandWidthMbps();
 			case "serviceClass": return $this->get_serviceClass();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 

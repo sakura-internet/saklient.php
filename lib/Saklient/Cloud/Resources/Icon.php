@@ -345,7 +345,7 @@ class Icon extends Resource {
 			case "scope": return $this->get_scope();
 			case "name": return $this->get_name();
 			case "url": return $this->get_url();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 	
@@ -355,7 +355,7 @@ class Icon extends Resource {
 	public function __set($key, $v) {
 		switch ($key) {
 			case "name": return $this->set_name($v);
-			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resources\\Icon#'.$key);
+			default: return parent::__set($key, $v);
 		}
 	}
 

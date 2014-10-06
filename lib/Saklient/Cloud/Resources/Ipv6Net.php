@@ -308,7 +308,7 @@ class Ipv6Net extends Resource {
 			case "prefix": return $this->get_prefix();
 			case "prefixLen": return $this->get_prefixLen();
 			case "prefixTail": return $this->get_prefixTail();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 

@@ -418,7 +418,7 @@ class Iface extends Resource {
 			case "ipAddress": return $this->get_ipAddress();
 			case "userIpAddress": return $this->get_userIpAddress();
 			case "serverId": return $this->get_serverId();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 	
@@ -429,7 +429,7 @@ class Iface extends Resource {
 		switch ($key) {
 			case "userIpAddress": return $this->set_userIpAddress($v);
 			case "serverId": return $this->set_serverId($v);
-			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resources\\Iface#'.$key);
+			default: return parent::__set($key, $v);
 		}
 	}
 
