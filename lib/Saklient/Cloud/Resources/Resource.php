@@ -165,6 +165,19 @@ class Resource {
 	 * @private
 	 * @access protected
 	 * @ignore
+	 * @param boolean $withClean
+	 * @return void
+	 */
+	protected function _onBeforeApiSerialize($withClean)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($withClean, "boolean");
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
 	 * @param mixed $r
 	 * @param boolean $withClean
 	 * @return void
@@ -238,6 +251,7 @@ class Resource {
 	public function apiSerialize($withClean=false)
 	{
 		Util::validateType($withClean, "boolean");
+		$this->_onBeforeApiSerialize($withClean);
 		$ret = $this->apiSerializeImpl($withClean);
 		$this->_onAfterApiSerialize($ret, $withClean);
 		return $ret;

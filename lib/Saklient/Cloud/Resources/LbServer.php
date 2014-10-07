@@ -126,13 +126,47 @@ class LbServer {
 	public function __construct($obj)
 	{
 		Util::validateArgCount(func_num_args(), 1);
-		$this->_ipAddress = Util::getByPath($obj, "IPAddress");
-		$this->_protocol = Util::getByPath($obj, "HealthCheck.Protocol");
-		$this->_pathToCheck = Util::getByPath($obj, "HealthCheck.Path");
-		$port = Util::getByPath($obj, "Port");
+		$health = Util::getByPathAny(new \ArrayObject([$obj]), new \ArrayObject([
+			"HealthCheck",
+			"healthCheck",
+			"health_check",
+			"health"
+		]));
+		$this->_ipAddress = Util::getByPathAny(new \ArrayObject([$obj]), new \ArrayObject([
+			"IPAddress",
+			"ipAddress",
+			"ip_address",
+			"ip"
+		]));
+		$this->_protocol = Util::getByPathAny(new \ArrayObject([$health, $obj]), new \ArrayObject(["Protocol", "protocol"]));
+		$this->_pathToCheck = Util::getByPathAny(new \ArrayObject([$health, $obj]), new \ArrayObject(["Path", "path"]));
+		$port = Util::getByPathAny(new \ArrayObject([$obj]), new \ArrayObject(["Port", "port"]));
 		$this->_port = $port == null ? null : intval($port);
-		$status = Util::getByPath($obj, "HealthCheck.Status");
+		if ($this->_port == 0) {
+			$this->_port = null;
+		}
+		$status = Util::getByPathAny(new \ArrayObject([$health, $obj]), new \ArrayObject(["Status", "status"]));
 		$this->_expectedStatus = $status == null ? null : intval($status);
+		if ($this->_expectedStatus == 0) {
+			$this->_expectedStatus = null;
+		}
+	}
+	
+	/**
+	 * @access public
+	 * @return mixed
+	 */
+	public function toRawSettings()
+	{
+		return (object)[
+			'IPAddress' => $this->_ipAddress,
+			'Port' => $this->_port,
+			'HealthCheck' => (object)[
+				'Protocol' => $this->_protocol,
+				'Path' => $this->_pathToCheck,
+				'Status' => $this->_expectedStatus
+			]
+		];
 	}
 	
 	/**

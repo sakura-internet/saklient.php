@@ -85,14 +85,50 @@ class LoadBalancer extends Appliance {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @param mixed $r
 	 * @param boolean $withClean
 	 * @return void
 	 */
-	protected function _onAfterApiSerialize($r, $withClean)
+	protected function _onBeforeApiSerialize($withClean)
 	{
-		Util::validateArgCount(func_num_args(), 2);
+		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($withClean, "boolean");
+		$lb = new \ArrayObject([]);
+		foreach ($this->_virtualIps as $vip) {
+			$lb->append($vip->toRawSettings());
+		}
+		if ($this->rawSettings == null) {
+			$this->rawSettings = (object)[];
+		}
+		$this->rawSettings->{"LoadBalancer"} = $lb;
+	}
+	
+	/**
+	 * @access public
+	 * @param mixed $settings
+	 * @return \Saklient\Cloud\Resources\LoadBalancer
+	 */
+	public function addVirtualIp($settings)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		$this->_virtualIps->append(new LbVirtualIp($settings));
+		return $this;
+	}
+	
+	/**
+	 * @access public
+	 * @param string $address
+	 * @return \Saklient\Cloud\Resources\LbVirtualIp
+	 */
+	public function getVirtualIpByAddress($address)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($address, "string");
+		foreach ($this->_virtualIps as $vip) {
+			if ($vip->virtualIpAddress == $address) {
+				return $vip;
+			}
+		}
+		return null;
 	}
 	
 	/**

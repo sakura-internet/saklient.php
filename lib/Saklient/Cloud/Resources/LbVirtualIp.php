@@ -107,16 +107,66 @@ class LbVirtualIp {
 	public function __construct($obj)
 	{
 		Util::validateArgCount(func_num_args(), 1);
-		$this->_virtualIpAddress = Util::getByPath($obj, "VirtualIPAddress");
-		$port = Util::getByPath($obj, "Port");
+		$vip = Util::getByPathAny(new \ArrayObject([$obj]), new \ArrayObject([
+			"VirtualIPAddress",
+			"virtualIpAddress",
+			"virtual_ip_address",
+			"vip"
+		]));
+		$this->_virtualIpAddress = $vip;
+		$port = Util::getByPathAny(new \ArrayObject([$obj]), new \ArrayObject(["Port", "port"]));
 		$this->_port = $port == null ? null : intval($port);
-		$delayLoop = Util::getByPath($obj, "DelayLoop");
-		$this->_delayLoop = $delayLoop == null ? null : intval($delayLoop);
-		$this->_servers = new \ArrayObject([]);
-		$servers = Util::getByPath($obj, "Servers");
-		foreach ($servers as $server) {
-			$this->_servers->append(new LbServer($server));
+		if ($this->_port == 0) {
+			$this->_port = null;
 		}
+		$delayLoop = Util::getByPathAny(new \ArrayObject([$obj]), new \ArrayObject([
+			"DelayLoop",
+			"delayLoop",
+			"delay_loop",
+			"delay"
+		]));
+		$this->_delayLoop = $delayLoop == null ? null : intval($delayLoop);
+		if ($this->_delayLoop == 0) {
+			$this->_delayLoop = null;
+		}
+		$this->_servers = new \ArrayObject([]);
+		$serversDyn = Util::getByPathAny(new \ArrayObject([$obj]), new \ArrayObject(["Servers", "servers"]));
+		if ($serversDyn != null) {
+			$servers = $serversDyn;
+			foreach ($servers as $server) {
+				$this->_servers->append(new LbServer($server));
+			}
+		}
+	}
+	
+	/**
+	 * @access public
+	 * @param mixed $settings
+	 * @return \Saklient\Cloud\Resources\LbVirtualIp
+	 */
+	public function addServer($settings)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		$this->_servers->append(new LbServer($settings));
+		return $this;
+	}
+	
+	/**
+	 * @access public
+	 * @return mixed
+	 */
+	public function toRawSettings()
+	{
+		$servers = new \ArrayObject([]);
+		foreach ($this->_servers as $server) {
+			$servers->append($server->toRawSettings());
+		}
+		return (object)[
+			'VirtualIPAddress' => $this->_virtualIpAddress,
+			'Port' => $this->_port,
+			'DelayLoop' => $this->_delayLoop,
+			'Servers' => $servers
+		];
 	}
 	
 	/**
