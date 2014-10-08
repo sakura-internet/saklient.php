@@ -1,6 +1,6 @@
 {
 	"name": "sakura-internet/saklient",
-	"version": "0.0.1",
+	"version": "0.0.2.1",
 	"keywords": ["sakura", "api", "client", "cloud"],
 	"type": "library",
 	"license": "MIT",

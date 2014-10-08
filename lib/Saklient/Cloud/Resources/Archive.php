@@ -440,24 +440,6 @@ class Archive extends Resource {
 	/**
 	 * コピー中のアーカイブが利用可能になるまで待機します。
 	 * 
-	 * @ignore
-	 * @access public
-	 * @param int $timeoutSec
-	 * @param callback $callback
-	 * @return void
-	 */
-	public function afterCopy($timeoutSec, $callback)
-	{
-		Util::validateArgCount(func_num_args(), 2);
-		Util::validateType($timeoutSec, "int");
-		Util::validateType($callback, "callback");
-		$ret = $this->sleepWhileCopying($timeoutSec);
-		$callback($this, $ret);
-	}
-	
-	/**
-	 * コピー中のアーカイブが利用可能になるまで待機します。
-	 * 
 	 * @access public
 	 * @param int $timeoutSec=3600
 	 * @return boolean 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
@@ -1016,7 +998,7 @@ class Archive extends Resource {
 			case "serviceClass": return $this->get_serviceClass();
 			case "plan": return $this->get_plan();
 			case "availability": return $this->get_availability();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 	
@@ -1033,7 +1015,7 @@ class Archive extends Resource {
 			case "icon": return $this->set_icon($v);
 			case "displayOrder": return $this->set_displayOrder($v);
 			case "sizeMib": return $this->set_sizeMib($v);
-			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resources\\Archive#'.$key);
+			default: return parent::__set($key, $v);
 		}
 	}
 

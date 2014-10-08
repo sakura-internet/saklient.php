@@ -647,7 +647,7 @@ class Swytch extends Resource {
 			case "router": return $this->get_router();
 			case "ipv4Nets": return $this->get_ipv4Nets();
 			case "ipv6Nets": return $this->get_ipv6Nets();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 	
@@ -658,7 +658,7 @@ class Swytch extends Resource {
 		switch ($key) {
 			case "name": return $this->set_name($v);
 			case "description": return $this->set_description($v);
-			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resources\\Swytch#'.$key);
+			default: return parent::__set($key, $v);
 		}
 	}
 

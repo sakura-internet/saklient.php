@@ -351,7 +351,7 @@ class Ipv4Net extends Resource {
 			case "maskLen": return $this->get_maskLen();
 			case "defaultRoute": return $this->get_defaultRoute();
 			case "nextHop": return $this->get_nextHop();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 

@@ -105,7 +105,7 @@ class Client {
 				'header'  => implode("\r\n", array(
 					'Content-Type: application/x-www-form-urlencoded',
 					'Authorization: '.$this->config->authorization,
-					'User-Agent: sacloud-client-php',
+					'User-Agent: saklient.php ver-0.0.2.1 rev-fbdfbd12fff96cddc362752e4314009d04886d39',
 					'X-Requested-With: XMLHttpRequest',
 					'X-Sakura-No-Authenticate-Header: 1',
 					'X-Sakura-HTTP-Method: '.$method,

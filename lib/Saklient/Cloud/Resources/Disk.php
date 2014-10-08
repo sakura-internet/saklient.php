@@ -409,24 +409,6 @@ class Disk extends Resource {
 	/**
 	 * コピー中のディスクが利用可能になるまで待機します。
 	 * 
-	 * @ignore
-	 * @access public
-	 * @param int $timeoutSec
-	 * @param callback $callback
-	 * @return void
-	 */
-	public function afterCopy($timeoutSec, $callback)
-	{
-		Util::validateArgCount(func_num_args(), 2);
-		Util::validateType($timeoutSec, "int");
-		Util::validateType($callback, "callback");
-		$ret = $this->sleepWhileCopying($timeoutSec);
-		$callback($this, $ret);
-	}
-	
-	/**
-	 * コピー中のディスクが利用可能になるまで待機します。
-	 * 
 	 * @access public
 	 * @param int $timeoutSec=3600
 	 * @return boolean 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
@@ -434,7 +416,7 @@ class Disk extends Resource {
 	public function sleepWhileCopying($timeoutSec=3600)
 	{
 		Util::validateType($timeoutSec, "int");
-		$step = 3;
+		$step = 10;
 		while (0 < $timeoutSec) {
 			$this->reload();
 			$a = $this->get_availability();
@@ -959,7 +941,7 @@ class Disk extends Resource {
 			case "plan": return $this->get_plan();
 			case "server": return $this->get_server();
 			case "availability": return $this->get_availability();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 	
@@ -976,7 +958,7 @@ class Disk extends Resource {
 			case "icon": return $this->set_icon($v);
 			case "sizeMib": return $this->set_sizeMib($v);
 			case "plan": return $this->set_plan($v);
-			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resources\\Disk#'.$key);
+			default: return parent::__set($key, $v);
 		}
 	}
 

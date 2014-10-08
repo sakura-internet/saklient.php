@@ -798,7 +798,7 @@ class IsoImage extends Resource {
 			case "displayOrder": return $this->get_displayOrder();
 			case "sizeMib": return $this->get_sizeMib();
 			case "serviceClass": return $this->get_serviceClass();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 	
@@ -815,7 +815,7 @@ class IsoImage extends Resource {
 			case "icon": return $this->set_icon($v);
 			case "displayOrder": return $this->set_displayOrder($v);
 			case "sizeMib": return $this->set_sizeMib($v);
-			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resources\\IsoImage#'.$key);
+			default: return parent::__set($key, $v);
 		}
 	}
 

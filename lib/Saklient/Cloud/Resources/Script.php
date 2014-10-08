@@ -654,7 +654,7 @@ class Script extends Resource {
 			case "icon": return $this->get_icon();
 			case "content": return $this->get_content();
 			case "annotation": return $this->get_annotation();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 	
@@ -668,7 +668,7 @@ class Script extends Resource {
 			case "tags": return $this->set_tags($v);
 			case "icon": return $this->set_icon($v);
 			case "content": return $this->set_content($v);
-			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resources\\Script#'.$key);
+			default: return parent::__set($key, $v);
 		}
 	}
 

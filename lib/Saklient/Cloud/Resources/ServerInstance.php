@@ -266,7 +266,7 @@ class ServerInstance extends Resource {
 			case "beforeStatus": return $this->get_beforeStatus();
 			case "statusChangedAt": return $this->get_statusChangedAt();
 			case "isoImage": return $this->get_isoImage();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 

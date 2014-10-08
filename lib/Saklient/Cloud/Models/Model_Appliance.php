@@ -8,6 +8,12 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Models/Model.php";
 use \Saklient\Cloud\Models\Model;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Appliance.php";
 use \Saklient\Cloud\Resources\Appliance;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/LoadBalancer.php";
+use \Saklient\Cloud\Resources\LoadBalancer;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/VpcRouter.php";
+use \Saklient\Cloud\Resources\VpcRouter;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Swytch.php";
+use \Saklient\Cloud\Resources\Swytch;
 require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
@@ -114,6 +120,34 @@ class Model_Appliance extends Model {
 	public function reset()
 	{
 		return $this->_reset();
+	}
+	
+	/**
+	 * @access public
+	 * @param \Saklient\Cloud\Resources\Swytch $swytch
+	 * @param int $vrid
+	 * @param string[] $realIps
+	 * @param boolean $isHighSpec=false
+	 * @return \Saklient\Cloud\Resources\LoadBalancer
+	 */
+	public function createLoadBalancer(\Saklient\Cloud\Resources\Swytch $swytch, $vrid, $realIps, $isHighSpec=false)
+	{
+		Util::validateArgCount(func_num_args(), 3);
+		Util::validateType($swytch, "\\Saklient\\Cloud\\Resources\\Swytch");
+		Util::validateType($vrid, "int");
+		Util::validateType($realIps, "\\ArrayObject");
+		Util::validateType($isHighSpec, "boolean");
+		$ret = $this->_create("LoadBalancer");
+		return $ret->setInitialParams($swytch, $vrid, $realIps, $isHighSpec);
+	}
+	
+	/**
+	 * @access public
+	 * @return \Saklient\Cloud\Resources\VpcRouter
+	 */
+	public function createVpcRouter()
+	{
+		return $this->_create("VpcRouter");
 	}
 	
 	/**

@@ -291,39 +291,16 @@ class Server extends Resource {
 	}
 	
 	/**
-	 * サーバが停止するまで待機します。
+	 * サーバが起動するまで待機します。
 	 * 
 	 * @access public
-	 * @param int $timeoutSec
-	 * @param callback $callback
-	 * @return void 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
+	 * @param int $timeoutSec=180
+	 * @return boolean
 	 */
-	public function afterDown($timeoutSec, $callback)
+	public function sleepUntilUp($timeoutSec=180)
 	{
-		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($timeoutSec, "int");
-		Util::validateType($callback, "callback");
-		$this->afterStatus(EServerInstanceStatus::down, $timeoutSec, $callback);
-	}
-	
-	/**
-	 * サーバが指定のステータスに遷移するまで待機します。
-	 * 
-	 * @ignore
-	 * @access private
-	 * @param string $status
-	 * @param int $timeoutSec
-	 * @param callback $callback
-	 * @return void
-	 */
-	private function afterStatus($status, $timeoutSec, $callback)
-	{
-		Util::validateArgCount(func_num_args(), 3);
-		Util::validateType($status, "string");
-		Util::validateType($timeoutSec, "int");
-		Util::validateType($callback, "callback");
-		$ret = $this->sleepUntil($status, $timeoutSec);
-		$callback($this, $ret);
+		return $this->sleepUntil(EServerInstanceStatus::up, $timeoutSec);
 	}
 	
 	/**
@@ -353,10 +330,14 @@ class Server extends Resource {
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($status, "string");
 		Util::validateType($timeoutSec, "int");
-		$step = 3;
+		$step = 10;
 		while (0 < $timeoutSec) {
 			$this->reload();
-			$s = $this->get_instance()->status;
+			$s = null;
+			$inst = $this->get_instance();
+			if ($inst != null) {
+				$s = $inst->getProperty("status");
+			}
 			if ($s == null) {
 				$s = EServerInstanceStatus::down;
 			}
@@ -914,7 +895,7 @@ class Server extends Resource {
 			case "ifaces": return $this->get_ifaces();
 			case "instance": return $this->get_instance();
 			case "availability": return $this->get_availability();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 	
@@ -928,7 +909,7 @@ class Server extends Resource {
 			case "tags": return $this->set_tags($v);
 			case "icon": return $this->set_icon($v);
 			case "plan": return $this->set_plan($v);
-			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resources\\Server#'.$key);
+			default: return parent::__set($key, $v);
 		}
 	}
 

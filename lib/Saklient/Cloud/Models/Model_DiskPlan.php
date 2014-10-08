@@ -213,7 +213,7 @@ class Model_DiskPlan extends Model {
 		switch ($key) {
 			case "hdd": return $this->get_hdd();
 			case "ssd": return $this->get_ssd();
-			default: return null;
+			default: return parent::__get($key);
 		}
 	}
 

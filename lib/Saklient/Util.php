@@ -22,16 +22,22 @@ class Util {
 			if ($obj == null) {
 				return false;
 			}
-			if (!is_object($obj)) {
+			if (!is_object($obj) && !is_array($obj)) {
 				return false;
 			}
 			if ($seg == "") {
 				continue;
 			}
-			if (!array_key_exists($seg, $obj)) {
-				return false;
+			if (is_array($obj) || $obj instanceof \ArrayObject) {
+				$obj = (array)$obj;
+				if (!array_key_exists($seg, $obj)) {
+					return null;
+				}
+				$obj = @$obj[$seg];
 			}
-			$obj = $obj->{$seg};
+			else {
+				$obj = @$obj->{$seg};
+			}
 		}
 		return true;
 	}
@@ -49,19 +55,36 @@ class Util {
 			if ($obj == null) {
 				return null;
 			}
-			if (!is_object($obj)) {
+			if (!is_object($obj) && !is_array($obj)) {
 				return null;
 			}
 			if ($seg == "") {
 				continue;
 			}
-			if (!array_key_exists($seg, $obj)) {
-				return null;
+			if (is_array($obj) || $obj instanceof \ArrayObject) {
+				$obj = (array)$obj;
+				if (!array_key_exists($seg, $obj)) {
+					return null;
+				}
+				$obj = @$obj[$seg];
 			}
-			$obj = $obj->{$seg};
+			else {
+				$obj = @$obj->{$seg};
+			}
 		}
 		return $obj;
 	}
+	
+	static public function getByPathAny($objects, $pathes) {
+		foreach ($objects as $obj) {
+			foreach ($pathes as $path) {
+				$ret = static::getByPath($obj, $path);
+				if ($ret != null) return $ret;
+			}
+		}
+		return null;
+	}
+	
 	
 	/**
 	 * @todo array support
