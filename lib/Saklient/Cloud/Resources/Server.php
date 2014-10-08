@@ -291,39 +291,16 @@ class Server extends Resource {
 	}
 	
 	/**
-	 * サーバが停止するまで待機します。
+	 * サーバが起動するまで待機します。
 	 * 
 	 * @access public
-	 * @param int $timeoutSec
-	 * @param callback $callback
-	 * @return void 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
+	 * @param int $timeoutSec=180
+	 * @return boolean
 	 */
-	public function afterDown($timeoutSec, $callback)
+	public function sleepUntilUp($timeoutSec=180)
 	{
-		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($timeoutSec, "int");
-		Util::validateType($callback, "callback");
-		$this->afterStatus(EServerInstanceStatus::down, $timeoutSec, $callback);
-	}
-	
-	/**
-	 * サーバが指定のステータスに遷移するまで待機します。
-	 * 
-	 * @ignore
-	 * @access private
-	 * @param string $status
-	 * @param int $timeoutSec
-	 * @param callback $callback
-	 * @return void
-	 */
-	private function afterStatus($status, $timeoutSec, $callback)
-	{
-		Util::validateArgCount(func_num_args(), 3);
-		Util::validateType($status, "string");
-		Util::validateType($timeoutSec, "int");
-		Util::validateType($callback, "callback");
-		$ret = $this->sleepUntil($status, $timeoutSec);
-		$callback($this, $ret);
+		return $this->sleepUntil(EServerInstanceStatus::up, $timeoutSec);
 	}
 	
 	/**
@@ -353,7 +330,7 @@ class Server extends Resource {
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($status, "string");
 		Util::validateType($timeoutSec, "int");
-		$step = 3;
+		$step = 10;
 		while (0 < $timeoutSec) {
 			$this->reload();
 			$s = null;

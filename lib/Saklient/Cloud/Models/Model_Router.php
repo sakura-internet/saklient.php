@@ -173,6 +173,53 @@ class Model_Router extends Model {
 	}
 	
 	/**
+	 * 指定したタグを持つリソースに絞り込みます。
+	 * 
+	 * 複数のタグを指定する場合は withTags() を利用してください。
+	 * 
+	 * @todo Implement test case
+	 * @access public
+	 * @param string $tag
+	 * @return \Saklient\Cloud\Models\Model_Router
+	 */
+	public function withTag($tag)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($tag, "string");
+		return $this->_withTag($tag);
+	}
+	
+	/**
+	 * 指定したすべてのタグを持つリソースに絞り込みます。
+	 * 
+	 * @todo Implement test case
+	 * @access public
+	 * @param string[] $tags
+	 * @return \Saklient\Cloud\Models\Model_Router
+	 */
+	public function withTags($tags)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($tags, "\\ArrayObject");
+		return $this->_withTags($tags);
+	}
+	
+	/**
+	 * 指定したDNFに合致するタグを持つリソースに絞り込みます。
+	 * 
+	 * @todo Implement test case
+	 * @access public
+	 * @param string[][] $dnf
+	 * @return \Saklient\Cloud\Models\Model_Router
+	 */
+	public function withTagDnf($dnf)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($dnf, "\\ArrayObject");
+		return $this->_withTagDnf($dnf);
+	}
+	
+	/**
 	 * 名前でソートします。
 	 * 
 	 * @todo Implement test case

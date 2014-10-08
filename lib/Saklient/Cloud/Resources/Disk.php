@@ -409,24 +409,6 @@ class Disk extends Resource {
 	/**
 	 * コピー中のディスクが利用可能になるまで待機します。
 	 * 
-	 * @ignore
-	 * @access public
-	 * @param int $timeoutSec
-	 * @param callback $callback
-	 * @return void
-	 */
-	public function afterCopy($timeoutSec, $callback)
-	{
-		Util::validateArgCount(func_num_args(), 2);
-		Util::validateType($timeoutSec, "int");
-		Util::validateType($callback, "callback");
-		$ret = $this->sleepWhileCopying($timeoutSec);
-		$callback($this, $ret);
-	}
-	
-	/**
-	 * コピー中のディスクが利用可能になるまで待機します。
-	 * 
 	 * @access public
 	 * @param int $timeoutSec=3600
 	 * @return boolean 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
@@ -434,7 +416,7 @@ class Disk extends Resource {
 	public function sleepWhileCopying($timeoutSec=3600)
 	{
 		Util::validateType($timeoutSec, "int");
-		$step = 3;
+		$step = 10;
 		while (0 < $timeoutSec) {
 			$this->reload();
 			$a = $this->get_availability();

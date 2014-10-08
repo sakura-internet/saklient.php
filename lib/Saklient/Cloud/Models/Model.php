@@ -265,15 +265,20 @@ class Model {
 	 * @private
 	 * @access protected
 	 * @ignore
+	 * @param string $className=null
 	 * @param mixed $obj
 	 * @param boolean $wrapped=false
 	 * @return \Saklient\Cloud\Resources\Resource
 	 */
-	protected function _createResourceWith($obj, $wrapped=false)
+	protected function _createResourceWith($className=null, $obj, $wrapped=false)
 	{
-		Util::validateArgCount(func_num_args(), 1);
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($className, "string");
 		Util::validateType($wrapped, "boolean");
-		return Resource::createWith($this->_className(), $this->_client, $obj, $wrapped);
+		if ($className == null) {
+			$className = $this->_className();
+		}
+		return Resource::createWith($className, $this->_client, $obj, $wrapped);
 	}
 	
 	/**
@@ -284,11 +289,13 @@ class Model {
 	 * @private
 	 * @access protected
 	 * @ignore
+	 * @param string $className=null
 	 * @return \Saklient\Cloud\Resources\Resource リソースオブジェクト
 	 */
-	protected function _create()
+	protected function _create($className=null)
 	{
-		return $this->_createResourceWith(null);
+		Util::validateType($className, "string");
+		return $this->_createResourceWith($className, null);
 	}
 	
 	/**
@@ -309,7 +316,7 @@ class Model {
 		$result = $this->_client->request("GET", $this->_apiPath() . "/" . Util::urlEncode($id), $query);
 		$this->_total = 1;
 		$this->_count = 1;
-		return $this->_createResourceWith($result, true);
+		return $this->_createResourceWith(null, $result, true);
 	}
 	
 	/**
@@ -330,7 +337,7 @@ class Model {
 		$data = new \ArrayObject([]);
 		$records = $result->{$this->_rootKeyM()};
 		foreach ($records as $record) {
-			$data->append($this->_createResourceWith($record));
+			$data->append($this->_createResourceWith(null, $record));
 		}
 		return $data;
 	}
@@ -354,7 +361,7 @@ class Model {
 			return null;
 		}
 		$records = $result->{$this->_rootKeyM()};
-		return $this->_createResourceWith($records[0]);
+		return $this->_createResourceWith(null, $records[0]);
 	}
 	
 	/**

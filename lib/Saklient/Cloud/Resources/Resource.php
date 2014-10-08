@@ -6,6 +6,8 @@ require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
+require_once __DIR__ . "/../../../Saklient/Errors/HttpException.php";
+use \Saklient\Errors\HttpException;
 require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 
@@ -358,7 +360,7 @@ class Resource {
 			return;
 		}
 		$path = $this->_apiPath() . "/" . Util::urlEncode($this->_id());
-		$this->_client->request("DELETE", $path);
+		$this->requestRetry("DELETE", $path);
 	}
 	
 	/**
@@ -371,7 +373,7 @@ class Resource {
 	 */
 	protected function _reload()
 	{
-		$result = $this->_client->request("GET", $this->_apiPath() . "/" . Util::urlEncode($this->_id()));
+		$result = $this->requestRetry("GET", $this->_apiPath() . "/" . Util::urlEncode($this->_id()));
 		$this->apiDeserialize($result, true);
 		return $this;
 	}
@@ -387,7 +389,7 @@ class Resource {
 		$query = (object)[];
 		Util::setByPath($query, "Filter.ID", new \ArrayObject([$this->_id()]));
 		Util::setByPath($query, "Include", new \ArrayObject(["ID"]));
-		$result = $this->_client->request("GET", $this->_apiPath(), $query);
+		$result = $this->requestRetry("GET", $this->_apiPath(), $query);
 		$cnt = $result->{"Count"};
 		return $cnt == 1;
 	}
@@ -436,6 +438,46 @@ class Resource {
 		$trueClassName = $ret->trueClassName();
 		if ($trueClassName != null) {
 			$ret = Util::createClassInstance("saklient.cloud.resources." . $trueClassName, $a);
+		}
+		return $ret;
+	}
+	
+	/**
+	 * @access public
+	 * @param string $method
+	 * @param string $path
+	 * @param mixed $query=null
+	 * @param int $retryCount=5
+	 * @param int $retrySleep=5
+	 * @return mixed
+	 */
+	public function requestRetry($method, $path, $query=null, $retryCount=5, $retrySleep=5)
+	{
+		Util::validateArgCount(func_num_args(), 2);
+		Util::validateType($method, "string");
+		Util::validateType($path, "string");
+		Util::validateType($retryCount, "int");
+		Util::validateType($retrySleep, "int");
+		$ret = null;
+		while (1 < $retryCount) {
+			$isOk = false;
+			try {
+				$ret = $this->_client->request($method, $path, $query);
+				$isOk = true;
+			}
+			catch (HttpException $ex) {
+				$isOk = false;
+			}
+			if ($isOk) {
+				$retryCount = -1;
+			}
+			else {
+				$retryCount--;
+				Util::sleep($retrySleep);
+			}
+		}
+		if ($retryCount == 0) {
+			$ret = $this->_client->request($method, $path, $query);
 		}
 		return $ret;
 	}

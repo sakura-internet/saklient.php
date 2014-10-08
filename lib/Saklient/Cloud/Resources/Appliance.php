@@ -14,6 +14,10 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Iface.php";
 use \Saklient\Cloud\Resources\Iface;
 require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EApplianceClass.php";
 use \Saklient\Cloud\Enums\EApplianceClass;
+require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EAvailability.php";
+use \Saklient\Cloud\Enums\EAvailability;
+require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EServerInstanceStatus.php";
+use \Saklient\Cloud\Enums\EServerInstanceStatus;
 require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 
@@ -26,10 +30,13 @@ use \Saklient\Util;
  * @property string $description 説明 
  * @property \ArrayObject $tags タグ 
  * @property \Saklient\Cloud\Resources\Icon $icon アイコン 
- * @property-read \ArrayObject $ifaces プラン 
- * @property-read mixed $annotation 注釈 
+ * @property int $planId プラン 
+ * @property-read \ArrayObject $ifaces インタフェース 
+ * @property mixed $rawAnnotation 注釈 
  * @property mixed $rawSettings 設定の生データ 
+ * @property-read string $status 起動状態 {@link \Saklient\Cloud\Enums\EServerInstanceStatus} 
  * @property-read string $serviceClass サービスクラス 
+ * @property-read string $availability 有効状態 {@link \Saklient\Cloud\Enums\EAvailability} 
  */
 class Appliance extends Resource {
 	
@@ -92,6 +99,15 @@ class Appliance extends Resource {
 	 * 
 	 * @access protected
 	 * @ignore
+	 * @var int
+	 */
+	protected $m_planId;
+	
+	/**
+	 * インタフェース
+	 * 
+	 * @access protected
+	 * @ignore
 	 * @var Iface[]
 	 */
 	protected $m_ifaces;
@@ -103,7 +119,7 @@ class Appliance extends Resource {
 	 * @ignore
 	 * @var mixed
 	 */
-	protected $m_annotation;
+	protected $m_rawAnnotation;
 	
 	/**
 	 * 設定の生データ
@@ -122,6 +138,15 @@ class Appliance extends Resource {
 	protected $m_rawSettingsHash;
 	
 	/**
+	 * 起動状態 {@link \Saklient\Cloud\Enums\EServerInstanceStatus}
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_status;
+	
+	/**
 	 * サービスクラス
 	 * 
 	 * @access protected
@@ -129,6 +154,15 @@ class Appliance extends Resource {
 	 * @var string
 	 */
 	protected $m_serviceClass;
+	
+	/**
+	 * 有効状態 {@link \Saklient\Cloud\Enums\EAvailability}
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_availability;
 	
 	/**
 	 * @private
@@ -301,6 +335,92 @@ class Appliance extends Resource {
 	{
 		$this->_client->request("PUT", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/reset");
 		return $this;
+	}
+	
+	/**
+	 * 作成中のアプライアンスが利用可能になるまで待機します。
+	 * 
+	 * @access public
+	 * @param int $timeoutSec=300
+	 * @return boolean 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
+	 */
+	public function sleepWhileCreating($timeoutSec=300)
+	{
+		Util::validateType($timeoutSec, "int");
+		$step = 10;
+		while (0 < $timeoutSec) {
+			$this->reload();
+			$a = $this->get_availability();
+			if ($a == EAvailability::available) {
+				return true;
+			}
+			if ($a != EAvailability::migrating) {
+				$timeoutSec = 0;
+			}
+			$timeoutSec -= $step;
+			if (0 < $timeoutSec) {
+				Util::sleep($step);
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * アプライアンスが起動するまで待機します。
+	 * 
+	 * @access public
+	 * @param int $timeoutSec=180
+	 * @return boolean
+	 */
+	public function sleepUntilUp($timeoutSec=180)
+	{
+		Util::validateType($timeoutSec, "int");
+		return $this->sleepUntil(EServerInstanceStatus::up, $timeoutSec);
+	}
+	
+	/**
+	 * アプライアンスが停止するまで待機します。
+	 * 
+	 * @access public
+	 * @param int $timeoutSec=180
+	 * @return boolean 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
+	 */
+	public function sleepUntilDown($timeoutSec=180)
+	{
+		Util::validateType($timeoutSec, "int");
+		return $this->sleepUntil(EServerInstanceStatus::down, $timeoutSec);
+	}
+	
+	/**
+	 * アプライアンスが指定のステータスに遷移するまで待機します。
+	 * 
+	 * @ignore
+	 * @access private
+	 * @param string $status
+	 * @param int $timeoutSec=300
+	 * @return boolean
+	 */
+	private function sleepUntil($status, $timeoutSec=300)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($status, "string");
+		Util::validateType($timeoutSec, "int");
+		$step = 10;
+		while (0 < $timeoutSec) {
+			$this->reload();
+			$s = $this->get_status();
+			if ($s == null) {
+				$s = EServerInstanceStatus::down;
+			}
+			if ($s == $status) {
+				return true;
+			}
+			$timeoutSec -= $step;
+			if (0 < $timeoutSec) {
+				Util::sleep($step);
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -524,6 +644,47 @@ class Appliance extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
+	private $n_planId = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return int
+	 */
+	private function get_planId()
+	{
+		return $this->m_planId;
+	}
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param int $v
+	 * @return int
+	 */
+	private function set_planId($v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "int");
+		if (!$this->isNew) {
+			throw new SaklientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "Saklient\\Cloud\\Resources\\Appliance#planId");
+		}
+		$this->m_planId = $v;
+		$this->n_planId = true;
+		return $this->m_planId;
+	}
+	
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
 	private $n_ifaces = false;
 	
 	/**
@@ -545,7 +706,7 @@ class Appliance extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
-	private $n_annotation = false;
+	private $n_rawAnnotation = false;
 	
 	/**
 	 * (This method is generated in Translator_default#buildImpl)
@@ -554,9 +715,28 @@ class Appliance extends Resource {
 	 * @ignore
 	 * @return mixed
 	 */
-	private function get_annotation()
+	private function get_rawAnnotation()
 	{
-		return $this->m_annotation;
+		return $this->m_rawAnnotation;
+	}
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param mixed $v
+	 * @return mixed
+	 */
+	private function set_rawAnnotation($v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		if (!$this->isNew) {
+			throw new SaklientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "Saklient\\Cloud\\Resources\\Appliance#rawAnnotation");
+		}
+		$this->m_rawAnnotation = $v;
+		$this->n_rawAnnotation = true;
+		return $this->m_rawAnnotation;
 	}
 	
 	
@@ -625,6 +805,27 @@ class Appliance extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
+	private $n_status = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_status()
+	{
+		return $this->m_status;
+	}
+	
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
 	private $n_serviceClass = false;
 	
 	/**
@@ -637,6 +838,27 @@ class Appliance extends Resource {
 	private function get_serviceClass()
 	{
 		return $this->m_serviceClass;
+	}
+	
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_availability = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_availability()
+	{
+		return $this->m_availability;
 	}
 	
 	
@@ -714,6 +936,14 @@ class Appliance extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_icon = false;
+		if (Util::existsPath($r, "Plan.ID")) {
+			$this->m_planId = Util::getByPath($r, "Plan.ID") == null ? null : intval("" . Util::getByPath($r, "Plan.ID"));
+		}
+		else {
+			$this->m_planId = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_planId = false;
 		if (Util::existsPath($r, "Interfaces")) {
 			if (Util::getByPath($r, "Interfaces") == null) {
 				$this->m_ifaces = new \ArrayObject([]);
@@ -733,13 +963,13 @@ class Appliance extends Resource {
 		}
 		$this->n_ifaces = false;
 		if (Util::existsPath($r, "Remark")) {
-			$this->m_annotation = Util::getByPath($r, "Remark");
+			$this->m_rawAnnotation = Util::getByPath($r, "Remark");
 		}
 		else {
-			$this->m_annotation = null;
+			$this->m_rawAnnotation = null;
 			$this->isIncomplete = true;
 		}
-		$this->n_annotation = false;
+		$this->n_rawAnnotation = false;
 		if (Util::existsPath($r, "Settings")) {
 			$this->m_rawSettings = Util::getByPath($r, "Settings");
 		}
@@ -756,6 +986,14 @@ class Appliance extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_rawSettingsHash = false;
+		if (Util::existsPath($r, "Instance.Status")) {
+			$this->m_status = Util::getByPath($r, "Instance.Status") == null ? null : "" . Util::getByPath($r, "Instance.Status");
+		}
+		else {
+			$this->m_status = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_status = false;
 		if (Util::existsPath($r, "ServiceClass")) {
 			$this->m_serviceClass = Util::getByPath($r, "ServiceClass") == null ? null : "" . Util::getByPath($r, "ServiceClass");
 		}
@@ -764,6 +1002,14 @@ class Appliance extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_serviceClass = false;
+		if (Util::existsPath($r, "Availability")) {
+			$this->m_availability = Util::getByPath($r, "Availability") == null ? null : "" . Util::getByPath($r, "Availability");
+		}
+		else {
+			$this->m_availability = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_availability = false;
 	}
 	
 	/**
@@ -810,6 +1056,14 @@ class Appliance extends Resource {
 		if ($withClean || $this->n_icon) {
 			Util::setByPath($ret, "Icon", $withClean ? ($this->m_icon == null ? null : $this->m_icon->apiSerialize($withClean)) : ($this->m_icon == null ? (object)['ID' => "0"] : $this->m_icon->apiSerializeID()));
 		}
+		if ($withClean || $this->n_planId) {
+			Util::setByPath($ret, "Plan.ID", $this->m_planId);
+		}
+		else {
+			if ($this->isNew) {
+				$missing->append("planId");
+			}
+		}
 		if ($withClean || $this->n_ifaces) {
 			Util::setByPath($ret, "Interfaces", new \ArrayObject([]));
 			foreach ($this->m_ifaces as $r2) {
@@ -818,8 +1072,13 @@ class Appliance extends Resource {
 				$ret->{"Interfaces"}->append($v);
 			}
 		}
-		if ($withClean || $this->n_annotation) {
-			Util::setByPath($ret, "Remark", $this->m_annotation);
+		if ($withClean || $this->n_rawAnnotation) {
+			Util::setByPath($ret, "Remark", $this->m_rawAnnotation);
+		}
+		else {
+			if ($this->isNew) {
+				$missing->append("rawAnnotation");
+			}
 		}
 		if ($withClean || $this->n_rawSettings) {
 			Util::setByPath($ret, "Settings", $this->m_rawSettings);
@@ -827,8 +1086,14 @@ class Appliance extends Resource {
 		if ($withClean || $this->n_rawSettingsHash) {
 			Util::setByPath($ret, "SettingsHash", $this->m_rawSettingsHash);
 		}
+		if ($withClean || $this->n_status) {
+			Util::setByPath($ret, "Instance.Status", $this->m_status);
+		}
 		if ($withClean || $this->n_serviceClass) {
 			Util::setByPath($ret, "ServiceClass", $this->m_serviceClass);
+		}
+		if ($withClean || $this->n_availability) {
+			Util::setByPath($ret, "Availability", $this->m_availability);
 		}
 		if ($missing->count() > 0) {
 			throw new SaklientException("required_field", "Required fields must be set before the Appliance creation: " . implode(", ", (array)($missing)));
@@ -847,11 +1112,14 @@ class Appliance extends Resource {
 			case "description": return $this->get_description();
 			case "tags": return $this->get_tags();
 			case "icon": return $this->get_icon();
+			case "planId": return $this->get_planId();
 			case "ifaces": return $this->get_ifaces();
-			case "annotation": return $this->get_annotation();
+			case "rawAnnotation": return $this->get_rawAnnotation();
 			case "rawSettings": return $this->get_rawSettings();
 			case "rawSettingsHash": return $this->get_rawSettingsHash();
+			case "status": return $this->get_status();
 			case "serviceClass": return $this->get_serviceClass();
+			case "availability": return $this->get_availability();
 			default: return parent::__get($key);
 		}
 	}
@@ -866,6 +1134,8 @@ class Appliance extends Resource {
 			case "description": return $this->set_description($v);
 			case "tags": return $this->set_tags($v);
 			case "icon": return $this->set_icon($v);
+			case "planId": return $this->set_planId($v);
+			case "rawAnnotation": return $this->set_rawAnnotation($v);
 			case "rawSettings": return $this->set_rawSettings($v);
 			default: return parent::__set($key, $v);
 		}

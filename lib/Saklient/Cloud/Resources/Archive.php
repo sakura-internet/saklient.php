@@ -440,24 +440,6 @@ class Archive extends Resource {
 	/**
 	 * コピー中のアーカイブが利用可能になるまで待機します。
 	 * 
-	 * @ignore
-	 * @access public
-	 * @param int $timeoutSec
-	 * @param callback $callback
-	 * @return void
-	 */
-	public function afterCopy($timeoutSec, $callback)
-	{
-		Util::validateArgCount(func_num_args(), 2);
-		Util::validateType($timeoutSec, "int");
-		Util::validateType($callback, "callback");
-		$ret = $this->sleepWhileCopying($timeoutSec);
-		$callback($this, $ret);
-	}
-	
-	/**
-	 * コピー中のアーカイブが利用可能になるまで待機します。
-	 * 
 	 * @access public
 	 * @param int $timeoutSec=3600
 	 * @return boolean 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
