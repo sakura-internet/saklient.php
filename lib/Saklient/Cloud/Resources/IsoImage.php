@@ -222,7 +222,7 @@ class IsoImage extends Resource {
 		if ($root == null) {
 			return;
 		}
-		if (array_key_exists("FTPServer", $root)) {
+		if (array_key_exists("FTPServer", (array)($root))) {
 			$ftp = $root->{"FTPServer"};
 			if ($ftp != null) {
 				$this->_ftpInfo = new FtpInfo($ftp);

@@ -334,9 +334,9 @@ class Server extends Resource {
 		while (0 < $timeoutSec) {
 			$this->reload();
 			$s = null;
-			$inst = $this->get_instance();
+			$inst = $this->instance;
 			if ($inst != null) {
-				$s = $inst->getProperty("status");
+				$s = $inst->status;
 			}
 			if ($s == null) {
 				$s = EServerInstanceStatus::down;
@@ -393,7 +393,7 @@ class Server extends Resource {
 	{
 		$model = Util::createClassInstance("saklient.cloud.models.Model_Iface", new \ArrayObject([$this->_client]));
 		$res = $model->create();
-		$res->setProperty("serverId", $this->_id());
+		$res->serverId = $this->_id();
 		return $res->save();
 	}
 	

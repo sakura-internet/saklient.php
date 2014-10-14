@@ -341,7 +341,7 @@ class Archive extends Resource {
 	{
 		Util::validateArgCount(func_num_args(), 2);
 		if ($root != null) {
-			if (array_key_exists("FTPServer", $root)) {
+			if (array_key_exists("FTPServer", (array)($root))) {
 				$ftp = $root->{"FTPServer"};
 				if ($ftp != null) {
 					$this->_ftpInfo = new FtpInfo($ftp);
@@ -349,7 +349,7 @@ class Archive extends Resource {
 			}
 		}
 		if ($r != null) {
-			if (array_key_exists("SourceArchive", $r)) {
+			if (array_key_exists("SourceArchive", (array)($r))) {
 				$s = $r->{"SourceArchive"};
 				if ($s != null) {
 					$id = $s->{"ID"};
@@ -358,7 +358,7 @@ class Archive extends Resource {
 					}
 				}
 			}
-			if (array_key_exists("SourceDisk", $r)) {
+			if (array_key_exists("SourceDisk", (array)($r))) {
 				$s = $r->{"SourceDisk"};
 				if ($s != null) {
 					$id = $s->{"ID"};

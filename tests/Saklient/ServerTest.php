@@ -67,7 +67,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$sshPrivateKeyFile = dirname(dirname(__DIR__)) . "/test-sshkey.txt";
 		
 		// search archives
-		echo "searching archives...\n";
+		fprintf(\STDERR, "searching archives...\n");
 		$archives = $api->archive
 			->withNameLike('CentOS 6.5 64bit')
 			->withSizeGib(20)
@@ -80,7 +80,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$script = null;
 		if (self::TESTS_STARTUP_SCRIPT) {
 			// search scripts
-			echo "searching scripts...\n";
+			fprintf(\STDERR, "searching scripts...\n");
 			$scripts = $api->script
 				->withNameLike('WordPress')
 				->withSharedScope()
@@ -91,7 +91,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		}
 		
 		// create a disk
-		echo "creating a disk...\n";
+		fprintf(\STDERR, "creating a disk...\n");
 		$disk = $api->disk->create();
 		$ok = false;
 		try {
@@ -109,7 +109,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$disk->save();
 		
 		// check an immutable field
-		echo "updating the disk...\n";
+		fprintf(\STDERR, "updating the disk...\n");
 		$ok = false;
 		try {
 			$disk->sizeMib = 20480;
@@ -128,7 +128,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($disk->description, $description);
 		
 		// create a server
-		echo "creating a server...\n";
+		fprintf(\STDERR, "creating a server...\n");
 		$server = $api->server->create();
 		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Server", $server);
 		$server->name = $name;
@@ -148,15 +148,15 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($server->plan->memoryGib, $mem);
 		
 		// connect to shared segment
-		echo "connecting the server to shared segment...\n";
+		fprintf(\STDERR, "connecting the server to shared segment...\n");
 		$iface = $server->addIface();
 		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Iface", $iface);
 		$this->assertGreaterThan(0, $iface->id);
 		$iface->connectToSharedSegment();
-		echo "IP address: ", $iface->ipAddress, "\n";
+		fprintf(\STDERR, "IP address: %s\n", $iface->ipAddress);
 		
 		// wait disk copy
-		echo "waiting disk copy...\n";
+		fprintf(\STDERR, "waiting disk copy...\n");
 		if (!$disk->sleepWhileCopying()) $this->fail("アーカイブからディスクへのコピーがタイムアウトしました");
 		$disk->source = null;
 		$disk->reload();
@@ -165,13 +165,13 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($archive->sizeGib, $disk->sizeGib);
 		
 		// connect the disk to the server
-		echo "connecting the disk to the server...\n";
+		fprintf(\STDERR, "connecting the disk to the server...\n");
 		$disk->connectTo($server);
 		
 		if (self::TESTS_CONFIG_DISK) {
 			// config the disk
 			$passwd = uniqid();
-			echo "writing configuration to the disk (password: $passwd)...\n";
+			fprintf(\STDERR, "writing configuration to the disk (password: %s)...\n", $passwd);
 			$diskconf = $disk->createConfig();
 			$diskconf->hostName = "saklient-test";
 			$diskconf->password = uniqid();
@@ -181,12 +181,12 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		}
 		
 		// boot
-		echo "booting the server...\n";
+		fprintf(\STDERR, "booting the server...\n");
 		$server->boot();
 		sleep(3);
 		
 		// boot conflict
-		echo "checking the server power conflicts...\n";
+		fprintf(\STDERR, "checking the server power conflicts...\n");
 		$ok = false;
 		try {
 			$server->boot();
@@ -202,7 +202,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 			$this->assertNotEmpty($ipAddress);
 			$cmd = "ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -i$sshPrivateKeyFile root@$ipAddress hostname 2>/dev/null";
 			$sshSuccess = false;
-			echo "trying to SSH to the server...\n";
+			fprintf(\STDERR, "trying to SSH to the server...\n");
 			for ($i=0; $i<10; $i++) {
 				sleep(5);
 				if ($hostName != trim(`$cmd`)) continue;
@@ -216,21 +216,21 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		
 		// stop
 		sleep(1);
-		echo "stopping the server...\n";
+		fprintf(\STDERR, "stopping the server...\n");
 		if (!$server->stop()->sleepUntilDown()) $this->fail('サーバが正常に停止しません');
 		
 		// disconnect the disk from the server
-		echo "disconnecting the disk from the server...\n";
+		fprintf(\STDERR, "disconnecting the disk from the server...\n");
 		$disk->disconnect();
 		
 		// delete the server
-		echo "deleting the server...\n";
+		fprintf(\STDERR, "deleting the server...\n");
 		$server->destroy();
 		
 		$disk2 = null;
 		if (self::TESTS_DUPLICATE_DISK) {
 			// duplicate the disk
-			echo "duplicating the disk (expanding to 40GiB)...\n";
+			fprintf(\STDERR, "duplicating the disk (expanding to 40GiB)...\n");
 			$disk2 = $api->disk->create();
 			$disk2->name = $name . "-copy";
 			$disk2->description = $description;
@@ -241,7 +241,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 			$disk2->save();
 			
 			// wait disk duplication
-			echo "waiting disk duplication...\n";
+			fprintf(\STDERR, "waiting disk duplication...\n");
 			if (!$disk2->sleepWhileCopying()) $this->fail("ディスクの複製がタイムアウトしました");
 			$disk2->source = null;
 			$disk2->reload();
@@ -251,7 +251,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		}
 		
 		// delete the disks
-		echo "deleting the disks...\n";
+		fprintf(\STDERR, "deleting the disks...\n");
 		if ($disk2) $disk2->destroy();
 		$disk->destroy();
 		
