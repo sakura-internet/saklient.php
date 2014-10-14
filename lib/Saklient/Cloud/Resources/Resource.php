@@ -289,35 +289,6 @@ class Resource {
 	}
 	
 	/**
-	 * @ignore
-	 * @access public
-	 * @param string $name
-	 * @return mixed
-	 */
-	public function getProperty($name)
-	{
-		Util::validateArgCount(func_num_args(), 1);
-		Util::validateType($name, "string");
-		$name = $this->normalizeFieldName($name);
-		return $this->__get($name);
-	}
-	
-	/**
-	 * @ignore
-	 * @access public
-	 * @param string $name
-	 * @param mixed $value
-	 * @return void
-	 */
-	public function setProperty($name, $value)
-	{
-		Util::validateArgCount(func_num_args(), 2);
-		Util::validateType($name, "string");
-		$name = $this->normalizeFieldName($name);
-		$this->__set($name, $value);
-	}
-	
-	/**
 	 * このローカルオブジェクトに現在設定されているリソース情報をAPIに送信し、新規作成または上書き保存します。
 	 * 
 	 * @private
@@ -472,7 +443,7 @@ class Resource {
 				$retryCount = -1;
 			}
 			else {
-				$retryCount--;
+				$retryCount -= 1;
 				Util::sleep($retrySleep);
 			}
 		}

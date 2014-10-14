@@ -38,7 +38,7 @@ foreach ($lb->virtualIps as $vip) {
 		if ($server->port) printf(":%d", $server->port);
 		if ($server->pathToCheck) echo $server->pathToCheck;
 		echo " answers";
-		if ($server->expectedStatus) printf(" %d", $server->expectedStatus);
+		if ($server->responseExpected) printf(" %d", $server->responseExpected);
 		echo "\n";
 	}
 }

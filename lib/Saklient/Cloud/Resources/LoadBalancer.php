@@ -23,7 +23,6 @@ use \Saklient\Util;
  * ロードバランサの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
  * @property-read \ArrayObject $virtualIps 仮想IPアドレス 
- * @property-read string $swytchId スイッチID 
  * @property string $defaultRoute デフォルトルート 
  * @property int $maskLen マスク長 
  * @property int $vrid VRID 
@@ -46,18 +45,6 @@ class LoadBalancer extends Appliance {
 	public function get_virtualIps()
 	{
 		return $this->_virtualIps;
-	}
-	
-	
-	
-	/**
-	 * @access public
-	 * @ignore
-	 * @return string
-	 */
-	public function get_swytchId()
-	{
-		return Util::getByPath($this->rawAnnotation, "Switch.ID");
 	}
 	
 	
@@ -213,7 +200,9 @@ class LoadBalancer extends Appliance {
 			$this->rawSettings = (object)[];
 		}
 		$this->rawSettings->{"LoadBalancer"} = $lb;
-		$this->clazz = EApplianceClass::loadbalancer;
+		if ($this->isNew) {
+			$this->clazz = EApplianceClass::loadbalancer;
+		}
 	}
 	
 	/**
@@ -235,7 +224,7 @@ class LoadBalancer extends Appliance {
 		$annot = $this->rawAnnotation;
 		$this->vrid = $vrid;
 		Util::setByPath($annot, "Switch.ID", $swytch->_id());
-		if (0 < $swytch->ipv4Nets->count()) {
+		if ($swytch->ipv4Nets != null && 0 < $swytch->ipv4Nets->count()) {
 			$net = $swytch->ipv4Nets[0];
 			$this->defaultRoute = $net->defaultRoute;
 			$this->maskLen = $net->maskLen;
@@ -255,14 +244,26 @@ class LoadBalancer extends Appliance {
 	
 	/**
 	 * @access public
-	 * @param mixed $settings
 	 * @return \Saklient\Cloud\Resources\LoadBalancer
 	 */
-	public function addVirtualIp($settings)
+	public function clearVirtualIps()
 	{
-		Util::validateArgCount(func_num_args(), 1);
-		$this->_virtualIps->append(new LbVirtualIp($settings));
+		while (0 < $this->_virtualIps->count()) {
+			Util::popAobj($this->_virtualIps);
+		}
 		return $this;
+	}
+	
+	/**
+	 * @access public
+	 * @param mixed $settings=null
+	 * @return \Saklient\Cloud\Resources\LbVirtualIp
+	 */
+	public function addVirtualIp($settings=null)
+	{
+		$ret = new LbVirtualIp($settings);
+		$this->_virtualIps->append($ret);
+		return $ret;
 	}
 	
 	/**
@@ -283,12 +284,30 @@ class LoadBalancer extends Appliance {
 	}
 	
 	/**
+	 * @access public
+	 * @return \Saklient\Cloud\Resources\LoadBalancer
+	 */
+	public function reloadStatus()
+	{
+		$result = $this->requestRetry("GET", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/status");
+		$vips = $result->{"LoadBalancer"};
+		foreach ($vips as $vipDyn) {
+			$vipStr = $vipDyn->{"VirtualIPAddress"};
+			$vip = $this->getVirtualIpByAddress($vipStr);
+			if ($vip == null) {
+				continue;
+			}
+			$vip->updateStatus($vipDyn->{"Servers"});
+		}
+		return $this;
+	}
+	
+	/**
 	 * @ignore
 	 */
 	public function __get($key) {
 		switch ($key) {
 			case "virtualIps": return $this->get_virtualIps();
-			case "swytchId": return $this->get_swytchId();
 			case "defaultRoute": return $this->get_defaultRoute();
 			case "maskLen": return $this->get_maskLen();
 			case "vrid": return $this->get_vrid();

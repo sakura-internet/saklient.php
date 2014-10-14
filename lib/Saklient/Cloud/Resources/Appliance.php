@@ -12,6 +12,8 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Icon.php";
 use \Saklient\Cloud\Resources\Icon;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Iface.php";
 use \Saklient\Cloud\Resources\Iface;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Swytch.php";
+use \Saklient\Cloud\Resources\Swytch;
 require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EApplianceClass.php";
 use \Saklient\Cloud\Enums\EApplianceClass;
 require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EAvailability.php";
@@ -37,6 +39,7 @@ use \Saklient\Util;
  * @property-read string $status 起動状態 {@link \Saklient\Cloud\Enums\EServerInstanceStatus} 
  * @property-read string $serviceClass サービスクラス 
  * @property-read string $availability 有効状態 {@link \Saklient\Cloud\Enums\EAvailability} 
+ * @property-read string $swytchId 接続先スイッチID 
  */
 class Appliance extends Resource {
 	
@@ -165,6 +168,15 @@ class Appliance extends Resource {
 	protected $m_availability;
 	
 	/**
+	 * 接続先スイッチID
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_swytchId;
+	
+	/**
 	 * @private
 	 * @access protected
 	 * @ignore
@@ -248,7 +260,10 @@ class Appliance extends Resource {
 	 */
 	public function trueClassName()
 	{
-		switch ($this->get_clazz()) {
+		if ($this->clazz == null) {
+			return null;
+		}
+		switch ($this->clazz) {
 			case "loadbalancer": {
 				return "LoadBalancer";
 			}
@@ -287,6 +302,31 @@ class Appliance extends Resource {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::setByPath($query, "OriginalSettingsHash", $this->get_rawSettingsHash());
+	}
+	
+	/**
+	 * このルータが接続されているスイッチを取得します。
+	 * 
+	 * @access public
+	 * @return \Saklient\Cloud\Resources\Swytch
+	 */
+	public function getSwytch()
+	{
+		$model = Util::createClassInstance("saklient.cloud.models.Model_Swytch", new \ArrayObject([$this->_client]));
+		$id = $this->get_swytchId();
+		return $model->getById($id);
+	}
+	
+	/**
+	 * アプライアンスの設定を反映します。
+	 * 
+	 * @access public
+	 * @return \Saklient\Cloud\Resources\Appliance this
+	 */
+	public function apply()
+	{
+		$this->_client->request("PUT", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/config");
+		return $this;
 	}
 	
 	/**
@@ -341,10 +381,10 @@ class Appliance extends Resource {
 	 * 作成中のアプライアンスが利用可能になるまで待機します。
 	 * 
 	 * @access public
-	 * @param int $timeoutSec=300
+	 * @param int $timeoutSec=600
 	 * @return boolean 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
 	 */
-	public function sleepWhileCreating($timeoutSec=300)
+	public function sleepWhileCreating($timeoutSec=600)
 	{
 		Util::validateType($timeoutSec, "int");
 		$step = 10;
@@ -369,10 +409,10 @@ class Appliance extends Resource {
 	 * アプライアンスが起動するまで待機します。
 	 * 
 	 * @access public
-	 * @param int $timeoutSec=180
+	 * @param int $timeoutSec=600
 	 * @return boolean
 	 */
-	public function sleepUntilUp($timeoutSec=180)
+	public function sleepUntilUp($timeoutSec=600)
 	{
 		Util::validateType($timeoutSec, "int");
 		return $this->sleepUntil(EServerInstanceStatus::up, $timeoutSec);
@@ -382,10 +422,10 @@ class Appliance extends Resource {
 	 * アプライアンスが停止するまで待機します。
 	 * 
 	 * @access public
-	 * @param int $timeoutSec=180
+	 * @param int $timeoutSec=600
 	 * @return boolean 成功時はtrue、タイムアウトやエラーによる失敗時はfalseを返します。
 	 */
-	public function sleepUntilDown($timeoutSec=180)
+	public function sleepUntilDown($timeoutSec=600)
 	{
 		Util::validateType($timeoutSec, "int");
 		return $this->sleepUntil(EServerInstanceStatus::down, $timeoutSec);
@@ -397,10 +437,10 @@ class Appliance extends Resource {
 	 * @ignore
 	 * @access private
 	 * @param string $status
-	 * @param int $timeoutSec=300
+	 * @param int $timeoutSec=600
 	 * @return boolean
 	 */
-	private function sleepUntil($status, $timeoutSec=300)
+	private function sleepUntil($status, $timeoutSec=600)
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($status, "string");
@@ -663,7 +703,7 @@ class Appliance extends Resource {
 	 * 
 	 * @access private
 	 * @ignore
-	 * @param int $v
+	 * @param int|null $v
 	 * @return int
 	 */
 	private function set_planId($v)
@@ -864,6 +904,27 @@ class Appliance extends Resource {
 	
 	
 	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_swytchId = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_swytchId()
+	{
+		return $this->m_swytchId;
+	}
+	
+	
+	
+	/**
 	 * (This method is generated in Translator_default#buildImpl)
 	 * 
 	 * @access protected
@@ -1010,6 +1071,14 @@ class Appliance extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_availability = false;
+		if (Util::existsPath($r, "Switch.ID")) {
+			$this->m_swytchId = Util::getByPath($r, "Switch.ID") == null ? null : "" . Util::getByPath($r, "Switch.ID");
+		}
+		else {
+			$this->m_swytchId = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_swytchId = false;
 	}
 	
 	/**
@@ -1095,6 +1164,9 @@ class Appliance extends Resource {
 		if ($withClean || $this->n_availability) {
 			Util::setByPath($ret, "Availability", $this->m_availability);
 		}
+		if ($withClean || $this->n_swytchId) {
+			Util::setByPath($ret, "Switch.ID", $this->m_swytchId);
+		}
 		if ($missing->count() > 0) {
 			throw new SaklientException("required_field", "Required fields must be set before the Appliance creation: " . implode(", ", (array)($missing)));
 		}
@@ -1120,6 +1192,7 @@ class Appliance extends Resource {
 			case "status": return $this->get_status();
 			case "serviceClass": return $this->get_serviceClass();
 			case "availability": return $this->get_availability();
+			case "swytchId": return $this->get_swytchId();
 			default: return parent::__get($key);
 		}
 	}

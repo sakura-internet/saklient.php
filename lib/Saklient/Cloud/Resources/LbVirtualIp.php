@@ -12,9 +12,9 @@ use \Saklient\Errors\SaklientException;
 /**
  * ロードバランサの仮想IPアドレス。
  * 
- * @property-read string $virtualIpAddress VIPアドレス 
- * @property-read int $port ポート番号 
- * @property-read int $delayLoop チェック間隔 [秒] 
+ * @property string $virtualIpAddress VIPアドレス 
+ * @property int $port ポート番号 
+ * @property int $delayLoop チェック間隔 [秒] 
  * @property-read \ArrayObject $servers 実サーバ 
  */
 class LbVirtualIp {
@@ -34,6 +34,20 @@ class LbVirtualIp {
 	 */
 	public function get_virtualIpAddress()
 	{
+		return $this->_virtualIpAddress;
+	}
+	
+	/**
+	 * @access public
+	 * @ignore
+	 * @param string $v
+	 * @return string
+	 */
+	public function set_virtualIpAddress($v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
+		$this->_virtualIpAddress = $v;
 		return $this->_virtualIpAddress;
 	}
 	
@@ -57,6 +71,20 @@ class LbVirtualIp {
 		return $this->_port;
 	}
 	
+	/**
+	 * @access public
+	 * @ignore
+	 * @param int|null $v
+	 * @return int
+	 */
+	public function set_port($v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "int");
+		$this->_port = $v;
+		return $this->_port;
+	}
+	
 	
 	
 	/**
@@ -74,6 +102,20 @@ class LbVirtualIp {
 	 */
 	public function get_delayLoop()
 	{
+		return $this->_delayLoop;
+	}
+	
+	/**
+	 * @access public
+	 * @ignore
+	 * @param int|null $v
+	 * @return int
+	 */
+	public function set_delayLoop($v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "int");
+		$this->_delayLoop = $v;
 		return $this->_delayLoop;
 	}
 	
@@ -102,11 +144,13 @@ class LbVirtualIp {
 	/**
 	 * @ignore
 	 * @access public
-	 * @param mixed $obj
+	 * @param mixed $obj=null
 	 */
-	public function __construct($obj)
+	public function __construct($obj=null)
 	{
-		Util::validateArgCount(func_num_args(), 1);
+		if ($obj == null) {
+			$obj = (object)[];
+		}
 		$vip = Util::getByPathAny(new \ArrayObject([$obj]), new \ArrayObject([
 			"VirtualIPAddress",
 			"virtualIpAddress",
@@ -115,7 +159,10 @@ class LbVirtualIp {
 		]));
 		$this->_virtualIpAddress = $vip;
 		$port = Util::getByPathAny(new \ArrayObject([$obj]), new \ArrayObject(["Port", "port"]));
-		$this->_port = $port == null ? null : intval($port);
+		$this->_port = null;
+		if ($port != null) {
+			$this->_port = intval($port);
+		}
 		if ($this->_port == 0) {
 			$this->_port = null;
 		}
@@ -125,7 +172,10 @@ class LbVirtualIp {
 			"delay_loop",
 			"delay"
 		]));
-		$this->_delayLoop = $delayLoop == null ? null : intval($delayLoop);
+		$this->_delayLoop = null;
+		if ($delayLoop != null) {
+			$this->_delayLoop = intval($delayLoop);
+		}
 		if ($this->_delayLoop == 0) {
 			$this->_delayLoop = null;
 		}
@@ -141,14 +191,14 @@ class LbVirtualIp {
 	
 	/**
 	 * @access public
-	 * @param mixed $settings
-	 * @return \Saklient\Cloud\Resources\LbVirtualIp
+	 * @param mixed $settings=null
+	 * @return \Saklient\Cloud\Resources\LbServer
 	 */
-	public function addServer($settings)
+	public function addServer($settings=null)
 	{
-		Util::validateArgCount(func_num_args(), 1);
-		$this->_servers->append(new LbServer($settings));
-		return $this;
+		$ret = new LbServer($settings);
+		$this->_servers->append($ret);
+		return $ret;
 	}
 	
 	/**
@@ -170,6 +220,43 @@ class LbVirtualIp {
 	}
 	
 	/**
+	 * @access public
+	 * @param string $address
+	 * @return \Saklient\Cloud\Resources\LbServer
+	 */
+	public function getServerByAddress($address)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($address, "string");
+		foreach ($this->_servers as $srv) {
+			if ($srv->ipAddress == $address) {
+				return $srv;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * @access public
+	 * @param \ArrayObject $srvs
+	 * @return \Saklient\Cloud\Resources\LbVirtualIp
+	 */
+	public function updateStatus($srvs)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($srvs, "\\ArrayObject");
+		foreach ($srvs as $srvDyn) {
+			$ip = $srvDyn->{"IPAddress"};
+			$srv = $this->getServerByAddress($ip);
+			if ($srv == null) {
+				continue;
+			}
+			$srv->updateStatus($srvDyn);
+		}
+		return $this;
+	}
+	
+	/**
 	 * @ignore
 	 */
 	public function __get($key) {
@@ -179,6 +266,18 @@ class LbVirtualIp {
 			case "delayLoop": return $this->get_delayLoop();
 			case "servers": return $this->get_servers();
 			default: return null;
+		}
+	}
+	
+	/**
+	 * @ignore
+	 */
+	public function __set($key, $v) {
+		switch ($key) {
+			case "virtualIpAddress": return $this->set_virtualIpAddress($v);
+			case "port": return $this->set_port($v);
+			case "delayLoop": return $this->set_delayLoop($v);
+			default: throw new SaklientException('non_writable_field', 'Non-writable field: Saklient\\Cloud\\Resources\\LbVirtualIp#'.$key);
 		}
 	}
 

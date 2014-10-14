@@ -176,6 +176,22 @@ class Util {
 		\sleep($sec);
 	}
 	
+	static public function popAobj(\ArrayObject &$aobj)
+	{
+		$arr = (array)$aobj;
+		$ret = array_pop($arr);
+		$aobj->exchangeArray($arr);
+		return $ret;
+	}
+	
+	static public function shiftAobj(\ArrayObject &$aobj)
+	{
+		$arr = (array)$aobj;
+		$ret = array_shift($arr);
+		$aobj->exchangeArray($arr);
+		return $ret;
+	}
+	
 	/**
 	 * @access public
 	 * @param int $actual

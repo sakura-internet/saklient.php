@@ -230,14 +230,14 @@ class Model {
 		Util::validateType($multiple, "boolean");
 		$filter = $this->_query->filter;
 		if ($multiple) {
-			if (!array_key_exists($key, $filter)) {
+			if (!array_key_exists($key, (array)($filter))) {
 				$filter->{$key} = new \ArrayObject([]);
 			}
 			$values = $filter->{$key};
 			$values->append($value);
 		}
 		else {
-			if (array_key_exists($key, $filter)) {
+			if (array_key_exists($key, (array)($filter))) {
 				throw new SaklientException("filter_duplicated", "The same filter key can be specified only once (by calling the same method 'withFooBar')");
 			}
 			$filter->{$key} = $value;
@@ -265,12 +265,12 @@ class Model {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @param string $className=null
+	 * @param string $className
 	 * @param mixed $obj
 	 * @param boolean $wrapped=false
 	 * @return \Saklient\Cloud\Resources\Resource
 	 */
-	protected function _createResourceWith($className=null, $obj, $wrapped=false)
+	protected function _createResourceWith($className, $obj, $wrapped=false)
 	{
 		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($className, "string");
