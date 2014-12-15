@@ -83,7 +83,7 @@ class IsoImageTest extends \PHPUnit_Framework_TestCase
 		// search iso images
 		fprintf(\STDERR, "searching iso images...\n");
 		$isos = $api->isoImage
-			->withNameLike('CentOS 6.5 64bit')
+			->withNameLike('CentOS 64bit')
 			->withSharedScope()
 			->limit(1)
 			->find();

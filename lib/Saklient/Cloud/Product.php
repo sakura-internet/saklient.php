@@ -8,6 +8,8 @@ require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_DiskPlan.php";
 use \Saklient\Cloud\Models\Model_DiskPlan;
 require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_RouterPlan.php";
 use \Saklient\Cloud\Models\Model_RouterPlan;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_LicenseInfo.php";
+use \Saklient\Cloud\Models\Model_LicenseInfo;
 require_once __DIR__ . "/../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
 require_once __DIR__ . "/../../Saklient/Util.php";
@@ -21,6 +23,7 @@ use \Saklient\Errors\SaklientException;
  * @property-read \Saklient\Cloud\Models\Model_ServerPlan $server サーバプラン情報。 
  * @property-read \Saklient\Cloud\Models\Model_DiskPlan $disk ディスクプラン情報。 
  * @property-read \Saklient\Cloud\Models\Model_RouterPlan $router ルータ帯域プラン情報。 
+ * @property-read \Saklient\Cloud\Models\Model_LicenseInfo $license ライセンス種別情報。 
  */
 class Product {
 	
@@ -85,6 +88,26 @@ class Product {
 	
 	
 	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var Model_LicenseInfo
+	 */
+	protected $_license;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \Saklient\Cloud\Models\Model_LicenseInfo
+	 */
+	protected function get_license()
+	{
+		return $this->_license;
+	}
+	
+	
+	
+	/**
 	 * @ignore
 	 * @access public
 	 * @param \Saklient\Cloud\Client $client
@@ -96,6 +119,7 @@ class Product {
 		$this->_server = new Model_ServerPlan($client);
 		$this->_disk = new Model_DiskPlan($client);
 		$this->_router = new Model_RouterPlan($client);
+		$this->_license = new Model_LicenseInfo($client);
 	}
 	
 	/**
@@ -106,6 +130,7 @@ class Product {
 			case "server": return $this->get_server();
 			case "disk": return $this->get_disk();
 			case "router": return $this->get_router();
+			case "license": return $this->get_license();
 			default: return null;
 		}
 	}

@@ -8,6 +8,8 @@ require_once __DIR__ . "/../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
 require_once __DIR__ . "/../../Saklient/Cloud/Product.php";
 use \Saklient\Cloud\Product;
+require_once __DIR__ . "/../../Saklient/Cloud/Facility.php";
+use \Saklient\Cloud\Facility;
 require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Icon.php";
 use \Saklient\Cloud\Models\Model_Icon;
 require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Server.php";
@@ -26,10 +28,14 @@ require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Swytch.php";
 use \Saklient\Cloud\Models\Model_Swytch;
 require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Router.php";
 use \Saklient\Cloud\Models\Model_Router;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Bridge.php";
+use \Saklient\Cloud\Models\Model_Bridge;
 require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Ipv6Net.php";
 use \Saklient\Cloud\Models\Model_Ipv6Net;
 require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Script.php";
 use \Saklient\Cloud\Models\Model_Script;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_License.php";
+use \Saklient\Cloud\Models\Model_License;
 require_once __DIR__ . "/../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 
@@ -38,6 +44,7 @@ use \Saklient\Errors\SaklientException;
  * 
  * @see API.authorize
  * @property-read \Saklient\Cloud\Product $product 商品情報にアクセスするためのモデルを集めたオブジェクト。 
+ * @property-read \Saklient\Cloud\Facility $facility 設備情報にアクセスするためのモデルを集めたオブジェクト。 
  * @property-read \Saklient\Cloud\Models\Model_Icon $icon アイコンにアクセスするためのモデル。 
  * @property-read \Saklient\Cloud\Models\Model_Server $server サーバにアクセスするためのモデル。 
  * @property-read \Saklient\Cloud\Models\Model_Disk $disk ディスクにアクセスするためのモデル。 
@@ -47,8 +54,10 @@ use \Saklient\Errors\SaklientException;
  * @property-read \Saklient\Cloud\Models\Model_Iface $iface インタフェースにアクセスするためのモデル。 
  * @property-read \Saklient\Cloud\Models\Model_Swytch $swytch スイッチにアクセスするためのモデル。 
  * @property-read \Saklient\Cloud\Models\Model_Router $router ルータにアクセスするためのモデル。 
+ * @property-read \Saklient\Cloud\Models\Model_Bridge $bridge ブリッジにアクセスするためのモデル。 
  * @property-read \Saklient\Cloud\Models\Model_Ipv6Net $ipv6Net IPv6ネットワークにアクセスするためのモデル。 
  * @property-read \Saklient\Cloud\Models\Model_Script $script スクリプトにアクセスするためのモデル。 
+ * @property-read \Saklient\Cloud\Models\Model_License $license ライセンスにアクセスするためのモデル。 
  */
 class API {
 	
@@ -88,6 +97,26 @@ class API {
 	protected function get_product()
 	{
 		return $this->_product;
+	}
+	
+	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var Facility
+	 */
+	protected $_facility;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \Saklient\Cloud\Facility
+	 */
+	protected function get_facility()
+	{
+		return $this->_facility;
 	}
 	
 	
@@ -276,6 +305,26 @@ class API {
 	 * @private
 	 * @access protected
 	 * @ignore
+	 * @var Model_Bridge
+	 */
+	protected $_bridge;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \Saklient\Cloud\Models\Model_Bridge
+	 */
+	protected function get_bridge()
+	{
+		return $this->_bridge;
+	}
+	
+	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
 	 * @var Model_Ipv6Net
 	 */
 	protected $_ipv6Net;
@@ -313,6 +362,26 @@ class API {
 	
 	
 	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var Model_License
+	 */
+	protected $_license;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \Saklient\Cloud\Models\Model_License
+	 */
+	protected function get_license()
+	{
+		return $this->_license;
+	}
+	
+	
+	
+	/**
 	 * @ignore
 	 * @access protected
 	 * @param \Saklient\Cloud\Client $client
@@ -323,6 +392,7 @@ class API {
 		Util::validateType($client, "\\Saklient\\Cloud\\Client");
 		$this->_client = $client;
 		$this->_product = new Product($client);
+		$this->_facility = new Facility($client);
 		$this->_icon = new Model_Icon($client);
 		$this->_server = new Model_Server($client);
 		$this->_disk = new Model_Disk($client);
@@ -332,8 +402,10 @@ class API {
 		$this->_iface = new Model_Iface($client);
 		$this->_swytch = new Model_Swytch($client);
 		$this->_router = new Model_Router($client);
+		$this->_bridge = new Model_Bridge($client);
 		$this->_ipv6Net = new Model_Ipv6Net($client);
 		$this->_script = new Model_Script($client);
+		$this->_license = new Model_License($client);
 	}
 	
 	/**
@@ -387,6 +459,7 @@ class API {
 		switch ($key) {
 			case "client": return $this->get_client();
 			case "product": return $this->get_product();
+			case "facility": return $this->get_facility();
 			case "icon": return $this->get_icon();
 			case "server": return $this->get_server();
 			case "disk": return $this->get_disk();
@@ -396,8 +469,10 @@ class API {
 			case "iface": return $this->get_iface();
 			case "swytch": return $this->get_swytch();
 			case "router": return $this->get_router();
+			case "bridge": return $this->get_bridge();
 			case "ipv6Net": return $this->get_ipv6Net();
 			case "script": return $this->get_script();
+			case "license": return $this->get_license();
 			default: return null;
 		}
 	}

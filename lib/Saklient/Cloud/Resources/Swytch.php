@@ -25,6 +25,8 @@ use \Saklient\Util;
  * @property-read string $id ID 
  * @property string $name 名前 
  * @property string $description 説明 
+ * @property \ArrayObject $tags タグ文字列の配列 
+ * @property \Saklient\Cloud\Resources\Icon $icon アイコン 
  * @property-read string $userDefaultRoute ユーザ設定IPv4ネットワークのゲートウェイ 
  * @property-read int $userMaskLen ユーザ設定IPv4ネットワークのマスク長 
  * @property-read \Saklient\Cloud\Resources\Router $router 接続されているルータ 
@@ -59,6 +61,24 @@ class Swytch extends Resource {
 	 * @var string
 	 */
 	protected $m_description;
+	
+	/**
+	 * タグ文字列の配列
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var string[]
+	 */
+	protected $m_tags;
+	
+	/**
+	 * アイコン
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var Icon
+	 */
+	protected $m_icon;
 	
 	/**
 	 * ユーザ設定IPv4ネットワークのゲートウェイ
@@ -377,6 +397,84 @@ class Swytch extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
+	private $n_tags = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string[]
+	 */
+	private function get_tags()
+	{
+		$this->n_tags = true;
+		return $this->m_tags;
+	}
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param string[] $v
+	 * @return string[]
+	 */
+	private function set_tags($v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "\\ArrayObject");
+		if (is_array($v)) $v = Client::array2ArrayObject($v);
+		$this->m_tags = $v;
+		$this->n_tags = true;
+		return $this->m_tags;
+	}
+	
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_icon = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return \Saklient\Cloud\Resources\Icon
+	 */
+	private function get_icon()
+	{
+		return $this->m_icon;
+	}
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param \Saklient\Cloud\Resources\Icon|null $v
+	 * @return \Saklient\Cloud\Resources\Icon
+	 */
+	private function set_icon(\Saklient\Cloud\Resources\Icon $v=null)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "\\Saklient\\Cloud\\Resources\\Icon");
+		$this->m_icon = $v;
+		$this->n_icon = true;
+		return $this->m_icon;
+	}
+	
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
 	private $n_userDefaultRoute = false;
 	
 	/**
@@ -516,6 +614,32 @@ class Swytch extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_description = false;
+		if (Util::existsPath($r, "Tags")) {
+			if (Util::getByPath($r, "Tags") == null) {
+				$this->m_tags = new \ArrayObject([]);
+			}
+			else {
+				$this->m_tags = new \ArrayObject([]);
+				foreach (Util::getByPath($r, "Tags") as $t) {
+					$v1 = null;
+					$v1 = $t == null ? null : "" . $t;
+					$this->m_tags->append($v1);
+				}
+			}
+		}
+		else {
+			$this->m_tags = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_tags = false;
+		if (Util::existsPath($r, "Icon")) {
+			$this->m_icon = Util::getByPath($r, "Icon") == null ? null : new Icon($this->_client, Util::getByPath($r, "Icon"));
+		}
+		else {
+			$this->m_icon = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_icon = false;
 		if (Util::existsPath($r, "UserSubnet.DefaultRoute")) {
 			$this->m_userDefaultRoute = Util::getByPath($r, "UserSubnet.DefaultRoute") == null ? null : "" . Util::getByPath($r, "UserSubnet.DefaultRoute");
 		}
@@ -547,9 +671,9 @@ class Swytch extends Resource {
 			else {
 				$this->m_ipv4Nets = new \ArrayObject([]);
 				foreach (Util::getByPath($r, "Subnets") as $t) {
-					$v1 = null;
-					$v1 = $t == null ? null : new Ipv4Net($this->_client, $t);
-					$this->m_ipv4Nets->append($v1);
+					$v2 = null;
+					$v2 = $t == null ? null : new Ipv4Net($this->_client, $t);
+					$this->m_ipv4Nets->append($v2);
 				}
 			}
 		}
@@ -565,9 +689,9 @@ class Swytch extends Resource {
 			else {
 				$this->m_ipv6Nets = new \ArrayObject([]);
 				foreach (Util::getByPath($r, "IPv6Nets") as $t) {
-					$v2 = null;
-					$v2 = $t == null ? null : new Ipv6Net($this->_client, $t);
-					$this->m_ipv6Nets->append($v2);
+					$v3 = null;
+					$v3 = $t == null ? null : new Ipv6Net($this->_client, $t);
+					$this->m_ipv6Nets->append($v3);
 				}
 			}
 		}
@@ -603,6 +727,17 @@ class Swytch extends Resource {
 		if ($withClean || $this->n_description) {
 			Util::setByPath($ret, "Description", $this->m_description);
 		}
+		if ($withClean || $this->n_tags) {
+			Util::setByPath($ret, "Tags", new \ArrayObject([]));
+			foreach ($this->m_tags as $r1) {
+				$v = null;
+				$v = $r1;
+				$ret->{"Tags"}->append($v);
+			}
+		}
+		if ($withClean || $this->n_icon) {
+			Util::setByPath($ret, "Icon", $withClean ? ($this->m_icon == null ? null : $this->m_icon->apiSerialize($withClean)) : ($this->m_icon == null ? (object)['ID' => "0"] : $this->m_icon->apiSerializeID()));
+		}
 		if ($withClean || $this->n_userDefaultRoute) {
 			Util::setByPath($ret, "UserSubnet.DefaultRoute", $this->m_userDefaultRoute);
 		}
@@ -614,17 +749,17 @@ class Swytch extends Resource {
 		}
 		if ($withClean || $this->n_ipv4Nets) {
 			Util::setByPath($ret, "Subnets", new \ArrayObject([]));
-			foreach ($this->m_ipv4Nets as $r1) {
+			foreach ($this->m_ipv4Nets as $r2) {
 				$v = null;
-				$v = $withClean ? ($r1 == null ? null : $r1->apiSerialize($withClean)) : ($r1 == null ? (object)['ID' => "0"] : $r1->apiSerializeID());
+				$v = $withClean ? ($r2 == null ? null : $r2->apiSerialize($withClean)) : ($r2 == null ? (object)['ID' => "0"] : $r2->apiSerializeID());
 				$ret->{"Subnets"}->append($v);
 			}
 		}
 		if ($withClean || $this->n_ipv6Nets) {
 			Util::setByPath($ret, "IPv6Nets", new \ArrayObject([]));
-			foreach ($this->m_ipv6Nets as $r2) {
+			foreach ($this->m_ipv6Nets as $r3) {
 				$v = null;
-				$v = $withClean ? ($r2 == null ? null : $r2->apiSerialize($withClean)) : ($r2 == null ? (object)['ID' => "0"] : $r2->apiSerializeID());
+				$v = $withClean ? ($r3 == null ? null : $r3->apiSerialize($withClean)) : ($r3 == null ? (object)['ID' => "0"] : $r3->apiSerializeID());
 				$ret->{"IPv6Nets"}->append($v);
 			}
 		}
@@ -642,6 +777,8 @@ class Swytch extends Resource {
 			case "id": return $this->get_id();
 			case "name": return $this->get_name();
 			case "description": return $this->get_description();
+			case "tags": return $this->get_tags();
+			case "icon": return $this->get_icon();
 			case "userDefaultRoute": return $this->get_userDefaultRoute();
 			case "userMaskLen": return $this->get_userMaskLen();
 			case "router": return $this->get_router();
@@ -658,6 +795,8 @@ class Swytch extends Resource {
 		switch ($key) {
 			case "name": return $this->set_name($v);
 			case "description": return $this->set_description($v);
+			case "tags": return $this->set_tags($v);
+			case "icon": return $this->set_icon($v);
 			default: return parent::__set($key, $v);
 		}
 	}
