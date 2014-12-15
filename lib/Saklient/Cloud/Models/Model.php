@@ -263,22 +263,17 @@ class Model {
 	
 	/**
 	 * @private
-	 * @access protected
 	 * @ignore
-	 * @param string $className
+	 * @access protected
 	 * @param mixed $obj
 	 * @param boolean $wrapped=false
 	 * @return \Saklient\Cloud\Resources\Resource
 	 */
-	protected function _createResourceWith($className, $obj, $wrapped=false)
+	protected function _createResourceImpl($obj, $wrapped=false)
 	{
-		Util::validateArgCount(func_num_args(), 2);
-		Util::validateType($className, "string");
+		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($wrapped, "boolean");
-		if ($className == null) {
-			$className = $this->_className();
-		}
-		return Resource::createWith($className, $this->_client, $obj, $wrapped);
+		return null;
 	}
 	
 	/**
@@ -289,13 +284,11 @@ class Model {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @param string $className=null
 	 * @return \Saklient\Cloud\Resources\Resource リソースオブジェクト
 	 */
-	protected function _create($className=null)
+	protected function _create()
 	{
-		Util::validateType($className, "string");
-		return $this->_createResourceWith($className, null);
+		return $this->_createResourceImpl(null);
 	}
 	
 	/**
@@ -316,7 +309,7 @@ class Model {
 		$result = $this->_client->request("GET", $this->_apiPath() . "/" . Util::urlEncode($id), $query);
 		$this->_total = 1;
 		$this->_count = 1;
-		return $this->_createResourceWith(null, $result, true);
+		return $this->_createResourceImpl($result, true);
 	}
 	
 	/**
@@ -337,7 +330,7 @@ class Model {
 		$data = new \ArrayObject([]);
 		$records = $result->{$this->_rootKeyM()};
 		foreach ($records as $record) {
-			$data->append($this->_createResourceWith(null, $record));
+			$data->append($this->_createResourceImpl($record));
 		}
 		return $data;
 	}
@@ -361,7 +354,7 @@ class Model {
 			return null;
 		}
 		$records = $result->{$this->_rootKeyM()};
-		return $this->_createResourceWith(null, $records[0]);
+		return $this->_createResourceImpl($records[0]);
 	}
 	
 	/**

@@ -48,7 +48,7 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
 		//
 		$temp = tempnam(sys_get_temp_dir(), "saklient-");
 		$cmd = "dd if=/dev/urandom bs=4096 count=64 > $temp; ls -l $temp";
-		echo $cmd, "\n"; echo `( $cmd ) 2>&1`;
+		fprintf(\STDERR, "%s\n%s", $cmd, `( $cmd ) 2>&1`);
 		$cmd  = "set ftp:ssl-allow true;";
 		$cmd .= "set ftp:ssl-force true;";
 		$cmd .= "set ftp:ssl-protect-data true;";
@@ -59,9 +59,9 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
 			"lftp -u %s,%s -p 21 -e '%s' %s",
 			$ftp2->user, $ftp2->password, $cmd, $ftp2->hostName
 		);
-		echo $cmd, "\n"; echo `( $cmd ) 2>&1`;
+		fprintf(\STDERR, "%s\n%s", $cmd, `( $cmd ) 2>&1`);
 		$cmd = "rm -f $temp";
-		echo $cmd, "\n"; echo `( $cmd ) 2>&1`;
+		fprintf(\STDERR, "%s\n%s", $cmd, `( $cmd ) 2>&1`);
 		
 		$archive->closeFtp();
 		

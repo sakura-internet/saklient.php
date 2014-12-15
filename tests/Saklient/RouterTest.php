@@ -24,7 +24,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 		//
 		$swytch = null;
 		if (!self::USE_STATIC_RESOURCE) {
-			echo 'ルータ＋スイッチの帯域プランを検索しています...', "\n";
+			fprintf(\STDERR, 'ルータ＋スイッチの帯域プランを検索しています...'."\n");
 			$plans = $api->product->router->find();
 			$minMbps = 0x7FFFFFFF;
 			foreach ($plans as $plan) {
@@ -33,7 +33,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 				$minMbps = min($plan->bandWidthMbps, $minMbps);
 			}
 			
-			echo 'ルータ＋スイッチを作成しています...', "\n";
+			fprintf(\STDERR, 'ルータ＋スイッチを作成しています...'."\n");
 			$router = $api->router->create();
 			$router->name = $name;
 			$router->description = $description;
@@ -41,12 +41,12 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 			$router->networkMaskLen = $maskLen;
 			$router->save();
 			
-			echo 'ルータ＋スイッチの作成完了を待機しています...', "\n";
+			fprintf(\STDERR, 'ルータ＋スイッチの作成完了を待機しています...'."\n");
 			if (!$router->sleepWhileCreating()) $this->fail('ルータが正常に作成されません');
 			$swytch = $router->getSwytch();
 		}
 		else {
-			echo '既存のルータ＋スイッチを取得しています...', "\n";
+			fprintf(\STDERR, '既存のルータ＋スイッチを取得しています...'."\n");
 			$swytches = $api->swytch->withNameLike('saklient-static-1')->limit(1)->find();
 			$this->assertEquals(1, count($swytches));
 			$swytch = $swytches[0];
@@ -56,29 +56,29 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Ipv4Net", $swytch->ipv4Nets[0]);
 		
 		//
-		echo 'ルータ＋スイッチの帯域プランを変更しています...', "\n";
+		fprintf(\STDERR, 'ルータ＋スイッチの帯域プランを変更しています...'."\n");
 		$routerIdBefore = $swytch->router->id;
 		$swytch->changePlan($swytch->router->bandWidthMbps==100 ? 500 : 100);
 		$this->assertNotEquals($routerIdBefore, $swytch->router->id);
 		
 		//
 		if (0 < count($swytch->ipv6Nets)) {
-			echo 'ルータ＋スイッチからIPv6ネットワークの割当を解除しています...', "\n";
+			fprintf(\STDERR, 'ルータ＋スイッチからIPv6ネットワークの割当を解除しています...'."\n");
 			$swytch->removeIpv6Net();
 		}
-		echo 'ルータ＋スイッチにIPv6ネットワークを割り当てています...', "\n";
+		fprintf(\STDERR, 'ルータ＋スイッチにIPv6ネットワークを割り当てています...'."\n");
 		$v6net = $swytch->addIpv6Net();
 		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Ipv6Net", $v6net);
 		$this->assertEquals(1, count($swytch->ipv6Nets));
 		
 		//
 		for ($i=count($swytch->ipv4Nets)-1; 1<=$i; $i--) {
-			echo 'ルータ＋スイッチからスタティックルートの割当を解除しています...', "\n";
+			fprintf(\STDERR, 'ルータ＋スイッチからスタティックルートの割当を解除しています...'."\n");
 			$net = $swytch->ipv4Nets[$i];
 			$swytch->removeStaticRoute($net);
 		}
 		
-		echo 'ルータ＋スイッチにスタティックルートを割り当てています...', "\n";
+		fprintf(\STDERR, 'ルータ＋スイッチにスタティックルートを割り当てています...'."\n");
 		$net0 = $swytch->ipv4Nets[0];
 		$nextHop = long2ip(ip2long($net0->address) + 4);
 		$sroute = $swytch->addStaticRoute(28, $nextHop);

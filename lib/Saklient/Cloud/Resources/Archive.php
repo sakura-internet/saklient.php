@@ -34,7 +34,7 @@ use \Saklient\Util;
  * @property-read string $scope スコープ {@link \Saklient\Cloud\Enums\EScope} 
  * @property string $name 名前 
  * @property string $description 説明 
- * @property \ArrayObject $tags タグ 
+ * @property \ArrayObject $tags タグ文字列の配列 
  * @property \Saklient\Cloud\Resources\Icon $icon アイコン 
  * @property int $displayOrder 表示順序 
  * @property int $sizeMib サイズ[MiB] 
@@ -81,7 +81,7 @@ class Archive extends Resource {
 	protected $m_description;
 	
 	/**
-	 * タグ
+	 * タグ文字列の配列
 	 * 
 	 * @access protected
 	 * @ignore

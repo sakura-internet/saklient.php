@@ -6,6 +6,8 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
 require_once __DIR__ . "/../../../Saklient/Cloud/Models/Model.php";
 use \Saklient\Cloud\Models\Model;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Resource.php";
+use \Saklient\Cloud\Resources\Resource;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Script.php";
 use \Saklient\Cloud\Resources\Script;
 require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EScope.php";
@@ -60,6 +62,21 @@ class Model_Script extends Model {
 	protected function _className()
 	{
 		return "Script";
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $obj
+	 * @param boolean $wrapped=false
+	 * @return \Saklient\Cloud\Resources\Resource
+	 */
+	protected function _createResourceImpl($obj, $wrapped=false)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($wrapped, "boolean");
+		return new Script($this->_client, $obj, $wrapped);
 	}
 	
 	/**

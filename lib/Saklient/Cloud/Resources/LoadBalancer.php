@@ -22,7 +22,7 @@ use \Saklient\Util;
 /**
  * ロードバランサの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
- * @property-read \ArrayObject $virtualIps 仮想IPアドレス 
+ * @property-read \ArrayObject $virtualIps 仮想IPアドレス {@link \Saklient\Cloud\Resources\LbVirtualIp} の配列 
  * @property string $defaultRoute デフォルトルート 
  * @property int $maskLen マスク長 
  * @property int $vrid VRID 

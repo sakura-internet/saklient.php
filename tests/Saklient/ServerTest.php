@@ -14,7 +14,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 	use \Saklient\Tests\Common;
 	
 	const TESTS_DUPLICATE_DISK = false;
-	const TESTS_CONFIG_DISK = true;
+	const TESTS_CONFIG_DISK = false;
 	const TESTS_STARTUP_SCRIPT = false;
 	const TESTS_DONT_STOP_SERVER = false;
 	
@@ -69,7 +69,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		// search archives
 		fprintf(\STDERR, "searching archives...\n");
 		$archives = $api->archive
-			->withNameLike('CentOS 6.5 64bit')
+			->withNameLike('CentOS 6.6 64bit')
 			->withSizeGib(20)
 			->withSharedScope()
 			->limit(1)

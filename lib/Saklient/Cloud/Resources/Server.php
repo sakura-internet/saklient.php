@@ -37,7 +37,7 @@ use \Saklient\Util;
  * @property-read string $id ID 
  * @property string $name 名前 
  * @property string $description 説明 
- * @property \ArrayObject $tags タグ 
+ * @property \ArrayObject $tags タグ文字列の配列 
  * @property \Saklient\Cloud\Resources\Icon $icon アイコン 
  * @property \Saklient\Cloud\Resources\ServerPlan $plan プラン 
  * @property-read \ArrayObject $ifaces インタフェース 
@@ -74,7 +74,7 @@ class Server extends Resource {
 	protected $m_description;
 	
 	/**
-	 * タグ
+	 * タグ文字列の配列
 	 * 
 	 * @access protected
 	 * @ignore

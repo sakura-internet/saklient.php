@@ -49,7 +49,7 @@ class IsoImageTest extends \PHPUnit_Framework_TestCase
 		//
 		$temp = tempnam(sys_get_temp_dir(), "saklient-");
 		$cmd = "dd if=/dev/urandom bs=4096 count=64 > $temp; ls -l $temp";
-		echo $cmd, "\n"; echo `( $cmd ) 2>&1`;
+		fprintf(\STDERR, "%s\n%s", $cmd, `( $cmd ) 2>&1`);
 		$cmd  = "set ftp:ssl-allow true;";
 		$cmd .= "set ftp:ssl-force true;";
 		$cmd .= "set ftp:ssl-protect-data true;";
@@ -60,9 +60,9 @@ class IsoImageTest extends \PHPUnit_Framework_TestCase
 			"lftp -u %s,%s -p 21 -e '%s' %s",
 			$ftp2->user, $ftp2->password, $cmd, $ftp2->hostName
 		);
-		echo $cmd, "\n"; echo `( $cmd ) 2>&1`;
+		fprintf(\STDERR, "%s\n%s", $cmd, `( $cmd ) 2>&1`);
 		$cmd = "rm -f $temp";
-		echo $cmd, "\n"; echo `( $cmd ) 2>&1`;
+		fprintf(\STDERR, "%s\n%s", $cmd, `( $cmd ) 2>&1`);
 		
 		$iso->closeFtp();
 		
@@ -81,7 +81,7 @@ class IsoImageTest extends \PHPUnit_Framework_TestCase
 		$tag = "saklient-test";
 		
 		// search iso images
-		echo "searching iso images...\n";
+		fprintf(\STDERR, "searching iso images...\n");
 		$isos = $api->isoImage
 			->withNameLike('CentOS 6.5 64bit')
 			->withSharedScope()
@@ -91,7 +91,7 @@ class IsoImageTest extends \PHPUnit_Framework_TestCase
 		$iso = $isos[0];
 		
 		// create a server
-		echo "creating a server...\n";
+		fprintf(\STDERR, "creating a server...\n");
 		$server = $api->server->create();
 		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Server", $server);
 		$server->name = $name;
@@ -101,39 +101,39 @@ class IsoImageTest extends \PHPUnit_Framework_TestCase
 		$server->save();
 		
 		// insert iso image while the server is down
-		echo "inserting an ISO image to the server...\n";
+		fprintf(\STDERR, "inserting an ISO image to the server...\n");
 		$server->insertIsoImage($iso);
 		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\IsoImage", $server->instance->isoImage);
 		$this->assertEquals($iso->id, $server->instance->isoImage->id);
 		
 		// eject iso image while the server is down
-		echo "ejecting the ISO image from the server...\n";
+		fprintf(\STDERR, "ejecting the ISO image from the server...\n");
 		$server->ejectIsoImage();
 		$this->assertNull($server->instance->isoImage);
 		
 		// boot
-		echo "booting the server...\n";
+		fprintf(\STDERR, "booting the server...\n");
 		$server->boot();
 		sleep(3);
 		
 		// insert iso image while the server is up
-		echo "inserting an ISO image to the server...\n";
+		fprintf(\STDERR, "inserting an ISO image to the server...\n");
 		$server->insertIsoImage($iso);
 		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\IsoImage", $server->instance->isoImage);
 		$this->assertEquals($iso->id, $server->instance->isoImage->id);
 		
 		// eject iso image while the server is up
-		echo "ejecting the ISO image from the server...\n";
+		fprintf(\STDERR, "ejecting the ISO image from the server...\n");
 		$server->ejectIsoImage();
 		$this->assertNull($server->instance->isoImage);
 		
 		// stop
 		sleep(1);
-		echo "stopping the server...\n";
+		fprintf(\STDERR, "stopping the server...\n");
 		if (!$server->stop()->sleepUntilDown()) $this->fail('サーバが正常に停止しません');
 		
 		// delete the server
-		echo "deleting the server...\n";
+		fprintf(\STDERR, "deleting the server...\n");
 		$server->destroy();
 		
 	}

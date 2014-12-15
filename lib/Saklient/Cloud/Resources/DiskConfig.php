@@ -20,7 +20,7 @@ use \Saklient\Errors\SaklientException;
  * @property string $ipAddress IPアドレス 
  * @property string $defaultRoute デフォルトルート 
  * @property int $networkMaskLen ネットワークマスク長 
- * @property-read \ArrayObject $scripts スタートアップスクリプト（pushによりスクリプトを追加できます） 
+ * @property-read \ArrayObject $scripts スタートアップスクリプト {@link \Saklient\Cloud\Resources\Script} の配列（pushによりスクリプトを追加できます） 
  */
 class DiskConfig {
 	

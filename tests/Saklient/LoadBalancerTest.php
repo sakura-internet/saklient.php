@@ -198,10 +198,10 @@ class LoadBalancerTest extends \PHPUnit_Framework_TestCase
 				printf("    [%s(%s)]", $server->status, $server->activeConnections);
 				printf(" server %s://%s", $server->protocol, $server->ipAddress);
 				if ($server->port) printf(":%d", $server->port);
-				if ($server->pathToCheck) echo $server->pathToCheck;
-				echo " answers";
+				if ($server->pathToCheck) fprintf(\STDERR, $server->pathToCheck);
+				fprintf(\STDERR, " answers");
 				if ($server->responseExpected) printf(" %d", $server->responseExpected);
-				echo "\n";
+				fprintf(\STDERR, "\n");
 				$this->assertEquals($server->status, "down");
 			}
 		}

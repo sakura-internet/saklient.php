@@ -378,16 +378,6 @@ class Resource {
 	/**
 	 * @ignore
 	 * @access public
-	 * @return string
-	 */
-	public function trueClassName()
-	{
-		return null;
-	}
-	
-	/**
-	 * @ignore
-	 * @access public
 	 * @param string $className
 	 * @param \Saklient\Cloud\Client $client
 	 * @param mixed $obj
@@ -405,12 +395,7 @@ class Resource {
 			$obj,
 			$wrapped
 		]);
-		$ret = Util::createClassInstance("saklient.cloud.resources." . $className, $a);
-		$trueClassName = $ret->trueClassName();
-		if ($trueClassName != null) {
-			$ret = Util::createClassInstance("saklient.cloud.resources." . $trueClassName, $a);
-		}
-		return $ret;
+		return Util::createClassInstance("saklient.cloud.resources." . $className, $a);
 	}
 	
 	/**

@@ -28,8 +28,8 @@ use \Saklient\Util;
  * @property-read string $userDefaultRoute ユーザ設定IPv4ネットワークのゲートウェイ 
  * @property-read int $userMaskLen ユーザ設定IPv4ネットワークのマスク長 
  * @property-read \Saklient\Cloud\Resources\Router $router 接続されているルータ 
- * @property-read \ArrayObject $ipv4Nets IPv4ネットワーク（ルータによる自動割当） 
- * @property-read \ArrayObject $ipv6Nets IPv6ネットワーク（ルータによる自動割当） 
+ * @property-read \ArrayObject $ipv4Nets IPv4ネットワーク（ルータによる自動割当） {@link \Saklient\Cloud\Resources\Ipv4Net} の配列 
+ * @property-read \ArrayObject $ipv6Nets IPv6ネットワーク（ルータによる自動割当） {@link \Saklient\Cloud\Resources\Ipv6Net} の配列 
  */
 class Swytch extends Resource {
 	
@@ -88,7 +88,7 @@ class Swytch extends Resource {
 	protected $m_router;
 	
 	/**
-	 * IPv4ネットワーク（ルータによる自動割当）
+	 * IPv4ネットワーク（ルータによる自動割当） {@link \Saklient\Cloud\Resources\Ipv4Net} の配列
 	 * 
 	 * @access protected
 	 * @ignore
@@ -97,7 +97,7 @@ class Swytch extends Resource {
 	protected $m_ipv4Nets;
 	
 	/**
-	 * IPv6ネットワーク（ルータによる自動割当）
+	 * IPv6ネットワーク（ルータによる自動割当） {@link \Saklient\Cloud\Resources\Ipv6Net} の配列
 	 * 
 	 * @access protected
 	 * @ignore

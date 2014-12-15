@@ -6,6 +6,8 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
 require_once __DIR__ . "/../../../Saklient/Cloud/Models/Model.php";
 use \Saklient\Cloud\Models\Model;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Resource.php";
+use \Saklient\Cloud\Resources\Resource;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/ServerPlan.php";
 use \Saklient\Cloud\Resources\ServerPlan;
 require_once __DIR__ . "/../../../Saklient/Util.php";
@@ -58,6 +60,21 @@ class Model_ServerPlan extends Model {
 	protected function _className()
 	{
 		return "ServerPlan";
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $obj
+	 * @param boolean $wrapped=false
+	 * @return \Saklient\Cloud\Resources\Resource
+	 */
+	protected function _createResourceImpl($obj, $wrapped=false)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($wrapped, "boolean");
+		return new ServerPlan($this->_client, $obj, $wrapped);
 	}
 	
 	/**

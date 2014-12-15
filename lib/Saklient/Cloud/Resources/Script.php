@@ -25,7 +25,7 @@ use \Saklient\Util;
  * @property string $clazz クラス {@link \Saklient\Cloud\Enums\EScriptClass} 
  * @property-read string $name 名前 
  * @property string $description 説明 
- * @property \ArrayObject $tags タグ 
+ * @property \ArrayObject $tags タグ文字列の配列 
  * @property \Saklient\Cloud\Resources\Icon $icon アイコン 
  * @property string $content 内容 
  * @property-read mixed $annotation 注釈 
@@ -78,7 +78,7 @@ class Script extends Resource {
 	protected $m_description;
 	
 	/**
-	 * タグ
+	 * タグ文字列の配列
 	 * 
 	 * @access protected
 	 * @ignore

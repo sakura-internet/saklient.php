@@ -15,7 +15,7 @@ use \Saklient\Errors\SaklientException;
  * @property string $virtualIpAddress VIPアドレス 
  * @property int $port ポート番号 
  * @property int $delayLoop チェック間隔 [秒] 
- * @property-read \ArrayObject $servers 実サーバ 
+ * @property-read \ArrayObject $servers 実サーバ {@link \Saklient\Cloud\Resources\LbServer} の配列 
  */
 class LbVirtualIp {
 	

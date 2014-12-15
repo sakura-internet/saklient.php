@@ -95,24 +95,26 @@ class Client {
 			}
 			$path = $urlRoot . 'api/cloud/1.1' . $path;
 		}
+		$reqh = array(
+			'Content-Type: application/x-www-form-urlencoded',
+			'Authorization: '.$this->config->authorization,
+			'User-Agent: saklient.php ver-0.0.2.2 rev-4179ba7a290ed6a29a95a4c623506007fc444e84',
+			'X-Requested-With: XMLHttpRequest',
+			'X-Sakura-No-Authenticate-Header: 1',
+			'X-Sakura-HTTP-Method: '.$method,
+			'X-Sakura-Request-Format: json',
+			'X-Sakura-Response-Format: json',
+			'X-Sakura-Error-Level: warning',
+		);
 //		self::println("// APIリクエスト中: ".$method." ".$path);
+//		self::println(implode("\n", $reqh));
 //		self::println($json);
 		
 		$context = stream_context_create(array(
 			"http" => array(
 				'ignore_errors' => true,
 				'method'  => $method != 'GET' ? 'POST' : 'GET',
-				'header'  => implode("\r\n", array(
-					'Content-Type: application/x-www-form-urlencoded',
-					'Authorization: '.$this->config->authorization,
-					'User-Agent: saklient.php ver-0.0.2.2 rev-0de622ef1458f0fe03cbb11b1bec990a3bfa25c4',
-					'X-Requested-With: XMLHttpRequest',
-					'X-Sakura-No-Authenticate-Header: 1',
-					'X-Sakura-HTTP-Method: '.$method,
-					'X-Sakura-Request-Format: json',
-					'X-Sakura-Response-Format: json',
-					'X-Sakura-Error-Level: warning',
-				)),
+				'header'  => implode("\r\n", $reqh),
 				'content' => $json,
 			),
 		));		
@@ -132,11 +134,11 @@ class Client {
 		$status = explode(" ", $resh['Status']);
 		$status = $status[0];
 //		self::println('// > '.$resh['Status']);
-//		print_r($resh);
+//		self::println(print_r($resh, true));
 		
 		$ret = null;
 		if ($data != null) $ret = self::array2ArrayObject(json_decode($data, false));
-		//trace("DATA="+data);
+//		self::println($data);
 		
 		if (!(200 <= $status && $status < 300)) throw ExceptionFactory::create($status, $ret ? $ret->error_code : null, $ret ? $ret->error_msg : null);
 		

@@ -20,6 +20,8 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EAvailability.php";
 use \Saklient\Cloud\Enums\EAvailability;
 require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EServerInstanceStatus.php";
 use \Saklient\Cloud\Enums\EServerInstanceStatus;
+require_once __DIR__ . "/../../../Saklient/Cloud/Models/Model_Swytch.php";
+use \Saklient\Cloud\Models\Model_Swytch;
 require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 
@@ -30,10 +32,10 @@ use \Saklient\Util;
  * @property string $clazz クラス {@link \Saklient\Cloud\Enums\EApplianceClass} 
  * @property string $name 名前 
  * @property string $description 説明 
- * @property \ArrayObject $tags タグ 
+ * @property \ArrayObject $tags タグ文字列の配列 
  * @property \Saklient\Cloud\Resources\Icon $icon アイコン 
  * @property int $planId プラン 
- * @property-read \ArrayObject $ifaces インタフェース 
+ * @property-read \ArrayObject $ifaces インタフェース {@link \Saklient\Cloud\Resources\Iface} の配列 
  * @property mixed $rawAnnotation 注釈 
  * @property mixed $rawSettings 設定の生データ 
  * @property-read string $status 起動状態 {@link \Saklient\Cloud\Enums\EServerInstanceStatus} 
@@ -80,7 +82,7 @@ class Appliance extends Resource {
 	protected $m_description;
 	
 	/**
-	 * タグ
+	 * タグ文字列の配列
 	 * 
 	 * @access protected
 	 * @ignore
@@ -107,7 +109,7 @@ class Appliance extends Resource {
 	protected $m_planId;
 	
 	/**
-	 * インタフェース
+	 * インタフェース {@link \Saklient\Cloud\Resources\Iface} の配列
 	 * 
 	 * @access protected
 	 * @ignore
@@ -251,28 +253,6 @@ class Appliance extends Resource {
 	public function reload()
 	{
 		return $this->_reload();
-	}
-	
-	/**
-	 * @ignore
-	 * @access public
-	 * @return string
-	 */
-	public function trueClassName()
-	{
-		if ($this->clazz == null) {
-			return null;
-		}
-		switch ($this->clazz) {
-			case "loadbalancer": {
-				return "LoadBalancer";
-			}
-			case "vpcrouter": {
-				return "VpcRouter";
-			}
-		}
-		
-		return null;
 	}
 	
 	/**

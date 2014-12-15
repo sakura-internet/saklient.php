@@ -6,6 +6,8 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
 require_once __DIR__ . "/../../../Saklient/Cloud/Models/Model.php";
 use \Saklient\Cloud\Models\Model;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Resource.php";
+use \Saklient\Cloud\Resources\Resource;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Appliance.php";
 use \Saklient\Cloud\Resources\Appliance;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/LoadBalancer.php";
@@ -64,6 +66,29 @@ class Model_Appliance extends Model {
 	protected function _className()
 	{
 		return "Appliance";
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $obj
+	 * @param boolean $wrapped=false
+	 * @return \Saklient\Cloud\Resources\Resource
+	 */
+	protected function _createResourceImpl($obj, $wrapped=false)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($wrapped, "boolean");
+		$ret = new Appliance($this->_client, $obj, $wrapped);
+		$clazz = $ret->clazz;
+		if ($clazz == "loadbalancer") {
+			return new LoadBalancer($this->_client, $obj, $wrapped);
+		}
+		if ($clazz == "vpcrouter") {
+			return new VpcRouter($this->_client, $obj, $wrapped);
+		}
+		return $ret;
 	}
 	
 	/**
@@ -137,7 +162,7 @@ class Model_Appliance extends Model {
 		Util::validateType($vrid, "int");
 		Util::validateType($realIps, "\\ArrayObject");
 		Util::validateType($isHighSpec, "boolean");
-		$ret = $this->_create("LoadBalancer");
+		$ret = new LoadBalancer($this->_client, null);
 		return $ret->setInitialParams($swytch, $vrid, $realIps, $isHighSpec);
 	}
 	
@@ -147,7 +172,8 @@ class Model_Appliance extends Model {
 	 */
 	public function createVpcRouter()
 	{
-		return $this->_create("VpcRouter");
+		$ret = new VpcRouter($this->_client, null);
+		return $ret;
 	}
 	
 	/**

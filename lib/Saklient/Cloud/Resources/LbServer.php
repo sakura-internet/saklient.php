@@ -15,8 +15,8 @@ use \Saklient\Errors\SaklientException;
  * @property string $protocol 監視方法 
  * @property string $pathToCheck 監視対象パス 
  * @property int $responseExpected 監視時に期待されるレスポンスコード 
- * @property-read int $activeConnections レスポンスコード 
- * @property-read string $status レスポンスコード 
+ * @property-read int $activeConnections 現在の接続数 
+ * @property-read string $status 現在の状態 
  */
 class LbServer {
 	
