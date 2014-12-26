@@ -16,6 +16,8 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Ipv4Net.php";
 use \Saklient\Cloud\Resources\Ipv4Net;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Ipv6Net.php";
 use \Saklient\Cloud\Resources\Ipv6Net;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Bridge.php";
+use \Saklient\Cloud\Resources\Bridge;
 require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 
@@ -30,6 +32,7 @@ use \Saklient\Util;
  * @property-read string $userDefaultRoute ユーザ設定IPv4ネットワークのゲートウェイ 
  * @property-read int $userMaskLen ユーザ設定IPv4ネットワークのマスク長 
  * @property-read \Saklient\Cloud\Resources\Router $router 接続されているルータ 
+ * @property-read \Saklient\Cloud\Resources\Bridge $bridge 接続されているブリッジ 
  * @property-read \ArrayObject $ipv4Nets IPv4ネットワーク（ルータによる自動割当） {@link \Saklient\Cloud\Resources\Ipv4Net} の配列 
  * @property-read \ArrayObject $ipv6Nets IPv6ネットワーク（ルータによる自動割当） {@link \Saklient\Cloud\Resources\Ipv6Net} の配列 
  */
@@ -106,6 +109,15 @@ class Swytch extends Resource {
 	 * @var Router
 	 */
 	protected $m_router;
+	
+	/**
+	 * 接続されているブリッジ
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var Bridge
+	 */
+	protected $m_bridge;
 	
 	/**
 	 * IPv4ネットワーク（ルータによる自動割当） {@link \Saklient\Cloud\Resources\Ipv4Net} の配列
@@ -283,7 +295,7 @@ class Swytch extends Resource {
 	 * このルータ＋スイッチの帯域プランを変更します。
 	 * 
 	 * @access public
-	 * @param int $bandWidthMbps
+	 * @param int $bandWidthMbps 帯域幅（api.product.router.find() から取得できる {@link RouterPlan} の bandWidthMbps を指定）。
 	 * @return \Saklient\Cloud\Resources\Swytch this
 	 */
 	public function changePlan($bandWidthMbps)
@@ -291,6 +303,36 @@ class Swytch extends Resource {
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($bandWidthMbps, "int");
 		$this->get_router()->changePlan($bandWidthMbps);
+		$this->reload();
+		return $this;
+	}
+	
+	/**
+	 * このルータ＋スイッチをブリッジに接続します。
+	 * 
+	 * @access public
+	 * @param $swytch 接続先のブリッジ。
+	 * @param \Saklient\Cloud\Resources\Bridge $bridge
+	 * @return \Saklient\Cloud\Resources\Swytch this
+	 */
+	public function connectToBridge(\Saklient\Cloud\Resources\Bridge $bridge)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($bridge, "\\Saklient\\Cloud\\Resources\\Bridge");
+		$result = $this->_client->request("PUT", $this->_apiPath() . "/" . $this->_id() . "/to/bridge/" . $bridge->_id());
+		$this->reload();
+		return $this;
+	}
+	
+	/**
+	 * このルータ＋スイッチをブリッジから切断します。
+	 * 
+	 * @access public
+	 * @return \Saklient\Cloud\Resources\Swytch this
+	 */
+	public function disconnectFromBridge()
+	{
+		$result = $this->_client->request("DELETE", $this->_apiPath() . "/" . $this->_id() . "/to/bridge");
 		$this->reload();
 		return $this;
 	}
@@ -538,6 +580,27 @@ class Swytch extends Resource {
 	 * @ignore
 	 * @var boolean
 	 */
+	private $n_bridge = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return \Saklient\Cloud\Resources\Bridge
+	 */
+	private function get_bridge()
+	{
+		return $this->m_bridge;
+	}
+	
+	
+	
+	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
 	private $n_ipv4Nets = false;
 	
 	/**
@@ -664,6 +727,14 @@ class Swytch extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_router = false;
+		if (Util::existsPath($r, "Bridge")) {
+			$this->m_bridge = Util::getByPath($r, "Bridge") == null ? null : new Bridge($this->_client, Util::getByPath($r, "Bridge"));
+		}
+		else {
+			$this->m_bridge = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_bridge = false;
 		if (Util::existsPath($r, "Subnets")) {
 			if (Util::getByPath($r, "Subnets") == null) {
 				$this->m_ipv4Nets = new \ArrayObject([]);
@@ -747,6 +818,9 @@ class Swytch extends Resource {
 		if ($withClean || $this->n_router) {
 			Util::setByPath($ret, "Internet", $withClean ? ($this->m_router == null ? null : $this->m_router->apiSerialize($withClean)) : ($this->m_router == null ? (object)['ID' => "0"] : $this->m_router->apiSerializeID()));
 		}
+		if ($withClean || $this->n_bridge) {
+			Util::setByPath($ret, "Bridge", $withClean ? ($this->m_bridge == null ? null : $this->m_bridge->apiSerialize($withClean)) : ($this->m_bridge == null ? (object)['ID' => "0"] : $this->m_bridge->apiSerializeID()));
+		}
 		if ($withClean || $this->n_ipv4Nets) {
 			Util::setByPath($ret, "Subnets", new \ArrayObject([]));
 			foreach ($this->m_ipv4Nets as $r2) {
@@ -782,6 +856,7 @@ class Swytch extends Resource {
 			case "userDefaultRoute": return $this->get_userDefaultRoute();
 			case "userMaskLen": return $this->get_userMaskLen();
 			case "router": return $this->get_router();
+			case "bridge": return $this->get_bridge();
 			case "ipv4Nets": return $this->get_ipv4Nets();
 			case "ipv6Nets": return $this->get_ipv6Nets();
 			default: return parent::__get($key);

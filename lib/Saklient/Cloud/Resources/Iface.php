@@ -8,6 +8,8 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Resource.php";
 use \Saklient\Cloud\Resources\Resource;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Swytch.php";
+use \Saklient\Cloud\Resources\Swytch;
 require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 
@@ -161,6 +163,21 @@ class Iface extends Resource {
 	}
 	
 	/**
+	 * スイッチに接続します。
+	 * 
+	 * @access public
+	 * @param \Saklient\Cloud\Resources\Swytch $swytch 接続先のスイッチ。
+	 * @return \Saklient\Cloud\Resources\Iface this
+	 */
+	public function connectToSwytch(\Saklient\Cloud\Resources\Swytch $swytch)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($swytch, "\\Saklient\\Cloud\\Resources\\Swytch");
+		$this->_client->request("PUT", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/to/switch/" . Util::urlEncode($swytch->_id()));
+		return $this->reload();
+	}
+	
+	/**
 	 * 共有セグメントに接続します。
 	 * 
 	 * @access public
@@ -169,6 +186,18 @@ class Iface extends Resource {
 	public function connectToSharedSegment()
 	{
 		$this->_client->request("PUT", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/to/switch/shared");
+		return $this->reload();
+	}
+	
+	/**
+	 * スイッチから切断します。
+	 * 
+	 * @access public
+	 * @return \Saklient\Cloud\Resources\Iface this
+	 */
+	public function disconnectFromSwytch()
+	{
+		$this->_client->request("DELETE", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/to/switch");
 		return $this->reload();
 	}
 	
