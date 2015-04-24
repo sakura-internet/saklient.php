@@ -255,8 +255,10 @@ class LoadBalancer extends Appliance {
 	}
 	
 	/**
+	 * 仮想IPアドレス設定を追加します。
+	 * 
 	 * @access public
-	 * @param mixed $settings=null
+	 * @param mixed $settings=null 設定オブジェクト
 	 * @return \Saklient\Cloud\Resources\LbVirtualIp
 	 */
 	public function addVirtualIp($settings=null)
@@ -267,6 +269,8 @@ class LoadBalancer extends Appliance {
 	}
 	
 	/**
+	 * 指定したIPアドレスにマッチする仮想IPアドレス設定を取得します。
+	 * 
 	 * @access public
 	 * @param string $address
 	 * @return \Saklient\Cloud\Resources\LbVirtualIp
@@ -284,20 +288,24 @@ class LoadBalancer extends Appliance {
 	}
 	
 	/**
+	 * 監視対象サーバのステータスを最新の状態に更新します。
+	 * 
 	 * @access public
 	 * @return \Saklient\Cloud\Resources\LoadBalancer
 	 */
 	public function reloadStatus()
 	{
 		$result = $this->requestRetry("GET", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/status");
-		$vips = $result->{"LoadBalancer"};
-		foreach ($vips as $vipDyn) {
-			$vipStr = $vipDyn->{"VirtualIPAddress"};
-			$vip = $this->getVirtualIpByAddress($vipStr);
-			if ($vip == null) {
-				continue;
+		if (array_key_exists("LoadBalancer", (array)($result))) {
+			$vips = $result->{"LoadBalancer"};
+			foreach ($vips as $vipDyn) {
+				$vipStr = $vipDyn->{"VirtualIPAddress"};
+				$vip = $this->getVirtualIpByAddress($vipStr);
+				if ($vip == null) {
+					continue;
+				}
+				$vip->updateStatus($vipDyn->{"Servers"});
 			}
-			$vip->updateStatus($vipDyn->{"Servers"});
 		}
 		return $this;
 	}

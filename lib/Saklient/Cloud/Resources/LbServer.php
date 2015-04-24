@@ -8,7 +8,7 @@ require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 
 /**
- * ロードバランサの監視対象サーバ。
+ * ロードバランサの監視対象サーバ設定。
  * 
  * @property string $ipAddress IPアドレス 
  * @property int $port ポート番号 
@@ -300,6 +300,7 @@ class LbServer {
 	}
 	
 	/**
+	 * @ignore
 	 * @access public
 	 * @param mixed $obj
 	 * @return \Saklient\Cloud\Resources\LbServer

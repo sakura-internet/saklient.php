@@ -14,7 +14,7 @@ class LoadBalancerTest extends \PHPUnit_Framework_TestCase
 {
 	use \Saklient\Tests\Common;
 	
-	const TESTS_CONFIG_READYMADE_LB_ID = 112600809060;
+	const TESTS_CONFIG_READYMADE_LB_ID = 112600795556;
 	
 	public function testAuthorize()
 	{
@@ -134,39 +134,44 @@ class LoadBalancerTest extends \PHPUnit_Framework_TestCase
 		$vip2Srv1->protocol = "http";
 		$vip2Srv1->pathToCheck = "/index.html";
 		$vip2Srv1->responseExpected = 200;
+		$vip2SrvD = $vip2->addServer();
+		$vip2SrvD->ipAddress = "10.0.0.1";
+		$vip2SrvD->port = 80;
+		$vip2SrvD->protocol = "tcp";
 		$vip2Srv2 = $vip2->addServer();
 		$vip2Srv2->ipAddress = $vip2SrvIp2;
 		$vip2Srv2->port = 80;
 		$vip2Srv2->protocol = "tcp";
+		$vip2->removeServerByAddress("10.0.0.1");
 		$lb->save();
 		$lb->reload();
 		
-		$this->assertEquals($lb->virtualIps->count(), 2);
-		$this->assertEquals($lb->virtualIps[0]->virtualIpAddress, $vip1Ip);
-		$this->assertEquals($lb->virtualIps[0]->servers->count(), 3);
-		$this->assertEquals($lb->virtualIps[0]->servers[0]->ipAddress, $vip1SrvIp1);
-		$this->assertEquals($lb->virtualIps[0]->servers[0]->port, 80);
-		$this->assertEquals($lb->virtualIps[0]->servers[0]->protocol, "http");
-		$this->assertEquals($lb->virtualIps[0]->servers[0]->pathToCheck, "/index.html");
-		$this->assertEquals($lb->virtualIps[0]->servers[0]->responseExpected, 200);
-		$this->assertEquals($lb->virtualIps[0]->servers[1]->ipAddress, $vip1SrvIp2);
-		$this->assertEquals($lb->virtualIps[0]->servers[1]->port, 80);
-		$this->assertEquals($lb->virtualIps[0]->servers[1]->protocol, "https");
-		$this->assertEquals($lb->virtualIps[0]->servers[1]->pathToCheck, "/");
-		$this->assertEquals($lb->virtualIps[0]->servers[1]->responseExpected, 200);
-		$this->assertEquals($lb->virtualIps[0]->servers[2]->ipAddress, $vip1SrvIp3);
-		$this->assertEquals($lb->virtualIps[0]->servers[2]->port, 80);
-		$this->assertEquals($lb->virtualIps[0]->servers[2]->protocol, "tcp");
-		$this->assertEquals($lb->virtualIps[1]->virtualIpAddress, $vip2Ip);
-		$this->assertEquals($lb->virtualIps[1]->servers->count(), 2);
-		$this->assertEquals($lb->virtualIps[1]->servers[0]->ipAddress, $vip2SrvIp1);
-		$this->assertEquals($lb->virtualIps[1]->servers[0]->port, 80);
-		$this->assertEquals($lb->virtualIps[1]->servers[0]->protocol, "http");
-		$this->assertEquals($lb->virtualIps[1]->servers[0]->pathToCheck, "/index.html");
-		$this->assertEquals($lb->virtualIps[1]->servers[0]->responseExpected, 200);
-		$this->assertEquals($lb->virtualIps[1]->servers[1]->ipAddress, $vip2SrvIp2);
-		$this->assertEquals($lb->virtualIps[1]->servers[1]->port, 80);
-		$this->assertEquals($lb->virtualIps[1]->servers[1]->protocol, "tcp");
+		$this->assertEquals(2,             $lb->virtualIps->count());
+		$this->assertEquals($vip1Ip,       $lb->virtualIps[0]->virtualIpAddress);
+		$this->assertEquals(3,             $lb->virtualIps[0]->servers->count());
+		$this->assertEquals($vip1SrvIp1,   $lb->virtualIps[0]->servers[0]->ipAddress);
+		$this->assertEquals(80,            $lb->virtualIps[0]->servers[0]->port);
+		$this->assertEquals("http",        $lb->virtualIps[0]->servers[0]->protocol);
+		$this->assertEquals("/index.html", $lb->virtualIps[0]->servers[0]->pathToCheck);
+		$this->assertEquals(200,           $lb->virtualIps[0]->servers[0]->responseExpected);
+		$this->assertEquals($vip1SrvIp2,   $lb->virtualIps[0]->servers[1]->ipAddress);
+		$this->assertEquals(80,            $lb->virtualIps[0]->servers[1]->port);
+		$this->assertEquals("https",       $lb->virtualIps[0]->servers[1]->protocol);
+		$this->assertEquals("/",           $lb->virtualIps[0]->servers[1]->pathToCheck);
+		$this->assertEquals(200,           $lb->virtualIps[0]->servers[1]->responseExpected);
+		$this->assertEquals($vip1SrvIp3,   $lb->virtualIps[0]->servers[2]->ipAddress);
+		$this->assertEquals(80,            $lb->virtualIps[0]->servers[2]->port);
+		$this->assertEquals("tcp",         $lb->virtualIps[0]->servers[2]->protocol);
+		$this->assertEquals($vip2Ip,       $lb->virtualIps[1]->virtualIpAddress);
+		$this->assertEquals(2,             $lb->virtualIps[1]->servers->count());
+		$this->assertEquals($vip2SrvIp1,   $lb->virtualIps[1]->servers[0]->ipAddress);
+		$this->assertEquals(80,            $lb->virtualIps[1]->servers[0]->port);
+		$this->assertEquals("http",        $lb->virtualIps[1]->servers[0]->protocol);
+		$this->assertEquals("/index.html", $lb->virtualIps[1]->servers[0]->pathToCheck);
+		$this->assertEquals(200,           $lb->virtualIps[1]->servers[0]->responseExpected);
+		$this->assertEquals($vip2SrvIp2,   $lb->virtualIps[1]->servers[1]->ipAddress);
+		$this->assertEquals(80,            $lb->virtualIps[1]->servers[1]->port);
+		$this->assertEquals("tcp",         $lb->virtualIps[1]->servers[1]->protocol);
 		
 		
 		
@@ -180,12 +185,12 @@ class LoadBalancerTest extends \PHPUnit_Framework_TestCase
 		$lb->save();
 		$lb->reload();
 		
-		$this->assertEquals($lb->virtualIps->count(), 2);
-		$this->assertEquals($lb->virtualIps[0]->servers->count(), 4);
-		$this->assertEquals($lb->virtualIps[0]->servers[3]->ipAddress, $vip1SrvIp4);
-		$this->assertEquals($lb->virtualIps[0]->servers[3]->port, 80);
-		$this->assertEquals($lb->virtualIps[0]->servers[3]->protocol, "ping");
-		$this->assertEquals($lb->virtualIps[1]->servers->count(), 2);
+		$this->assertEquals(2,           $lb->virtualIps->count());
+		$this->assertEquals(4,           $lb->virtualIps[0]->servers->count());
+		$this->assertEquals($vip1SrvIp4, $lb->virtualIps[0]->servers[3]->ipAddress);
+		$this->assertEquals(80,          $lb->virtualIps[0]->servers[3]->port);
+		$this->assertEquals("ping",      $lb->virtualIps[0]->servers[3]->protocol);
+		$this->assertEquals(2,           $lb->virtualIps[1]->servers->count());
 		
 		
 		
@@ -202,7 +207,7 @@ class LoadBalancerTest extends \PHPUnit_Framework_TestCase
 				fprintf(\STDERR, " answers");
 				if ($server->responseExpected) printf(" %d", $server->responseExpected);
 				fprintf(\STDERR, "\n");
-				$this->assertEquals($server->status, "down");
+				$this->assertTrue($server->status==null || $server->status=="down");
 			}
 		}
 		

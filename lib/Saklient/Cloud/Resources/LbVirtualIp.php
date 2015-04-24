@@ -10,7 +10,7 @@ require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 
 /**
- * ロードバランサの仮想IPアドレス。
+ * ロードバランサの仮想IPアドレス設定。
  * 
  * @property string $virtualIpAddress VIPアドレス 
  * @property int $port ポート番号 
@@ -190,8 +190,10 @@ class LbVirtualIp {
 	}
 	
 	/**
+	 * 監視対象サーバ設定を追加します。
+	 * 
 	 * @access public
-	 * @param mixed $settings=null
+	 * @param mixed $settings=null 設定オブジェクト
 	 * @return \Saklient\Cloud\Resources\LbServer
 	 */
 	public function addServer($settings=null)
@@ -220,9 +222,11 @@ class LbVirtualIp {
 	}
 	
 	/**
+	 * 指定したIPアドレスにマッチする監視対象サーバ設定のうち、最初にマッチしたものを取得します。
+	 * 
 	 * @access public
-	 * @param string $address
-	 * @return \Saklient\Cloud\Resources\LbServer
+	 * @param string $address 検索するIPアドレス
+	 * @return \Saklient\Cloud\Resources\LbServer 監視対象サーバ設定（見つからなかった場合はnull）
 	 */
 	public function getServerByAddress($address)
 	{
@@ -237,6 +241,28 @@ class LbVirtualIp {
 	}
 	
 	/**
+	 * 指定したIPアドレスにマッチする監視対象サーバ設定をすべて削除します。
+	 * 
+	 * @access public
+	 * @param string $address
+	 * @return \Saklient\Cloud\Resources\LbVirtualIp
+	 */
+	public function removeServerByAddress($address)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($address, "string");
+		$servers = new \ArrayObject([]);
+		foreach ($this->_servers as $srv) {
+			if ($srv->ipAddress != $address) {
+				$servers->append($srv);
+			}
+		}
+		$this->_servers = $servers;
+		return $this;
+	}
+	
+	/**
+	 * @ignore
 	 * @access public
 	 * @param \ArrayObject $srvs
 	 * @return \Saklient\Cloud\Resources\LbVirtualIp
