@@ -338,6 +338,80 @@ class Swytch extends Resource {
 	}
 	
 	/**
+	 * @private
+	 * @ignore
+	 * @access protected
+	 * @return mixed
+	 */
+	protected function _usedIpv4AddressHash()
+	{
+		$filter = (object)[];
+		$filter->{"Switch" . ".ID"} = $this->_id();
+		$query = (object)[];
+		Util::setByPath($query, "Count", 0);
+		Util::setByPath($query, "Filter", $filter);
+		Util::setByPath($query, "Include", new \ArrayObject(["IPAddress", "UserIPAddress"]));
+		$result = $this->_client->request("GET", "/interface", $query);
+		if ($result == null) {
+			return null;
+		}
+		$result = $result->{"Interfaces"};
+		if ($result == null) {
+			return null;
+		}
+		$ifaces = $result;
+		if ($ifaces == null) {
+			return null;
+		}
+		$found = (object)[];
+		foreach ($ifaces as $iface) {
+			$ip = $iface->{"IPAddress"};
+			$userIp = $iface->{"UserIPAddress"};
+			if ($ip == null) {
+				$ip = $userIp;
+			}
+			if ($ip != null) {
+				$found->{$ip} = true;
+			}
+		}
+		return $found;
+	}
+	
+	/**
+	 * このルータ＋スイッチに接続中のインタフェースに割り当てられているIPアドレスを収集します。
+	 * 
+	 * @access public
+	 * @return string[]
+	 */
+	public function collectUsedIpv4Addresses()
+	{
+		$found = $this->_usedIpv4AddressHash();
+		return Util::sortArray(new \ArrayObject(array_keys((array)$found)));
+	}
+	
+	/**
+	 * このルータ＋スイッチで利用できる未使用のIPアドレスを収集します。
+	 * 
+	 * @access public
+	 * @return string[]
+	 */
+	public function collectUnusedIpv4Addresses()
+	{
+		$nets = $this->get_ipv4Nets();
+		if ($nets->count() < 1) {
+			return null;
+		}
+		$used = $this->_usedIpv4AddressHash();
+		$ret = new \ArrayObject([]);
+		foreach ($nets[0]->range->asArray as $ip) {
+			if (!array_key_exists($ip, (array)($used))) {
+				$ret->append($ip);
+			}
+		}
+		return Util::sortArray($ret);
+	}
+	
+	/**
 	 * @access private
 	 * @ignore
 	 * @var boolean

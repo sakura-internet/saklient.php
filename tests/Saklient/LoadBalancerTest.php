@@ -14,7 +14,7 @@ class LoadBalancerTest extends \PHPUnit_Framework_TestCase
 {
 	use \Saklient\Tests\Common;
 	
-	const TESTS_CONFIG_READYMADE_LB_ID = 112600795556;
+	const TESTS_CONFIG_READYMADE_LB_ID = null;
 	
 	public function testAuthorize()
 	{
@@ -37,18 +37,31 @@ class LoadBalancerTest extends \PHPUnit_Framework_TestCase
 		
 		if (!self::TESTS_CONFIG_READYMADE_LB_ID) {
 			
-			// search a switch
-			fprintf(\STDERR, "searching a swytch...\n");
-			$swytches = $api->swytch->withTag("lb-attached")->limit(1)->find();
-			$this->assertGreaterThan(0, count($swytches));
-			$swytch = $swytches[0];
+			//
+			fprintf(\STDERR, '作成済みのスイッチを検索しています...'."\n");
+			$swytches = $api->swytch->withNameLike('saklient-lb-attached')->limit(1)->find();
+			if (0 < count($swytches)) {
+				$swytch = $swytches[0];
+			}
+			else {
+				fprintf(\STDERR, 'ルータ＋スイッチを作成しています...'."\n");
+				$router = $api->router->create();
+				$router->name = 'saklient-lb-attached';
+				$router->bandWidthMbps = 100;
+				$router->networkMaskLen = 28;
+				$router->save();
+				
+				fprintf(\STDERR, 'ルータ＋スイッチの作成完了を待機しています...'."\n");
+				if (!$router->sleepWhileCreating()) $this->fail('ルータが正常に作成されません');
+				$swytch = $router->getSwytch();
+			}
 			$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Swytch", $swytch);
 			$this->assertGreaterThan(0, count($swytch->ipv4Nets));
 			$net = $swytch->ipv4Nets[0];
 			fprintf(\STDERR, "%s/%d -> %s\n", $net->address, $net->maskLen, $net->defaultRoute);
 			
 			// create a loadbalancer
-			fprintf(\STDERR, "creating a LB...\n");
+			fprintf(\STDERR, 'ロードバランサを作成しています...'."\n");
 			$vrid = 123;
 			$realIp1 = long2ip(ip2long($net->defaultRoute) + 3);
 			$realIp2 = long2ip(ip2long($net->defaultRoute) + 4);
@@ -74,7 +87,7 @@ class LoadBalancerTest extends \PHPUnit_Framework_TestCase
 			$this->assertEquals($swytch->id, $lb->swytchId);
 			
 			// wait the LB becomes up
-			fprintf(\STDERR, "waiting the LB becomes up...\n");
+			fprintf(\STDERR, 'ロードバランサの起動を待機しています...'."\n");
 			if (!$lb->sleepUntilUp()) $this->fail("ロードバランサが正常に起動しません");
 			
 		}

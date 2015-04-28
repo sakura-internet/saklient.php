@@ -301,7 +301,7 @@ class Resource {
 		$r = $this->apiSerialize();
 		$query = $this->_query;
 		$this->_query = (object)[];
-		$keys = array_keys((array)$query);
+		$keys = new \ArrayObject(array_keys((array)$query));
 		foreach ($keys as $k) {
 			$v = $query->{$k};
 			$r->{$k} = $v;

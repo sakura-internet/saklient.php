@@ -168,6 +168,18 @@ class Util {
 	
 	/**
 	 * @access public
+	 * @param ArrayObject $a
+	 * @return ArrayObject
+	 */
+	static public function sortArray(\ArrayObject $aobj)
+	{
+		$ret = (array)$aobj;
+		sort($ret);
+		return new \ArrayObject($ret);
+	}
+	
+	/**
+	 * @access public
 	 * @param int $sec
 	 * @return void
 	 */

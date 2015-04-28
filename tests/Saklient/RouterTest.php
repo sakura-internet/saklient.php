@@ -18,7 +18,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 	{
 		$name = "!phpunit-" . date("Ymd_His") . "-" . uniqid();
 		$description = "This instance was created by Saklient PHPUnit Test";
+		$tag = "saklient-test";
 		$maskLen = 28;
+		$maskLenCnt = 1<<32-$maskLen;
 		//
 		$api = $this->authorize();
 		//
@@ -52,8 +54,37 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 			$swytch = $swytches[0];
 		}
 		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Swytch", $swytch);
-		$this->assertGreaterThan(0, count($swytch->ipv4Nets));
+		$this->assertEquals(1, count($swytch->ipv4Nets));
 		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Ipv4Net", $swytch->ipv4Nets[0]);
+		fprintf(\STDERR, "%s - %s\n", $swytch->ipv4Nets[0]->range->first, $swytch->ipv4Nets[0]->range->last);
+		fprintf(\STDERR, print_r($swytch->ipv4Nets[0]->range->asArray, true));
+		$this->assertEquals($maskLenCnt-5, count($swytch->ipv4Nets[0]->range->asArray));
+		$this->assertEquals(0, count($swytch->collectUsedIpv4Addresses()));
+		$this->assertEquals($maskLenCnt-5, count($swytch->collectUnusedIpv4Addresses())); 
+		
+		//
+		fprintf(\STDERR, 'サーバを作成しています...'."\n");
+		$server = $api->server->create();
+		$server->name = $name;
+		$server->description = $description;
+		$server->tags = [$tag];
+		$server->plan = $api->product->server->getBySpec(1, 1);
+		$server->save();
+		
+		//
+		fprintf(\STDERR, 'インタフェースを増設しています...'."\n");
+		$iface = $server->addIface();
+		
+		//
+		fprintf(\STDERR, 'インタフェースをルータ＋スイッチに接続しています...'."\n");
+		$iface->connectToSwytch($swytch);
+		
+		#
+		fprintf(\STDERR, 'インタフェースにIPアドレスを設定しています...'."\n");
+		$iface->userIpAddress = $swytch->ipv4Nets[0]->range->asArray[1];
+		$iface->save();
+		$this->assertEquals(1, count($swytch->collectUsedIpv4Addresses()));
+		$this->assertEquals($maskLenCnt-6, count($swytch->collectUnusedIpv4Addresses())); 
 		
 		//
 		fprintf(\STDERR, 'ルータ＋スイッチの帯域プランを変更しています...'."\n");
@@ -62,14 +93,18 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 		$this->assertNotEquals($routerIdBefore, $swytch->router->id);
 		
 		//
-		if (0 < count($swytch->ipv6Nets)) {
-			fprintf(\STDERR, 'ルータ＋スイッチからIPv6ネットワークの割当を解除しています...'."\n");
-			$swytch->removeIpv6Net();
-		}
 		fprintf(\STDERR, 'ルータ＋スイッチにIPv6ネットワークを割り当てています...'."\n");
 		$v6net = $swytch->addIpv6Net();
 		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Ipv6Net", $v6net);
 		$this->assertEquals(1, count($swytch->ipv6Nets));
+		
+		//
+		fprintf(\STDERR, 'ルータ＋スイッチにスタティックルートを割り当てています...'."\n");
+		$net0 = $swytch->ipv4Nets[0];
+		$nextHop = long2ip(ip2long($net0->address) + 4);
+		$sroute = $swytch->addStaticRoute(28, $nextHop);
+		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Ipv4Net", $sroute);
+		$this->assertEquals(2, count($swytch->ipv4Nets));
 		
 		//
 		for ($i=count($swytch->ipv4Nets)-1; 1<=$i; $i--) {
@@ -78,12 +113,15 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 			$swytch->removeStaticRoute($net);
 		}
 		
-		fprintf(\STDERR, 'ルータ＋スイッチにスタティックルートを割り当てています...'."\n");
-		$net0 = $swytch->ipv4Nets[0];
-		$nextHop = long2ip(ip2long($net0->address) + 4);
-		$sroute = $swytch->addStaticRoute(28, $nextHop);
-		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Ipv4Net", $sroute);
-		$this->assertEquals(2, count($swytch->ipv4Nets));
+		//
+		if (0 < count($swytch->ipv6Nets)) {
+			fprintf(\STDERR, 'ルータ＋スイッチからIPv6ネットワークの割当を解除しています...'."\n");
+			$swytch->removeIpv6Net();
+		}
+		
+		//
+		fprintf(\STDERR, 'サーバを削除しています...'."\n");
+		$server->destroy();
 		
 	}
 	

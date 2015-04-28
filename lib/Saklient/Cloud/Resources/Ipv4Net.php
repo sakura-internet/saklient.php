@@ -8,6 +8,8 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Resource.php";
 use \Saklient\Cloud\Resources\Resource;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Swytch.php";
 use \Saklient\Cloud\Resources\Swytch;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Ipv4Range.php";
+use \Saklient\Cloud\Resources\Ipv4Range;
 require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
@@ -16,6 +18,7 @@ use \Saklient\Errors\SaklientException;
 /**
  * IPv4ネットワークの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
+ * @property-read \Saklient\Cloud\Resources\Ipv4Range $range 利用可能なIPアドレス範囲 
  * @property-read string $id ID 
  * @property-read string $address ネットワークアドレス 
  * @property-read int $maskLen マスク長 
@@ -68,6 +71,26 @@ class Ipv4Net extends Resource {
 	 * @var string
 	 */
 	protected $m_nextHop;
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var Ipv4Range
+	 */
+	protected $_range;
+	
+	/**
+	 * @access public
+	 * @ignore
+	 * @return \Saklient\Cloud\Resources\Ipv4Range
+	 */
+	public function get_range()
+	{
+		return $this->_range;
+	}
+	
+	
 	
 	/**
 	 * @private
@@ -149,6 +172,24 @@ class Ipv4Net extends Resource {
 		Util::validateType($client, "\\Saklient\\Cloud\\Client");
 		Util::validateType($wrapped, "boolean");
 		$this->apiDeserialize($obj, $wrapped);
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $r
+	 * @param mixed $root
+	 * @return void
+	 */
+	protected function _onAfterApiDeserialize($r, $root)
+	{
+		Util::validateArgCount(func_num_args(), 2);
+		$this->_range = null;
+		$addresses = $r->{"IPAddresses"};
+		if ($addresses != null) {
+			$this->_range = new Ipv4Range($addresses);
+		}
 	}
 	
 	/**
@@ -346,6 +387,7 @@ class Ipv4Net extends Resource {
 	 */
 	public function __get($key) {
 		switch ($key) {
+			case "range": return $this->get_range();
 			case "id": return $this->get_id();
 			case "address": return $this->get_address();
 			case "maskLen": return $this->get_maskLen();

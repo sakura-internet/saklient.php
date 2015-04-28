@@ -83,6 +83,7 @@ class ArchiveTest extends \PHPUnit_Framework_TestCase
 		$disk->description = $description;
 		$disk->tags = [$tag];
 		$disk->sizeGib = 20;
+		$disk->plan = $api->product->disk->ssd;
 		$disk->save();
 		
 		$archive = $api->archive->create();
