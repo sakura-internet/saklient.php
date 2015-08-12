@@ -17,6 +17,7 @@ use \Saklient\Errors\SaklientException;
  * @property string $hostName ホスト名 
  * @property string $password ログインパスワード 
  * @property string $sshKey SSHキー 
+ * @property-read \ArrayObject $sshKeys SSHキー 
  * @property string $ipAddress IPアドレス 
  * @property string $defaultRoute デフォルトルート 
  * @property int $networkMaskLen ネットワークマスク長 
@@ -136,9 +137,19 @@ class DiskConfig {
 	 * @private
 	 * @access protected
 	 * @ignore
-	 * @var string
+	 * @var string[]
 	 */
-	protected $_sshKey;
+	protected $_sshKeys;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return string[]
+	 */
+	protected function get_sshKeys()
+	{
+		return $this->_sshKeys;
+	}
 	
 	/**
 	 * @access protected
@@ -147,7 +158,10 @@ class DiskConfig {
 	 */
 	protected function get_sshKey()
 	{
-		return $this->_sshKey;
+		if ($this->_sshKeys->count() < 1) {
+			return null;
+		}
+		return $this->_sshKeys[0];
 	}
 	
 	/**
@@ -160,9 +174,16 @@ class DiskConfig {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($v, "string");
-		$this->_sshKey = $v;
+		if ($this->_sshKeys->count() < 1) {
+			$this->_sshKeys->append($v);
+		}
+		else {
+			$this->_sshKeys[0] = $v;
+		}
 		return $v;
 	}
+	
+	
 	
 	
 	
@@ -303,7 +324,7 @@ class DiskConfig {
 		$this->_diskId = $diskId;
 		$this->_hostName = null;
 		$this->_password = null;
-		$this->_sshKey = null;
+		$this->_sshKeys = new \ArrayObject([]);
 		$this->_ipAddress = null;
 		$this->_defaultRoute = null;
 		$this->_networkMaskLen = null;
@@ -342,8 +363,8 @@ class DiskConfig {
 		if ($this->_password != null) {
 			Util::setByPath($q, "Password", $this->_password);
 		}
-		if ($this->_sshKey != null) {
-			Util::setByPath($q, "SSHKey.PublicKey", $this->_sshKey);
+		if ($this->_sshKeys->count() > 0) {
+			Util::setByPath($q, "SSHKey.PublicKey", implode("\n", (array)($this->_sshKeys)));
 		}
 		if ($this->_ipAddress != null) {
 			Util::setByPath($q, "UserIPAddress", $this->_ipAddress);
@@ -376,6 +397,7 @@ class DiskConfig {
 			case "hostName": return $this->get_hostName();
 			case "password": return $this->get_password();
 			case "sshKey": return $this->get_sshKey();
+			case "sshKeys": return $this->get_sshKeys();
 			case "ipAddress": return $this->get_ipAddress();
 			case "defaultRoute": return $this->get_defaultRoute();
 			case "networkMaskLen": return $this->get_networkMaskLen();

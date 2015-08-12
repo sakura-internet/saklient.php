@@ -31,11 +31,14 @@ class Util {
 			if (is_array($obj) || $obj instanceof \ArrayObject) {
 				$obj = (array)$obj;
 				if (!array_key_exists($seg, $obj)) {
-					return null;
+					return false;
 				}
 				$obj = @$obj[$seg];
 			}
 			else {
+				if (!property_exists($obj, $seg)) {
+					return false;
+				}
 				$obj = @$obj->{$seg};
 			}
 		}

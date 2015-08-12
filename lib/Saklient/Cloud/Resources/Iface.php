@@ -10,12 +10,15 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Resource.php";
 use \Saklient\Cloud\Resources\Resource;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Swytch.php";
 use \Saklient\Cloud\Resources\Swytch;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/IfaceActivity.php";
+use \Saklient\Cloud\Resources\IfaceActivity;
 require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 
 /**
  * インタフェースの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
+ * @property-read \Saklient\Cloud\Resources\IfaceActivity $activity アクティビティ 
  * @property-read string $id ID 
  * @property-read string $macAddress MACアドレス 
  * @property-read string $ipAddress IPv4アドレス（共有セグメントによる自動割当） 
@@ -147,6 +150,26 @@ class Iface extends Resource {
 	}
 	
 	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var IfaceActivity
+	 */
+	protected $_activity;
+	
+	/**
+	 * @access public
+	 * @ignore
+	 * @return \Saklient\Cloud\Resources\IfaceActivity
+	 */
+	public function get_activity()
+	{
+		return $this->_activity;
+	}
+	
+	
+	
+	/**
 	 * @ignore
 	 * @access public
 	 * @param \Saklient\Cloud\Client $client
@@ -159,7 +182,24 @@ class Iface extends Resource {
 		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($client, "\\Saklient\\Cloud\\Client");
 		Util::validateType($wrapped, "boolean");
+		$this->_activity = new IfaceActivity($client);
 		$this->apiDeserialize($obj, $wrapped);
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $r
+	 * @param mixed $root
+	 * @return void
+	 */
+	protected function _onAfterApiDeserialize($r, $root)
+	{
+		Util::validateArgCount(func_num_args(), 2);
+		if ($r != null) {
+			$this->_activity->setSourceId($this->_id());
+		}
 	}
 	
 	/**
@@ -442,6 +482,7 @@ class Iface extends Resource {
 	 */
 	public function __get($key) {
 		switch ($key) {
+			case "activity": return $this->get_activity();
 			case "id": return $this->get_id();
 			case "macAddress": return $this->get_macAddress();
 			case "ipAddress": return $this->get_ipAddress();

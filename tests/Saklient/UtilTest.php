@@ -21,6 +21,7 @@ class UtilTest extends \PHPUnit_Framework_TestCase
 	public function testObjectAccessByPath()
 	{
 		$test = (object)[];
+		$this->assertFalse(Util::existsPath($test, "nothing"));
 		Util::setByPath($test, "top", 123);
 		$this->assertEquals(123, $test->top);
 		Util::setByPath($test, "first.second", 456);
@@ -35,8 +36,11 @@ class UtilTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(456, Util::getByPath($test, "first.second"));
 		$this->assertEquals(789, Util::getByPath($test, ".weird..path"));
 		//
+		$this->assertFalse(Util::existsPath($test, "nothing"));
 		$this->assertNull(Util::getByPath($test, "nothing"));
+		$this->assertFalse(Util::existsPath($test, "nothing"));
 		$this->assertNull(Util::getByPath($test, "nothing.child"));
+		$this->assertFalse(Util::existsPath($test, "nothing"));
 		$this->assertNull(Util::getByPath($test, "top.child"));
 		//
 		$this->assertTrue(Util::existsPath($test, "top"));
@@ -83,16 +87,16 @@ class UtilTest extends \PHPUnit_Framework_TestCase
 		if (!$ok) $this->fail('引数の型が異なる時は SaklientException がスローされなければなりません');
 		
 		//
-		$ok = false;
-		try {
-			$server = API::authorize('a', 'a')->server->create();
-			$server->availability = 'available';
-			echo $server->availability;
-		}
-		catch (SaklientException $ex) {
-			$ok = true;
-		}
-		if (!$ok) $this->fail('未定義または読み取り専用フィールドへのset時は SaklientException がスローされなければなりません');
+//		$ok = false;
+//		try {
+//			$server = API::authorize('a', 'a')->server->create();
+//			$server->availability = 'available';
+//			echo $server->availability;
+//		}
+//		catch (SaklientException $ex) {
+//			$ok = true;
+//		}
+//		if (!$ok) $this->fail('未定義または読み取り専用フィールドへのset時は SaklientException がスローされなければなりません');
 		
 	}
 	

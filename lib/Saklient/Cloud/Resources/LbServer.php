@@ -10,6 +10,7 @@ use \Saklient\Errors\SaklientException;
 /**
  * ロードバランサの監視対象サーバ設定。
  * 
+ * @property boolean $enabled 有効状態 
  * @property string $ipAddress IPアドレス 
  * @property int $port ポート番号 
  * @property string $protocol 監視方法 
@@ -19,6 +20,40 @@ use \Saklient\Errors\SaklientException;
  * @property-read string $status 現在の状態 
  */
 class LbServer {
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var boolean
+	 */
+	protected $_enabled;
+	
+	/**
+	 * @access public
+	 * @ignore
+	 * @return boolean
+	 */
+	public function get_enabled()
+	{
+		return $this->_enabled;
+	}
+	
+	/**
+	 * @access public
+	 * @ignore
+	 * @param boolean|null $v
+	 * @return boolean
+	 */
+	public function set_enabled($v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "boolean");
+		$this->_enabled = $v;
+		return $this->_enabled;
+	}
+	
+	
 	
 	/**
 	 * @private
@@ -246,6 +281,12 @@ class LbServer {
 			"health_check",
 			"health"
 		]));
+		$enabled = Util::getByPathAny(new \ArrayObject([$obj]), new \ArrayObject(["Enabled", "enabled"]));
+		$this->_enabled = null;
+		if ($enabled != null) {
+			$enabledStr = $enabled;
+			$this->_enabled = strtolower($enabledStr) == "true";
+		}
 		$this->_ipAddress = Util::getByPathAny(new \ArrayObject([$obj]), new \ArrayObject([
 			"IPAddress",
 			"ipAddress",
@@ -280,6 +321,8 @@ class LbServer {
 		if ($this->_responseExpected == 0) {
 			$this->_responseExpected = null;
 		}
+		$this->_activeConnections = 0;
+		$this->_status = null;
 	}
 	
 	/**
@@ -289,6 +332,7 @@ class LbServer {
 	public function toRawSettings()
 	{
 		return (object)[
+			'Enabled' => $this->_enabled == null ? null : ($this->_enabled ? "True" : "False"),
 			'IPAddress' => $this->_ipAddress,
 			'Port' => $this->_port,
 			'HealthCheck' => (object)[
@@ -323,6 +367,7 @@ class LbServer {
 	 */
 	public function __get($key) {
 		switch ($key) {
+			case "enabled": return $this->get_enabled();
 			case "ipAddress": return $this->get_ipAddress();
 			case "port": return $this->get_port();
 			case "protocol": return $this->get_protocol();
@@ -339,6 +384,7 @@ class LbServer {
 	 */
 	public function __set($key, $v) {
 		switch ($key) {
+			case "enabled": return $this->set_enabled($v);
 			case "ipAddress": return $this->set_ipAddress($v);
 			case "port": return $this->set_port($v);
 			case "protocol": return $this->set_protocol($v);

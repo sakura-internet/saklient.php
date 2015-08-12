@@ -2,6 +2,8 @@
 
 namespace Saklient\Cloud\Resources;
 
+require_once __DIR__ . "/../../../Saklient/Errors/HttpException.php";
+use \Saklient\Errors\HttpException;
 require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
@@ -369,7 +371,11 @@ class Appliance extends Resource {
 		Util::validateType($timeoutSec, "int");
 		$step = 10;
 		while (0 < $timeoutSec) {
-			$this->reload();
+			try {
+				$this->reload();
+			}
+			catch (HttpException $ex) {
+			}
 			$a = $this->get_availability();
 			if ($a == EAvailability::available) {
 				return true;
@@ -427,7 +433,11 @@ class Appliance extends Resource {
 		Util::validateType($timeoutSec, "int");
 		$step = 10;
 		while (0 < $timeoutSec) {
-			$this->reload();
+			try {
+				$this->reload();
+			}
+			catch (HttpException $ex) {
+			}
 			$s = $this->get_status();
 			if ($s == null) {
 				$s = EServerInstanceStatus::down;

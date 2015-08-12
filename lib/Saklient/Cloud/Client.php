@@ -105,7 +105,7 @@ class Client {
 				'header'  => implode("\r\n", array(
 					'Content-Type: application/x-www-form-urlencoded',
 					'Authorization: '.$this->config->authorization,
-					'User-Agent: saklient.php ver-0.0.2.7 rev-3f3b3b7ce4b10e7ebcd77c17497763ba558bf424',
+					'User-Agent: saklient.php ver-0.0.2.11 rev-ba6f656e7fdf2e344bc279593970d0d325ad25dd',
 					'X-Requested-With: XMLHttpRequest',
 					'X-Sakura-No-Authenticate-Header: 1',
 					'X-Sakura-HTTP-Method: '.$method,

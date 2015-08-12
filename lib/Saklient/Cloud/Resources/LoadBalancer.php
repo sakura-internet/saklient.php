@@ -296,7 +296,7 @@ class LoadBalancer extends Appliance {
 	public function reloadStatus()
 	{
 		$result = $this->requestRetry("GET", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/status");
-		if (array_key_exists("LoadBalancer", (array)($result))) {
+		if ($result != null && array_key_exists("LoadBalancer", (array)($result))) {
 			$vips = $result->{"LoadBalancer"};
 			foreach ($vips as $vipDyn) {
 				$vipStr = $vipDyn->{"VirtualIPAddress"};

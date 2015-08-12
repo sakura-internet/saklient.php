@@ -403,7 +403,7 @@ class Swytch extends Resource {
 		}
 		$used = $this->_usedIpv4AddressHash();
 		$ret = new \ArrayObject([]);
-		foreach ($nets[0]->range->asArray as $ip) {
+		foreach ($nets[0]->get_range()->get_asArray() as $ip) {
 			if (!array_key_exists($ip, (array)($used))) {
 				$ret->append($ip);
 			}

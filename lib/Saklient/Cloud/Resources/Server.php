@@ -2,6 +2,8 @@
 
 namespace Saklient\Cloud\Resources;
 
+require_once __DIR__ . "/../../../Saklient/Errors/HttpException.php";
+use \Saklient\Errors\HttpException;
 require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
@@ -20,6 +22,8 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Resources/ServerInstance.php";
 use \Saklient\Cloud\Resources\ServerInstance;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/IsoImage.php";
 use \Saklient\Cloud\Resources\IsoImage;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/ServerActivity.php";
+use \Saklient\Cloud\Resources\ServerActivity;
 require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EServerInstanceStatus.php";
 use \Saklient\Cloud\Enums\EServerInstanceStatus;
 require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EAvailability.php";
@@ -34,6 +38,7 @@ use \Saklient\Util;
 /**
  * サーバの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
+ * @property-read \Saklient\Cloud\Resources\ServerActivity $activity アクティビティ 
  * @property-read string $id ID 
  * @property string $name 名前 
  * @property string $description 説明 
@@ -205,6 +210,26 @@ class Server extends Resource {
 	}
 	
 	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var ServerActivity
+	 */
+	protected $_activity;
+	
+	/**
+	 * @access public
+	 * @ignore
+	 * @return \Saklient\Cloud\Resources\ServerActivity
+	 */
+	public function get_activity()
+	{
+		return $this->_activity;
+	}
+	
+	
+	
+	/**
 	 * @ignore
 	 * @access public
 	 * @param \Saklient\Cloud\Client $client
@@ -217,7 +242,24 @@ class Server extends Resource {
 		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($client, "\\Saklient\\Cloud\\Client");
 		Util::validateType($wrapped, "boolean");
+		$this->_activity = new ServerActivity($client);
 		$this->apiDeserialize($obj, $wrapped);
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $r
+	 * @param mixed $root
+	 * @return void
+	 */
+	protected function _onAfterApiDeserialize($r, $root)
+	{
+		Util::validateArgCount(func_num_args(), 2);
+		if ($r != null) {
+			$this->_activity->setSourceId($this->_id());
+		}
 	}
 	
 	/**
@@ -332,7 +374,11 @@ class Server extends Resource {
 		Util::validateType($timeoutSec, "int");
 		$step = 10;
 		while (0 < $timeoutSec) {
-			$this->reload();
+			try {
+				$this->reload();
+			}
+			catch (HttpException $ex) {
+			}
 			$s = null;
 			$inst = $this->instance;
 			if ($inst != null) {
@@ -886,6 +932,7 @@ class Server extends Resource {
 	 */
 	public function __get($key) {
 		switch ($key) {
+			case "activity": return $this->get_activity();
 			case "id": return $this->get_id();
 			case "name": return $this->get_name();
 			case "description": return $this->get_description();

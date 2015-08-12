@@ -2,6 +2,8 @@
 
 namespace Saklient\Cloud\Resources;
 
+require_once __DIR__ . "/../../../Saklient/Errors/HttpException.php";
+use \Saklient\Errors\HttpException;
 require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
@@ -16,6 +18,8 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Ipv4Net.php";
 use \Saklient\Cloud\Resources\Ipv4Net;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Ipv6Net.php";
 use \Saklient\Cloud\Resources\Ipv6Net;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/RouterActivity.php";
+use \Saklient\Cloud\Resources\RouterActivity;
 require_once __DIR__ . "/../../../Saklient/Cloud/Models/Model_Swytch.php";
 use \Saklient\Cloud\Models\Model_Swytch;
 require_once __DIR__ . "/../../../Saklient/Util.php";
@@ -24,6 +28,7 @@ use \Saklient\Util;
 /**
  * ルータの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
+ * @property-read \Saklient\Cloud\Resources\RouterActivity $activity アクティビティ 
  * @property-read string $id ID 
  * @property string $name 名前 
  * @property string $description 説明 
@@ -165,6 +170,26 @@ class Router extends Resource {
 	}
 	
 	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var RouterActivity
+	 */
+	protected $_activity;
+	
+	/**
+	 * @access public
+	 * @ignore
+	 * @return \Saklient\Cloud\Resources\RouterActivity
+	 */
+	public function get_activity()
+	{
+		return $this->_activity;
+	}
+	
+	
+	
+	/**
 	 * @ignore
 	 * @access public
 	 * @param \Saklient\Cloud\Client $client
@@ -177,7 +202,24 @@ class Router extends Resource {
 		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($client, "\\Saklient\\Cloud\\Client");
 		Util::validateType($wrapped, "boolean");
+		$this->_activity = new RouterActivity($client);
 		$this->apiDeserialize($obj, $wrapped);
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $r
+	 * @param mixed $root
+	 * @return void
+	 */
+	protected function _onAfterApiDeserialize($r, $root)
+	{
+		Util::validateArgCount(func_num_args(), 2);
+		if ($r != null) {
+			$this->_activity->setSourceId($this->_id());
+		}
 	}
 	
 	/**
@@ -210,9 +252,13 @@ class Router extends Resource {
 		Util::validateType($timeoutSec, "int");
 		$step = 3;
 		while (0 < $timeoutSec) {
-			if ($this->exists()) {
-				$this->reload();
-				return true;
+			try {
+				if ($this->exists()) {
+					$this->reload();
+					return true;
+				}
+			}
+			catch (HttpException $ex) {
 			}
 			$timeoutSec -= $step;
 			if (0 < $timeoutSec) {
@@ -642,6 +688,7 @@ class Router extends Resource {
 	 */
 	public function __get($key) {
 		switch ($key) {
+			case "activity": return $this->get_activity();
 			case "id": return $this->get_id();
 			case "name": return $this->get_name();
 			case "description": return $this->get_description();

@@ -18,6 +18,8 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EScope.php";
 use \Saklient\Cloud\Enums\EScope;
 require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EAvailability.php";
 use \Saklient\Cloud\Enums\EAvailability;
+require_once __DIR__ . "/../../../Saklient/Errors/HttpException.php";
+use \Saklient\Errors\HttpException;
 require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 require_once __DIR__ . "/../../../Saklient/Util.php";
@@ -449,7 +451,11 @@ class Archive extends Resource {
 		Util::validateType($timeoutSec, "int");
 		$step = 3;
 		while (0 < $timeoutSec) {
-			$this->reload();
+			try {
+				$this->reload();
+			}
+			catch (HttpException $ex) {
+			}
 			$a = $this->get_availability();
 			if ($a == EAvailability::available) {
 				return true;

@@ -219,6 +219,11 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 		fprintf(\STDERR, "stopping the server...\n");
 		if (!$server->stop()->sleepUntilDown()) $this->fail('サーバが正常に停止しません');
 		
+		// activity
+		foreach ($server->activity->fetch()->samples as $sample) {
+			$this->assertInstanceOf("DateTime", $sample->at);
+		}
+		
 		// disconnect the disk from the server
 		fprintf(\STDERR, "disconnecting the disk from the server...\n");
 		$disk->disconnect();

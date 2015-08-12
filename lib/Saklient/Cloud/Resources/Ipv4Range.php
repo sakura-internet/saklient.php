@@ -98,7 +98,7 @@ class Ipv4Range {
 		if ($first != null) {
 			$this->_first = $first;
 		}
-		if ($this->_first == "") {
+		if ($this->_first != null && $this->_first == "") {
 			$this->_first = null;
 		}
 		$last = Util::getByPathAny(new \ArrayObject([$obj]), new \ArrayObject(["Max", "max"]));
@@ -106,7 +106,7 @@ class Ipv4Range {
 		if ($last != null) {
 			$this->_last = $last;
 		}
-		if ($this->_last == "") {
+		if ($this->_last != null && $this->_last == "") {
 			$this->_last = null;
 		}
 	}

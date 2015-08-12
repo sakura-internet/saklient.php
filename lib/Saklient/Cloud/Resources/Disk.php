@@ -4,6 +4,8 @@ namespace Saklient\Cloud\Resources;
 
 require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
+require_once __DIR__ . "/../../../Saklient/Errors/HttpException.php";
+use \Saklient\Errors\HttpException;
 require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
 use \Saklient\Cloud\Client;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Resource.php";
@@ -16,6 +18,8 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Server.php";
 use \Saklient\Cloud\Resources\Server;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/DiskConfig.php";
 use \Saklient\Cloud\Resources\DiskConfig;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/DiskActivity.php";
+use \Saklient\Cloud\Resources\DiskActivity;
 require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EAvailability.php";
 use \Saklient\Cloud\Enums\EAvailability;
 require_once __DIR__ . "/../../../Saklient/Cloud/Enums/EDiskConnection.php";
@@ -28,6 +32,7 @@ use \Saklient\Util;
 /**
  * ディスクの実体1つに対応し、属性の取得や操作を行うためのクラス。
  * 
+ * @property-read \Saklient\Cloud\Resources\DiskActivity $activity アクティビティ 
  * @property-read boolean $isAvailable ディスクが利用可能なときtrueを返します。 
  * @property int $sizeGib サイズ[GiB] 
  * @property \Saklient\Cloud\Resources\Resource $source ディスクのコピー元 
@@ -212,6 +217,26 @@ class Disk extends Resource {
 	}
 	
 	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var DiskActivity
+	 */
+	protected $_activity;
+	
+	/**
+	 * @access public
+	 * @ignore
+	 * @return \Saklient\Cloud\Resources\DiskActivity
+	 */
+	public function get_activity()
+	{
+		return $this->_activity;
+	}
+	
+	
+	
+	/**
 	 * @ignore
 	 * @access public
 	 * @param \Saklient\Cloud\Client $client
@@ -224,6 +249,7 @@ class Disk extends Resource {
 		Util::validateArgCount(func_num_args(), 2);
 		Util::validateType($client, "\\Saklient\\Cloud\\Client");
 		Util::validateType($wrapped, "boolean");
+		$this->_activity = new DiskActivity($client);
 		$this->apiDeserialize($obj, $wrapped);
 	}
 	
@@ -312,6 +338,7 @@ class Disk extends Resource {
 	{
 		Util::validateArgCount(func_num_args(), 2);
 		if ($r != null) {
+			$this->_activity->setSourceId($this->_id());
 			if (array_key_exists("SourceDisk", (array)($r))) {
 				$s = $r->{"SourceDisk"};
 				if ($s != null) {
@@ -418,7 +445,11 @@ class Disk extends Resource {
 		Util::validateType($timeoutSec, "int");
 		$step = 10;
 		while (0 < $timeoutSec) {
-			$this->reload();
+			try {
+				$this->reload();
+			}
+			catch (HttpException $ex) {
+			}
 			$a = $this->get_availability();
 			if ($a == EAvailability::available) {
 				return true;
@@ -928,6 +959,7 @@ class Disk extends Resource {
 	 */
 	public function __get($key) {
 		switch ($key) {
+			case "activity": return $this->get_activity();
 			case "isAvailable": return $this->get_isAvailable();
 			case "sizeGib": return $this->get_sizeGib();
 			case "source": return $this->get_source();
