@@ -2,6 +2,8 @@
 
 namespace Saklient\Cloud\Resources;
 
+require_once __DIR__ . "/../../../Saklient/Cloud/Client.php";
+use \Saklient\Cloud\Client;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Activity.php";
 use \Saklient\Cloud\Resources\Activity;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/RouterActivitySample.php";
@@ -43,6 +45,18 @@ class RouterActivity extends Activity {
 	protected function _apiPathPrefix()
 	{
 		return "/internet";
+	}
+	
+	/**
+	 * @ignore
+	 * @access public
+	 * @param \Saklient\Cloud\Client $client
+	 */
+	public function __construct(\Saklient\Cloud\Client $client)
+	{
+		parent::__construct($client);
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($client, "\\Saklient\\Cloud\\Client");
 	}
 	
 	/**

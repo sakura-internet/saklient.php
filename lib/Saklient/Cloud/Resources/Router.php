@@ -251,21 +251,25 @@ class Router extends Resource {
 	{
 		Util::validateType($timeoutSec, "int");
 		$step = 3;
+		$isOk = false;
 		while (0 < $timeoutSec) {
 			try {
 				if ($this->exists()) {
 					$this->reload();
-					return true;
+					$isOk = true;
 				}
 			}
 			catch (HttpException $ex) {
 			}
 			$timeoutSec -= $step;
+			if ($isOk) {
+				$timeoutSec = 0;
+			}
 			if (0 < $timeoutSec) {
 				Util::sleep($step);
 			}
 		}
-		return false;
+		return $isOk;
 	}
 	
 	/**
