@@ -367,11 +367,6 @@ class Bridge extends Resource {
 		if ($withClean || $this->n_region) {
 			Util::setByPath($ret, "Region", $withClean ? ($this->m_region == null ? null : $this->m_region->apiSerialize($withClean)) : ($this->m_region == null ? (object)['ID' => "0"] : $this->m_region->apiSerializeID()));
 		}
-		else {
-			if ($this->isNew) {
-				$missing->append("region");
-			}
-		}
 		if ($missing->count() > 0) {
 			throw new SaklientException("required_field", "Required fields must be set before the Bridge creation: " . implode(", ", (array)($missing)));
 		}

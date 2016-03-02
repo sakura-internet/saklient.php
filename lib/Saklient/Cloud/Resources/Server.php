@@ -254,6 +254,37 @@ class Server extends Resource {
 	 * @param mixed $root
 	 * @return void
 	 */
+	protected function _onBeforeApiDeserialize($r, $root)
+	{
+		Util::validateArgCount(func_num_args(), 2);
+		if ($r == null) {
+			return;
+		}
+		$id = $r->{"ID"};
+		$ifaces = $r->{"Interfaces"};
+		if ($ifaces != null) {
+			foreach ($ifaces as $iface) {
+				$server;
+				if (array_key_exists("Server", (array)($iface))) {
+					$server = $iface->{"Server"};
+				}
+				else {
+					$server = (object)[];
+					$iface->{"Server"} = $server;
+				}
+				$server->{"ID"} = $id;
+			}
+		}
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $r
+	 * @param mixed $root
+	 * @return void
+	 */
 	protected function _onAfterApiDeserialize($r, $root)
 	{
 		Util::validateArgCount(func_num_args(), 2);
@@ -426,7 +457,7 @@ class Server extends Resource {
 	public function findDisks()
 	{
 		$model = Util::createClassInstance("saklient.cloud.models.Model_Disk", new \ArrayObject([$this->_client]));
-		return $model->withServerId($this->_id())->find();
+		return $model->withServerId($this->_id())->sortByConnectionOrder()->find();
 	}
 	
 	/**

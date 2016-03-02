@@ -105,7 +105,7 @@ class Client {
 				'header'  => implode("\r\n", array(
 					'Content-Type: application/x-www-form-urlencoded',
 					'Authorization: '.$this->config->authorization,
-					'User-Agent: saklient.php ver-0.0.2.11 rev-ba6f656e7fdf2e344bc279593970d0d325ad25dd',
+					'User-Agent: saklient.php ver-0.0.6 rev-705e6fc541c30cec41e72e5e531418d64f196863',
 					'X-Requested-With: XMLHttpRequest',
 					'X-Sakura-No-Authenticate-Header: 1',
 					'X-Sakura-HTTP-Method: '.$method,
@@ -138,7 +138,13 @@ class Client {
 		if ($data != null) $ret = self::array2ArrayObject(json_decode($data, false));
 		//trace("DATA="+data);
 		
-		if (!(200 <= $status && $status < 300)) throw ExceptionFactory::create($status, $ret ? $ret->error_code : null, $ret ? $ret->error_msg : null);
+		if (!(200 <= $status && $status < 300)) {
+			throw ExceptionFactory::create(
+				$status,
+				$ret && property_exists($ret, "error_code") ? $ret->error_code : null,
+				$ret && property_exists($ret, "error_msg") ? $ret->error_msg : null
+			);
+		}
 		
 		return $ret;//Util.localizeKeys(ret);
 	}

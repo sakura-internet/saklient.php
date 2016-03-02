@@ -8,15 +8,17 @@ require_once __DIR__ . "/../../../Saklient/Cloud/Models/Model.php";
 use \Saklient\Cloud\Models\Model;
 require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Resource.php";
 use \Saklient\Cloud\Resources\Resource;
-require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Disk.php";
-use \Saklient\Cloud\Resources\Disk;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/CommonServiceItem.php";
+use \Saklient\Cloud\Resources\CommonServiceItem;
+require_once __DIR__ . "/../../../Saklient/Cloud/Resources/Gslb.php";
+use \Saklient\Cloud\Resources\Gslb;
 require_once __DIR__ . "/../../../Saklient/Util.php";
 use \Saklient\Util;
 require_once __DIR__ . "/../../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 
-/** ディスクを検索・作成するための機能を備えたクラス。 */
-class Model_Disk extends Model {
+/** 共通サービス契約を検索・作成するための機能を備えたクラス。 */
+class Model_CommonServiceItem extends Model {
 	
 	/**
 	 * @private
@@ -26,7 +28,7 @@ class Model_Disk extends Model {
 	 */
 	protected function _apiPath()
 	{
-		return "/disk";
+		return "/commonserviceitem";
 	}
 	
 	/**
@@ -37,7 +39,7 @@ class Model_Disk extends Model {
 	 */
 	protected function _rootKey()
 	{
-		return "Disk";
+		return "CommonServiceItem";
 	}
 	
 	/**
@@ -48,7 +50,7 @@ class Model_Disk extends Model {
 	 */
 	protected function _rootKeyM()
 	{
-		return "Disks";
+		return "CommonServiceItems";
 	}
 	
 	/**
@@ -59,7 +61,7 @@ class Model_Disk extends Model {
 	 */
 	protected function _className()
 	{
-		return "Disk";
+		return "CommonServiceItem";
 	}
 	
 	/**
@@ -74,7 +76,11 @@ class Model_Disk extends Model {
 	{
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($wrapped, "boolean");
-		return new Disk($this->_client, $obj, $wrapped);
+		$clazz = Util::getByPath($obj, "CommonServiceItem.Provider.Class");
+		if ($clazz == "gslb") {
+			return new Gslb($this->_client, $obj, $wrapped);
+		}
+		return new CommonServiceItem($this->_client, $obj, $wrapped);
 	}
 	
 	/**
@@ -82,7 +88,7 @@ class Model_Disk extends Model {
 	 * 
 	 * @access public
 	 * @param int $offset オフセット
-	 * @return \Saklient\Cloud\Models\Model_Disk this
+	 * @return \Saklient\Cloud\Models\Model_CommonServiceItem this
 	 */
 	public function offset($offset)
 	{
@@ -96,7 +102,7 @@ class Model_Disk extends Model {
 	 * 
 	 * @access public
 	 * @param int $count 上限レコード数
-	 * @return \Saklient\Cloud\Models\Model_Disk this
+	 * @return \Saklient\Cloud\Models\Model_CommonServiceItem this
 	 */
 	public function limit($count)
 	{
@@ -112,7 +118,7 @@ class Model_Disk extends Model {
 	 * @param string $key キー
 	 * @param mixed $value 値
 	 * @param boolean $multiple=false valueに配列を与え、OR条件で完全一致検索する場合にtrueを指定します。通常、valueはスカラ値であいまい検索されます。
-	 * @return \Saklient\Cloud\Models\Model_Disk
+	 * @return \Saklient\Cloud\Models\Model_CommonServiceItem
 	 */
 	public function filterBy($key, $value, $multiple=false)
 	{
@@ -126,7 +132,7 @@ class Model_Disk extends Model {
 	 * 次のリクエストのために設定されているステートをすべて破棄します。
 	 * 
 	 * @access public
-	 * @return \Saklient\Cloud\Models\Model_Disk this
+	 * @return \Saklient\Cloud\Models\Model_CommonServiceItem this
 	 */
 	public function reset()
 	{
@@ -134,16 +140,21 @@ class Model_Disk extends Model {
 	}
 	
 	/**
-	 * 新規リソース作成用のオブジェクトを用意します。
-	 * 
-	 * 返り値のオブジェクトにパラメータを設定し、save() を呼ぶことで実際のリソースが作成されます。
-	 * 
 	 * @access public
-	 * @return \Saklient\Cloud\Resources\Disk リソースオブジェクト
+	 * @param string $protocol
+	 * @param int $delayLoop=10
+	 * @param boolean $weighted=true
+	 * @return \Saklient\Cloud\Resources\Gslb
 	 */
-	public function create()
+	public function createGslb($protocol, $delayLoop=10, $weighted=true)
 	{
-		return $this->_create();
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($protocol, "string");
+		Util::validateType($delayLoop, "int");
+		Util::validateType($weighted, "boolean");
+		$ret = new Gslb($this->_client, null);
+		$ret->setInitialParams($protocol, $delayLoop, $weighted);
+		return $ret;
 	}
 	
 	/**
@@ -151,7 +162,7 @@ class Model_Disk extends Model {
 	 * 
 	 * @access public
 	 * @param string $id
-	 * @return \Saklient\Cloud\Resources\Disk リソースオブジェクト
+	 * @return \Saklient\Cloud\Resources\CommonServiceItem リソースオブジェクト
 	 */
 	public function getById($id)
 	{
@@ -164,7 +175,7 @@ class Model_Disk extends Model {
 	 * リソースの検索リクエストを実行し、結果をリストで取得します。
 	 * 
 	 * @access public
-	 * @return \Saklient\Cloud\Resources\Disk[] リソースオブジェクトの配列
+	 * @return \Saklient\Cloud\Resources\CommonServiceItem[] リソースオブジェクトの配列
 	 */
 	public function find()
 	{
@@ -180,7 +191,7 @@ class Model_Disk extends Model {
 	 * @todo Implement test case
 	 * @access public
 	 * @param string $name
-	 * @return \Saklient\Cloud\Models\Model_Disk
+	 * @return \Saklient\Cloud\Models\Model_CommonServiceItem
 	 */
 	public function withNameLike($name)
 	{
@@ -190,75 +201,17 @@ class Model_Disk extends Model {
 	}
 	
 	/**
-	 * 指定したタグを持つリソースに絞り込みます。
-	 * 
-	 * 複数のタグを指定する場合は withTags() を利用してください。
-	 * 
-	 * @todo Implement test case
-	 * @access public
-	 * @param string $tag
-	 * @return \Saklient\Cloud\Models\Model_Disk
-	 */
-	public function withTag($tag)
-	{
-		Util::validateArgCount(func_num_args(), 1);
-		Util::validateType($tag, "string");
-		return $this->_withTag($tag);
-	}
-	
-	/**
-	 * 指定したすべてのタグを持つリソースに絞り込みます。
-	 * 
-	 * @todo Implement test case
-	 * @access public
-	 * @param string[] $tags
-	 * @return \Saklient\Cloud\Models\Model_Disk
-	 */
-	public function withTags($tags)
-	{
-		Util::validateArgCount(func_num_args(), 1);
-		Util::validateType($tags, "\\ArrayObject");
-		return $this->_withTags($tags);
-	}
-	
-	/**
-	 * 指定したDNFに合致するタグを持つリソースに絞り込みます。
-	 * 
-	 * @todo Implement test case
-	 * @access public
-	 * @param string[][] $dnf
-	 * @return \Saklient\Cloud\Models\Model_Disk
-	 */
-	public function withTagDnf($dnf)
-	{
-		Util::validateArgCount(func_num_args(), 1);
-		Util::validateType($dnf, "\\ArrayObject");
-		return $this->_withTagDnf($dnf);
-	}
-	
-	/**
 	 * 名前でソートします。
 	 * 
 	 * @todo Implement test case
 	 * @access public
 	 * @param boolean $reverse=false
-	 * @return \Saklient\Cloud\Models\Model_Disk
+	 * @return \Saklient\Cloud\Models\Model_CommonServiceItem
 	 */
 	public function sortByName($reverse=false)
 	{
 		Util::validateType($reverse, "boolean");
 		return $this->_sortByName($reverse);
-	}
-	
-	/**
-	 * @access public
-	 * @param boolean $reverse=false
-	 * @return \Saklient\Cloud\Models\Model_Disk
-	 */
-	public function sortByConnectionOrder($reverse=false)
-	{
-		Util::validateType($reverse, "boolean");
-		return $this->_sort("ConnectionOrder", $reverse);
 	}
 	
 	/**
@@ -271,50 +224,6 @@ class Model_Disk extends Model {
 		parent::__construct($client);
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($client, "\\Saklient\\Cloud\\Client");
-	}
-	
-	/**
-	 * 指定したサイズのディスクに絞り込みます。
-	 * 
-	 * @access public
-	 * @param int $sizeGib
-	 * @return \Saklient\Cloud\Models\Model_Disk
-	 */
-	public function withSizeGib($sizeGib)
-	{
-		Util::validateArgCount(func_num_args(), 1);
-		Util::validateType($sizeGib, "int");
-		$this->_filterBy("SizeMB", new \ArrayObject([$sizeGib * 1024]));
-		return $this;
-	}
-	
-	/**
-	 * 指定したサーバへ接続されているディスクに絞り込みます。
-	 * 
-	 * @access public
-	 * @param string $id
-	 * @return \Saklient\Cloud\Models\Model_Disk
-	 */
-	public function withServerId($id)
-	{
-		Util::validateArgCount(func_num_args(), 1);
-		Util::validateType($id, "string");
-		$this->_filterBy("Server.ID", new \ArrayObject([$id]));
-		return $this;
-	}
-	
-	/**
-	 * サイズでソートします。
-	 * 
-	 * @access public
-	 * @param boolean $reverse=false
-	 * @return \Saklient\Cloud\Models\Model_Disk
-	 */
-	public function sortBySize($reverse=false)
-	{
-		Util::validateType($reverse, "boolean");
-		$this->_sort("SizeMB", $reverse);
-		return $this;
 	}
 	
 	

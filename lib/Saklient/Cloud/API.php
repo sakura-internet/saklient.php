@@ -20,6 +20,8 @@ require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Appliance.php";
 use \Saklient\Cloud\Models\Model_Appliance;
 require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Archive.php";
 use \Saklient\Cloud\Models\Model_Archive;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_CommonServiceItem.php";
+use \Saklient\Cloud\Models\Model_CommonServiceItem;
 require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_IsoImage.php";
 use \Saklient\Cloud\Models\Model_IsoImage;
 require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Iface.php";
@@ -57,6 +59,7 @@ use \Saklient\Errors\SaklientException;
  * @property-read \Saklient\Cloud\Models\Model_Bridge $bridge ブリッジにアクセスするためのモデル。 
  * @property-read \Saklient\Cloud\Models\Model_Ipv6Net $ipv6Net IPv6ネットワークにアクセスするためのモデル。 
  * @property-read \Saklient\Cloud\Models\Model_Script $script スクリプトにアクセスするためのモデル。 
+ * @property-read \Saklient\Cloud\Models\Model_CommonServiceItem $commonServiceItem 共通サービス契約にアクセスするためのモデル。 
  * @property-read \Saklient\Cloud\Models\Model_License $license ライセンスにアクセスするためのモデル。 
  */
 class API {
@@ -365,6 +368,26 @@ class API {
 	 * @private
 	 * @access protected
 	 * @ignore
+	 * @var Model_CommonServiceItem
+	 */
+	protected $_commonServiceItem;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \Saklient\Cloud\Models\Model_CommonServiceItem
+	 */
+	protected function get_commonServiceItem()
+	{
+		return $this->_commonServiceItem;
+	}
+	
+	
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
 	 * @var Model_License
 	 */
 	protected $_license;
@@ -405,6 +428,7 @@ class API {
 		$this->_bridge = new Model_Bridge($client);
 		$this->_ipv6Net = new Model_Ipv6Net($client);
 		$this->_script = new Model_Script($client);
+		$this->_commonServiceItem = new Model_CommonServiceItem($client);
 		$this->_license = new Model_License($client);
 	}
 	
@@ -472,6 +496,7 @@ class API {
 			case "bridge": return $this->get_bridge();
 			case "ipv6Net": return $this->get_ipv6Net();
 			case "script": return $this->get_script();
+			case "commonServiceItem": return $this->get_commonServiceItem();
 			case "license": return $this->get_license();
 			default: return null;
 		}

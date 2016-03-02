@@ -24,6 +24,7 @@ use \Saklient\Util;
  * @property-read string $ipAddress IPv4アドレス（共有セグメントによる自動割当） 
  * @property string $userIpAddress ユーザ設定IPv4アドレス 
  * @property string $serverId このインタフェースが取り付けられているサーバのID 
+ * @property string $swytchId このインタフェースの接続先スイッチのID 
  */
 class Iface extends Resource {
 	
@@ -71,6 +72,15 @@ class Iface extends Resource {
 	 * @var string
 	 */
 	protected $m_serverId;
+	
+	/**
+	 * このインタフェースの接続先スイッチのID
+	 * 
+	 * @access protected
+	 * @ignore
+	 * @var string
+	 */
+	protected $m_swytchId;
 	
 	/**
 	 * @private
@@ -214,6 +224,21 @@ class Iface extends Resource {
 		Util::validateArgCount(func_num_args(), 1);
 		Util::validateType($swytch, "\\Saklient\\Cloud\\Resources\\Swytch");
 		$this->_client->request("PUT", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/to/switch/" . Util::urlEncode($swytch->_id()));
+		return $this->reload();
+	}
+	
+	/**
+	 * 指定したIDのスイッチに接続します。
+	 * 
+	 * @access public
+	 * @param string $swytchId 接続先のスイッチID。
+	 * @return \Saklient\Cloud\Resources\Iface this
+	 */
+	public function connectToSwytchById($swytchId)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($swytchId, "string");
+		$this->_client->request("PUT", $this->_apiPath() . "/" . Util::urlEncode($this->_id()) . "/to/switch/" . $swytchId);
 		return $this->reload();
 	}
 	
@@ -384,6 +409,47 @@ class Iface extends Resource {
 	
 	
 	/**
+	 * @access private
+	 * @ignore
+	 * @var boolean
+	 */
+	private $n_swytchId = false;
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @return string
+	 */
+	private function get_swytchId()
+	{
+		return $this->m_swytchId;
+	}
+	
+	/**
+	 * (This method is generated in Translator_default#buildImpl)
+	 * 
+	 * @access private
+	 * @ignore
+	 * @param string $v
+	 * @return string
+	 */
+	private function set_swytchId($v)
+	{
+		Util::validateArgCount(func_num_args(), 1);
+		Util::validateType($v, "string");
+		if (!$this->isNew) {
+			throw new SaklientException("immutable_field", "Immutable fields cannot be modified after the resource creation: " . "Saklient\\Cloud\\Resources\\Iface#swytchId");
+		}
+		$this->m_swytchId = $v;
+		$this->n_swytchId = true;
+		return $this->m_swytchId;
+	}
+	
+	
+	
+	/**
 	 * (This method is generated in Translator_default#buildImpl)
 	 * 
 	 * @access protected
@@ -438,6 +504,14 @@ class Iface extends Resource {
 			$this->isIncomplete = true;
 		}
 		$this->n_serverId = false;
+		if (Util::existsPath($r, "Switch.ID")) {
+			$this->m_swytchId = Util::getByPath($r, "Switch.ID") == null ? null : "" . Util::getByPath($r, "Switch.ID");
+		}
+		else {
+			$this->m_swytchId = null;
+			$this->isIncomplete = true;
+		}
+		$this->n_swytchId = false;
 	}
 	
 	/**
@@ -471,6 +545,9 @@ class Iface extends Resource {
 				$missing->append("serverId");
 			}
 		}
+		if ($withClean || $this->n_swytchId) {
+			Util::setByPath($ret, "Switch.ID", $this->m_swytchId);
+		}
 		if ($missing->count() > 0) {
 			throw new SaklientException("required_field", "Required fields must be set before the Iface creation: " . implode(", ", (array)($missing)));
 		}
@@ -488,6 +565,7 @@ class Iface extends Resource {
 			case "ipAddress": return $this->get_ipAddress();
 			case "userIpAddress": return $this->get_userIpAddress();
 			case "serverId": return $this->get_serverId();
+			case "swytchId": return $this->get_swytchId();
 			default: return parent::__get($key);
 		}
 	}
@@ -499,6 +577,7 @@ class Iface extends Resource {
 		switch ($key) {
 			case "userIpAddress": return $this->set_userIpAddress($v);
 			case "serverId": return $this->set_serverId($v);
+			case "swytchId": return $this->set_swytchId($v);
 			default: return parent::__set($key, $v);
 		}
 	}

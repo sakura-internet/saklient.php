@@ -158,6 +158,19 @@ class Resource {
 	 * @param mixed $root
 	 * @return void
 	 */
+	protected function _onBeforeApiDeserialize($r, $root)
+	{
+		Util::validateArgCount(func_num_args(), 2);
+	}
+	
+	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @param mixed $r
+	 * @param mixed $root
+	 * @return void
+	 */
 	protected function _onAfterApiDeserialize($r, $root)
 	{
 		Util::validateArgCount(func_num_args(), 2);
@@ -228,6 +241,7 @@ class Resource {
 				$record = $obj->{$rkey};
 			}
 		}
+		$this->_onBeforeApiDeserialize($record, $root);
 		$this->apiDeserializeImpl($record);
 		$this->_onAfterApiDeserialize($record, $root);
 	}
@@ -344,8 +358,11 @@ class Resource {
 	 */
 	protected function _reload()
 	{
-		$result = $this->requestRetry("GET", $this->_apiPath() . "/" . Util::urlEncode($this->_id()));
-		$this->apiDeserialize($result, true);
+		$id = $this->_id();
+		if ($id != null) {
+			$result = $this->requestRetry("GET", $this->_apiPath() . "/" . Util::urlEncode($id));
+			$this->apiDeserialize($result, true);
+		}
 		return $this;
 	}
 	

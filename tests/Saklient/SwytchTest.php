@@ -43,10 +43,27 @@ class SwytchTest extends \PHPUnit_Framework_TestCase
 		$iface = $server->addIface();
 		$this->assertInstanceOf("Saklient\\Cloud\\Resources\\Iface", $iface);
 		$this->assertGreaterThan(0, $iface->id);
+		$this->assertEquals($server->id, $iface->serverId);
+		$server->reload();
+		$this->assertEquals($iface->id, $server->ifaces[0]->id);
+		$this->assertEquals($server->id, $server->ifaces[0]->serverId);
+		$iface->reload();
+		$this->assertNull($iface->swytchId);
 		
 		//
 		fprintf(\STDERR, 'インタフェースをスイッチに接続しています...'."\n");
 		$iface->connectToSwytch($swytch);
+		$this->assertEquals($swytch->id, $iface->swytchId);
+		$this->assertEquals($swytch->id, $api->swytch->getById($iface->swytchId)->id);
+		
+		//
+		fprintf(\STDERR, 'インタフェースをスイッチから切断しています...'."\n");
+		$iface->disconnectFromSwytch();
+		
+		//
+		fprintf(\STDERR, 'インタフェースをスイッチに接続しています...'."\n");
+		$iface->connectToSwytchById($swytch->id);
+		$this->assertEquals($swytch->id, $iface->swytchId);
 		
 		//
 		fprintf(\STDERR, 'インタフェースをスイッチから切断しています...'."\n");
