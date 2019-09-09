@@ -38,6 +38,8 @@ require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Script.php";
 use \Saklient\Cloud\Models\Model_Script;
 require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_License.php";
 use \Saklient\Cloud\Models\Model_License;
+require_once __DIR__ . "/../../Saklient/Cloud/Models/Model_Sshkey.php";
+use \Saklient\Cloud\Models\Model_Sshkey;
 require_once __DIR__ . "/../../Saklient/Errors/SaklientException.php";
 use \Saklient\Errors\SaklientException;
 
@@ -61,6 +63,7 @@ use \Saklient\Errors\SaklientException;
  * @property-read \Saklient\Cloud\Models\Model_Script $script スクリプトにアクセスするためのモデル。 
  * @property-read \Saklient\Cloud\Models\Model_CommonServiceItem $commonServiceItem 共通サービス契約にアクセスするためのモデル。 
  * @property-read \Saklient\Cloud\Models\Model_License $license ライセンスにアクセスするためのモデル。 
+ * @property-read \Saklient\Cloud\Models\Model_Sshkey $sshkey SSHキーにアクセスするためのモデル。 
  */
 class API {
 	
@@ -405,6 +408,26 @@ class API {
 	
 	
 	/**
+	 * @private
+	 * @access protected
+	 * @ignore
+	 * @var Model_Sshkey
+	 */
+	protected $_sshkey;
+	
+	/**
+	 * @access protected
+	 * @ignore
+	 * @return \Saklient\Cloud\Models\Model_License
+	 */
+	protected function get_sshkey()
+	{
+		return $this->_sshkey;
+	}
+	
+	
+	
+	/**
 	 * @ignore
 	 * @access protected
 	 * @param \Saklient\Cloud\Client $client
@@ -430,6 +453,7 @@ class API {
 		$this->_script = new Model_Script($client);
 		$this->_commonServiceItem = new Model_CommonServiceItem($client);
 		$this->_license = new Model_License($client);
+		$this->_sshkey = new Model_Sshkey($client);
 	}
 	
 	/**
@@ -498,6 +522,7 @@ class API {
 			case "script": return $this->get_script();
 			case "commonServiceItem": return $this->get_commonServiceItem();
 			case "license": return $this->get_license();
+			case "sshkey": return $this->get_sshkey();
 			default: return null;
 		}
 	}
