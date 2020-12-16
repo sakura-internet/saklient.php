@@ -1,5 +1,9 @@
 [Japanese version](README.ja.md)
 
+# DEPRECATED
+
+**[PLEASE USE THE ALTERNATIVE LIBRARIES](https://developer.sakura.ad.jp/)**
+
 # SAKURA Internet API Client Library for PHP
 
 This library gives you an easy interface to control your resources on
