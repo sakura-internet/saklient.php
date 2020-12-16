@@ -1,5 +1,9 @@
 [English version](README.md)
 
+# 廃止されました
+
+**[代替ライブラリをご利用ください](https://developer.sakura.ad.jp/)**
+
 # さくらインターネット APIクライアントライブラリ for PHP
 
 本ライブラリは [さくらのクラウド](https://secure.sakura.ad.jp/cloud/)
